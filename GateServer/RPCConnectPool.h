@@ -16,6 +16,7 @@ using grpc::Status;
 
 using message::UserService;
 using message::VehicleService;
+using message::FinanceService;
 
 // Pool for UserService clients (GateServer -> UMSServer)
 class UserConnectPool {
@@ -45,6 +46,24 @@ public:
     void stop();
 private:
     std::queue<std::unique_ptr<VehicleService::Stub>> stubs_;
+    std::mutex mutex_;
+    std::condition_variable cond_;
+    std::atomic<bool> is_running_;
+    std::string host_;
+    std::string port_;
+    size_t pool_size_;
+};
+
+// Pool for FinanceService clients (GateServer -> FinanceServer)
+class FinanceConnectPool {
+public:
+    FinanceConnectPool(size_t pool_size, std::string host, std::string port);
+    ~FinanceConnectPool();
+    std::unique_ptr<FinanceService::Stub> getStub();
+    void returnStub(std::unique_ptr<FinanceService::Stub> stub);
+    void stop();
+private:
+    std::queue<std::unique_ptr<FinanceService::Stub>> stubs_;
     std::mutex mutex_;
     std::condition_variable cond_;
     std::atomic<bool> is_running_;

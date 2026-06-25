@@ -1,0 +1,119 @@
+syntax = "proto3";
+package message;
+option cpp_namespace = "message";
+
+message CommonResponse {
+    int32 error = 1;
+    string msg = 2;
+    string data = 3;
+}
+
+message PaymentInfo {
+    int64 id = 1;
+    int64 order_id = 2;
+    string order_no = 3;
+    double amount = 4;
+    string type = 5;
+    string method = 6;
+    string status = 7;
+    string remark = 8;
+    string paid_at = 9;
+    string created_at = 10;
+}
+
+message CreatePaymentRequest {
+    int64 order_id = 1;
+    double amount = 2;
+    string type = 3;
+    string method = 4;
+    string remark = 5;
+}
+
+message PaymentListRequest {
+    int32 page = 1;
+    int32 page_size = 2;
+    int64 order_id = 3;
+    string status = 4;
+    string type = 5;
+}
+
+message PaymentListResponse {
+    int32 error = 1;
+    string msg = 2;
+    repeated PaymentInfo payments = 3;
+    int32 total = 4;
+}
+
+message InvoiceInfo {
+    int64 id = 1;
+    string invoice_no = 2;
+    int64 order_id = 3;
+    string order_no = 4;
+    int64 user_id = 5;
+    string username = 6;
+    double total_amount = 7;
+    string items = 8;
+    string generated_at = 9;
+}
+
+message GenerateInvoiceRequest {
+    int64 order_id = 1;
+}
+
+message StatsOverviewResponse {
+    int32 error = 1;
+    string msg = 2;
+    int32 total_users = 3;
+    int32 total_vehicles = 4;
+    int32 available_vehicles = 5;
+    int32 active_orders = 6;
+    int32 completed_orders = 7;
+    double total_revenue = 8;
+    double month_revenue = 9;
+}
+
+message RevenueStatsRequest {
+    string start_date = 1;
+    string end_date = 2;
+    string granularity = 3;  // daily, weekly, monthly
+}
+
+message RevenueStatsItem {
+    string date = 1;
+    double amount = 2;
+    int32 count = 3;
+}
+
+message RevenueStatsResponse {
+    int32 error = 1;
+    string msg = 2;
+    repeated RevenueStatsItem items = 3;
+    double total = 4;
+}
+
+message VehicleStatsResponse {
+    int32 error = 1;
+    string msg = 2;
+    int32 total = 3;
+    int32 available = 4;
+    int32 rented = 5;
+    int32 maintenance = 6;
+    double utilization_rate = 7;
+    repeated VehicleStatsBrandItem by_brand = 8;
+}
+
+message VehicleStatsBrandItem {
+    string brand = 1;
+    int32 count = 2;
+}
+
+service FinanceService {
+    rpc CreatePayment(CreatePaymentRequest) returns (PaymentInfo);
+    rpc GetPaymentList(PaymentListRequest) returns (PaymentListResponse);
+    rpc GetPaymentDetail(PaymentInfo) returns (PaymentInfo);
+    rpc GenerateInvoice(GenerateInvoiceRequest) returns (InvoiceInfo);
+    rpc GetInvoiceDetail(InvoiceInfo) returns (InvoiceInfo);
+    rpc GetStatsOverview(CommonResponse) returns (StatsOverviewResponse);
+    rpc GetRevenueStats(RevenueStatsRequest) returns (RevenueStatsResponse);
+    rpc GetVehicleStats(CommonResponse) returns (VehicleStatsResponse);
+}

@@ -3,6 +3,7 @@
 #include "HttpConnection.h"
 #include "UserGrpcClient.h"
 #include "VehicleGrpcClient.h"
+#include "FinanceGrpcClient.h"
 #include "RedisManager.h"
 #include "Logger.h"
 
@@ -1417,6 +1418,473 @@ LogicSystem::LogicSystem() {
 
         auto status_f = f.wait_for(std::chrono::seconds(5));
         if (status_f == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << result.toStyledString();
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+        }
+    });
+
+    // ============ Finance routes ============
+
+    registerPost("/payment/create", [](std::shared_ptr<HttpConnection> connection) {
+        auto body = beast::buffers_to_string(connection->req_.body().data());
+        LOG_DEBUG("[Gate] CREATE_PAYMENT: {}", body);
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonData, jsonResp;
+        Json::Reader reader;
+        if(!reader.parse(body, jsonData)) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, jsonData]() {
+            Json::Value result;
+            try {
+                CreatePaymentRequest request;
+                request.set_order_id(jsonData["order_id"].asInt64());
+                request.set_amount(jsonData["amount"].asDouble());
+                request.set_type(jsonData["type"].asString());
+                request.set_method(jsonData["method"].asString());
+                request.set_remark(jsonData.get("remark", "").asString());
+                PaymentInfo rsp = FinanceGrpcClient::getInstance().createPayment(request);
+                if (rsp.id() == 0) {
+                    result["error"] = static_cast<int>(ErrorCodes::PAYMENT_FAILED);
+                    result["msg"] = "Payment creation failed";
+                } else {
+                    result["error"] = 0;
+                    result["id"] = static_cast<Json::Int64>(rsp.id());
+                    result["order_id"] = static_cast<Json::Int64>(rsp.order_id());
+                    result["order_no"] = rsp.order_no();
+                    result["amount"] = rsp.amount();
+                    result["type"] = rsp.type();
+                    result["method"] = rsp.method();
+                    result["status"] = rsp.status();
+                    result["remark"] = rsp.remark();
+                    result["created_at"] = rsp.created_at();
+                }
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << result.toStyledString();
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+        }
+    });
+
+    registerGet("/payment/list", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        int page = 1, page_size = 20;
+        int64_t order_id = 0;
+        std::string status_str = connection->get_params_.count("status") ? connection->get_params_["status"] : "";
+        std::string type = connection->get_params_.count("type") ? connection->get_params_["type"] : "";
+        if (connection->get_params_.count("page")) {
+            try { page = std::stoi(connection->get_params_["page"]); } catch (...) {}
+        }
+        if (connection->get_params_.count("page_size")) {
+            try { page_size = std::stoi(connection->get_params_["page_size"]); } catch (...) {}
+        }
+        if (connection->get_params_.count("order_id")) {
+            try { order_id = std::stoll(connection->get_params_["order_id"]); } catch (...) {}
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, page, page_size, order_id, status_str, type]() {
+            Json::Value result;
+            try {
+                PaymentListRequest request;
+                request.set_page(page);
+                request.set_page_size(page_size);
+                request.set_order_id(order_id);
+                request.set_status(status_str);
+                request.set_type(type);
+                PaymentListResponse rsp = FinanceGrpcClient::getInstance().getPaymentList(request);
+                result["error"] = rsp.error();
+                result["total"] = rsp.total();
+                Json::Value payments(Json::arrayValue);
+                for (int i = 0; i < rsp.payments_size(); ++i) {
+                    auto& pay = rsp.payments(i);
+                    Json::Value payment;
+                    payment["id"] = static_cast<Json::Int64>(pay.id());
+                    payment["order_id"] = static_cast<Json::Int64>(pay.order_id());
+                    payment["order_no"] = pay.order_no();
+                    payment["amount"] = pay.amount();
+                    payment["type"] = pay.type();
+                    payment["method"] = pay.method();
+                    payment["status"] = pay.status();
+                    payment["remark"] = pay.remark();
+                    payment["paid_at"] = pay.paid_at();
+                    payment["created_at"] = pay.created_at();
+                    payments.append(payment);
+                }
+                result["payments"] = payments;
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status_f = f.wait_for(std::chrono::seconds(5));
+        if (status_f == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << result.toStyledString();
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+        }
+    });
+
+    registerGet("/payment/detail", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        if (!connection->get_params_.count("id")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            jsonResp["msg"] = "Missing id parameter";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+        int64_t id = 0;
+        try { id = std::stoll(connection->get_params_["id"]); } catch (...) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, id]() {
+            Json::Value result;
+            try {
+                PaymentInfo request;
+                request.set_id(id);
+                PaymentInfo rsp = FinanceGrpcClient::getInstance().getPaymentDetail(request);
+                if (rsp.id() == 0) {
+                    result["error"] = static_cast<int>(ErrorCodes::PAYMENT_NOT_FOUND);
+                    result["msg"] = "Payment not found";
+                } else {
+                    result["error"] = 0;
+                    result["id"] = static_cast<Json::Int64>(rsp.id());
+                    result["order_id"] = static_cast<Json::Int64>(rsp.order_id());
+                    result["order_no"] = rsp.order_no();
+                    result["amount"] = rsp.amount();
+                    result["type"] = rsp.type();
+                    result["method"] = rsp.method();
+                    result["status"] = rsp.status();
+                    result["remark"] = rsp.remark();
+                    result["paid_at"] = rsp.paid_at();
+                    result["created_at"] = rsp.created_at();
+                }
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status_f = f.wait_for(std::chrono::seconds(5));
+        if (status_f == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << result.toStyledString();
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+        }
+    });
+
+    registerPost("/invoice/generate", [](std::shared_ptr<HttpConnection> connection) {
+        auto body = beast::buffers_to_string(connection->req_.body().data());
+        LOG_DEBUG("[Gate] GENERATE_INVOICE: {}", body);
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonData, jsonResp;
+        Json::Reader reader;
+        if(!reader.parse(body, jsonData)) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, jsonData]() {
+            Json::Value result;
+            try {
+                GenerateInvoiceRequest request;
+                request.set_order_id(jsonData["order_id"].asInt64());
+                InvoiceInfo rsp = FinanceGrpcClient::getInstance().generateInvoice(request);
+                if (rsp.id() == 0) {
+                    result["error"] = static_cast<int>(ErrorCodes::INVOICE_NOT_FOUND);
+                    result["msg"] = "Invoice generation failed";
+                } else {
+                    result["error"] = 0;
+                    result["id"] = static_cast<Json::Int64>(rsp.id());
+                    result["invoice_no"] = rsp.invoice_no();
+                    result["order_id"] = static_cast<Json::Int64>(rsp.order_id());
+                    result["order_no"] = rsp.order_no();
+                    result["user_id"] = static_cast<Json::Int64>(rsp.user_id());
+                    result["username"] = rsp.username();
+                    result["total_amount"] = rsp.total_amount();
+                    result["items"] = rsp.items();
+                    result["generated_at"] = rsp.generated_at();
+                }
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << result.toStyledString();
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+        }
+    });
+
+    registerGet("/invoice/detail", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        if (!connection->get_params_.count("id")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            jsonResp["msg"] = "Missing id parameter";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+        int64_t id = 0;
+        try { id = std::stoll(connection->get_params_["id"]); } catch (...) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, id]() {
+            Json::Value result;
+            try {
+                InvoiceInfo request;
+                request.set_id(id);
+                InvoiceInfo rsp = FinanceGrpcClient::getInstance().getInvoiceDetail(request);
+                if (rsp.id() == 0) {
+                    result["error"] = static_cast<int>(ErrorCodes::INVOICE_NOT_FOUND);
+                    result["msg"] = "Invoice not found";
+                } else {
+                    result["error"] = 0;
+                    result["id"] = static_cast<Json::Int64>(rsp.id());
+                    result["invoice_no"] = rsp.invoice_no();
+                    result["order_id"] = static_cast<Json::Int64>(rsp.order_id());
+                    result["order_no"] = rsp.order_no();
+                    result["user_id"] = static_cast<Json::Int64>(rsp.user_id());
+                    result["username"] = rsp.username();
+                    result["total_amount"] = rsp.total_amount();
+                    result["items"] = rsp.items();
+                    result["generated_at"] = rsp.generated_at();
+                }
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status_f = f.wait_for(std::chrono::seconds(5));
+        if (status_f == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << result.toStyledString();
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+        }
+    });
+
+    // ============ Statistics routes ============
+
+    registerGet("/stats/overview", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p]() {
+            Json::Value result;
+            try {
+                CommonResponse request;
+                StatsOverviewResponse rsp = FinanceGrpcClient::getInstance().getStatsOverview(request);
+                result["error"] = rsp.error();
+                if (rsp.error() == 0) {
+                    result["total_users"] = rsp.total_users();
+                    result["total_vehicles"] = rsp.total_vehicles();
+                    result["available_vehicles"] = rsp.available_vehicles();
+                    result["active_orders"] = rsp.active_orders();
+                    result["completed_orders"] = rsp.completed_orders();
+                    result["total_revenue"] = rsp.total_revenue();
+                    result["month_revenue"] = rsp.month_revenue();
+                } else {
+                    result["msg"] = rsp.msg();
+                }
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << result.toStyledString();
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+        }
+    });
+
+    registerGet("/stats/revenue", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        std::string start_date = connection->get_params_.count("start_date") ? connection->get_params_["start_date"] : "";
+        std::string end_date = connection->get_params_.count("end_date") ? connection->get_params_["end_date"] : "";
+        std::string granularity = connection->get_params_.count("granularity") ? connection->get_params_["granularity"] : "daily";
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, start_date, end_date, granularity]() {
+            Json::Value result;
+            try {
+                RevenueStatsRequest request;
+                request.set_start_date(start_date);
+                request.set_end_date(end_date);
+                request.set_granularity(granularity);
+                RevenueStatsResponse rsp = FinanceGrpcClient::getInstance().getRevenueStats(request);
+                result["error"] = rsp.error();
+                result["total"] = rsp.total();
+                Json::Value items(Json::arrayValue);
+                for (int i = 0; i < rsp.items_size(); ++i) {
+                    auto& item = rsp.items(i);
+                    Json::Value stat;
+                    stat["date"] = item.date();
+                    stat["amount"] = item.amount();
+                    stat["count"] = item.count();
+                    items.append(stat);
+                }
+                result["items"] = items;
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << result.toStyledString();
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+        }
+    });
+
+    registerGet("/stats/vehicles", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p]() {
+            Json::Value result;
+            try {
+                CommonResponse request;
+                VehicleStatsResponse rsp = FinanceGrpcClient::getInstance().getVehicleStats(request);
+                result["error"] = rsp.error();
+                if (rsp.error() == 0) {
+                    result["total"] = rsp.total();
+                    result["available"] = rsp.available();
+                    result["rented"] = rsp.rented();
+                    result["maintenance"] = rsp.maintenance();
+                    result["utilization_rate"] = rsp.utilization_rate();
+                    Json::Value brands(Json::arrayValue);
+                    for (int i = 0; i < rsp.by_brand_size(); ++i) {
+                        auto& b = rsp.by_brand(i);
+                        Json::Value brand;
+                        brand["brand"] = b.brand();
+                        brand["count"] = b.count();
+                        brands.append(brand);
+                    }
+                    result["by_brand"] = brands;
+                } else {
+                    result["msg"] = rsp.msg();
+                }
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
                 beast::ostream(connection->resp_.body()) << result.toStyledString();
