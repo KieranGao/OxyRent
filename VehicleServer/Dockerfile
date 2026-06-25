@@ -25,7 +25,7 @@ RUN mkdir -p build && cd build && \
     make -j$(nproc)
 
 # Stage 2: Runtime
-FROM ubuntu:22.04
+FROM docker.cnb.cool/oxythecrack/docker-sync/ubuntu:22.04_amd64
 
 ENV DEBIAN_FRONTEND=noninteractive
 
