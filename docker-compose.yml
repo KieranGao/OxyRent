@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+  # Vue3 Frontend
+  vue3-client:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - gate-server
+    networks:
+      - rental-net
+
+  # HTTP Gateway
+  gate-server:
+    build:
+      context: .
+      dockerfile: ./GateServer/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ums-server
+      - vehicle-server
+      - finance-server
+    volumes:
+      - ./GateServer/config.ini:/etc/server/config.ini
+    networks:
+      - rental-net
+
+  # User Management Service
+  ums-server:
+    build:
+      context: ./UMSServer
+      dockerfile: Dockerfile
+    ports:
+      - "50053:50053"
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./UMSServer/config.ini:/etc/server/config.ini
+    networks:
+      - rental-net
+
+  # Vehicle Service
+  vehicle-server:
+    build:
+      context: ./VehicleServer
+      dockerfile: Dockerfile
+    ports:
+      - "50054:50054"
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./VehicleServer/config.ini:/etc/server/config.ini
+    networks:
+      - rental-net
+
+  # Finance Service
+  finance-server:
+    build:
+      context: ./FinanceServer
+      dockerfile: Dockerfile
+    ports:
+      - "50055:50055"
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./FinanceServer/config.ini:/etc/server/config.ini
+    networks:
+      - rental-net
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: vehicle_rental
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    networks:
+      - rental-net
+
+  # Redis Cache
+  redis:
+    image: redis:6.0
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - rental-net
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  rental-net:
+    driver: bridge
