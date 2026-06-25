@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM ubuntu:22.04 AS builder
+FROM docker.cnb.cool/oxythecrack/docker-sync/ubuntu:22.04_amd64 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
