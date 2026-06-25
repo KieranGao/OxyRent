@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(GateServer CXX)
+project(VehicleServer CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,33 +9,20 @@ set(BOOST_ROOT "/usr/include/boost")
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 
-# JsonCpp
-set(JSONCPP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../jsoncpp")
-set(JSONCPP_INCLUDE_DIR "${JSONCPP_ROOT}/include")
-set(JSONCPP_SOURCES
-    ${JSONCPP_ROOT}/src/lib_json/json_reader.cpp
-    ${JSONCPP_ROOT}/src/lib_json/json_writer.cpp
-    ${JSONCPP_ROOT}/src/lib_json/json_value.cpp
-)
-
-# GateServer source files
-set(GATESERVER_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/AsyncTaskPool.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/HttpConnection.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/IOContextPool.cpp
+# Source files
+set(VEHICLE_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/VehicleGrpcServiceImpl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RedisConnectPool.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/RedisManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ConfigManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MySQLConnectPool.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/RPCConnectPool.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/UserGrpcClient.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/VehicleGrpcClient.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/LogicSystem.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/MainServer.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MySQLDao.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MySQLManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/IOContextPool.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/AsyncTaskPool.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
 )
 
@@ -56,12 +43,15 @@ message(STATUS "Using gRPC ${GRPC_VERSION}")
 find_path(MYSQLCPPCONN_INCLUDE_DIR NAMES mysql_driver.h PATHS /usr/include /usr/local/include)
 find_library(MYSQLCPPCONN_LIBRARY NAMES mysqlcppconn PATHS /usr/lib /usr/local/lib /usr/lib/x86_64-linux-gnu)
 
+# OpenSSL (for MD5 hashing if needed)
+find_package(OpenSSL REQUIRED)
+
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${JSONCPP_INCLUDE_DIR})
 include_directories(${Protobuf_INCLUDE_DIRS})
 include_directories(${HIREDIS_INCLUDE_DIR})
 include_directories(${MYSQLCPPCONN_INCLUDE_DIR})
+include_directories(${OPENSSL_INCLUDE_DIR})
 
 # Proto generation
 set(PROTO_FILE "${CMAKE_CURRENT_SOURCE_DIR}/message.proto")
@@ -79,23 +69,15 @@ add_custom_command(
          --plugin=protoc-gen-grpc=${GRPC_PREFIX}/bin/grpc_cpp_plugin
          "${PROTO_FILE}"
     DEPENDS ${PROTO_FILE}
-    COMMENT "Generating protobuf and gRPC files from ${PROTO_FILE}"
 )
 
-set(SOURCES
-    ${GATESERVER_SOURCES}
-    ${JSONCPP_SOURCES}
-    ${PROTO_SRC}
-    ${GRPC_SRC}
-)
-
+set(SOURCES ${VEHICLE_SOURCES} ${PROTO_SRC} ${GRPC_SRC})
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_CURRENT_SOURCE_DIR}/config.ini"
         $<TARGET_FILE_DIR:${PROJECT_NAME}>/config.ini
-    COMMENT "Copying config.ini to build directory"
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -104,4 +86,6 @@ target_link_libraries(${PROJECT_NAME}
     protobuf::libprotobuf
     ${HIREDIS_LIBRARY}
     ${MYSQLCPPCONN_LIBRARY}
+    OpenSSL::Crypto
+    OpenSSL::SSL
 )
