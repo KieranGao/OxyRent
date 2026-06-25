@@ -7,6 +7,7 @@
 
 #define CODE_PREFIX "code_"
 #define USER_TOKEN_PREFIX  "utoken_"
+#define USER_ROLE_PREFIX   "urole_"
 
 namespace beast = boost::beast;
 namespace http = beast::http;

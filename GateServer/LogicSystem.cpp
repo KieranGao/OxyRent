@@ -114,6 +114,9 @@ LogicSystem::LogicSystem() {
                     std::string uid_str = std::to_string(result["uid"].asInt64());
                     std::string token = result["token"].asString();
                     RedisManager::getInstance().setex(USER_TOKEN_PREFIX + uid_str, token, 86400);
+                    // Store role in Redis for admin authorization checks
+                    std::string role = result["role"].asString();
+                    RedisManager::getInstance().setex(USER_ROLE_PREFIX + uid_str, role, 86400);
                 }
                 beast::ostream(connection->resp_.body()) << result.toStyledString();
             } catch (...) {
@@ -343,6 +346,23 @@ LogicSystem::LogicSystem() {
             return;
         }
 
+        // Check caller's role - admin only
+        auto caller_it = connection->req_.find("X-User-Id");
+        if (caller_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+        std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
+        std::string caller_role;
+        if (!RedisManager::getInstance().get(USER_ROLE_PREFIX + caller_uid_str, caller_role) ||
+            (caller_role != "2" && caller_role != "admin")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
+            jsonResp["msg"] = "Admin access required";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+
         int64_t uid = 0;
         try {
             uid = jsonData["uid"].asInt64();
@@ -394,6 +414,23 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+
+        // Check caller's role - admin only
+        auto caller_it = connection->req_.find("X-User-Id");
+        if (caller_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+        std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
+        std::string caller_role;
+        if (!RedisManager::getInstance().get(USER_ROLE_PREFIX + caller_uid_str, caller_role) ||
+            (caller_role != "2" && caller_role != "admin")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
+            jsonResp["msg"] = "Admin access required";
             beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
             return;
         }

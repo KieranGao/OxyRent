@@ -4,6 +4,7 @@
 #include <openssl/md5.h>
 #include <sstream>
 #include <iomanip>
+#include <random>
 
 UMSGrpcServiceImpl::UMSGrpcServiceImpl() {}
 
@@ -70,10 +71,15 @@ Status UMSGrpcServiceImpl::UserLogin(ServerContext* context, const UserLoginRequ
         return Status::OK;
     }
 
-    // Generate a simple token (in production, use JWT)
-    auto now = std::chrono::system_clock::now();
-    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
-    std::string token = std::to_string(uid) + "_" + std::to_string(ms);
+    // Generate a random 32-character hex token
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 255);
+    std::ostringstream token_ss;
+    for (int i = 0; i < 16; ++i) {
+        token_ss << std::hex << std::setw(2) << std::setfill('0') << dis(gen);
+    }
+    std::string token = token_ss.str();
 
     resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
     resp->set_uid(uid);

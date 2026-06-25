@@ -33,7 +33,7 @@ unsigned char FromHex(unsigned char x) {
     if (x >= 'A' && x <= 'Z') y = x - 'A' + 10;
     else if (x >= 'a' && x <= 'z') y = x - 'a' + 10;
     else if (x >= '0' && x <= '9') y = x - '0';
-    else assert(0);
+    else return 0;
     return y;
 }
 
@@ -191,7 +191,10 @@ void HttpConnection::handleRequest_() {
         return;
     }
     if(req_.method() == http::verb::post) {
-        bool ok = LogicSystem::getInstance().handlePost(req_.target().to_string(), shared_from_this());
+        std::string target = req_.target().to_string();
+        auto qpos = target.find('?');
+        std::string url = (qpos != std::string::npos) ? target.substr(0, qpos) : target;
+        bool ok = LogicSystem::getInstance().handlePost(url, shared_from_this());
         if(!ok) {
             resp_.result(http::status::not_found);
             resp_.set(http::field::content_type, "text/plain");
@@ -205,7 +208,10 @@ void HttpConnection::handleRequest_() {
         return;
     }
     if(req_.method() == http::verb::put) {
-        bool ok = LogicSystem::getInstance().handlePut(req_.target().to_string(), shared_from_this());
+        std::string target = req_.target().to_string();
+        auto qpos = target.find('?');
+        std::string url = (qpos != std::string::npos) ? target.substr(0, qpos) : target;
+        bool ok = LogicSystem::getInstance().handlePut(url, shared_from_this());
         if(!ok) {
             resp_.result(http::status::not_found);
             resp_.set(http::field::content_type, "text/plain");
@@ -218,6 +224,12 @@ void HttpConnection::handleRequest_() {
         makeResponse_();
         return;
     }
+
+    // Unsupported HTTP method
+    resp_.result(http::status::method_not_allowed);
+    resp_.set(http::field::content_type, "text/plain");
+    beast::ostream(resp_.body()) << "Method Not Allowed\r\n";
+    makeResponse_();
 }
 
 void HttpConnection::makeResponse_() {
