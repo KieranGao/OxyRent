@@ -3,10 +3,8 @@ FROM docker.cnb.cool/oxythecrack/docker-sync/ubuntu:22.04_amd64 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 配置DNS和国内镜像源
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
-    echo "nameserver 114.114.114.114" >> /etc/resolv.conf && \
-    sed -i 's|http://archive.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list && \
+# 使用国内镜像源
+RUN sed -i 's|http://archive.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list && \
     sed -i 's|http://security.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
@@ -35,10 +33,8 @@ FROM docker.cnb.cool/oxythecrack/docker-sync/ubuntu:22.04_amd64
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 配置DNS和国内镜像源
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
-    echo "nameserver 114.114.114.114" >> /etc/resolv.conf && \
-    sed -i 's|http://archive.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list && \
+# 使用国内镜像源
+RUN sed -i 's|http://archive.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list && \
     sed -i 's|http://security.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
