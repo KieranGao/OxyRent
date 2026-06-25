@@ -185,9 +185,9 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         // Get order details
         std::unique_ptr<sql::PreparedStatement> orderStmt(
             sql_conn->prepareStatement(
-                "SELECT o.id, o.order_no, o.user_id, u.username, o.total_cost "
+                "SELECT o.id, o.order_no, o.user_id, u.username, o.total_amount "
                 "FROM rental_orders o "
-                "LEFT JOIN user u ON o.user_id = u.uid "
+                "LEFT JOIN users u ON o.user_id = u.id "
                 "WHERE o.id = ? LIMIT 1"));
         orderStmt->setInt64(1, order_id);
         std::unique_ptr<sql::ResultSet> orderRes(orderStmt->executeQuery());
@@ -199,7 +199,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         std::string order_no = orderRes->getString("order_no");
         int64_t user_id = orderRes->getInt64("user_id");
         std::string username = orderRes->getString("username");
-        double total_cost = orderRes->getDouble("total_cost");
+        double total_cost = orderRes->getDouble("total_amount");
 
         // Generate invoice number
         auto now = std::chrono::system_clock::now();
@@ -326,7 +326,7 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
 
         // Count users
         std::unique_ptr<sql::Statement> stmt1(sql_conn->createStatement());
-        std::unique_ptr<sql::ResultSet> res1(stmt1->executeQuery("SELECT COUNT(*) AS cnt FROM user"));
+        std::unique_ptr<sql::ResultSet> res1(stmt1->executeQuery("SELECT COUNT(*) AS cnt FROM users"));
         if (res1 && res1->next()) total_users = res1->getInt("cnt");
 
         // Count vehicles (total and available)
@@ -355,7 +355,7 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
         // Total revenue
         std::unique_ptr<sql::Statement> stmt4(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res4(stmt4->executeQuery(
-            "SELECT COALESCE(SUM(total_cost), 0) AS total_revenue FROM rental_orders WHERE status = 'completed'"));
+            "SELECT COALESCE(SUM(total_amount), 0) AS total_revenue FROM rental_orders WHERE status = 'completed'"));
         if (res4 && res4->next()) total_revenue = res4->getDouble("total_revenue");
 
         // Month revenue
@@ -368,7 +368,7 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
 
         std::unique_ptr<sql::PreparedStatement> monthStmt(
             sql_conn->prepareStatement(
-                "SELECT COALESCE(SUM(total_cost), 0) AS month_revenue FROM rental_orders "
+                "SELECT COALESCE(SUM(total_amount), 0) AS month_revenue FROM rental_orders "
                 "WHERE status = 'completed' AND created_at LIKE ?"));
         monthStmt->setString(1, std::string(monthBuf) + "%");
         std::unique_ptr<sql::ResultSet> monthRes(monthStmt->executeQuery());
@@ -398,7 +398,7 @@ bool MySQLDao::getRevenueStats(const std::string& start_date, const std::string&
         }
 
         std::string querySql = "SELECT " + dateExpr + " AS date, "
-                               "COALESCE(SUM(total_cost), 0) AS amount, "
+                               "COALESCE(SUM(total_amount), 0) AS amount, "
                                "COUNT(*) AS count "
                                "FROM rental_orders "
                                "WHERE status = 'completed' "

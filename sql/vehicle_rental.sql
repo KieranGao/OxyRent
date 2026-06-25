@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS maintenance_records (
 -- because payments may also apply to non-rental charges (e.g. penalties billed separately).
 CREATE TABLE IF NOT EXISTS payments (
     id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    order_id        BIGINT UNSIGNED NOT NULL,
     order_no        VARCHAR(32)     NOT NULL,
     user_id         BIGINT UNSIGNED NOT NULL,
     amount          DECIMAL(10,2)   NOT NULL,
@@ -127,13 +128,16 @@ CREATE TABLE IF NOT EXISTS payments (
     method          VARCHAR(32)     DEFAULT 'online' COMMENT 'online / cash / other',
     status          ENUM('pending','success','failed') NOT NULL DEFAULT 'pending',
     remark          TEXT            DEFAULT NULL,
+    paid_at         TIMESTAMP       NULL DEFAULT NULL,
     created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
+    KEY idx_order_id (order_id),
     KEY idx_order_no (order_no),
     KEY idx_user_id (user_id),
     KEY idx_type (type),
     KEY idx_status (status),
-    CONSTRAINT fk_payment_user FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT fk_payment_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_payment_order FOREIGN KEY (order_id) REFERENCES rental_orders(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------------
@@ -144,19 +148,25 @@ CREATE TABLE IF NOT EXISTS payments (
 CREATE TABLE IF NOT EXISTS invoices (
     id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     invoice_no      VARCHAR(32)     NOT NULL,
+    order_id        BIGINT UNSIGNED NOT NULL,
     order_no        VARCHAR(32)     NOT NULL,
     user_id         BIGINT UNSIGNED NOT NULL,
-    amount          DECIMAL(10,2)   NOT NULL,
+    username        VARCHAR(50)     DEFAULT NULL,
+    total_amount    DECIMAL(10,2)   NOT NULL,
+    items           JSON            DEFAULT NULL,
     title           VARCHAR(128)    DEFAULT NULL,
     tax_id          VARCHAR(64)     DEFAULT NULL,
     status          ENUM('pending','issued','cancelled') NOT NULL DEFAULT 'pending',
     issued_at       DATETIME        DEFAULT NULL,
+    generated_at    TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
     created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uk_invoice_no (invoice_no),
+    KEY idx_order_id (order_id),
     KEY idx_order_no (order_no),
     KEY idx_user_id (user_id),
-    CONSTRAINT fk_invoice_user FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT fk_invoice_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_invoice_order FOREIGN KEY (order_id) REFERENCES rental_orders(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ============================================================
