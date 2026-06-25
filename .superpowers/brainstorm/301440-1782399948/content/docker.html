@@ -1,0 +1,117 @@
+<h2>Docker容器化部署</h2>
+<p class="subtitle">使用Docker Compose编排所有微服务</p>
+
+<div class="mockup">
+  <div class="mockup-header">Docker部署架构</div>
+  <div class="mockup-body" style="padding: 20px;">
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <!-- Docker Compose -->
+      <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border: 2px solid #1976d2;">
+        <h4 style="margin: 0 0 10px 0; color: #1976d2;">docker-compose.yml</h4>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+          <div style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #bbdefb; flex: 1;">
+            <strong>前端服务</strong>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">vue3-client<br>端口: 3000</p>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #bbdefb; flex: 1;">
+            <strong>网关服务</strong>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">gate-server<br>端口: 8080</p>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #bbdefb; flex: 1;">
+            <strong>用户服务</strong>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">ums-server<br>端口: 50053</p>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #bbdefb; flex: 1;">
+            <strong>车辆服务</strong>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">vehicle-server<br>端口: 50054</p>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #bbdefb; flex: 1;">
+            <strong>财务服务</strong>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">finance-server<br>端口: 50055</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 基础设施 -->
+      <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border: 2px solid #f57c00;">
+        <h4 style="margin: 0 0 10px 0; color: #f57c00;">基础设施服务</h4>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+          <div style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #ffe0b2; flex: 1;">
+            <strong>MySQL 8.0</strong>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">端口: 3306<br>数据卷: mysql-data</p>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 4px; border: 1px solid #ffe0b2; flex: 1;">
+            <strong>Redis 6.0+</strong>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">端口: 6379<br>数据卷: redis-data</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 20px;">
+  <h3>Dockerfile示例</h3>
+  <div style="background: #263238; color: #aed581; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 12px;">
+    <pre style="margin: 0; white-space: pre-wrap;">
+# C++服务Dockerfile示例
+FROM ubuntu:22.04 AS builder
+
+# 安装依赖
+RUN apt-get update && apt-get install -y \
+    g++ cmake make \
+    libboost-all-dev libprotobuf-dev \
+    libgrpc++-dev protobuf-compiler-grpc \
+    libhiredis-dev libmysqlcppconn-dev
+
+# 复制源码
+WORKDIR /app
+COPY . .
+
+# 编译
+RUN mkdir build && cd build \
+    && cmake .. && make -j$(nproc)
+
+# 运行阶段
+FROM ubuntu:22.04
+COPY --from=builder /app/build/server /usr/local/bin/
+COPY config.ini /etc/server/config.ini
+
+EXPOSE 8080
+CMD ["server", "--config", "/etc/server/config.ini"]
+    </pre>
+  </div>
+</div>
+
+<div class="section">
+  <h3>启动命令</h3>
+  <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px;">
+    <pre style="margin: 0;">
+# 构建并启动所有服务
+docker-compose up -d --build
+
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f [service_name]
+
+# 停止所有服务
+docker-compose down
+
+# 清理数据卷（谨慎使用）
+docker-compose down -v
+    </pre>
+  </div>
+</div>
+
+<div class="section">
+  <h3>优势</h3>
+  <ul>
+    <li><strong>环境一致性：</strong>开发、测试、部署环境完全一致</li>
+    <li><strong>快速部署：</strong>一键启动所有服务</li>
+    <li><strong>易于扩展：</strong>可以轻松添加新服务或扩展现有服务</li>
+    <li><strong>资源隔离：</strong>每个服务独立运行，互不影响</li>
+    <li><strong>便于演示：</strong>课程设计答辩时可以快速展示系统</li>
+  </ul>
+</div>

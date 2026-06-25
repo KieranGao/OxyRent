@@ -1,0 +1,9 @@
+{"type":"server-started","port":55593,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:55593","screen_dir":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/content","state_dir":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/state"}
+{"type":"screen-added","file":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/content/approaches.html"}
+{"type":"screen-added","file":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/content/architecture.html"}
+{"type":"screen-added","file":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/content/database.html"}
+{"type":"screen-added","file":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/content/api-design.html"}
+{"type":"screen-added","file":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/content/frontend.html"}
+{"type":"screen-added","file":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/content/development-plan.html"}
+{"type":"screen-added","file":"/home/oxythecrack/Desktop/OxyPark/.superpowers/brainstorm/301440-1782399948/content/docker.html"}
+{"type":"server-stopped","reason":"idle timeout"}
