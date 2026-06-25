@@ -1,7 +1,7 @@
 FROM docker.cnb.cool/oxythecrack/docker-sync/node:20-alpine_amd64 AS build
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json ./
+RUN rm -f package-lock.json && npm install
 COPY . .
 RUN npm run build
 
