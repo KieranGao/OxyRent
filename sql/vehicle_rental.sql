@@ -2,11 +2,11 @@
 -- OxyPark Vehicle Rental System - Database Schema
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS oxypark
+CREATE DATABASE IF NOT EXISTS vehicle_rental
     DEFAULT CHARACTER SET utf8mb4
     DEFAULT COLLATE utf8mb4_unicode_ci;
 
-USE oxypark;
+USE vehicle_rental;
 
 -- -----------------------------------------------------------
 -- Users
