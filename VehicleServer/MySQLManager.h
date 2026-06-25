@@ -23,7 +23,7 @@ public:
                        int year, int mileage, const std::string& status,
                        double daily_rate, double deposit_amount,
                        const std::string& image_url, const std::string& description);
-    bool deleteVehicle(int64_t id);
+    int deleteVehicle(int64_t id);
     bool updateVehicleStatus(int64_t id, const std::string& status);
     bool getVehicleStatus(int64_t id, std::string& status, double& daily_rate, double& deposit_amount);
 
@@ -36,8 +36,8 @@ public:
                       const std::string& status, const std::string& keyword,
                       std::vector<OrderData>& orders, int& total);
     bool getOrderDetail(int64_t id, OrderData& order);
-    bool pickupVehicle(int64_t order_id);
-    bool returnVehicle(int64_t order_id, const std::string& actual_return_date,
+    bool pickupVehicle(int64_t order_id, int64_t vehicle_id);
+    bool returnVehicle(int64_t order_id, int64_t vehicle_id, const std::string& actual_return_date,
                        int actual_days, int planned_days, double daily_rate,
                        double& total_cost, double& penalty);
     bool renewOrder(int64_t order_id, const std::string& new_end_date,

@@ -33,7 +33,7 @@ bool MySQLManager::updateVehicle(int64_t id, const std::string& plate_number, co
                                status, daily_rate, deposit_amount, image_url, description);
 }
 
-bool MySQLManager::deleteVehicle(int64_t id) {
+int MySQLManager::deleteVehicle(int64_t id) {
     return dao_->deleteVehicle(id);
 }
 
@@ -65,14 +65,14 @@ bool MySQLManager::getOrderDetail(int64_t id, OrderData& order) {
     return dao_->getOrderDetail(id, order);
 }
 
-bool MySQLManager::pickupVehicle(int64_t order_id) {
-    return dao_->pickupVehicle(order_id);
+bool MySQLManager::pickupVehicle(int64_t order_id, int64_t vehicle_id) {
+    return dao_->pickupVehicle(order_id, vehicle_id);
 }
 
-bool MySQLManager::returnVehicle(int64_t order_id, const std::string& actual_return_date,
+bool MySQLManager::returnVehicle(int64_t order_id, int64_t vehicle_id, const std::string& actual_return_date,
                                   int actual_days, int planned_days, double daily_rate,
                                   double& total_cost, double& penalty) {
-    return dao_->returnVehicle(order_id, actual_return_date, actual_days, planned_days,
+    return dao_->returnVehicle(order_id, vehicle_id, actual_return_date, actual_days, planned_days,
                                daily_rate, total_cost, penalty);
 }
 

@@ -208,19 +208,31 @@ bool MySQLDao::updateVehicle(int64_t id, const std::string& plate_number, const 
     }
 }
 
-bool MySQLDao::deleteVehicle(int64_t id) {
+int MySQLDao::deleteVehicle(int64_t id) {
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
+
+        // Check for non-completed orders before deleting
+        std::unique_ptr<sql::PreparedStatement> checkStmt(
+            sql_conn->prepareStatement(
+                "SELECT COUNT(*) AS cnt FROM rental_orders WHERE vehicle_id = ? AND status IN ('pending', 'active')"));
+        checkStmt->setInt64(1, id);
+        std::unique_ptr<sql::ResultSet> checkRes(checkStmt->executeQuery());
+        if (checkRes && checkRes->next() && checkRes->getInt("cnt") > 0) {
+            LOG_WARN("deleteVehicle: vehicle {} has active/pending orders, cannot delete", id);
+            return -1;
+        }
+
         std::unique_ptr<sql::PreparedStatement> pstmt(
             sql_conn->prepareStatement("DELETE FROM vehicles WHERE id = ?"));
         pstmt->setInt64(1, id);
         int affected = pstmt->executeUpdate();
         LOG_DEBUG("deleteVehicle id={} affected={}", id, affected);
-        return affected > 0;
+        return affected > 0 ? 1 : 0;
     } catch(const sql::SQLException& exp) {
         LOG_ERROR("SQLException in deleteVehicle: {}", exp.what());
-        return false;
+        return 0;
     }
 }
 
@@ -475,7 +487,7 @@ bool MySQLDao::getOrderDetail(int64_t id, OrderData& order) {
     }
 }
 
-bool MySQLDao::pickupVehicle(int64_t order_id) {
+bool MySQLDao::pickupVehicle(int64_t order_id, int64_t vehicle_id) {
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
@@ -491,20 +503,12 @@ bool MySQLDao::pickupVehicle(int64_t order_id) {
             return false;
         }
 
-        // Get vehicle_id from order
-        std::unique_ptr<sql::PreparedStatement> getVehicleStmt(
-            sql_conn->prepareStatement("SELECT vehicle_id FROM rental_orders WHERE id = ?"));
-        getVehicleStmt->setInt64(1, order_id);
-        std::unique_ptr<sql::ResultSet> res(getVehicleStmt->executeQuery());
-        if (res && res->next()) {
-            int64_t vehicle_id = res->getInt64("vehicle_id");
-            // Update vehicle status to 'rented'
-            std::unique_ptr<sql::PreparedStatement> vehicleStmt(
-                sql_conn->prepareStatement(
-                    "UPDATE vehicles SET status = 'rented' WHERE id = ?"));
-            vehicleStmt->setInt64(1, vehicle_id);
-            vehicleStmt->executeUpdate();
-        }
+        // Update vehicle status to 'rented' (vehicle_id passed from service layer)
+        std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+            sql_conn->prepareStatement(
+                "UPDATE vehicles SET status = 'rented' WHERE id = ?"));
+        vehicleStmt->setInt64(1, vehicle_id);
+        vehicleStmt->executeUpdate();
 
         LOG_INFO("pickupVehicle: order {} picked up", order_id);
         return true;
@@ -514,7 +518,7 @@ bool MySQLDao::pickupVehicle(int64_t order_id) {
     }
 }
 
-bool MySQLDao::returnVehicle(int64_t order_id, const std::string& actual_return_date,
+bool MySQLDao::returnVehicle(int64_t order_id, int64_t vehicle_id, const std::string& actual_return_date,
                               int actual_days, int planned_days, double daily_rate,
                               double& total_cost, double& penalty) {
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
@@ -543,20 +547,12 @@ bool MySQLDao::returnVehicle(int64_t order_id, const std::string& actual_return_
             return false;
         }
 
-        // Get vehicle_id from order
-        std::unique_ptr<sql::PreparedStatement> getVehicleStmt(
-            sql_conn->prepareStatement("SELECT vehicle_id FROM rental_orders WHERE id = ?"));
-        getVehicleStmt->setInt64(1, order_id);
-        std::unique_ptr<sql::ResultSet> res(getVehicleStmt->executeQuery());
-        if (res && res->next()) {
-            int64_t vehicle_id = res->getInt64("vehicle_id");
-            // Update vehicle status to 'available'
-            std::unique_ptr<sql::PreparedStatement> vehicleStmt(
-                sql_conn->prepareStatement(
-                    "UPDATE vehicles SET status = 'available' WHERE id = ?"));
-            vehicleStmt->setInt64(1, vehicle_id);
-            vehicleStmt->executeUpdate();
-        }
+        // Update vehicle status to 'available' (vehicle_id passed from service layer)
+        std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+            sql_conn->prepareStatement(
+                "UPDATE vehicles SET status = 'available' WHERE id = ?"));
+        vehicleStmt->setInt64(1, vehicle_id);
+        vehicleStmt->executeUpdate();
 
         LOG_INFO("returnVehicle: order {} returned, total_cost={}, penalty={}", order_id, total_cost, penalty);
         return true;

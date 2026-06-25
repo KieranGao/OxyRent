@@ -1236,6 +1236,23 @@ LogicSystem::LogicSystem() {
             return;
         }
 
+        // Admin check
+        auto caller_it = connection->req_.find("X-User-Id");
+        if (caller_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+        std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
+        std::string caller_role;
+        if (!RedisManager::getInstance().get(USER_ROLE_PREFIX + caller_uid_str, caller_role) ||
+            (caller_role != "2" && caller_role != "admin")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
+            jsonResp["msg"] = "Admin access required";
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+
         auto p = std::make_shared<std::promise<Json::Value>>();
         auto f = p->get_future();
         AsyncTaskPool::getInstance().post([p, jsonData]() {
@@ -1284,6 +1301,23 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+
+        // Admin check
+        auto caller_it = connection->req_.find("X-User-Id");
+        if (caller_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            return;
+        }
+        std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
+        std::string caller_role;
+        if (!RedisManager::getInstance().get(USER_ROLE_PREFIX + caller_uid_str, caller_role) ||
+            (caller_role != "2" && caller_role != "admin")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
+            jsonResp["msg"] = "Admin access required";
             beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
             return;
         }

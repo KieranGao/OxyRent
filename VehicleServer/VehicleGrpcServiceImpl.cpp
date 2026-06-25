@@ -143,10 +143,15 @@ Status VehicleGrpcServiceImpl::DeleteVehicle(ServerContext* context, const Vehic
     int64_t id = req->id();
     LOG_INFO("[Vehicle] DeleteVehicle id={}", id);
 
-    bool ok = MySQLManager::getInstance().deleteVehicle(id);
-    if (!ok) {
+    int result = MySQLManager::getInstance().deleteVehicle(id);
+    if (result == -1) {
+        resp->set_error(static_cast<int>(ErrorCodes::VEHICLE_UNAVAILABLE));
+        resp->set_msg("Cannot delete vehicle: it has active or pending rental orders");
+        return Status::OK;
+    }
+    if (result == 0) {
         resp->set_error(static_cast<int>(ErrorCodes::VEHICLE_NOT_FOUND));
-        resp->set_msg("Vehicle not found or delete failed");
+        resp->set_msg("Vehicle not found");
         return Status::OK;
     }
 
@@ -296,7 +301,16 @@ Status VehicleGrpcServiceImpl::PickupVehicle(ServerContext* context, const Picku
     int64_t order_id = req->order_id();
     LOG_INFO("[Vehicle] PickupVehicle order_id={}", order_id);
 
-    bool ok = MySQLManager::getInstance().pickupVehicle(order_id);
+    // Get order details to obtain vehicle_id
+    OrderData order;
+    bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND));
+        resp->set_msg("Order not found");
+        return Status::OK;
+    }
+
+    ok = MySQLManager::getInstance().pickupVehicle(order_id, order.vehicle_id);
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND));
         resp->set_msg("Order not found or not in pending status");
@@ -327,7 +341,7 @@ Status VehicleGrpcServiceImpl::ReturnVehicle(ServerContext* context, const Retur
 
     double total_cost = 0.0, penalty = 0.0;
     ok = MySQLManager::getInstance().returnVehicle(
-        order_id, actual_return, actual_days, planned_days,
+        order_id, order.vehicle_id, actual_return, actual_days, planned_days,
         order.daily_rate, total_cost, penalty);
 
     if (!ok) {
