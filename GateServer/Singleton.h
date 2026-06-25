@@ -1,10 +1,6 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-#include <memory>
-#include <mutex>
-#include <iostream>
-
 // CRTP Singleton base class
 template<class T>
 class Singleton {

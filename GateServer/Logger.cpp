@@ -37,10 +37,10 @@ Logger::~Logger() {
 
 std::string Logger::timestamp() {
     auto now = std::chrono::system_clock::now();
-    auto time_t = std::chrono::system_clock::to_time_t(now);
+    auto tt = std::chrono::system_clock::to_time_t(now);
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
     std::tm tm;
-    localtime_r(&time_t, &tm);
+    localtime_r(&tt, &tm);
     char buf[32];
     snprintf(buf, sizeof(buf), "%04d-%02d-%02d %02d:%02d:%02d.%03d",
              tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,

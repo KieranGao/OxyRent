@@ -116,6 +116,8 @@ CREATE TABLE IF NOT EXISTS maintenance_records (
 -- -----------------------------------------------------------
 -- Payments
 -- -----------------------------------------------------------
+-- NOTE: payments.order_no references rental_orders.order_no but has no FK constraint
+-- because payments may also apply to non-rental charges (e.g. penalties billed separately).
 CREATE TABLE IF NOT EXISTS payments (
     id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     order_no        VARCHAR(32)     NOT NULL,
@@ -137,6 +139,8 @@ CREATE TABLE IF NOT EXISTS payments (
 -- -----------------------------------------------------------
 -- Invoices
 -- -----------------------------------------------------------
+-- NOTE: invoices.order_no references rental_orders.order_no but has no FK constraint
+-- because invoices may be issued for payments that span multiple orders.
 CREATE TABLE IF NOT EXISTS invoices (
     id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     invoice_no      VARCHAR(32)     NOT NULL,
@@ -158,6 +162,8 @@ CREATE TABLE IF NOT EXISTS invoices (
 -- ============================================================
 -- Seed Data
 -- ============================================================
+-- NOTE: Seed passwords below are stored as plaintext for demo convenience.
+-- In production, all passwords MUST be stored as SHA-256 hashes.
 
 -- Admin user (admin / admin123)
 INSERT INTO users (username, password, email, real_name, role, status)

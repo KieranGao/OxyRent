@@ -10,6 +10,10 @@ public:
     ~Defer() {
         func_();
     }
+    Defer(const Defer&) = delete;
+    Defer& operator=(const Defer&) = delete;
+    Defer(Defer&&) = default;
+    Defer& operator=(Defer&&) = default;
 private:
     std::function<void()> func_;
 };

@@ -3,7 +3,7 @@
 #include <chrono>
 
 RedisConnectPool::RedisConnectPool(size_t pool_size, std::string host, int port, std::string password) :
-    pool_size_(pool_size), host_(std::move(host)), port_(port), is_running_(true)
+    pool_size_(pool_size), host_(std::move(host)), port_(port), password_(std::move(password)), is_running_(true)
     {
         for(int i=1;i<=pool_size;i++) {
             redisContext* context = redisConnect(host_.c_str(), port);

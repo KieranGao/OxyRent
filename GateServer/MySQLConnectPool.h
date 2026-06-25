@@ -46,7 +46,7 @@ private:
     std::string password_;
     std::string dbName_;
     std::string user_;
-    int pool_size_;
+    size_t pool_size_;
     std::mutex mutex_;
     std::queue<std::unique_ptr<SqlConnection>> connections_;
     std::atomic<bool> is_running_;

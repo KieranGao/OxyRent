@@ -33,6 +33,7 @@ private:
     std::condition_variable cond_;
     std::atomic<bool> is_running_;
     std::string host_;
+    std::string password_;
     size_t pool_size_;
     int port_;
 };

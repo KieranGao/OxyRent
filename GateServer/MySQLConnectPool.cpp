@@ -8,7 +8,7 @@ MySQLConnectPool::MySQLConnectPool(size_t pool_size, std::string url, std::strin
 {
     is_running_.store(true);
     try {
-        for(int i=1;i<=pool_size_;i++) {
+        for(size_t i=1;i<=pool_size_;i++) {
             sql::mysql::MySQL_Driver* driver = sql::mysql::get_driver_instance();
             sql::Connection* connection =  driver->connect(url_, user_, password_);
             connection->setSchema(dbName_);
@@ -35,12 +35,15 @@ void MySQLConnectPool::checkLoop() {
 }
 
 void MySQLConnectPool::stop() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    is_running_ = false;
-    cond_.notify_all();
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        is_running_ = false;
+        cond_.notify_all();
+    }
     if (check_thread_.joinable()) {
         check_thread_.join();
     }
+    std::lock_guard<std::mutex> lock(mutex_);
     while (!connections_.empty()) {
         connections_.pop();
     }
@@ -50,7 +53,7 @@ void MySQLConnectPool::checkConnection() {
     std::lock_guard<std::mutex> lock(mutex_);
     auto curTime = std::chrono::steady_clock::now().time_since_epoch();
     long long timeStamp = std::chrono::duration_cast<std::chrono::seconds>(curTime).count();
-    for(int i=0;i<pool_size_;i++) {
+    for(size_t i=0;i<pool_size_;i++) {
         auto connection = std::move(connections_.front());
         connections_.pop();
         Defer defer([this, &connection]() {

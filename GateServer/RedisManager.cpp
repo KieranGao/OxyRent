@@ -9,8 +9,10 @@ RedisManager::RedisManager() {
     std::string host = config["Redis"]["host"];
     std::string port = config["Redis"]["port"];
     std::string password = config["Redis"]["password"];
-    LOG_DEBUG("Redis connecting to {}:{}", host, port);
-    conn_pool_ = std::make_unique<RedisConnectPool>(5, host, std::atoi(port.c_str()), password);
+    std::string pool_size_str = config["Redis"]["pool_size"];
+    size_t pool_size = pool_size_str.empty() ? 5 : static_cast<size_t>(std::atoi(pool_size_str.c_str()));
+    LOG_DEBUG("Redis connecting to {}:{} pool_size={}", host, port, pool_size);
+    conn_pool_ = std::make_unique<RedisConnectPool>(pool_size, host, std::atoi(port.c_str()), password);
 }
 
 RedisManager::~RedisManager() {

@@ -4,10 +4,6 @@
 #include <boost/beast/http.hpp>
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
-#include <memory>
-#include <mutex>
-#include <iostream>
-#include <json/json.h>
 
 #define CODE_PREFIX "code_"
 #define USER_TOKEN_PREFIX  "utoken_"
@@ -71,11 +67,11 @@ enum class ErrorCodes {
 #define MAX_RECVQUE  10000
 #define MAX_SENDQUE 1000
 
-enum MSG_IDS {
-    MSG_VEHICLE_LIST     = 2001,
-    MSG_VEHICLE_LIST_RSP = 2002,
-    MSG_RENTAL_CREATE    = 2003,
-    MSG_RENTAL_CREATE_RSP = 2004,
+enum class MsgId : int {
+    VEHICLE_LIST      = 2001,
+    VEHICLE_LIST_RSP  = 2002,
+    RENTAL_CREATE     = 2003,
+    RENTAL_CREATE_RSP = 2004,
 };
 
 #endif /* GLOBAL_H */

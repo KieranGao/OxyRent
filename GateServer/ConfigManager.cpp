@@ -25,7 +25,11 @@ ConfigManager::ConfigManager() {
         for (const auto &entry : conf_map_) {
             std::cout << "[" << entry.first << "]" << std::endl;
             for (auto& kv : entry.second._section_datas) {
-                std::cout << "  " << kv.first << "=" << kv.second << std::endl;
+                if (kv.first == "password") {
+                    std::cout << "  " << kv.first << "=****" << std::endl;
+                } else {
+                    std::cout << "  " << kv.first << "=" << kv.second << std::endl;
+                }
             }
         }
 
