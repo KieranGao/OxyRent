@@ -347,6 +347,13 @@ async function loadRevenueData() {
     if (dateRange.value && dateRange.value.length === 2) {
       params.start_date = dateRange.value[0]
       params.end_date = dateRange.value[1]
+    } else {
+      // 默认查询本月数据
+      const now = new Date()
+      const year = now.getFullYear()
+      const month = String(now.getMonth() + 1).padStart(2, '0')
+      params.start_date = `${year}-${month}-01`
+      params.end_date = `${year}-${month}-31`
     }
     const res = await getStatsRevenue(params)
     if (res.error === 0) {
