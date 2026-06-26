@@ -93,3 +93,9 @@
 [2026-06-26 19:12:49.440] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
 [2026-06-26 19:13:03.625] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=19796f7e687430f3f958fe3a2fc818f3
 [2026-06-26 19:13:03.625] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 19:14:47.494] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=fac73383220c0ab6b97f887d22df739f
+[2026-06-26 19:14:47.494] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 19:15:48.028] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=bc2408b5161bc428e68bf78f2076403a
+[2026-06-26 19:15:48.029] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 19:16:54.826] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=b122ae1f1628056f3a4a71557d1bd874
+[2026-06-26 19:16:54.828] [INFO] [UMS] Redis SETEX result: success

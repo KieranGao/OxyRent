@@ -59,3 +59,7 @@
 [2026-06-26 19:09:22.894] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
 [2026-06-26 19:12:53.465] [INFO] FinanceServer starting on 0.0.0.0:50055
 [2026-06-26 19:12:53.467] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 19:14:47.677] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 19:15:48.059] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 19:16:52.811] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 19:16:52.812] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055

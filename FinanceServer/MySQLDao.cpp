@@ -326,7 +326,7 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
 
         // 统计用户数
         std::unique_ptr<sql::Statement> stmt1(sql_conn->createStatement());
-        std::unique_ptr<sql::ResultSet> res1(stmt1->executeQuery("SELECT COUNT(*) AS cnt FROM users"));
+        std::unique_ptr<sql::ResultSet> res1(stmt1->executeQuery("SELECT COUNT(*) AS cnt FROM user"));
         if (res1 && res1->next()) total_users = res1->getInt("cnt");
 
         // 统计车辆数（总数和可用数）
