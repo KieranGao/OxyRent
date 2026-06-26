@@ -1,6 +1,5 @@
 syntax = "proto3";
 package message;
-option cpp_namespace = "message";
 
 message CommonResponse {
     int32 error = 1;
