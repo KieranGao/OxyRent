@@ -85,22 +85,27 @@ const revenueOption = computed(() => ({
   grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
   xAxis: {
     type: 'category',
-    data: revenueData.value.map(d => d.date || d.label),
+    data: revenueData.value.map(d => d.date),
     axisLabel: { rotate: 30 },
   },
-  yAxis: { type: 'value', name: '收入 (CNY)' },
+  yAxis: { type: 'value', name: '收入 (¥)' },
   series: [{
     name: '收入',
     type: 'line',
     smooth: true,
     areaStyle: { opacity: 0.15 },
-    data: revenueData.value.map(d => d.revenue || d.value || 0),
-    itemStyle: { color: '#4f6ef7' },
+    data: revenueData.value.map(d => d.amount || 0),
+    itemStyle: { color: '#c8a96e' },
   }],
 }))
 
 const statusOption = computed(() => {
-  const data = vehicleStats.value.status_distribution || []
+  const stats = vehicleStats.value
+  const data = [
+    { name: '可用', value: stats.available || 0 },
+    { name: '在租', value: stats.rented || 0 },
+    { name: '维保', value: stats.maintenance || 0 },
+  ]
   return {
     tooltip: { trigger: 'item' },
     legend: { bottom: '0%' },
@@ -109,39 +114,37 @@ const statusOption = computed(() => {
       type: 'pie',
       radius: ['40%', '70%'],
       avoidLabelOverlap: false,
-      itemStyle: { borderRadius: 8, borderColor: '#fff', borderWidth: 2 },
+      itemStyle: { borderRadius: 8, borderColor: '#111', borderWidth: 2 },
       label: { show: false, position: 'center' },
       emphasis: { label: { show: true, fontSize: 16, fontWeight: 'bold' } },
       labelLine: { show: false },
-      data: data.map(d => ({
-        name: d.status || d.name,
-        value: d.count || d.value,
-      })),
+      data: data,
+      color: ['#4ade80', '#60a5fa', '#fbbf24'],
     }],
   }
 })
 
 const brandOption = computed(() => {
-  const data = vehicleStats.value.brand_distribution || []
+  const data = vehicleStats.value.by_brand || []
   return {
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
     xAxis: {
       type: 'category',
-      data: data.map(d => d.brand || d.name),
+      data: data.map(d => d.brand),
     },
     yAxis: { type: 'value', name: '数量' },
     series: [{
       name: '数量',
       type: 'bar',
-      data: data.map(d => d.count || d.value),
+      data: data.map(d => d.count),
       itemStyle: {
         borderRadius: [4, 4, 0, 0],
         color: {
           type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
           colorStops: [
-            { offset: 0, color: '#4f6ef7' },
-            { offset: 1, color: '#7c5cfc' },
+            { offset: 0, color: '#c8a96e' },
+            { offset: 1, color: '#a88b5a' },
           ],
         },
       },
@@ -159,7 +162,7 @@ async function loadRevenueData() {
     }
     const res = await getStatsRevenue(params)
     if (res.error === 0) {
-      revenueData.value = res.data || res.list || []
+      revenueData.value = res.items || []
     }
   } catch {
     ElMessage.error('加载收入数据失败')
@@ -170,7 +173,7 @@ async function loadVehicleStats() {
   try {
     const res = await getStatsVehicles()
     if (res.error === 0) {
-      vehicleStats.value = res.data || res
+      vehicleStats.value = res
     }
   } catch {
     ElMessage.error('加载车辆统计失败')
