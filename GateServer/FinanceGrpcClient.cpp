@@ -71,6 +71,19 @@ InvoiceInfo FinanceGrpcClient::getInvoiceDetail(const InvoiceInfo& request) {
     return response;
 }
 
+InvoiceListResponse FinanceGrpcClient::getInvoiceList(const InvoiceListRequest& request) {
+    InvoiceListResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->GetInvoiceList(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("FinanceService GetInvoiceList RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}
+
 StatsOverviewResponse FinanceGrpcClient::getStatsOverview(const CommonResponse& request) {
     StatsOverviewResponse response;
     ClientContext context;

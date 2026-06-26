@@ -315,6 +315,49 @@ bool MySQLDao::getInvoiceDetail(int64_t id, InvoiceData& invoice) {
     }
 }
 
+bool MySQLDao::getInvoiceList(int page, int page_size, std::vector<InvoiceData>& invoices, int& total) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+
+        // 统计总数
+        std::unique_ptr<sql::Statement> countStmt(sql_conn->createStatement());
+        std::unique_ptr<sql::ResultSet> countRes(countStmt->executeQuery("SELECT COUNT(*) AS cnt FROM invoices"));
+        if (countRes && countRes->next()) {
+            total = countRes->getInt("cnt");
+        }
+
+        // 分页查询
+        int offset = (page - 1) * page_size;
+        std::unique_ptr<sql::PreparedStatement> stmt(sql_conn->prepareStatement(
+            "SELECT id, invoice_no, order_id, order_no, user_id, username, total_amount, "
+            "items, status, issued_at, generated_at "
+            "FROM invoices ORDER BY id DESC LIMIT ? OFFSET ?"));
+        stmt->setInt(1, page_size);
+        stmt->setInt(2, offset);
+
+        std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
+        while (res->next()) {
+            InvoiceData inv;
+            inv.id = res->getInt64("id");
+            inv.invoice_no = res->getString("invoice_no");
+            inv.order_id = res->getInt64("order_id");
+            inv.order_no = res->getString("order_no");
+            inv.user_id = res->getInt64("user_id");
+            inv.username = res->getString("username");
+            inv.total_amount = res->getDouble("total_amount");
+            inv.items = res->getString("items");
+            inv.status = res->getString("status");
+            inv.generated_at = res->getString("generated_at");
+            invoices.push_back(inv);
+        }
+        return true;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in getInvoiceList: {}", exp.what());
+        return false;
+    }
+}
+
 // ==================== 统计操作 ====================
 
 bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& available_vehicles,
@@ -390,19 +433,19 @@ bool MySQLDao::getRevenueStats(const std::string& start_date, const std::string&
 
         std::string dateExpr;
         if (granularity == "monthly") {
-            dateExpr = "DATE_FORMAT(created_at, '%Y-%m')";
+            dateExpr = "DATE_FORMAT(paid_at, '%Y-%m')";
         } else if (granularity == "weekly") {
-            dateExpr = "DATE_FORMAT(DATE(created_at), '%x-W%v')";
+            dateExpr = "DATE_FORMAT(DATE(paid_at), '%x-W%v')";
         } else {
-            dateExpr = "DATE(created_at)";
+            dateExpr = "DATE(paid_at)";
         }
 
         std::string querySql = "SELECT " + dateExpr + " AS date, "
-                               "COALESCE(SUM(total_cost), 0) AS amount, "
+                               "COALESCE(SUM(amount), 0) AS amount, "
                                "COUNT(*) AS count "
-                               "FROM rental_orders "
-                               "WHERE status = 'completed' "
-                               "AND DATE(created_at) >= ? AND DATE(created_at) <= ? "
+                               "FROM payments "
+                               "WHERE status = 'success' "
+                               "AND DATE(paid_at) >= ? AND DATE(paid_at) <= ? "
                                "GROUP BY date ORDER BY date";
 
         std::unique_ptr<sql::PreparedStatement> pstmt(sql_conn->prepareStatement(querySql));

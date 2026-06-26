@@ -59,6 +59,18 @@ message GenerateInvoiceRequest {
     int64 order_id = 1;
 }
 
+message InvoiceListRequest {
+    int32 page = 1;
+    int32 page_size = 2;
+}
+
+message InvoiceListResponse {
+    int32 error = 1;
+    string msg = 2;
+    repeated InvoiceInfo invoices = 3;
+    int32 total = 4;
+}
+
 message StatsOverviewResponse {
     int32 error = 1;
     string msg = 2;
@@ -112,6 +124,7 @@ service FinanceService {
     rpc GetPaymentDetail(PaymentInfo) returns (PaymentInfo);
     rpc GenerateInvoice(GenerateInvoiceRequest) returns (InvoiceInfo);
     rpc GetInvoiceDetail(InvoiceInfo) returns (InvoiceInfo);
+    rpc GetInvoiceList(InvoiceListRequest) returns (InvoiceListResponse);
     rpc GetStatsOverview(CommonResponse) returns (StatsOverviewResponse);
     rpc GetRevenueStats(RevenueStatsRequest) returns (RevenueStatsResponse);
     rpc GetVehicleStats(CommonResponse) returns (VehicleStatsResponse);

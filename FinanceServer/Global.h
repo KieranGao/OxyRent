@@ -32,6 +32,7 @@ struct InvoiceData {
     std::string username;
     double total_amount = 0.0;
     std::string items;
+    std::string status;
     std::string generated_at;
 };
 

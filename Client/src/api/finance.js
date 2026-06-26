@@ -20,6 +20,10 @@ export function getInvoiceDetail(params) {
   return request.get('/invoice/detail', { params })
 }
 
+export function getInvoiceList(params) {
+  return request.get('/invoice/list', { params })
+}
+
 export function getStatsOverview() {
   return request.get('/stats/overview')
 }

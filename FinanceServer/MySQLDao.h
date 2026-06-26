@@ -21,6 +21,7 @@ public:
     // 账单操作
     int64_t generateInvoice(int64_t order_id);
     bool getInvoiceDetail(int64_t id, InvoiceData& invoice);
+    bool getInvoiceList(int page, int page_size, std::vector<InvoiceData>& invoices, int& total);
 
     // 统计操作
     bool getStatsOverview(int& total_users, int& total_vehicles, int& available_vehicles,

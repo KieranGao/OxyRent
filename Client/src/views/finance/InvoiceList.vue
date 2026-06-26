@@ -13,26 +13,36 @@
 
     <el-card>
       <el-table :data="invoices" v-loading="loading" style="width: 100%" empty-text="暂无账单">
-        <el-table-column prop="id" label="账单号" min-width="100" />
+        <el-table-column prop="id" label="ID" min-width="60" />
+        <el-table-column prop="invoice_no" label="账单号" min-width="160" />
         <el-table-column prop="order_no" label="订单号" min-width="160" />
-        <el-table-column prop="amount" label="金额" min-width="100">
-          <template #default="{ row }">¥{{ row.amount }}</template>
-        </el-table-column>
-        <el-table-column prop="status" label="状态" min-width="100">
+        <el-table-column prop="username" label="客户" min-width="100" />
+        <el-table-column prop="total_amount" label="金额" min-width="100">
           <template #default="{ row }">
-            <el-tag :type="row.status === 'generated' ? 'success' : 'info'">{{ row.status }}</el-tag>
+            <span style="color: var(--accent)">¥{{ (row.total_amount || 0).toFixed(2) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="created_at" label="日期" min-width="120" />
+        <el-table-column prop="generated_at" label="生成时间" min-width="160" />
         <el-table-column label="操作" min-width="100">
           <template #default="{ row }">
-            <el-button link type="primary" @click="viewDetail(row.id)">查看</el-button>
+            <el-button link type="primary" @click="viewDetail(row)">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
+
+      <div class="pagination-wrapper" v-if="total > pageSize">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="total"
+          :page-size="pageSize"
+          :current-page="page"
+          @current-change="handlePageChange"
+        />
+      </div>
     </el-card>
 
-    <!-- Generate Invoice Dialog -->
+    <!-- 生成账单对话框 -->
     <el-dialog v-model="dialogVisible" title="生成账单" width="400px">
       <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
         <el-form-item label="订单ID" prop="order_id">
@@ -45,27 +55,39 @@
       </template>
     </el-dialog>
 
-    <!-- Invoice Detail Dialog -->
-    <el-dialog v-model="detailVisible" title="账单详情" width="500px">
+    <!-- 账单详情对话框 -->
+    <el-dialog v-model="detailVisible" title="账单详情" width="550px">
       <div v-if="invoiceDetail" class="invoice-detail">
-        <div class="invoice-row"><span>账单号:</span><span>{{ invoiceDetail.id }}</span></div>
-        <div class="invoice-row"><span>订单号:</span><span>{{ invoiceDetail.order_no }}</span></div>
-        <div class="invoice-row"><span>金额:</span><span>¥{{ invoiceDetail.amount }}</span></div>
-        <div class="invoice-row"><span>状态:</span><span>{{ invoiceDetail.status }}</span></div>
-        <div class="invoice-row"><span>日期:</span><span>{{ invoiceDetail.created_at }}</span></div>
+        <div class="detail-row"><span class="label">账单号</span><span>{{ invoiceDetail.invoice_no }}</span></div>
+        <div class="detail-row"><span class="label">订单号</span><span>{{ invoiceDetail.order_no }}</span></div>
+        <div class="detail-row"><span class="label">客户</span><span>{{ invoiceDetail.username }}</span></div>
+        <div class="detail-row"><span class="label">金额</span><span style="color: var(--accent); font-weight: 600">¥{{ (invoiceDetail.total_amount || 0).toFixed(2) }}</span></div>
+        <div class="detail-row"><span class="label">生成时间</span><span>{{ invoiceDetail.generated_at }}</span></div>
+        <div class="detail-row" v-if="invoiceDetail.items">
+          <span class="label">明细</span>
+          <div class="items-list">
+            <div v-for="(item, idx) in parsedItems" :key="idx" class="item-entry">
+              <span>{{ item.desc || item.description || '费用' }}</span>
+              <span style="color: var(--accent)">¥{{ (item.amount || 0).toFixed(2) }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { getInvoiceDetail, generateInvoice } from '@/api/finance'
+import { ref, reactive, computed, onMounted } from 'vue'
+import { getInvoiceList, getInvoiceDetail, generateInvoice } from '@/api/finance'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 
 const loading = ref(false)
 const invoices = ref([])
+const total = ref(0)
+const page = ref(1)
+const pageSize = ref(20)
 const dialogVisible = ref(false)
 const detailVisible = ref(false)
 const generating = ref(false)
@@ -75,6 +97,35 @@ const invoiceDetail = ref(null)
 const form = reactive({ order_id: undefined })
 const rules = {
   order_id: [{ required: true, message: '请输入订单ID', trigger: 'blur' }],
+}
+
+const parsedItems = computed(() => {
+  if (!invoiceDetail.value || !invoiceDetail.value.items) return []
+  try {
+    return JSON.parse(invoiceDetail.value.items)
+  } catch {
+    return []
+  }
+})
+
+async function loadInvoices() {
+  loading.value = true
+  try {
+    const res = await getInvoiceList({ page: page.value, page_size: pageSize.value })
+    if (res.error === 0) {
+      invoices.value = res.invoices || []
+      total.value = res.total || 0
+    }
+  } catch {
+    ElMessage.error('加载账单列表失败')
+  } finally {
+    loading.value = false
+  }
+}
+
+function handlePageChange(p) {
+  page.value = p
+  loadInvoices()
 }
 
 function showGenerateDialog() {
@@ -87,10 +138,11 @@ async function handleGenerate() {
   if (!valid) return
   generating.value = true
   try {
-    const res = await generateInvoice(form)
+    const res = await generateInvoice({ order_id: form.order_id })
     if (res.error === 0) {
       ElMessage.success('账单已生成')
       dialogVisible.value = false
+      loadInvoices()
     } else {
       ElMessage.error('生成账单失败')
     }
@@ -101,11 +153,11 @@ async function handleGenerate() {
   }
 }
 
-async function viewDetail(id) {
+async function viewDetail(row) {
   try {
-    const res = await getInvoiceDetail({ id })
+    const res = await getInvoiceDetail({ id: row.id })
     if (res.error === 0) {
-      invoiceDetail.value = res.invoice || res
+      invoiceDetail.value = res
       detailVisible.value = true
     }
   } catch {
@@ -113,11 +165,8 @@ async function viewDetail(id) {
   }
 }
 
-// Note: The API spec doesn't list a GET /invoice/list endpoint.
-// This page uses a placeholder approach. In production, add a list endpoint.
-onMounted(async () => {
-  // Placeholder: no list endpoint in spec, show empty state
-  loading.value = false
+onMounted(() => {
+  loadInvoices()
 })
 </script>
 
@@ -130,20 +179,40 @@ onMounted(async () => {
   flex-wrap: wrap;
 }
 
-.invoice-detail .invoice-row {
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 0;
+}
+
+.invoice-detail .detail-row {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-light);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
   font-size: 14px;
 }
 
-.invoice-detail .invoice-row:last-child {
+.invoice-detail .detail-row:last-child {
   border-bottom: none;
 }
 
-.invoice-detail .invoice-row span:first-child {
+.invoice-detail .label {
   color: var(--text-secondary);
   font-weight: 500;
+  min-width: 80px;
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item-entry {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-primary);
 }
 </style>

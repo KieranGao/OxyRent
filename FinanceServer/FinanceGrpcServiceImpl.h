@@ -17,6 +17,8 @@ using message::PaymentListRequest;
 using message::PaymentListResponse;
 using message::InvoiceInfo;
 using message::GenerateInvoiceRequest;
+using message::InvoiceListRequest;
+using message::InvoiceListResponse;
 using message::StatsOverviewResponse;
 using message::RevenueStatsRequest;
 using message::RevenueStatsItem;
@@ -34,6 +36,7 @@ public:
     Status GetPaymentDetail(ServerContext* context, const PaymentInfo* req, PaymentInfo* resp) override;
     Status GenerateInvoice(ServerContext* context, const GenerateInvoiceRequest* req, InvoiceInfo* resp) override;
     Status GetInvoiceDetail(ServerContext* context, const InvoiceInfo* req, InvoiceInfo* resp) override;
+    Status GetInvoiceList(ServerContext* context, const InvoiceListRequest* req, InvoiceListResponse* resp) override;
     Status GetStatsOverview(ServerContext* context, const CommonResponse* req, StatsOverviewResponse* resp) override;
     Status GetRevenueStats(ServerContext* context, const RevenueStatsRequest* req, RevenueStatsResponse* resp) override;
     Status GetVehicleStats(ServerContext* context, const CommonResponse* req, VehicleStatsResponse* resp) override;

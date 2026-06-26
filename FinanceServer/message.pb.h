@@ -47,7 +47,7 @@ struct TableStruct_message_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[13]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[15]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -67,6 +67,12 @@ extern GenerateInvoiceRequestDefaultTypeInternal _GenerateInvoiceRequest_default
 class InvoiceInfo;
 class InvoiceInfoDefaultTypeInternal;
 extern InvoiceInfoDefaultTypeInternal _InvoiceInfo_default_instance_;
+class InvoiceListRequest;
+class InvoiceListRequestDefaultTypeInternal;
+extern InvoiceListRequestDefaultTypeInternal _InvoiceListRequest_default_instance_;
+class InvoiceListResponse;
+class InvoiceListResponseDefaultTypeInternal;
+extern InvoiceListResponseDefaultTypeInternal _InvoiceListResponse_default_instance_;
 class PaymentInfo;
 class PaymentInfoDefaultTypeInternal;
 extern PaymentInfoDefaultTypeInternal _PaymentInfo_default_instance_;
@@ -100,6 +106,8 @@ template<> ::message::CommonResponse* Arena::CreateMaybeMessage<::message::Commo
 template<> ::message::CreatePaymentRequest* Arena::CreateMaybeMessage<::message::CreatePaymentRequest>(Arena*);
 template<> ::message::GenerateInvoiceRequest* Arena::CreateMaybeMessage<::message::GenerateInvoiceRequest>(Arena*);
 template<> ::message::InvoiceInfo* Arena::CreateMaybeMessage<::message::InvoiceInfo>(Arena*);
+template<> ::message::InvoiceListRequest* Arena::CreateMaybeMessage<::message::InvoiceListRequest>(Arena*);
+template<> ::message::InvoiceListResponse* Arena::CreateMaybeMessage<::message::InvoiceListResponse>(Arena*);
 template<> ::message::PaymentInfo* Arena::CreateMaybeMessage<::message::PaymentInfo>(Arena*);
 template<> ::message::PaymentListRequest* Arena::CreateMaybeMessage<::message::PaymentListRequest>(Arena*);
 template<> ::message::PaymentListResponse* Arena::CreateMaybeMessage<::message::PaymentListResponse>(Arena*);
@@ -1732,6 +1740,349 @@ class GenerateInvoiceRequest PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class InvoiceListRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.InvoiceListRequest) */ {
+ public:
+  inline InvoiceListRequest() : InvoiceListRequest(nullptr) {};
+  virtual ~InvoiceListRequest();
+
+  InvoiceListRequest(const InvoiceListRequest& from);
+  InvoiceListRequest(InvoiceListRequest&& from) noexcept
+    : InvoiceListRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline InvoiceListRequest& operator=(const InvoiceListRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline InvoiceListRequest& operator=(InvoiceListRequest&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const InvoiceListRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const InvoiceListRequest* internal_default_instance() {
+    return reinterpret_cast<const InvoiceListRequest*>(
+               &_InvoiceListRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(InvoiceListRequest& a, InvoiceListRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(InvoiceListRequest* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(InvoiceListRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline InvoiceListRequest* New() const final {
+    return CreateMaybeMessage<InvoiceListRequest>(nullptr);
+  }
+
+  InvoiceListRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<InvoiceListRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const InvoiceListRequest& from);
+  void MergeFrom(const InvoiceListRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InvoiceListRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.InvoiceListRequest";
+  }
+  protected:
+  explicit InvoiceListRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPageFieldNumber = 1,
+    kPageSizeFieldNumber = 2,
+  };
+  // int32 page = 1;
+  void clear_page();
+  ::PROTOBUF_NAMESPACE_ID::int32 page() const;
+  void set_page(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_page() const;
+  void _internal_set_page(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 page_size = 2;
+  void clear_page_size();
+  ::PROTOBUF_NAMESPACE_ID::int32 page_size() const;
+  void set_page_size(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_page_size() const;
+  void _internal_set_page_size(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.InvoiceListRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 page_;
+  ::PROTOBUF_NAMESPACE_ID::int32 page_size_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class InvoiceListResponse PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.InvoiceListResponse) */ {
+ public:
+  inline InvoiceListResponse() : InvoiceListResponse(nullptr) {};
+  virtual ~InvoiceListResponse();
+
+  InvoiceListResponse(const InvoiceListResponse& from);
+  InvoiceListResponse(InvoiceListResponse&& from) noexcept
+    : InvoiceListResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline InvoiceListResponse& operator=(const InvoiceListResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline InvoiceListResponse& operator=(InvoiceListResponse&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const InvoiceListResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const InvoiceListResponse* internal_default_instance() {
+    return reinterpret_cast<const InvoiceListResponse*>(
+               &_InvoiceListResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  friend void swap(InvoiceListResponse& a, InvoiceListResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(InvoiceListResponse* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(InvoiceListResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline InvoiceListResponse* New() const final {
+    return CreateMaybeMessage<InvoiceListResponse>(nullptr);
+  }
+
+  InvoiceListResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<InvoiceListResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const InvoiceListResponse& from);
+  void MergeFrom(const InvoiceListResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InvoiceListResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.InvoiceListResponse";
+  }
+  protected:
+  explicit InvoiceListResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kInvoicesFieldNumber = 3,
+    kMsgFieldNumber = 2,
+    kErrorFieldNumber = 1,
+    kTotalFieldNumber = 4,
+  };
+  // repeated .message.InvoiceInfo invoices = 3;
+  int invoices_size() const;
+  private:
+  int _internal_invoices_size() const;
+  public:
+  void clear_invoices();
+  ::message::InvoiceInfo* mutable_invoices(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::InvoiceInfo >*
+      mutable_invoices();
+  private:
+  const ::message::InvoiceInfo& _internal_invoices(int index) const;
+  ::message::InvoiceInfo* _internal_add_invoices();
+  public:
+  const ::message::InvoiceInfo& invoices(int index) const;
+  ::message::InvoiceInfo* add_invoices();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::InvoiceInfo >&
+      invoices() const;
+
+  // string msg = 2;
+  void clear_msg();
+  const std::string& msg() const;
+  void set_msg(const std::string& value);
+  void set_msg(std::string&& value);
+  void set_msg(const char* value);
+  void set_msg(const char* value, size_t size);
+  std::string* mutable_msg();
+  std::string* release_msg();
+  void set_allocated_msg(std::string* msg);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_msg();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_msg(
+      std::string* msg);
+  private:
+  const std::string& _internal_msg() const;
+  void _internal_set_msg(const std::string& value);
+  std::string* _internal_mutable_msg();
+  public:
+
+  // int32 error = 1;
+  void clear_error();
+  ::PROTOBUF_NAMESPACE_ID::int32 error() const;
+  void set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_error() const;
+  void _internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 total = 4;
+  void clear_total();
+  ::PROTOBUF_NAMESPACE_ID::int32 total() const;
+  void set_total(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_total() const;
+  void _internal_set_total(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.InvoiceListResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::InvoiceInfo > invoices_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr msg_;
+  ::PROTOBUF_NAMESPACE_ID::int32 error_;
+  ::PROTOBUF_NAMESPACE_ID::int32 total_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
 class StatsOverviewResponse PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.StatsOverviewResponse) */ {
  public:
@@ -1774,7 +2125,7 @@ class StatsOverviewResponse PROTOBUF_FINAL :
                &_StatsOverviewResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    9;
 
   friend void swap(StatsOverviewResponse& a, StatsOverviewResponse& b) {
     a.Swap(&b);
@@ -2015,7 +2366,7 @@ class RevenueStatsRequest PROTOBUF_FINAL :
                &_RevenueStatsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    10;
 
   friend void swap(RevenueStatsRequest& a, RevenueStatsRequest& b) {
     a.Swap(&b);
@@ -2222,7 +2573,7 @@ class RevenueStatsItem PROTOBUF_FINAL :
                &_RevenueStatsItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    11;
 
   friend void swap(RevenueStatsItem& a, RevenueStatsItem& b) {
     a.Swap(&b);
@@ -2397,7 +2748,7 @@ class RevenueStatsResponse PROTOBUF_FINAL :
                &_RevenueStatsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    12;
 
   friend void swap(RevenueStatsResponse& a, RevenueStatsResponse& b) {
     a.Swap(&b);
@@ -2592,7 +2943,7 @@ class VehicleStatsResponse PROTOBUF_FINAL :
                &_VehicleStatsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    13;
 
   friend void swap(VehicleStatsResponse& a, VehicleStatsResponse& b) {
     a.Swap(&b);
@@ -2831,7 +3182,7 @@ class VehicleStatsBrandItem PROTOBUF_FINAL :
                &_VehicleStatsBrandItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    14;
 
   friend void swap(VehicleStatsBrandItem& a, VehicleStatsBrandItem& b) {
     a.Swap(&b);
@@ -4967,6 +5318,214 @@ inline void GenerateInvoiceRequest::set_order_id(::PROTOBUF_NAMESPACE_ID::int64 
 
 // -------------------------------------------------------------------
 
+// InvoiceListRequest
+
+// int32 page = 1;
+inline void InvoiceListRequest::clear_page() {
+  page_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 InvoiceListRequest::_internal_page() const {
+  return page_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 InvoiceListRequest::page() const {
+  // @@protoc_insertion_point(field_get:message.InvoiceListRequest.page)
+  return _internal_page();
+}
+inline void InvoiceListRequest::_internal_set_page(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  page_ = value;
+}
+inline void InvoiceListRequest::set_page(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_page(value);
+  // @@protoc_insertion_point(field_set:message.InvoiceListRequest.page)
+}
+
+// int32 page_size = 2;
+inline void InvoiceListRequest::clear_page_size() {
+  page_size_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 InvoiceListRequest::_internal_page_size() const {
+  return page_size_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 InvoiceListRequest::page_size() const {
+  // @@protoc_insertion_point(field_get:message.InvoiceListRequest.page_size)
+  return _internal_page_size();
+}
+inline void InvoiceListRequest::_internal_set_page_size(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  page_size_ = value;
+}
+inline void InvoiceListRequest::set_page_size(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_page_size(value);
+  // @@protoc_insertion_point(field_set:message.InvoiceListRequest.page_size)
+}
+
+// -------------------------------------------------------------------
+
+// InvoiceListResponse
+
+// int32 error = 1;
+inline void InvoiceListResponse::clear_error() {
+  error_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 InvoiceListResponse::_internal_error() const {
+  return error_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 InvoiceListResponse::error() const {
+  // @@protoc_insertion_point(field_get:message.InvoiceListResponse.error)
+  return _internal_error();
+}
+inline void InvoiceListResponse::_internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  error_ = value;
+}
+inline void InvoiceListResponse::set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:message.InvoiceListResponse.error)
+}
+
+// string msg = 2;
+inline void InvoiceListResponse::clear_msg() {
+  msg_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& InvoiceListResponse::msg() const {
+  // @@protoc_insertion_point(field_get:message.InvoiceListResponse.msg)
+  return _internal_msg();
+}
+inline void InvoiceListResponse::set_msg(const std::string& value) {
+  _internal_set_msg(value);
+  // @@protoc_insertion_point(field_set:message.InvoiceListResponse.msg)
+}
+inline std::string* InvoiceListResponse::mutable_msg() {
+  // @@protoc_insertion_point(field_mutable:message.InvoiceListResponse.msg)
+  return _internal_mutable_msg();
+}
+inline const std::string& InvoiceListResponse::_internal_msg() const {
+  return msg_.Get();
+}
+inline void InvoiceListResponse::_internal_set_msg(const std::string& value) {
+  
+  msg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void InvoiceListResponse::set_msg(std::string&& value) {
+  
+  msg_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.InvoiceListResponse.msg)
+}
+inline void InvoiceListResponse::set_msg(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  msg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.InvoiceListResponse.msg)
+}
+inline void InvoiceListResponse::set_msg(const char* value,
+    size_t size) {
+  
+  msg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.InvoiceListResponse.msg)
+}
+inline std::string* InvoiceListResponse::_internal_mutable_msg() {
+  
+  return msg_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* InvoiceListResponse::release_msg() {
+  // @@protoc_insertion_point(field_release:message.InvoiceListResponse.msg)
+  return msg_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void InvoiceListResponse::set_allocated_msg(std::string* msg) {
+  if (msg != nullptr) {
+    
+  } else {
+    
+  }
+  msg_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), msg,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.InvoiceListResponse.msg)
+}
+inline std::string* InvoiceListResponse::unsafe_arena_release_msg() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.InvoiceListResponse.msg)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return msg_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void InvoiceListResponse::unsafe_arena_set_allocated_msg(
+    std::string* msg) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (msg != nullptr) {
+    
+  } else {
+    
+  }
+  msg_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      msg, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.InvoiceListResponse.msg)
+}
+
+// repeated .message.InvoiceInfo invoices = 3;
+inline int InvoiceListResponse::_internal_invoices_size() const {
+  return invoices_.size();
+}
+inline int InvoiceListResponse::invoices_size() const {
+  return _internal_invoices_size();
+}
+inline void InvoiceListResponse::clear_invoices() {
+  invoices_.Clear();
+}
+inline ::message::InvoiceInfo* InvoiceListResponse::mutable_invoices(int index) {
+  // @@protoc_insertion_point(field_mutable:message.InvoiceListResponse.invoices)
+  return invoices_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::InvoiceInfo >*
+InvoiceListResponse::mutable_invoices() {
+  // @@protoc_insertion_point(field_mutable_list:message.InvoiceListResponse.invoices)
+  return &invoices_;
+}
+inline const ::message::InvoiceInfo& InvoiceListResponse::_internal_invoices(int index) const {
+  return invoices_.Get(index);
+}
+inline const ::message::InvoiceInfo& InvoiceListResponse::invoices(int index) const {
+  // @@protoc_insertion_point(field_get:message.InvoiceListResponse.invoices)
+  return _internal_invoices(index);
+}
+inline ::message::InvoiceInfo* InvoiceListResponse::_internal_add_invoices() {
+  return invoices_.Add();
+}
+inline ::message::InvoiceInfo* InvoiceListResponse::add_invoices() {
+  // @@protoc_insertion_point(field_add:message.InvoiceListResponse.invoices)
+  return _internal_add_invoices();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::InvoiceInfo >&
+InvoiceListResponse::invoices() const {
+  // @@protoc_insertion_point(field_list:message.InvoiceListResponse.invoices)
+  return invoices_;
+}
+
+// int32 total = 4;
+inline void InvoiceListResponse::clear_total() {
+  total_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 InvoiceListResponse::_internal_total() const {
+  return total_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 InvoiceListResponse::total() const {
+  // @@protoc_insertion_point(field_get:message.InvoiceListResponse.total)
+  return _internal_total();
+}
+inline void InvoiceListResponse::_internal_set_total(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  total_ = value;
+}
+inline void InvoiceListResponse::set_total(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_total(value);
+  // @@protoc_insertion_point(field_set:message.InvoiceListResponse.total)
+}
+
+// -------------------------------------------------------------------
+
 // StatsOverviewResponse
 
 // int32 error = 1;
@@ -6098,6 +6657,10 @@ inline void VehicleStatsBrandItem::set_count(::PROTOBUF_NAMESPACE_ID::int32 valu
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

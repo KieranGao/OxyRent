@@ -47,3 +47,8 @@
 [2026-06-26 19:12:55.480] [INFO] GateServer starting on port 8080
 [2026-06-26 19:18:32.805] [INFO] GateServer starting on port 8080
 [2026-06-26 19:18:32.806] [ERROR] Fatal error: bind: Address already in use
+[2026-06-26 19:40:46.001] [INFO] GateServer starting on port 8080
+[2026-06-26 19:40:46.002] [ERROR] Fatal error: bind: Address already in use
+[2026-06-26 19:52:42.510] [INFO] GateServer starting on port 8080
+[2026-06-26 19:52:42.512] [ERROR] Fatal error: bind: Address already in use
+[2026-06-26 19:54:00.067] [INFO] GateServer starting on port 8080

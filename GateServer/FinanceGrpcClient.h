@@ -20,6 +20,8 @@ using message::PaymentListRequest;
 using message::PaymentListResponse;
 using message::InvoiceInfo;
 using message::GenerateInvoiceRequest;
+using message::InvoiceListRequest;
+using message::InvoiceListResponse;
 using message::StatsOverviewResponse;
 using message::RevenueStatsRequest;
 using message::RevenueStatsItem;
@@ -36,6 +38,7 @@ public:
     PaymentInfo getPaymentDetail(const PaymentInfo& request);
     InvoiceInfo generateInvoice(const GenerateInvoiceRequest& request);
     InvoiceInfo getInvoiceDetail(const InvoiceInfo& request);
+    InvoiceListResponse getInvoiceList(const InvoiceListRequest& request);
     StatsOverviewResponse getStatsOverview(const CommonResponse& request);
     RevenueStatsResponse getRevenueStats(const RevenueStatsRequest& request);
     VehicleStatsResponse getVehicleStats(const CommonResponse& request);

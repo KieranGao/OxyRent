@@ -4667,6 +4667,13 @@ class FinanceService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceInfo>> PrepareAsyncGetInvoiceDetail(::grpc::ClientContext* context, const ::message::InvoiceInfo& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceInfo>>(PrepareAsyncGetInvoiceDetailRaw(context, request, cq));
     }
+    virtual ::grpc::Status GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::message::InvoiceListResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceListResponse>> AsyncGetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceListResponse>>(AsyncGetInvoiceListRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceListResponse>> PrepareAsyncGetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceListResponse>>(PrepareAsyncGetInvoiceListRaw(context, request, cq));
+    }
     virtual ::grpc::Status GetStatsOverview(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::message::StatsOverviewResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::StatsOverviewResponse>> AsyncGetStatsOverview(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::StatsOverviewResponse>>(AsyncGetStatsOverviewRaw(context, request, cq));
@@ -4751,6 +4758,18 @@ class FinanceService final {
       #else
       virtual void GetInvoiceDetail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      virtual void GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetInvoiceList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceListResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void GetInvoiceList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceListResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void GetInvoiceList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       virtual void GetStatsOverview(::grpc::ClientContext* context, const ::message::CommonResponse* request, ::message::StatsOverviewResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetStatsOverview(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::StatsOverviewResponse* response, std::function<void(::grpc::Status)>) = 0;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -4806,6 +4825,8 @@ class FinanceService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceInfo>* PrepareAsyncGenerateInvoiceRaw(::grpc::ClientContext* context, const ::message::GenerateInvoiceRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceInfo>* AsyncGetInvoiceDetailRaw(::grpc::ClientContext* context, const ::message::InvoiceInfo& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceInfo>* PrepareAsyncGetInvoiceDetailRaw(::grpc::ClientContext* context, const ::message::InvoiceInfo& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceListResponse>* AsyncGetInvoiceListRaw(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::InvoiceListResponse>* PrepareAsyncGetInvoiceListRaw(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::StatsOverviewResponse>* AsyncGetStatsOverviewRaw(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::StatsOverviewResponse>* PrepareAsyncGetStatsOverviewRaw(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::RevenueStatsResponse>* AsyncGetRevenueStatsRaw(::grpc::ClientContext* context, const ::message::RevenueStatsRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -4850,6 +4871,13 @@ class FinanceService final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::InvoiceInfo>> PrepareAsyncGetInvoiceDetail(::grpc::ClientContext* context, const ::message::InvoiceInfo& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::InvoiceInfo>>(PrepareAsyncGetInvoiceDetailRaw(context, request, cq));
+    }
+    ::grpc::Status GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::message::InvoiceListResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::InvoiceListResponse>> AsyncGetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::InvoiceListResponse>>(AsyncGetInvoiceListRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::InvoiceListResponse>> PrepareAsyncGetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::InvoiceListResponse>>(PrepareAsyncGetInvoiceListRaw(context, request, cq));
     }
     ::grpc::Status GetStatsOverview(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::message::StatsOverviewResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::StatsOverviewResponse>> AsyncGetStatsOverview(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::grpc::CompletionQueue* cq) {
@@ -4935,6 +4963,18 @@ class FinanceService final {
       #else
       void GetInvoiceDetail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
+      void GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response, std::function<void(::grpc::Status)>) override;
+      void GetInvoiceList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceListResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void GetInvoiceList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceListResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void GetInvoiceList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void GetStatsOverview(::grpc::ClientContext* context, const ::message::CommonResponse* request, ::message::StatsOverviewResponse* response, std::function<void(::grpc::Status)>) override;
       void GetStatsOverview(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::StatsOverviewResponse* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -4992,6 +5032,8 @@ class FinanceService final {
     ::grpc::ClientAsyncResponseReader< ::message::InvoiceInfo>* PrepareAsyncGenerateInvoiceRaw(::grpc::ClientContext* context, const ::message::GenerateInvoiceRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::InvoiceInfo>* AsyncGetInvoiceDetailRaw(::grpc::ClientContext* context, const ::message::InvoiceInfo& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::InvoiceInfo>* PrepareAsyncGetInvoiceDetailRaw(::grpc::ClientContext* context, const ::message::InvoiceInfo& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::InvoiceListResponse>* AsyncGetInvoiceListRaw(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::InvoiceListResponse>* PrepareAsyncGetInvoiceListRaw(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::StatsOverviewResponse>* AsyncGetStatsOverviewRaw(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::StatsOverviewResponse>* PrepareAsyncGetStatsOverviewRaw(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::RevenueStatsResponse>* AsyncGetRevenueStatsRaw(::grpc::ClientContext* context, const ::message::RevenueStatsRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -5003,6 +5045,7 @@ class FinanceService final {
     const ::grpc::internal::RpcMethod rpcmethod_GetPaymentDetail_;
     const ::grpc::internal::RpcMethod rpcmethod_GenerateInvoice_;
     const ::grpc::internal::RpcMethod rpcmethod_GetInvoiceDetail_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetInvoiceList_;
     const ::grpc::internal::RpcMethod rpcmethod_GetStatsOverview_;
     const ::grpc::internal::RpcMethod rpcmethod_GetRevenueStats_;
     const ::grpc::internal::RpcMethod rpcmethod_GetVehicleStats_;
@@ -5018,6 +5061,7 @@ class FinanceService final {
     virtual ::grpc::Status GetPaymentDetail(::grpc::ServerContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response);
     virtual ::grpc::Status GenerateInvoice(::grpc::ServerContext* context, const ::message::GenerateInvoiceRequest* request, ::message::InvoiceInfo* response);
     virtual ::grpc::Status GetInvoiceDetail(::grpc::ServerContext* context, const ::message::InvoiceInfo* request, ::message::InvoiceInfo* response);
+    virtual ::grpc::Status GetInvoiceList(::grpc::ServerContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response);
     virtual ::grpc::Status GetStatsOverview(::grpc::ServerContext* context, const ::message::CommonResponse* request, ::message::StatsOverviewResponse* response);
     virtual ::grpc::Status GetRevenueStats(::grpc::ServerContext* context, const ::message::RevenueStatsRequest* request, ::message::RevenueStatsResponse* response);
     virtual ::grpc::Status GetVehicleStats(::grpc::ServerContext* context, const ::message::CommonResponse* request, ::message::VehicleStatsResponse* response);
@@ -5123,12 +5167,32 @@ class FinanceService final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_GetInvoiceList : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetInvoiceList() {
+      ::grpc::Service::MarkMethodAsync(5);
+    }
+    ~WithAsyncMethod_GetInvoiceList() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetInvoiceList(::grpc::ServerContext* /*context*/, const ::message::InvoiceListRequest* /*request*/, ::message::InvoiceListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetInvoiceList(::grpc::ServerContext* context, ::message::InvoiceListRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::InvoiceListResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_GetStatsOverview : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetStatsOverview() {
-      ::grpc::Service::MarkMethodAsync(5);
+      ::grpc::Service::MarkMethodAsync(6);
     }
     ~WithAsyncMethod_GetStatsOverview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5139,7 +5203,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetStatsOverview(::grpc::ServerContext* context, ::message::CommonResponse* request, ::grpc::ServerAsyncResponseWriter< ::message::StatsOverviewResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5148,7 +5212,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetRevenueStats() {
-      ::grpc::Service::MarkMethodAsync(6);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_GetRevenueStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5159,7 +5223,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetRevenueStats(::grpc::ServerContext* context, ::message::RevenueStatsRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::RevenueStatsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5168,7 +5232,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetVehicleStats() {
-      ::grpc::Service::MarkMethodAsync(7);
+      ::grpc::Service::MarkMethodAsync(8);
     }
     ~WithAsyncMethod_GetVehicleStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5179,10 +5243,10 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetVehicleStats(::grpc::ServerContext* context, ::message::CommonResponse* request, ::grpc::ServerAsyncResponseWriter< ::message::VehicleStatsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_CreatePayment<WithAsyncMethod_GetPaymentList<WithAsyncMethod_GetPaymentDetail<WithAsyncMethod_GenerateInvoice<WithAsyncMethod_GetInvoiceDetail<WithAsyncMethod_GetStatsOverview<WithAsyncMethod_GetRevenueStats<WithAsyncMethod_GetVehicleStats<Service > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_CreatePayment<WithAsyncMethod_GetPaymentList<WithAsyncMethod_GetPaymentDetail<WithAsyncMethod_GenerateInvoice<WithAsyncMethod_GetInvoiceDetail<WithAsyncMethod_GetInvoiceList<WithAsyncMethod_GetStatsOverview<WithAsyncMethod_GetRevenueStats<WithAsyncMethod_GetVehicleStats<Service > > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_CreatePayment : public BaseClass {
    private:
@@ -5419,6 +5483,53 @@ class FinanceService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithCallbackMethod_GetInvoiceList : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_GetInvoiceList() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(5,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::InvoiceListRequest, ::message::InvoiceListResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response) { return this->GetInvoiceList(context, request, response); }));}
+    void SetMessageAllocatorFor_GetInvoiceList(
+        ::grpc::experimental::MessageAllocator< ::message::InvoiceListRequest, ::message::InvoiceListResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::InvoiceListRequest, ::message::InvoiceListResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_GetInvoiceList() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetInvoiceList(::grpc::ServerContext* /*context*/, const ::message::InvoiceListRequest* /*request*/, ::message::InvoiceListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* GetInvoiceList(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::InvoiceListRequest* /*request*/, ::message::InvoiceListResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* GetInvoiceList(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::InvoiceListRequest* /*request*/, ::message::InvoiceListResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithCallbackMethod_GetStatsOverview : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -5429,7 +5540,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(5,
+        MarkMethodCallback(6,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::CommonResponse, ::message::StatsOverviewResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -5441,9 +5552,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetStatsOverview(
         ::grpc::experimental::MessageAllocator< ::message::CommonResponse, ::message::StatsOverviewResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(6);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::CommonResponse, ::message::StatsOverviewResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -5476,7 +5587,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(6,
+        MarkMethodCallback(7,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -5488,9 +5599,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetRevenueStats(
         ::grpc::experimental::MessageAllocator< ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(7);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -5523,7 +5634,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(7,
+        MarkMethodCallback(8,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::CommonResponse, ::message::VehicleStatsResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -5535,9 +5646,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetVehicleStats(
         ::grpc::experimental::MessageAllocator< ::message::CommonResponse, ::message::VehicleStatsResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(7);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(8);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::CommonResponse, ::message::VehicleStatsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -5560,10 +5671,10 @@ class FinanceService final {
       { return nullptr; }
   };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_CreatePayment<ExperimentalWithCallbackMethod_GetPaymentList<ExperimentalWithCallbackMethod_GetPaymentDetail<ExperimentalWithCallbackMethod_GenerateInvoice<ExperimentalWithCallbackMethod_GetInvoiceDetail<ExperimentalWithCallbackMethod_GetStatsOverview<ExperimentalWithCallbackMethod_GetRevenueStats<ExperimentalWithCallbackMethod_GetVehicleStats<Service > > > > > > > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_CreatePayment<ExperimentalWithCallbackMethod_GetPaymentList<ExperimentalWithCallbackMethod_GetPaymentDetail<ExperimentalWithCallbackMethod_GenerateInvoice<ExperimentalWithCallbackMethod_GetInvoiceDetail<ExperimentalWithCallbackMethod_GetInvoiceList<ExperimentalWithCallbackMethod_GetStatsOverview<ExperimentalWithCallbackMethod_GetRevenueStats<ExperimentalWithCallbackMethod_GetVehicleStats<Service > > > > > > > > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_CreatePayment<ExperimentalWithCallbackMethod_GetPaymentList<ExperimentalWithCallbackMethod_GetPaymentDetail<ExperimentalWithCallbackMethod_GenerateInvoice<ExperimentalWithCallbackMethod_GetInvoiceDetail<ExperimentalWithCallbackMethod_GetStatsOverview<ExperimentalWithCallbackMethod_GetRevenueStats<ExperimentalWithCallbackMethod_GetVehicleStats<Service > > > > > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_CreatePayment<ExperimentalWithCallbackMethod_GetPaymentList<ExperimentalWithCallbackMethod_GetPaymentDetail<ExperimentalWithCallbackMethod_GenerateInvoice<ExperimentalWithCallbackMethod_GetInvoiceDetail<ExperimentalWithCallbackMethod_GetInvoiceList<ExperimentalWithCallbackMethod_GetStatsOverview<ExperimentalWithCallbackMethod_GetRevenueStats<ExperimentalWithCallbackMethod_GetVehicleStats<Service > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_CreatePayment : public BaseClass {
    private:
@@ -5650,12 +5761,29 @@ class FinanceService final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_GetInvoiceList : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetInvoiceList() {
+      ::grpc::Service::MarkMethodGeneric(5);
+    }
+    ~WithGenericMethod_GetInvoiceList() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetInvoiceList(::grpc::ServerContext* /*context*/, const ::message::InvoiceListRequest* /*request*/, ::message::InvoiceListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_GetStatsOverview : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetStatsOverview() {
-      ::grpc::Service::MarkMethodGeneric(5);
+      ::grpc::Service::MarkMethodGeneric(6);
     }
     ~WithGenericMethod_GetStatsOverview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5672,7 +5800,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetRevenueStats() {
-      ::grpc::Service::MarkMethodGeneric(6);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_GetRevenueStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5689,7 +5817,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetVehicleStats() {
-      ::grpc::Service::MarkMethodGeneric(7);
+      ::grpc::Service::MarkMethodGeneric(8);
     }
     ~WithGenericMethod_GetVehicleStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5801,12 +5929,32 @@ class FinanceService final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_GetInvoiceList : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetInvoiceList() {
+      ::grpc::Service::MarkMethodRaw(5);
+    }
+    ~WithRawMethod_GetInvoiceList() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetInvoiceList(::grpc::ServerContext* /*context*/, const ::message::InvoiceListRequest* /*request*/, ::message::InvoiceListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetInvoiceList(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_GetStatsOverview : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetStatsOverview() {
-      ::grpc::Service::MarkMethodRaw(5);
+      ::grpc::Service::MarkMethodRaw(6);
     }
     ~WithRawMethod_GetStatsOverview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5817,7 +5965,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetStatsOverview(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5826,7 +5974,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetRevenueStats() {
-      ::grpc::Service::MarkMethodRaw(6);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_GetRevenueStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5837,7 +5985,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetRevenueStats(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5846,7 +5994,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetVehicleStats() {
-      ::grpc::Service::MarkMethodRaw(7);
+      ::grpc::Service::MarkMethodRaw(8);
     }
     ~WithRawMethod_GetVehicleStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5857,7 +6005,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetVehicleStats(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6051,6 +6199,44 @@ class FinanceService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_GetInvoiceList : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_GetInvoiceList() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(5,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetInvoiceList(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_GetInvoiceList() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetInvoiceList(::grpc::ServerContext* /*context*/, const ::message::InvoiceListRequest* /*request*/, ::message::InvoiceListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* GetInvoiceList(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* GetInvoiceList(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_GetStatsOverview : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -6061,7 +6247,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(5,
+        MarkMethodRawCallback(6,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6099,7 +6285,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(6,
+        MarkMethodRawCallback(7,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6137,7 +6323,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(7,
+        MarkMethodRawCallback(8,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6300,12 +6486,39 @@ class FinanceService final {
     virtual ::grpc::Status StreamedGetInvoiceDetail(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::InvoiceInfo,::message::InvoiceInfo>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_GetInvoiceList : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetInvoiceList() {
+      ::grpc::Service::MarkMethodStreamed(5,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::InvoiceListRequest, ::message::InvoiceListResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::InvoiceListRequest, ::message::InvoiceListResponse>* streamer) {
+                       return this->StreamedGetInvoiceList(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetInvoiceList() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetInvoiceList(::grpc::ServerContext* /*context*/, const ::message::InvoiceListRequest* /*request*/, ::message::InvoiceListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetInvoiceList(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::InvoiceListRequest,::message::InvoiceListResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_GetStatsOverview : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetStatsOverview() {
-      ::grpc::Service::MarkMethodStreamed(5,
+      ::grpc::Service::MarkMethodStreamed(6,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::CommonResponse, ::message::StatsOverviewResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -6332,7 +6545,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetRevenueStats() {
-      ::grpc::Service::MarkMethodStreamed(6,
+      ::grpc::Service::MarkMethodStreamed(7,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -6359,7 +6572,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetVehicleStats() {
-      ::grpc::Service::MarkMethodStreamed(7,
+      ::grpc::Service::MarkMethodStreamed(8,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::CommonResponse, ::message::VehicleStatsResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -6380,9 +6593,9 @@ class FinanceService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedGetVehicleStats(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::CommonResponse,::message::VehicleStatsResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetInvoiceList<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetInvoiceList<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > > StreamedService;
 };
 
 class MailerService final {

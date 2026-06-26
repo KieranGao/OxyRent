@@ -27,6 +27,7 @@ static const char* FinanceService_method_names[] = {
   "/message.FinanceService/GetPaymentDetail",
   "/message.FinanceService/GenerateInvoice",
   "/message.FinanceService/GetInvoiceDetail",
+  "/message.FinanceService/GetInvoiceList",
   "/message.FinanceService/GetStatsOverview",
   "/message.FinanceService/GetRevenueStats",
   "/message.FinanceService/GetVehicleStats",
@@ -44,9 +45,10 @@ FinanceService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& cha
   , rpcmethod_GetPaymentDetail_(FinanceService_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_GenerateInvoice_(FinanceService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_GetInvoiceDetail_(FinanceService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetStatsOverview_(FinanceService_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetRevenueStats_(FinanceService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetVehicleStats_(FinanceService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetInvoiceList_(FinanceService_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetStatsOverview_(FinanceService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetRevenueStats_(FinanceService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetVehicleStats_(FinanceService_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status FinanceService::Stub::CreatePayment(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::message::PaymentInfo* response) {
@@ -189,6 +191,34 @@ void FinanceService::Stub::experimental_async::GetInvoiceDetail(::grpc::ClientCo
   return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::InvoiceInfo>::Create(channel_.get(), cq, rpcmethod_GetInvoiceDetail_, context, request, false);
 }
 
+::grpc::Status FinanceService::Stub::GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::message::InvoiceListResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetInvoiceList_, context, request, response);
+}
+
+void FinanceService::Stub::experimental_async::GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_GetInvoiceList_, context, request, response, std::move(f));
+}
+
+void FinanceService::Stub::experimental_async::GetInvoiceList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceListResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_GetInvoiceList_, context, request, response, std::move(f));
+}
+
+void FinanceService::Stub::experimental_async::GetInvoiceList(::grpc::ClientContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_GetInvoiceList_, context, request, response, reactor);
+}
+
+void FinanceService::Stub::experimental_async::GetInvoiceList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::InvoiceListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_GetInvoiceList_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::InvoiceListResponse>* FinanceService::Stub::AsyncGetInvoiceListRaw(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::InvoiceListResponse>::Create(channel_.get(), cq, rpcmethod_GetInvoiceList_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::InvoiceListResponse>* FinanceService::Stub::PrepareAsyncGetInvoiceListRaw(::grpc::ClientContext* context, const ::message::InvoiceListRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::InvoiceListResponse>::Create(channel_.get(), cq, rpcmethod_GetInvoiceList_, context, request, false);
+}
+
 ::grpc::Status FinanceService::Stub::GetStatsOverview(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::message::StatsOverviewResponse* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetStatsOverview_, context, request, response);
 }
@@ -327,6 +357,16 @@ FinanceService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FinanceService_method_names[5],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::InvoiceListRequest, ::message::InvoiceListResponse>(
+          [](FinanceService::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::message::InvoiceListRequest* req,
+             ::message::InvoiceListResponse* resp) {
+               return service->GetInvoiceList(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      FinanceService_method_names[6],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::CommonResponse, ::message::StatsOverviewResponse>(
           [](FinanceService::Service* service,
              ::grpc_impl::ServerContext* ctx,
@@ -335,7 +375,7 @@ FinanceService::Service::Service() {
                return service->GetStatsOverview(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[6],
+      FinanceService_method_names[7],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>(
           [](FinanceService::Service* service,
@@ -345,7 +385,7 @@ FinanceService::Service::Service() {
                return service->GetRevenueStats(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[7],
+      FinanceService_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::CommonResponse, ::message::VehicleStatsResponse>(
           [](FinanceService::Service* service,
@@ -388,6 +428,13 @@ FinanceService::Service::~Service() {
 }
 
 ::grpc::Status FinanceService::Service::GetInvoiceDetail(::grpc::ServerContext* context, const ::message::InvoiceInfo* request, ::message::InvoiceInfo* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status FinanceService::Service::GetInvoiceList(::grpc::ServerContext* context, const ::message::InvoiceListRequest* request, ::message::InvoiceListResponse* response) {
   (void) context;
   (void) request;
   (void) response;

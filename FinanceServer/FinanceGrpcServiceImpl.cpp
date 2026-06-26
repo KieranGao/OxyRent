@@ -146,6 +146,36 @@ Status FinanceGrpcServiceImpl::GetInvoiceDetail(ServerContext* context, const In
     return Status::OK;
 }
 
+Status FinanceGrpcServiceImpl::GetInvoiceList(ServerContext* context, const InvoiceListRequest* req, InvoiceListResponse* resp) {
+    LOG_DEBUG("[Finance] GetInvoiceList page={} size={}", req->page(), req->page_size());
+
+    std::vector<InvoiceData> invoices;
+    int total = 0;
+
+    bool ok = MySQLManager::getInstance().getInvoiceList(req->page(), req->page_size(), invoices, total);
+    if (!ok) {
+        resp->set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+        resp->set_msg("Failed to get invoice list");
+        return Status::OK;
+    }
+
+    resp->set_error(0);
+    resp->set_total(total);
+    for (const auto& inv : invoices) {
+        auto* item = resp->add_invoices();
+        item->set_id(inv.id);
+        item->set_invoice_no(inv.invoice_no);
+        item->set_order_id(inv.order_id);
+        item->set_order_no(inv.order_no);
+        item->set_user_id(inv.user_id);
+        item->set_username(inv.username);
+        item->set_total_amount(inv.total_amount);
+        item->set_items(inv.items);
+        item->set_generated_at(inv.generated_at);
+    }
+    return Status::OK;
+}
+
 // ==================== 统计操作 ====================
 
 Status FinanceGrpcServiceImpl::GetStatsOverview(ServerContext* context, const CommonResponse* req, StatsOverviewResponse* resp) {

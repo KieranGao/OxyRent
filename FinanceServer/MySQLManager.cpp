@@ -31,6 +31,10 @@ bool MySQLManager::getInvoiceDetail(int64_t id, InvoiceData& invoice) {
     return dao_->getInvoiceDetail(id, invoice);
 }
 
+bool MySQLManager::getInvoiceList(int page, int page_size, std::vector<InvoiceData>& invoices, int& total) {
+    return dao_->getInvoiceList(page, page_size, invoices, total);
+}
+
 // ==================== Statistics Operations ====================
 
 bool MySQLManager::getStatsOverview(int& total_users, int& total_vehicles, int& available_vehicles,

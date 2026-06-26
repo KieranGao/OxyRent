@@ -42,3 +42,9 @@
 [2026-06-26 19:12:51.451] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
 [2026-06-26 19:18:28.766] [INFO] VehicleServer starting on 0.0.0.0:50054
 [2026-06-26 19:18:28.769] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 19:29:10.400] [INFO] [Vehicle] CreateOrder success, id=6 order_no=R202606260001
+[2026-06-26 19:29:48.733] [INFO] [Vehicle] PickupVehicle order_id=6
+[2026-06-26 19:29:48.749] [INFO] pickupVehicle: order 6 picked up
+[2026-06-26 19:29:51.611] [INFO] [Vehicle] ReturnVehicle order_id=6
+[2026-06-26 19:29:51.619] [INFO] returnVehicle: order 6 returned, total_cost=-120, penalty=0
+[2026-06-26 19:29:51.621] [INFO] [Vehicle] ReturnVehicle success, order_id=6, total_cost=-120, penalty=0

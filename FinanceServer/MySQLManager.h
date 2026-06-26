@@ -20,6 +20,7 @@ public:
     // Invoice operations
     int64_t generateInvoice(int64_t order_id);
     bool getInvoiceDetail(int64_t id, InvoiceData& invoice);
+    bool getInvoiceList(int page, int page_size, std::vector<InvoiceData>& invoices, int& total);
 
     // Statistics operations
     bool getStatsOverview(int& total_users, int& total_vehicles, int& available_vehicles,

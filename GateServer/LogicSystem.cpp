@@ -1834,6 +1834,83 @@ LogicSystem::LogicSystem() {
         }
     });
 
+    registerGet("/invoice/list", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        // 管理员验证
+        auto caller_it = connection->req_.find("X-User-Id");
+        if (caller_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
+        std::string caller_role;
+        if (!RedisManager::getInstance().get(USER_ROLE_PREFIX + caller_uid_str, caller_role) ||
+            (caller_role != "2" && caller_role != "admin")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
+            jsonResp["msg"] = "需要管理员权限";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        int page = 1, page_size = 20;
+        if (connection->get_params_.count("page")) {
+            try { page = std::stoi(connection->get_params_["page"]); } catch (...) {}
+        }
+        if (connection->get_params_.count("page_size")) {
+            try { page_size = std::stoi(connection->get_params_["page_size"]); } catch (...) {}
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, page, page_size]() {
+            Json::Value result;
+            try {
+                InvoiceListRequest request;
+                request.set_page(page);
+                request.set_page_size(page_size);
+                InvoiceListResponse rsp = FinanceGrpcClient::getInstance().getInvoiceList(request);
+                result["error"] = rsp.error();
+                result["total"] = rsp.total();
+                Json::Value invoices(Json::arrayValue);
+                for (int i = 0; i < rsp.invoices_size(); ++i) {
+                    auto& inv = rsp.invoices(i);
+                    Json::Value item;
+                    item["id"] = static_cast<Json::Int64>(inv.id());
+                    item["invoice_no"] = inv.invoice_no();
+                    item["order_id"] = static_cast<Json::Int64>(inv.order_id());
+                    item["order_no"] = inv.order_no();
+                    item["username"] = inv.username();
+                    item["total_amount"] = inv.total_amount();
+                    item["items"] = inv.items();
+                    item["generated_at"] = inv.generated_at();
+                    invoices.append(item);
+                }
+                result["invoices"] = invoices;
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status_f = f.wait_for(std::chrono::seconds(5));
+        if (status_f == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+        }
+    });
+
     // ============ 统计路由 ============
 
     registerGet("/stats/overview", [](std::shared_ptr<HttpConnection> connection) {
