@@ -41,7 +41,7 @@
           <el-form-item label="开始日期" style="flex: 1">
             <el-date-picker v-model="form.start_date" type="date" placeholder="开始日期" value-format="YYYY-MM-DD" style="width: 100%" />
           </el-form-item>
-          <el-form-item v-if="isEdit" label="结束日期" style="flex: 1">
+          <el-form-item v-if="isEdit" label="结束日期" prop="end_date" style="flex: 1">
             <el-date-picker v-model="form.end_date" type="date" placeholder="结束日期" value-format="YYYY-MM-DD" style="width: 100%" />
           </el-form-item>
         </div>
@@ -88,11 +88,18 @@ const form = reactive({
   status: 'pending',
 })
 
-const rules = {
-  vehicle_id: [{ required: true, message: '请输入车辆ID', trigger: 'blur' }],
-  type: [{ required: true, message: '请选择类型', trigger: 'change' }],
-  description: [{ required: true, message: '请输入描述', trigger: 'blur' }],
-}
+const rules = computed(() => {
+  const baseRules = {
+    type: [{ required: true, message: '请选择类型', trigger: 'change' }],
+    description: [{ required: true, message: '请输入描述', trigger: 'blur' }],
+  }
+  if (!isEdit.value) {
+    baseRules.vehicle_id = [{ required: true, message: '请输入车辆ID', trigger: 'blur' }]
+  } else {
+    baseRules.end_date = [{ required: true, message: '请填入结束日期', trigger: 'change' }]
+  }
+  return baseRules
+})
 
 async function loadRecord() {
   if (!isEdit.value) return

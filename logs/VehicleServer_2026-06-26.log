@@ -65,3 +65,11 @@
 [2026-06-26 20:02:18.748] [INFO] [Vehicle] ReturnVehicle success, order_id=2, total_cost=880, penalty=0
 [2026-06-26 20:27:27.285] [INFO] VehicleServer starting on 0.0.0.0:50054
 [2026-06-26 20:27:27.289] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 20:48:53.075] [ERROR] SQLException in updateMaintenance: Incorrect date value: '' for column 'end_date' at row 1
+[2026-06-26 20:48:54.519] [ERROR] SQLException in updateMaintenance: Incorrect date value: '' for column 'end_date' at row 1
+[2026-06-26 20:49:05.300] [ERROR] SQLException in updateMaintenance: Incorrect date value: '' for column 'end_date' at row 1
+[2026-06-26 20:49:35.572] [ERROR] SQLException in updateMaintenance: Incorrect date value: '' for column 'end_date' at row 1
+[2026-06-26 20:54:09.747] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 20:54:09.748] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 20:55:27.218] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 20:55:27.219] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054

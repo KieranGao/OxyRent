@@ -632,6 +632,20 @@ bool MySQLDao::updateMaintenance(int64_t id, const std::string& description, dou
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
+
+        // 先查询当前维保记录的车辆ID和状态
+        std::unique_ptr<sql::PreparedStatement> selectStmt(
+            sql_conn->prepareStatement("SELECT vehicle_id, status FROM maintenance_records WHERE id=?"));
+        selectStmt->setInt64(1, id);
+        std::unique_ptr<sql::ResultSet> res(selectStmt->executeQuery());
+        if (!res || !res->next()) {
+            LOG_WARN("updateMaintenance: record {} not found", id);
+            return false;
+        }
+        int64_t vehicle_id = res->getInt64("vehicle_id");
+        std::string old_status = res->getString("status");
+
+        // 更新维保记录
         std::unique_ptr<sql::PreparedStatement> pstmt(
             sql_conn->prepareStatement(
                 "UPDATE maintenance_records SET description=?, cost=?, technician=?, "
@@ -639,10 +653,26 @@ bool MySQLDao::updateMaintenance(int64_t id, const std::string& description, dou
         pstmt->setString(1, description);
         pstmt->setDouble(2, cost);
         pstmt->setString(3, technician);
-        pstmt->setString(4, end_date);
+        // 处理空日期字符串，设置为NULL
+        if (end_date.empty()) {
+            pstmt->setNull(4, sql::DataType::DATE);
+        } else {
+            pstmt->setString(4, end_date);
+        }
         pstmt->setString(5, status);
         pstmt->setInt64(6, id);
         int affected = pstmt->executeUpdate();
+
+        // 如果维保状态变为completed，将车辆状态从maintenance改为available
+        if (affected > 0 && status == "completed" && old_status != "completed") {
+            std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+                sql_conn->prepareStatement(
+                    "UPDATE vehicles SET status='available' WHERE id=? AND status='maintenance'"));
+            vehicleStmt->setInt64(1, vehicle_id);
+            vehicleStmt->executeUpdate();
+            LOG_INFO("updateMaintenance: vehicle {} status changed to available", vehicle_id);
+        }
+
         LOG_DEBUG("updateMaintenance id={} affected={}", id, affected);
         return affected > 0;
     } catch(const sql::SQLException& exp) {
