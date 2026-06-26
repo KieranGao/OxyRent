@@ -129,3 +129,12 @@
 [2026-06-26 19:58:37.158] [INFO] [UMS] Redis SETEX result: success
 [2026-06-26 19:58:39.179] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=ec6a05eba9c92ee4de93b42da63d3852
 [2026-06-26 19:58:39.180] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 19:59:54.206] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-26 19:59:54.207] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-26 20:00:03.339] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=6abd763336e3733316ef720df3f87eb0
+[2026-06-26 20:00:03.340] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 20:01:12.496] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=f31de42deb97e64213fb49869062a173
+[2026-06-26 20:01:12.497] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 20:05:03.937] [ERROR] Login failed: bad credentials for staff
+[2026-06-26 20:05:08.571] [INFO] [UMS] Storing token in Redis: key=utoken_2, token=3f9c5e599cbe04c51617c7d35404d875
+[2026-06-26 20:05:08.571] [INFO] [UMS] Redis SETEX result: success

@@ -48,3 +48,18 @@
 [2026-06-26 19:29:51.611] [INFO] [Vehicle] ReturnVehicle order_id=6
 [2026-06-26 19:29:51.619] [INFO] returnVehicle: order 6 returned, total_cost=-120, penalty=0
 [2026-06-26 19:29:51.621] [INFO] [Vehicle] ReturnVehicle success, order_id=6, total_cost=-120, penalty=0
+[2026-06-26 19:59:56.214] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 19:59:56.216] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 20:02:13.085] [INFO] [Vehicle] PickupVehicle order_id=4
+[2026-06-26 20:02:13.100] [INFO] pickupVehicle: order 4 picked up
+[2026-06-26 20:02:14.462] [INFO] [Vehicle] PickupVehicle order_id=5
+[2026-06-26 20:02:14.469] [INFO] pickupVehicle: order 5 picked up
+[2026-06-26 20:02:15.677] [INFO] [Vehicle] ReturnVehicle order_id=5
+[2026-06-26 20:02:15.688] [INFO] returnVehicle: order 5 returned, total_cost=300, penalty=0
+[2026-06-26 20:02:15.689] [INFO] [Vehicle] ReturnVehicle success, order_id=5, total_cost=300, penalty=0
+[2026-06-26 20:02:16.870] [INFO] [Vehicle] ReturnVehicle order_id=4
+[2026-06-26 20:02:16.877] [INFO] returnVehicle: order 4 returned, total_cost=350, penalty=0
+[2026-06-26 20:02:16.878] [INFO] [Vehicle] ReturnVehicle success, order_id=4, total_cost=350, penalty=0
+[2026-06-26 20:02:18.741] [INFO] [Vehicle] ReturnVehicle order_id=2
+[2026-06-26 20:02:18.747] [INFO] returnVehicle: order 2 returned, total_cost=880, penalty=0
+[2026-06-26 20:02:18.748] [INFO] [Vehicle] ReturnVehicle success, order_id=2, total_cost=880, penalty=0
