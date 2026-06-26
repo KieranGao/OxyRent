@@ -157,3 +157,13 @@
 [2026-06-26 20:29:13.975] [INFO] [UMS] TopupBalance uid=3 amount=500
 [2026-06-26 20:29:14.006] [INFO] [UMS] Storing token in Redis: key=utoken_3, token=109d0bebdf90b5e471d8283acbbeff6a
 [2026-06-26 20:29:14.006] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 20:30:16.971] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=3ebfaebeaab7a522a79f4e3a78af6497
+[2026-06-26 20:30:16.971] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 20:31:21.835] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=c2b991536951059d45753527b454c33e
+[2026-06-26 20:31:21.836] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 20:32:30.186] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=78088720eb532394a3ef47d1486fd52d
+[2026-06-26 20:32:30.187] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 20:33:06.298] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=4073f29a1d70b4b0076bf1ea4e6f47a8
+[2026-06-26 20:33:06.298] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 20:33:56.458] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=3ab65bddac59f59287d27641835db8af
+[2026-06-26 20:33:56.459] [INFO] [UMS] Redis SETEX result: success
