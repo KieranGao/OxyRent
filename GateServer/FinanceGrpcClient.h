@@ -7,6 +7,7 @@
 #include "Singleton.h"
 #include "RPCConnectPool.h"
 #include "ConfigManager.h"
+#include "Defer.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
