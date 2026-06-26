@@ -4,7 +4,7 @@
 
 FinanceGrpcServiceImpl::FinanceGrpcServiceImpl() {}
 
-// ==================== Payment Operations ====================
+// ==================== 支付操作 ====================
 
 Status FinanceGrpcServiceImpl::CreatePayment(ServerContext* context, const CreatePaymentRequest* req, PaymentInfo* resp) {
     LOG_DEBUG("[Finance] CreatePayment order_id={} amount={}", req->order_id(), req->amount());
@@ -18,7 +18,7 @@ Status FinanceGrpcServiceImpl::CreatePayment(ServerContext* context, const Creat
         return Status::OK;
     }
 
-    // Return the created payment details
+    // 返回创建的支付详情
     PaymentData payment;
     MySQLManager::getInstance().getPaymentDetail(id, payment);
     resp->set_id(payment.id);
@@ -94,7 +94,7 @@ Status FinanceGrpcServiceImpl::GetPaymentDetail(ServerContext* context, const Pa
     return Status::OK;
 }
 
-// ==================== Invoice Operations ====================
+// ==================== 账单操作 ====================
 
 Status FinanceGrpcServiceImpl::GenerateInvoice(ServerContext* context, const GenerateInvoiceRequest* req, InvoiceInfo* resp) {
     LOG_DEBUG("[Finance] GenerateInvoice order_id={}", req->order_id());
@@ -146,7 +146,7 @@ Status FinanceGrpcServiceImpl::GetInvoiceDetail(ServerContext* context, const In
     return Status::OK;
 }
 
-// ==================== Statistics Operations ====================
+// ==================== 统计操作 ====================
 
 Status FinanceGrpcServiceImpl::GetStatsOverview(ServerContext* context, const CommonResponse* req, StatsOverviewResponse* resp) {
     LOG_DEBUG("[Finance] GetStatsOverview");

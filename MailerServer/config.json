@@ -1,0 +1,11 @@
+{
+    "email": {
+        "user": "a2556469280@163.com",
+        "pass": "DSbemdKeYAcWVxNH"
+    },
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6380,
+        "password": ""
+    }
+}

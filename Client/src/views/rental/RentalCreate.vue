@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Create Rental Order</h2>
-      <p>Book a vehicle for rental</p>
+      <h2>创建租赁订单</h2>
+      <p>预订租赁车辆</p>
     </div>
 
     <el-card>
@@ -13,10 +13,10 @@
         label-position="top"
         style="max-width: 560px"
       >
-        <el-form-item label="Vehicle" prop="vehicle_id">
+        <el-form-item label="车辆" prop="vehicle_id">
           <el-select
             v-model="form.vehicle_id"
-            placeholder="Select a vehicle"
+            placeholder="请选择车辆"
             filterable
             style="width: 100%"
             :loading="vehiclesLoading"
@@ -31,21 +31,21 @@
         </el-form-item>
 
         <div class="form-row">
-          <el-form-item label="Start Date" prop="start_date" style="flex: 1">
+          <el-form-item label="开始日期" prop="start_date" style="flex: 1">
             <el-date-picker
               v-model="form.start_date"
               type="date"
-              placeholder="Select start date"
+              placeholder="请选择开始日期"
               value-format="YYYY-MM-DD"
               style="width: 100%"
               :disabled-date="(date) => date < new Date()"
             />
           </el-form-item>
-          <el-form-item label="End Date" prop="end_date" style="flex: 1">
+          <el-form-item label="结束日期" prop="end_date" style="flex: 1">
             <el-date-picker
               v-model="form.end_date"
               type="date"
-              placeholder="Select end date"
+              placeholder="请选择结束日期"
               value-format="YYYY-MM-DD"
               style="width: 100%"
               :disabled-date="(date) => date < new Date(form.start_date || undefined)"
@@ -53,15 +53,15 @@
           </el-form-item>
         </div>
 
-        <el-form-item label="Notes">
-          <el-input v-model="form.notes" type="textarea" :rows="3" placeholder="Optional notes" />
+        <el-form-item label="备注">
+          <el-input v-model="form.notes" type="textarea" :rows="3" placeholder="选填" />
         </el-form-item>
 
         <el-form-item>
           <el-button type="primary" :loading="submitting" @click="handleSubmit">
-            Create Order
+            创建订单
           </el-button>
-          <el-button @click="$router.back()">Cancel</el-button>
+          <el-button @click="$router.back()">取消</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -92,9 +92,9 @@ const form = reactive({
 })
 
 const rules = {
-  vehicle_id: [{ required: true, message: 'Please select a vehicle', trigger: 'change' }],
-  start_date: [{ required: true, message: 'Please select start date', trigger: 'change' }],
-  end_date: [{ required: true, message: 'Please select end date', trigger: 'change' }],
+  vehicle_id: [{ required: true, message: '请选择车辆', trigger: 'change' }],
+  start_date: [{ required: true, message: '请选择开始日期', trigger: 'change' }],
+  end_date: [{ required: true, message: '请选择结束日期', trigger: 'change' }],
 }
 
 async function loadVehicles() {
@@ -125,13 +125,13 @@ async function handleSubmit() {
       notes: form.notes,
     })
     if (res.error === 0) {
-      ElMessage.success('Rental order created')
+      ElMessage.success('租赁订单已创建')
       router.push('/rentals')
     } else {
-      ElMessage.error('Failed to create order')
+      ElMessage.error('创建订单失败')
     }
   } catch {
-    ElMessage.error('Failed to create order')
+    ElMessage.error('创建订单失败')
   } finally {
     submitting.value = false
   }

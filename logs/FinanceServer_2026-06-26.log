@@ -21,3 +21,17 @@
 [2026-06-26 16:48:01.227] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
 [2026-06-26 16:56:23.051] [INFO] FinanceServer starting on 0.0.0.0:50055
 [2026-06-26 16:56:23.054] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 17:45:28.306] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 17:48:24.999] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 17:54:34.356] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:25:24.581] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:25:29.590] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:25:39.736] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:25:46.503] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:26:18.875] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:28:48.037] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:28:52.273] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:28:54.220] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:28:56.452] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:28:59.428] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:29:02.079] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist

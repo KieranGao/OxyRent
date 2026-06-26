@@ -1,22 +1,22 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Rentals</h2>
-      <p>Manage rental orders</p>
+      <h2>租赁管理</h2>
+      <p>管理租赁订单</p>
     </div>
 
     <!-- Status Tabs -->
     <el-tabs v-model="activeTab" @tab-change="handleTabChange">
-      <el-tab-pane label="All" name="all" />
-      <el-tab-pane label="Pending" name="pending" />
-      <el-tab-pane label="Active" name="active" />
-      <el-tab-pane label="Completed" name="completed" />
+      <el-tab-pane label="全部" name="all" />
+      <el-tab-pane label="待处理" name="pending" />
+      <el-tab-pane label="进行中" name="active" />
+      <el-tab-pane label="已完成" name="completed" />
     </el-tabs>
 
     <div class="search-bar">
       <el-input
         v-model="query.keyword"
-        placeholder="Search orders..."
+        placeholder="搜索订单..."
         :prefix-icon="Search"
         clearable
         style="width: 240px"
@@ -24,35 +24,35 @@
         @clear="loadRentals"
       />
       <el-button type="primary" @click="loadRentals">
-        <el-icon><Search /></el-icon> Search
+        <el-icon><Search /></el-icon> 搜索
       </el-button>
       <el-button type="primary" @click="$router.push('/rentals/create')" style="margin-left: auto">
-        <el-icon><Plus /></el-icon> New Order
+        <el-icon><Plus /></el-icon> 新建订单
       </el-button>
     </div>
 
     <el-card>
-      <el-table :data="rentals" v-loading="loading" style="width: 100%" empty-text="No orders found">
-        <el-table-column prop="order_no" label="Order No." min-width="160" />
-        <el-table-column prop="username" label="User" min-width="100" />
-        <el-table-column prop="plate_number" label="Vehicle" min-width="110" />
-        <el-table-column prop="start_date" label="Start Date" min-width="110" />
-        <el-table-column prop="end_date" label="End Date" min-width="110" />
-        <el-table-column prop="status" label="Status" min-width="100">
+      <el-table :data="rentals" v-loading="loading" style="width: 100%" empty-text="暂无订单">
+        <el-table-column prop="order_no" label="订单号" min-width="160" />
+        <el-table-column prop="username" label="用户" min-width="100" />
+        <el-table-column prop="plate_number" label="车辆" min-width="110" />
+        <el-table-column prop="start_date" label="开始日期" min-width="110" />
+        <el-table-column prop="end_date" label="结束日期" min-width="110" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="{ row }">
             <el-tag :type="statusType(row.status)">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="total_cost" label="Total Cost" min-width="100">
+        <el-table-column prop="total_cost" label="总费用" min-width="100">
           <template #default="{ row }">
             ¥{{ row.total_cost || 0 }}
           </template>
         </el-table-column>
-        <el-table-column label="Actions" min-width="180">
+        <el-table-column label="操作" min-width="180">
           <template #default="{ row }">
-            <el-button link type="primary" @click="$router.push(`/rentals/${row.id}`)">View</el-button>
-            <el-button v-if="authStore.isAdmin && row.status === 'pending'" link type="success" @click="handlePickup(row.id)">Pickup</el-button>
-            <el-button v-if="authStore.isAdmin && row.status === 'active'" link type="warning" @click="handleReturn(row.id)">Return</el-button>
+            <el-button link type="primary" @click="$router.push(`/rentals/${row.id}`)">查看</el-button>
+            <el-button v-if="authStore.isAdmin && row.status === 'pending'" link type="success" @click="handlePickup(row.id)">取车</el-button>
+            <el-button v-if="authStore.isAdmin && row.status === 'active'" link type="warning" @click="handleReturn(row.id)">还车</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -114,7 +114,7 @@ async function loadRentals() {
       total.value = res.total || 0
     }
   } catch {
-    ElMessage.error('Failed to load rentals')
+    ElMessage.error('加载订单失败')
   } finally {
     loading.value = false
   }
@@ -130,13 +130,13 @@ async function handlePickup(orderId) {
   try {
     const res = await pickupVehicle({ order_id: orderId })
     if (res.error === 0) {
-      ElMessage.success('Vehicle picked up')
+      ElMessage.success('车辆已取出')
       loadRentals()
     } else {
-      ElMessage.error('Pickup failed')
+      ElMessage.error('取车失败')
     }
   } catch {
-    ElMessage.error('Pickup failed')
+    ElMessage.error('取车失败')
   }
 }
 
@@ -144,13 +144,13 @@ async function handleReturn(orderId) {
   try {
     const res = await returnVehicle({ order_id: orderId })
     if (res.error === 0) {
-      ElMessage.success('Vehicle returned')
+      ElMessage.success('车辆已归还')
       loadRentals()
     } else {
-      ElMessage.error('Return failed')
+      ElMessage.error('还车失败')
     }
   } catch {
-    ElMessage.error('Return failed')
+    ElMessage.error('还车失败')
   }
 }
 

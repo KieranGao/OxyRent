@@ -226,7 +226,7 @@ void HttpConnection::handleRequest_() {
         return;
     }
 
-    // Unsupported HTTP method
+    // 不支持的HTTP方法
     resp_.result(http::status::method_not_allowed);
     resp_.set(http::field::content_type, "text/plain");
     beast::ostream(resp_.body()) << "Method Not Allowed\r\n";

@@ -17,7 +17,7 @@ MySQLDao::~MySQLDao() {
     pool_->stop();
 }
 
-// ==================== Vehicle Operations ====================
+// ==================== 车辆操作 ====================
 
 bool MySQLDao::getVehicleList(int page, int page_size, const std::string& keyword,
                                const std::string& status, const std::string& brand,
@@ -45,7 +45,7 @@ bool MySQLDao::getVehicleList(int page, int page_size, const std::string& keywor
             params.push_back(brand);
         }
 
-        // Count total
+        // 统计总数
         std::string countSql = "SELECT COUNT(*) AS cnt FROM vehicles WHERE " + where;
         std::unique_ptr<sql::PreparedStatement> countStmt(sql_conn->prepareStatement(countSql));
         for (size_t i = 0; i < params.size(); ++i) {
@@ -56,7 +56,7 @@ bool MySQLDao::getVehicleList(int page, int page_size, const std::string& keywor
             total = countRes->getInt("cnt");
         }
 
-        // Paginated query
+        // 分页查询
         std::string querySql = "SELECT id, plate_number, brand, model, color, year, mileage, "
                                "status, daily_rate, deposit_amount, image_url, description, created_at "
                                "FROM vehicles WHERE " + where + " ORDER BY id DESC LIMIT ? OFFSET ?";
@@ -134,7 +134,7 @@ int64_t MySQLDao::addVehicle(const std::string& plate_number, const std::string&
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Check for duplicate plate_number
+        // 检查车牌号是否重复
         std::unique_ptr<sql::PreparedStatement> checkStmt(
             sql_conn->prepareStatement("SELECT id FROM vehicles WHERE plate_number = ? LIMIT 1"));
         checkStmt->setString(1, plate_number);
@@ -213,7 +213,7 @@ int MySQLDao::deleteVehicle(int64_t id) {
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Check for non-completed orders before deleting
+        // 删除前检查是否有未完成的订单
         std::unique_ptr<sql::PreparedStatement> checkStmt(
             sql_conn->prepareStatement(
                 "SELECT COUNT(*) AS cnt FROM rental_orders WHERE vehicle_id = ? AND status IN ('pending', 'active')"));
@@ -275,14 +275,14 @@ bool MySQLDao::getVehicleStatus(int64_t id, std::string& status, double& daily_r
     }
 }
 
-// ==================== Rental Order Operations ====================
+// ==================== 租赁订单操作 ====================
 
 std::string MySQLDao::generateOrderNo() {
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Get today's date prefix
+        // 获取今日日期前缀
         auto now = std::chrono::system_clock::now();
         auto tt = std::chrono::system_clock::to_time_t(now);
         std::tm tm;
@@ -291,7 +291,7 @@ std::string MySQLDao::generateOrderNo() {
         snprintf(dateBuf, sizeof(dateBuf), "%04d%02d%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
         std::string datePrefix(dateBuf);
 
-        // Get count of orders today for sequence number
+        // 获取今日订单数量用于序列号生成
         std::string countSql = "SELECT COUNT(*) AS cnt FROM rental_orders WHERE order_no LIKE ?";
         std::unique_ptr<sql::PreparedStatement> countStmt(sql_conn->prepareStatement(countSql));
         countStmt->setString(1, "R" + datePrefix + "%");
@@ -381,7 +381,7 @@ bool MySQLDao::getOrderList(int page, int page_size, int64_t user_id, int64_t ve
             params.push_back(kw);
         }
 
-        // Count total
+        // 统计总数
         std::string countSql = "SELECT COUNT(*) AS cnt FROM rental_orders o "
                                "LEFT JOIN user u ON o.user_id = u.uid "
                                "LEFT JOIN vehicles v ON o.vehicle_id = v.id "
@@ -395,7 +395,7 @@ bool MySQLDao::getOrderList(int page, int page_size, int64_t user_id, int64_t ve
             total = countRes->getInt("cnt");
         }
 
-        // Paginated query
+        // 分页查询
         std::string querySql = "SELECT o.id, o.order_no, o.user_id, u.username, o.vehicle_id, "
                                "v.plate_number, CONCAT(v.brand, ' ', v.model, ' ', v.color) AS vehicle_info, "
                                "o.start_date, o.end_date, o.actual_return_date, o.status, "
@@ -492,7 +492,7 @@ bool MySQLDao::pickupVehicle(int64_t order_id, int64_t vehicle_id) {
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Update order status to 'active'
+        // 更新订单状态为'active'
         std::unique_ptr<sql::PreparedStatement> orderStmt(
             sql_conn->prepareStatement(
                 "UPDATE rental_orders SET status = 'active' WHERE id = ? AND status = 'pending'"));
@@ -503,7 +503,7 @@ bool MySQLDao::pickupVehicle(int64_t order_id, int64_t vehicle_id) {
             return false;
         }
 
-        // Update vehicle status to 'rented' (vehicle_id passed from service layer)
+        // 更新车辆状态为'rented'（vehicle_id由服务层传入）
         std::unique_ptr<sql::PreparedStatement> vehicleStmt(
             sql_conn->prepareStatement(
                 "UPDATE vehicles SET status = 'rented' WHERE id = ?"));
@@ -525,14 +525,14 @@ bool MySQLDao::returnVehicle(int64_t order_id, int64_t vehicle_id, const std::st
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Calculate penalty and total cost
+        // 计算罚金和总费用
         penalty = 0.0;
         if (actual_days > planned_days) {
             penalty = (actual_days - planned_days) * daily_rate * 1.5;
         }
         total_cost = actual_days * daily_rate + penalty;
 
-        // Update order
+        // 更新订单
         std::unique_ptr<sql::PreparedStatement> orderStmt(
             sql_conn->prepareStatement(
                 "UPDATE rental_orders SET status = 'completed', actual_return_date = ?, "
@@ -547,7 +547,7 @@ bool MySQLDao::returnVehicle(int64_t order_id, int64_t vehicle_id, const std::st
             return false;
         }
 
-        // Update vehicle status to 'available' (vehicle_id passed from service layer)
+        // 更新车辆状态为'available'（vehicle_id由服务层传入）
         std::unique_ptr<sql::PreparedStatement> vehicleStmt(
             sql_conn->prepareStatement(
                 "UPDATE vehicles SET status = 'available' WHERE id = ?"));
@@ -592,7 +592,7 @@ bool MySQLDao::renewOrder(int64_t order_id, const std::string& new_end_date,
     }
 }
 
-// ==================== Maintenance Operations ====================
+// ==================== 维保操作 ====================
 
 int64_t MySQLDao::createMaintenance(int64_t vehicle_id, const std::string& type,
                                      const std::string& description, double cost,
@@ -674,7 +674,7 @@ bool MySQLDao::getMaintenanceList(int page, int page_size, int64_t vehicle_id,
             params.push_back(type);
         }
 
-        // Count total
+        // 统计总数
         std::string countSql = "SELECT COUNT(*) AS cnt FROM maintenance_records m WHERE " + where;
         std::unique_ptr<sql::PreparedStatement> countStmt(sql_conn->prepareStatement(countSql));
         for (size_t i = 0; i < params.size(); ++i) {
@@ -685,7 +685,7 @@ bool MySQLDao::getMaintenanceList(int page, int page_size, int64_t vehicle_id,
             total = countRes->getInt("cnt");
         }
 
-        // Paginated query
+        // 分页查询
         std::string querySql = "SELECT m.id, m.vehicle_id, v.plate_number, m.type, m.description, "
                                "m.cost, m.technician, m.start_date, m.end_date, m.status, m.created_at "
                                "FROM maintenance_records m "

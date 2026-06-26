@@ -34,6 +34,7 @@ set(GATESERVER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/UserGrpcClient.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/VehicleGrpcClient.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/FinanceGrpcClient.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MailerGrpcClient.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/LogicSystem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MainServer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp

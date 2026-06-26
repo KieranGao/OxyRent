@@ -10,7 +10,7 @@ public:
     MySQLDao();
     ~MySQLDao();
 
-    // Payment operations
+    // 支付操作
     int64_t createPayment(int64_t order_id, double amount, const std::string& type,
                           const std::string& method, const std::string& remark);
     bool getPaymentList(int page, int page_size, int64_t order_id,
@@ -18,11 +18,11 @@ public:
                         std::vector<PaymentData>& payments, int& total);
     bool getPaymentDetail(int64_t id, PaymentData& payment);
 
-    // Invoice operations
+    // 账单操作
     int64_t generateInvoice(int64_t order_id);
     bool getInvoiceDetail(int64_t id, InvoiceData& invoice);
 
-    // Statistics operations
+    // 统计操作
     bool getStatsOverview(int& total_users, int& total_vehicles, int& available_vehicles,
                           int& active_orders, int& completed_orders,
                           double& total_revenue, double& month_revenue);

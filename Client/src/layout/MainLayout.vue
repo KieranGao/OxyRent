@@ -20,39 +20,39 @@
       >
         <el-menu-item index="/dashboard">
           <el-icon><HomeFilled /></el-icon>
-          <span>Dashboard</span>
+          <span>工作台</span>
         </el-menu-item>
         <el-menu-item index="/vehicles">
           <el-icon><Van /></el-icon>
-          <span>Vehicles</span>
+          <span>车辆管理</span>
         </el-menu-item>
         <el-menu-item index="/rentals">
           <el-icon><Document /></el-icon>
-          <span>Rentals</span>
+          <span>租赁管理</span>
         </el-menu-item>
         <el-menu-item index="/maintenance" v-if="authStore.isAdmin">
           <el-icon><SetUp /></el-icon>
-          <span>Maintenance</span>
+          <span>维保管理</span>
         </el-menu-item>
 
         <template v-if="authStore.isAdmin">
           <el-divider style="margin: 12px 16px; border-color: var(--border)" />
-          <div v-if="!appStore.sidebarCollapsed" class="menu-group-title">Management</div>
+          <div v-if="!appStore.sidebarCollapsed" class="menu-group-title">系统管理</div>
           <el-menu-item index="/payments">
             <el-icon><Wallet /></el-icon>
-            <span>Payments</span>
+            <span>收费管理</span>
           </el-menu-item>
           <el-menu-item index="/invoices">
             <el-icon><Tickets /></el-icon>
-            <span>Invoices</span>
+            <span>账单管理</span>
           </el-menu-item>
           <el-menu-item index="/statistics">
             <el-icon><DataLine /></el-icon>
-            <span>Statistics</span>
+            <span>统计报表</span>
           </el-menu-item>
           <el-menu-item index="/users">
             <el-icon><User /></el-icon>
-            <span>Users</span>
+            <span>用户管理</span>
           </el-menu-item>
         </template>
       </el-menu>
@@ -74,7 +74,7 @@
             @click="appStore.toggleSidebar()"
           />
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/dashboard' }">Home</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/dashboard' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item v-if="pageTitle">{{ pageTitle }}</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
@@ -89,10 +89,10 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="profile">
-                  <el-icon><User /></el-icon> Profile
+                  <el-icon><User /></el-icon> 个人信息
                 </el-dropdown-item>
                 <el-dropdown-item command="logout" divided>
-                  <el-icon><SwitchButton /></el-icon> Sign Out
+                  <el-icon><SwitchButton /></el-icon> 退出登录
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>

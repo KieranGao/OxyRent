@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { loginUser, registerUser } from '@/api/user'
 
-const ROLE_LABELS = { 0: 'User', 1: 'Staff', 2: 'Admin' }
+const ROLE_LABELS = { 0: '客户', 1: '员工', 2: '管理员' }
 const ROLE_KEYS = { 0: 'customer', 1: 'staff', 2: 'admin' }
 
 // 后端返回字符串角色，前端转换为数字

@@ -1,52 +1,52 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Maintenance</h2>
-      <p>Track vehicle maintenance records</p>
+      <h2>维保管理</h2>
+      <p>跟踪车辆维保记录</p>
     </div>
 
     <div class="search-bar">
-      <el-select v-model="query.status" placeholder="All Status" clearable style="width: 140px" @change="loadList">
-        <el-option label="Pending" value="pending" />
-        <el-option label="In Progress" value="in_progress" />
-        <el-option label="Completed" value="completed" />
+      <el-select v-model="query.status" placeholder="全部状态" clearable style="width: 140px" @change="loadList">
+        <el-option label="待处理" value="pending" />
+        <el-option label="进行中" value="in_progress" />
+        <el-option label="已完成" value="completed" />
       </el-select>
-      <el-select v-model="query.type" placeholder="All Types" clearable style="width: 140px" @change="loadList">
-        <el-option label="Regular" value="regular" />
-        <el-option label="Repair" value="repair" />
-        <el-option label="Inspection" value="inspection" />
-        <el-option label="Emergency" value="emergency" />
+      <el-select v-model="query.type" placeholder="全部类型" clearable style="width: 140px" @change="loadList">
+        <el-option label="常规保养" value="regular" />
+        <el-option label="维修" value="repair" />
+        <el-option label="检测" value="inspection" />
+        <el-option label="紧急维修" value="emergency" />
       </el-select>
       <el-button type="primary" @click="loadList">
-        <el-icon><Search /></el-icon> Search
+        <el-icon><Search /></el-icon> 搜索
       </el-button>
       <el-button type="primary" @click="$router.push('/maintenance/add')" style="margin-left: auto">
-        <el-icon><Plus /></el-icon> Add Record
+        <el-icon><Plus /></el-icon> 添加记录
       </el-button>
     </div>
 
     <el-card>
-      <el-table :data="records" v-loading="loading" style="width: 100%" empty-text="No records found">
-        <el-table-column prop="vehicle_plate" label="Vehicle" min-width="120" />
-        <el-table-column prop="type" label="Type" min-width="100">
+      <el-table :data="records" v-loading="loading" style="width: 100%" empty-text="暂无记录">
+        <el-table-column prop="vehicle_plate" label="车辆" min-width="120" />
+        <el-table-column prop="type" label="类型" min-width="100">
           <template #default="{ row }">
             <el-tag>{{ row.type }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="Description" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="cost" label="Cost" min-width="100">
+        <el-table-column prop="description" label="描述" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="cost" label="费用" min-width="100">
           <template #default="{ row }">¥{{ row.cost || 0 }}</template>
         </el-table-column>
-        <el-table-column prop="technician" label="Technician" min-width="100" />
-        <el-table-column prop="start_date" label="Start Date" min-width="110" />
-        <el-table-column prop="status" label="Status" min-width="110">
+        <el-table-column prop="technician" label="技师" min-width="100" />
+        <el-table-column prop="start_date" label="开始日期" min-width="110" />
+        <el-table-column prop="status" label="状态" min-width="110">
           <template #default="{ row }">
             <el-tag :type="maintStatusType(row.status)">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="Actions" min-width="100">
+        <el-table-column label="操作" min-width="100">
           <template #default="{ row }">
-            <el-button link type="primary" @click="$router.push(`/maintenance/${row.id}/edit`)">Edit</el-button>
+            <el-button link type="primary" @click="$router.push(`/maintenance/${row.id}/edit`)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -103,7 +103,7 @@ async function loadList() {
       total.value = res.total || 0
     }
   } catch {
-    ElMessage.error('Failed to load maintenance records')
+    ElMessage.error('加载维保记录失败')
   } finally {
     loading.value = false
   }

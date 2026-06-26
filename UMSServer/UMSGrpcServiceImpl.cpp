@@ -72,7 +72,7 @@ Status UMSGrpcServiceImpl::UserLogin(ServerContext* context, const UserLoginRequ
         return Status::OK;
     }
 
-    // Generate a random 32-character hex token
+    // 生成32位随机十六进制token
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 255);
@@ -82,7 +82,7 @@ Status UMSGrpcServiceImpl::UserLogin(ServerContext* context, const UserLoginRequ
     }
     std::string token = token_ss.str();
 
-    // Store token in Redis with 24-hour expiry
+    // 将token存储到Redis，24小时过期
     std::string token_key = "utoken_" + std::to_string(uid);
     LOG_INFO("[UMS] Storing token in Redis: key={}, token={}", token_key, token);
     bool redis_ok = RedisManager::getInstance().setex(token_key, token, 86400);

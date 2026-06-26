@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>{{ isEdit ? 'Edit Maintenance' : 'Add Maintenance Record' }}</h2>
-      <p>{{ isEdit ? 'Update maintenance information' : 'Record a new maintenance job' }}</p>
+      <h2>{{ isEdit ? '编辑维保记录' : '添加维保记录' }}</h2>
+      <p>{{ isEdit ? '更新维保信息' : '记录新的维保工单' }}</p>
     </div>
 
     <el-card>
@@ -13,21 +13,21 @@
         label-position="top"
         style="max-width: 560px"
       >
-        <el-form-item v-if="!isEdit" label="Vehicle ID" prop="vehicle_id">
-          <el-input-number v-model="form.vehicle_id" :min="1" style="width: 100%" placeholder="Vehicle ID" />
+        <el-form-item v-if="!isEdit" label="车辆ID" prop="vehicle_id">
+          <el-input-number v-model="form.vehicle_id" :min="1" style="width: 100%" placeholder="车辆ID" />
         </el-form-item>
 
-        <el-form-item label="Type" prop="type">
-          <el-select v-model="form.type" placeholder="Select type" style="width: 100%">
-            <el-option label="Regular" value="regular" />
-            <el-option label="Repair" value="repair" />
-            <el-option label="Inspection" value="inspection" />
-            <el-option label="Emergency" value="emergency" />
+        <el-form-item label="类型" prop="type">
+          <el-select v-model="form.type" placeholder="请选择类型" style="width: 100%">
+            <el-option label="常规保养" value="regular" />
+            <el-option label="维修" value="repair" />
+            <el-option label="检测" value="inspection" />
+            <el-option label="紧急维修" value="emergency" />
           </el-select>
         </el-form-item>
 
-        <el-form-item label="Description" prop="description">
-          <el-input v-model="form.description" type="textarea" :rows="3" placeholder="Describe the maintenance work" />
+        <el-form-item label="描述" prop="description">
+          <el-input v-model="form.description" type="textarea" :rows="3" placeholder="请描述维保内容" />
         </el-form-item>
 
         <div class="form-row">

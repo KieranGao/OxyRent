@@ -1,0 +1,25 @@
+syntax = "proto3";
+package message;
+
+service MailerService {
+    rpc SendMail(SendMailReq) returns (SendMailRsp);
+    rpc SendVerifyCode(SendVerifyCodeReq) returns (SendVerifyCodeRsp);
+}
+
+message SendMailReq {
+    string email = 1;
+    string code = 2;
+}
+
+message SendMailRsp {
+    int32 error = 1;
+}
+
+message SendVerifyCodeReq {
+    string email = 1;
+}
+
+message SendVerifyCodeRsp {
+    int32 error = 1;
+    string msg = 2;
+}

@@ -28,7 +28,7 @@ static int daysBetween(const std::string& start, const std::string& end) {
     return static_cast<int>(difftime(t_end, t_start) / 86400);
 }
 
-// ==================== Vehicle CRUD ====================
+// ==================== 车辆管理 ====================
 
 Status VehicleGrpcServiceImpl::GetVehicleList(ServerContext* context, const VehicleListRequest* req, VehicleListResponse* resp) {
     LOG_DEBUG("[Vehicle] GetVehicleList page={} page_size={}", req->page(), req->page_size());
@@ -160,12 +160,12 @@ Status VehicleGrpcServiceImpl::DeleteVehicle(ServerContext* context, const Vehic
     return Status::OK;
 }
 
-// ==================== Rental Orders ====================
+// ==================== 租赁订单 ====================
 
 Status VehicleGrpcServiceImpl::CreateOrder(ServerContext* context, const CreateOrderRequest* req, OrderInfo* resp) {
     LOG_DEBUG("[Vehicle] CreateOrder user_id={} vehicle_id={}", req->user_id(), req->vehicle_id());
 
-    // Check vehicle availability
+    // 检查车辆是否可用
     std::string vehicle_status;
     double daily_rate = 0.0, deposit_amount = 0.0;
     bool ok = MySQLManager::getInstance().getVehicleStatus(req->vehicle_id(), vehicle_status, daily_rate, deposit_amount);
@@ -199,7 +199,7 @@ Status VehicleGrpcServiceImpl::CreateOrder(ServerContext* context, const CreateO
         return Status::OK;
     }
 
-    // Return the created order details
+    // 返回创建的订单详情
     OrderData order;
     MySQLManager::getInstance().getOrderDetail(order_id, order);
     resp->set_id(order.id);
@@ -301,7 +301,7 @@ Status VehicleGrpcServiceImpl::PickupVehicle(ServerContext* context, const Picku
     int64_t order_id = req->order_id();
     LOG_INFO("[Vehicle] PickupVehicle order_id={}", order_id);
 
-    // Get order details to obtain vehicle_id
+    // 获取订单详情以获取vehicle_id
     OrderData order;
     bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
     if (!ok) {
@@ -326,7 +326,7 @@ Status VehicleGrpcServiceImpl::ReturnVehicle(ServerContext* context, const Retur
     int64_t order_id = req->order_id();
     LOG_INFO("[Vehicle] ReturnVehicle order_id={}", order_id);
 
-    // Get order details first
+    // 先获取订单详情
     OrderData order;
     bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
     if (!ok) {
@@ -350,7 +350,7 @@ Status VehicleGrpcServiceImpl::ReturnVehicle(ServerContext* context, const Retur
         return Status::OK;
     }
 
-    // Return updated order details
+    // 返回更新后的订单详情
     MySQLManager::getInstance().getOrderDetail(order_id, order);
     resp->set_id(order.id);
     resp->set_order_no(order.order_no);
@@ -380,7 +380,7 @@ Status VehicleGrpcServiceImpl::RenewOrder(ServerContext* context, const RenewReq
     std::string new_end_date = req->new_end_date();
     LOG_INFO("[Vehicle] RenewOrder order_id={} new_end_date={}", order_id, new_end_date);
 
-    // Get order details
+    // 获取订单详情
     OrderData order;
     bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
     if (!ok) {
@@ -406,7 +406,7 @@ Status VehicleGrpcServiceImpl::RenewOrder(ServerContext* context, const RenewReq
         return Status::OK;
     }
 
-    // Return updated order details
+    // 返回更新后的订单详情
     MySQLManager::getInstance().getOrderDetail(order_id, order);
     resp->set_id(order.id);
     resp->set_order_no(order.order_no);
@@ -431,7 +431,7 @@ Status VehicleGrpcServiceImpl::RenewOrder(ServerContext* context, const RenewReq
     return Status::OK;
 }
 
-// ==================== Maintenance ====================
+// ==================== 维保管理 ====================
 
 Status VehicleGrpcServiceImpl::CreateMaintenance(ServerContext* context, const CreateMaintenanceRequest* req, CommonResponse* resp) {
     LOG_DEBUG("[Vehicle] CreateMaintenance vehicle_id={}", req->vehicle_id());

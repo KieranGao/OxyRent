@@ -21,7 +21,7 @@ void LogicSystem::registerPut(std::string url, HttpHandler handler) {
 }
 
 LogicSystem::LogicSystem() {
-    // ============ Public routes (no auth) ============
+    // ============ 公开路由（无需认证） ============
 
     registerPost("/user/register", [](std::shared_ptr<HttpConnection> connection) {
         auto body = beast::buffers_to_string(connection->req_.body().data());
@@ -113,11 +113,11 @@ LogicSystem::LogicSystem() {
             try {
                 Json::Value result = f.get();
                 if (result["error"].asInt() == 0) {
-                    // Store token in Redis
+                    // 将token存储到Redis
                     std::string uid_str = std::to_string(result["uid"].asInt64());
                     std::string token = result["token"].asString();
                     RedisManager::getInstance().setex(USER_TOKEN_PREFIX + uid_str, token, 86400);
-                    // Store role in Redis for admin authorization checks
+                    // 将角色存储到Redis用于管理员权限验证
                     std::string role = result["role"].asString();
                     RedisManager::getInstance().setex(USER_ROLE_PREFIX + uid_str, role, 86400);
                 }
@@ -134,7 +134,7 @@ LogicSystem::LogicSystem() {
         }
     });
 
-    // ============ Protected routes (require auth) ============
+    // ============ 受保护路由（需要认证） ============
 
     registerGet("/user/profile", [](std::shared_ptr<HttpConnection> connection) {
         connection->resp_.set(http::field::content_type, "application/json");
@@ -273,7 +273,7 @@ LogicSystem::LogicSystem() {
         connection->resp_.set(http::field::content_type, "application/json");
         Json::Value jsonResp;
 
-        // Extract query params
+        // 提取查询参数
         std::string keyword = connection->get_params_.count("keyword") ? connection->get_params_["keyword"] : "";
         std::string role = connection->get_params_.count("role") ? connection->get_params_["role"] : "";
         std::string status = connection->get_params_.count("status") ? connection->get_params_["status"] : "";
@@ -336,7 +336,7 @@ LogicSystem::LogicSystem() {
         }
     });
 
-    // PUT /user/{id}/status - Admin only
+    // PUT /user/{id}/status - 仅管理员
     registerPut("/user/status", [](std::shared_ptr<HttpConnection> connection) {
         auto body = beast::buffers_to_string(connection->req_.body().data());
         LOG_DEBUG("[Gate] UPDATE_USER_STATUS: {}", body);
@@ -349,7 +349,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Check caller's role - admin only
+        // 检查调用者角色 - 仅管理员
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -408,7 +408,7 @@ LogicSystem::LogicSystem() {
         }
     });
 
-    // PUT /user/{id}/role - Admin only
+    // PUT /user/{id}/role - 仅管理员
     registerPut("/user/role", [](std::shared_ptr<HttpConnection> connection) {
         auto body = beast::buffers_to_string(connection->req_.body().data());
         LOG_DEBUG("[Gate] UPDATE_USER_ROLE: {}", body);
@@ -421,7 +421,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Check caller's role - admin only
+        // 检查调用者角色 - 仅管理员
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -480,7 +480,7 @@ LogicSystem::LogicSystem() {
         }
     });
 
-    // ============ Vehicle routes ============
+    // ============ 车辆路由 ============
 
     registerGet("/vehicle/list", [](std::shared_ptr<HttpConnection> connection) {
         connection->resp_.set(http::field::content_type, "application/json");
@@ -630,7 +630,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -703,7 +703,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -782,7 +782,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -838,7 +838,7 @@ LogicSystem::LogicSystem() {
         }
     });
 
-    // ============ Rental routes ============
+    // ============ 租赁路由 ============
 
     registerPost("/rental/create", [](std::shared_ptr<HttpConnection> connection) {
         auto body = beast::buffers_to_string(connection->req_.body().data());
@@ -1224,7 +1224,7 @@ LogicSystem::LogicSystem() {
         }
     });
 
-    // ============ Maintenance routes ============
+    // ============ 维保路由 ============
 
     registerPost("/maintenance/create", [](std::shared_ptr<HttpConnection> connection) {
         auto body = beast::buffers_to_string(connection->req_.body().data());
@@ -1238,7 +1238,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1307,7 +1307,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1433,7 +1433,7 @@ LogicSystem::LogicSystem() {
         }
     });
 
-    // ============ Finance routes ============
+    // ============ 财务路由 ============
 
     registerPost("/payment/create", [](std::shared_ptr<HttpConnection> connection) {
         auto body = beast::buffers_to_string(connection->req_.body().data());
@@ -1447,7 +1447,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1517,7 +1517,7 @@ LogicSystem::LogicSystem() {
         connection->resp_.set(http::field::content_type, "application/json");
         Json::Value jsonResp;
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1605,7 +1605,7 @@ LogicSystem::LogicSystem() {
         connection->resp_.set(http::field::content_type, "application/json");
         Json::Value jsonResp;
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1693,7 +1693,7 @@ LogicSystem::LogicSystem() {
             return;
         }
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1759,7 +1759,7 @@ LogicSystem::LogicSystem() {
         connection->resp_.set(http::field::content_type, "application/json");
         Json::Value jsonResp;
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1834,13 +1834,13 @@ LogicSystem::LogicSystem() {
         }
     });
 
-    // ============ Statistics routes ============
+    // ============ 统计路由 ============
 
     registerGet("/stats/overview", [](std::shared_ptr<HttpConnection> connection) {
         connection->resp_.set(http::field::content_type, "application/json");
         Json::Value jsonResp;
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1902,7 +1902,7 @@ LogicSystem::LogicSystem() {
         connection->resp_.set(http::field::content_type, "application/json");
         Json::Value jsonResp;
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
@@ -1971,7 +1971,7 @@ LogicSystem::LogicSystem() {
         connection->resp_.set(http::field::content_type, "application/json");
         Json::Value jsonResp;
 
-        // Admin check
+        // 管理员验证
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);

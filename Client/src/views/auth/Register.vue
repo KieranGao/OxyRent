@@ -7,39 +7,39 @@
       label-position="top"
       @keyup.enter="handleRegister"
     >
-      <el-form-item label="Username" prop="username">
+      <el-form-item label="用户名" prop="username">
         <el-input
           v-model="form.username"
-          placeholder="Enter your username"
+          placeholder="请输入用户名"
           :prefix-icon="User"
           size="large"
         />
       </el-form-item>
 
-      <el-form-item label="Password" prop="password">
+      <el-form-item label="密码" prop="password">
         <el-input
           v-model="form.password"
           type="password"
-          placeholder="At least 6 characters"
+          placeholder="至少6个字符"
           :prefix-icon="Lock"
           size="large"
           show-password
         />
       </el-form-item>
 
-      <el-form-item label="Phone" prop="phone">
+      <el-form-item label="手机号" prop="phone">
         <el-input
           v-model="form.phone"
-          placeholder="Enter your phone number"
+          placeholder="请输入手机号"
           :prefix-icon="Phone"
           size="large"
         />
       </el-form-item>
 
-      <el-form-item label="Email" prop="email">
+      <el-form-item label="邮箱" prop="email">
         <el-input
           v-model="form.email"
-          placeholder="Enter your email"
+          placeholder="请输入邮箱"
           :prefix-icon="Message"
           size="large"
         />
@@ -53,13 +53,13 @@
           style="width: 100%"
           @click="handleRegister"
         >
-          {{ loading ? 'Registering...' : 'Register' }}
+          {{ loading ? '注册中...' : '注册' }}
         </el-button>
       </el-form-item>
     </el-form>
 
     <div class="register-footer">
-      <router-link to="/login">Already have an account? Login</router-link>
+      <router-link to="/login">已有账号？去登录</router-link>
     </div>
   </div>
 </template>
@@ -86,19 +86,19 @@ const form = reactive({
 
 const rules = {
   username: [
-    { required: true, message: 'Please enter a username', trigger: 'blur' },
-    { min: 2, max: 20, message: 'Username must be 2-20 characters', trigger: 'blur' },
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 2, max: 20, message: '用户名需2-20个字符', trigger: 'blur' },
   ],
   password: [
-    { required: true, message: 'Please enter a password', trigger: 'blur' },
-    { min: 6, message: 'Password must be at least 6 characters', trigger: 'blur' },
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, message: '密码至少6个字符', trigger: 'blur' },
   ],
   phone: [
-    { required: true, message: 'Please enter your phone number', trigger: 'blur' },
+    { required: true, message: '请输入手机号', trigger: 'blur' },
   ],
   email: [
-    { required: true, message: 'Please enter your email', trigger: 'blur' },
-    { type: 'email', message: 'Please enter a valid email', trigger: 'blur' },
+    { required: true, message: '请输入邮箱', trigger: 'blur' },
+    { type: 'email', message: '请输入有效的邮箱地址', trigger: 'blur' },
   ],
 }
 
@@ -114,10 +114,10 @@ async function handleRegister() {
       phone: form.phone,
       email: form.email,
     })
-    ElMessage.success('Registration successful, please login')
+    ElMessage.success('注册成功，请登录')
     router.push('/login')
   } catch {
-    ElMessage.error('Registration failed, please try again')
+    ElMessage.error('注册失败，请重试')
   } finally {
     loading.value = false
   }

@@ -36,14 +36,14 @@ class VehicleGrpcServiceImpl final : public VehicleService::Service {
 public:
     VehicleGrpcServiceImpl();
 
-    // Vehicle CRUD
+    // 车辆管理
     Status GetVehicleList(ServerContext* context, const VehicleListRequest* req, VehicleListResponse* resp) override;
     Status GetVehicleDetail(ServerContext* context, const VehicleDetailRequest* req, VehicleInfo* resp) override;
     Status AddVehicle(ServerContext* context, const AddVehicleRequest* req, CommonResponse* resp) override;
     Status UpdateVehicle(ServerContext* context, const UpdateVehicleRequest* req, CommonResponse* resp) override;
     Status DeleteVehicle(ServerContext* context, const VehicleDetailRequest* req, CommonResponse* resp) override;
 
-    // Rental orders
+    // 租赁订单
     Status CreateOrder(ServerContext* context, const CreateOrderRequest* req, OrderInfo* resp) override;
     Status GetOrderList(ServerContext* context, const OrderListRequest* req, OrderListResponse* resp) override;
     Status GetOrderDetail(ServerContext* context, const OrderDetailRequest* req, OrderInfo* resp) override;
@@ -51,7 +51,7 @@ public:
     Status ReturnVehicle(ServerContext* context, const ReturnRequest* req, OrderInfo* resp) override;
     Status RenewOrder(ServerContext* context, const RenewRequest* req, OrderInfo* resp) override;
 
-    // Maintenance
+    // 维保管理
     Status CreateMaintenance(ServerContext* context, const CreateMaintenanceRequest* req, CommonResponse* resp) override;
     Status UpdateMaintenance(ServerContext* context, const UpdateMaintenanceRequest* req, CommonResponse* resp) override;
     Status GetMaintenanceList(ServerContext* context, const MaintenanceListRequest* req, MaintenanceListResponse* resp) override;

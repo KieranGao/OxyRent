@@ -17,6 +17,7 @@ using grpc::Status;
 using message::UserService;
 using message::VehicleService;
 using message::FinanceService;
+using message::MailerService;
 
 // Pool for UserService clients (GateServer -> UMSServer)
 class UserConnectPool {
@@ -64,6 +65,24 @@ public:
     void stop();
 private:
     std::queue<std::unique_ptr<FinanceService::Stub>> stubs_;
+    std::mutex mutex_;
+    std::condition_variable cond_;
+    std::atomic<bool> is_running_;
+    std::string host_;
+    std::string port_;
+    size_t pool_size_;
+};
+
+// Pool for MailerService clients (GateServer -> MailerServer)
+class MailerConnectPool {
+public:
+    MailerConnectPool(size_t pool_size, std::string host, std::string port);
+    ~MailerConnectPool();
+    std::unique_ptr<MailerService::Stub> getStub();
+    void returnStub(std::unique_ptr<MailerService::Stub> stub);
+    void stop();
+private:
+    std::queue<std::unique_ptr<MailerService::Stub>> stubs_;
     std::mutex mutex_;
     std::condition_variable cond_;
     std::atomic<bool> is_running_;

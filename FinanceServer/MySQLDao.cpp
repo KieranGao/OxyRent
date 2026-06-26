@@ -21,7 +21,7 @@ MySQLDao::~MySQLDao() {
     pool_->stop();
 }
 
-// ==================== Payment Operations ====================
+// ==================== 支付操作 ====================
 
 int64_t MySQLDao::createPayment(int64_t order_id, double amount, const std::string& type,
                                  const std::string& method, const std::string& remark) {
@@ -29,7 +29,7 @@ int64_t MySQLDao::createPayment(int64_t order_id, double amount, const std::stri
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Get order_no from rental_orders
+        // 从rental_orders获取order_no
         std::string order_no;
         std::unique_ptr<sql::PreparedStatement> orderStmt(
             sql_conn->prepareStatement("SELECT order_no FROM rental_orders WHERE id = ? LIMIT 1"));
@@ -165,7 +165,7 @@ bool MySQLDao::getPaymentDetail(int64_t id, PaymentData& payment) {
     }
 }
 
-// ==================== Invoice Operations ====================
+// ==================== 账单操作 ====================
 
 int64_t MySQLDao::generateInvoice(int64_t order_id) {
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
@@ -315,7 +315,7 @@ bool MySQLDao::getInvoiceDetail(int64_t id, InvoiceData& invoice) {
     }
 }
 
-// ==================== Statistics Operations ====================
+// ==================== 统计操作 ====================
 
 bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& available_vehicles,
                                  int& active_orders, int& completed_orders,

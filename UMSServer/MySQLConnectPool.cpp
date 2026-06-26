@@ -12,6 +12,7 @@ MySQLConnectPool::MySQLConnectPool(size_t pool_size, std::string url, std::strin
             sql::mysql::MySQL_Driver* driver = sql::mysql::get_driver_instance();
             sql::Connection* connection =  driver->connect(url_, user_, password_);
             connection->setSchema(dbName_);
+            connection->setCharacterSet("utf8mb4");
             auto curTime = std::chrono::steady_clock::now().time_since_epoch();
             long long timeStamp = std::chrono::duration_cast<std::chrono::seconds>(curTime).count();
             connections_.emplace(std::make_unique<SqlConnection>(connection, timeStamp));
@@ -71,6 +72,7 @@ void MySQLConnectPool::checkConnection() {
             sql::mysql::MySQL_Driver* driver = sql::mysql::get_driver_instance();
             sql::Connection* new_connection = driver->connect(url_, user_, password_);
             new_connection->setSchema(dbName_);
+            new_connection->setCharacterSet("utf8mb4");
             connection->getConn().reset(new_connection);
             connection->setLastTime(timeStamp);
         }

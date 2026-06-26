@@ -11,11 +11,11 @@
             </svg>
           </div>
           <h1 class="brand-name">OxyRent</h1>
-          <p class="brand-tagline">Vehicle Rental Management</p>
+          <p class="brand-tagline">车辆租赁管理系统</p>
         </div>
         <router-view />
       </div>
-      <p class="auth-footer">2026 OxyRent. Crafted with precision.</p>
+      <p class="auth-footer">2026 OxyRent. 精心打造</p>
     </div>
   </div>
 </template>

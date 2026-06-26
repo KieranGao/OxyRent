@@ -24,7 +24,7 @@ int64_t MySQLDao::registerUser(const std::string& username, const std::string& p
         LOG_DEBUG("registering user: {}", username);
         auto& sql_conn = connection.get()->getConn();
 
-        // Check for duplicate username
+        // 检查用户名是否重复
         std::unique_ptr<sql::PreparedStatement> checkStmt(
             sql_conn->prepareStatement("SELECT uid FROM user WHERE username = ? LIMIT 1"));
         checkStmt->setString(1, username);
@@ -34,7 +34,7 @@ int64_t MySQLDao::registerUser(const std::string& username, const std::string& p
             return -1;
         }
 
-        // Check for duplicate email (if provided)
+        // 检查邮箱是否重复
         if (!email.empty()) {
             std::unique_ptr<sql::PreparedStatement> emailStmt(
                 sql_conn->prepareStatement("SELECT uid FROM user WHERE email = ? LIMIT 1"));
@@ -46,7 +46,7 @@ int64_t MySQLDao::registerUser(const std::string& username, const std::string& p
             }
         }
 
-        // Insert new user
+        // 插入新用户
         std::unique_ptr<sql::PreparedStatement> insertStmt(
             sql_conn->prepareStatement(
                 "INSERT INTO user (username, password, phone, email, role, status) VALUES (?, ?, ?, ?, 'customer', 'active')"));
@@ -56,7 +56,7 @@ int64_t MySQLDao::registerUser(const std::string& username, const std::string& p
         insertStmt->setString(4, email);
         insertStmt->executeUpdate();
 
-        // Get the new uid
+        // 获取新用户ID
         std::unique_ptr<sql::Statement> stmtResult(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res(stmtResult->executeQuery("SELECT LAST_INSERT_ID() AS uid"));
         if (res && res->next()) {
@@ -168,7 +168,7 @@ bool MySQLDao::getUserList(int page, int page_size, const std::string& keyword,
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Build WHERE clause
+        // 构建WHERE子句
         std::string where = "1=1";
         std::vector<std::string> params;
 
@@ -189,7 +189,7 @@ bool MySQLDao::getUserList(int page, int page_size, const std::string& keyword,
             params.push_back(status);
         }
 
-        // Count total
+        // 统计总数
         std::string countSql = "SELECT COUNT(*) AS cnt FROM user WHERE " + where;
         std::unique_ptr<sql::PreparedStatement> countStmt(sql_conn->prepareStatement(countSql));
         for (size_t i = 0; i < params.size(); ++i) {
@@ -200,7 +200,7 @@ bool MySQLDao::getUserList(int page, int page_size, const std::string& keyword,
             total = countRes->getInt("cnt");
         }
 
-        // Paginated query
+        // 分页查询
         std::string querySql = "SELECT uid, username, phone, email, real_name, role, status, created_at "
                                "FROM user WHERE " + where + " ORDER BY uid DESC LIMIT ? OFFSET ?";
         std::unique_ptr<sql::PreparedStatement> pstmt(sql_conn->prepareStatement(querySql));

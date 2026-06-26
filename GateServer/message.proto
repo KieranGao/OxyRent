@@ -416,3 +416,28 @@ service FinanceService {
     rpc GetRevenueStats(RevenueStatsRequest) returns (RevenueStatsResponse);
     rpc GetVehicleStats(CommonResponse) returns (VehicleStatsResponse);
 }
+
+// ==================== Mailer Service Messages ====================
+
+message SendMailRequest {
+    string email = 1;
+    string code = 2;
+}
+
+message SendMailResponse {
+    int32 error = 1;
+}
+
+message SendVerifyCodeRequest {
+    string email = 1;
+}
+
+message SendVerifyCodeResponse {
+    int32 error = 1;
+    string msg = 2;
+}
+
+service MailerService {
+    rpc SendMail(SendMailRequest) returns (SendMailResponse);
+    rpc SendVerifyCode(SendVerifyCodeRequest) returns (SendVerifyCodeResponse);
+}

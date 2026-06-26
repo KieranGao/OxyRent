@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Dashboard</h2>
-      <p>Welcome back, {{ authStore.username }}</p>
+      <h2>工作台</h2>
+      <p>欢迎回来，{{ authStore.username }}</p>
     </div>
 
     <!-- Stat Cards -->
@@ -12,28 +12,28 @@
           <el-icon :size="20"><User /></el-icon>
         </div>
         <div class="stat-value">{{ stats.total_users }}</div>
-        <div class="stat-label">Total Users</div>
+        <div class="stat-label">用户总数</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon green">
           <el-icon :size="20"><Van /></el-icon>
         </div>
         <div class="stat-value">{{ stats.available_vehicles }}</div>
-        <div class="stat-label">Available Vehicles</div>
+        <div class="stat-label">可用车辆</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon amber">
           <el-icon :size="20"><Document /></el-icon>
         </div>
         <div class="stat-value">{{ stats.active_orders }}</div>
-        <div class="stat-label">Active Orders</div>
+        <div class="stat-label">进行中订单</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon gold">
           <el-icon :size="20"><Wallet /></el-icon>
         </div>
         <div class="stat-value">{{ formatMoney(stats.monthly_revenue) }}</div>
-        <div class="stat-label">Monthly Revenue</div>
+        <div class="stat-label">本月收入</div>
       </div>
     </div>
 
@@ -42,7 +42,7 @@
       <!-- Quick Actions -->
       <div class="content-card">
         <div class="content-card-header">
-          <h3>Quick Actions</h3>
+          <h3>快捷操作</h3>
         </div>
         <div class="content-card-body">
           <div class="action-list">
@@ -51,8 +51,8 @@
                 <el-icon><Plus /></el-icon>
               </div>
               <div>
-                <div class="action-title">New Order</div>
-                <div class="action-desc">Create a rental order</div>
+                <div class="action-title">新建订单</div>
+                <div class="action-desc">创建租赁订单</div>
               </div>
             </button>
             <button v-if="authStore.isAdmin" class="action-item" @click="$router.push('/vehicles/add')">
@@ -60,8 +60,8 @@
                 <el-icon><Van /></el-icon>
               </div>
               <div>
-                <div class="action-title">Add Vehicle</div>
-                <div class="action-desc">Register a new vehicle</div>
+                <div class="action-title">添加车辆</div>
+                <div class="action-desc">注册新车辆</div>
               </div>
             </button>
             <button v-if="authStore.isAdmin" class="action-item" @click="$router.push('/payments')">
@@ -69,8 +69,8 @@
                 <el-icon><Wallet /></el-icon>
               </div>
               <div>
-                <div class="action-title">Payments</div>
-                <div class="action-desc">View payment records</div>
+                <div class="action-title">收费管理</div>
+                <div class="action-desc">查看收费记录</div>
               </div>
             </button>
             <button class="action-item" @click="$router.push('/statistics')">
@@ -78,8 +78,8 @@
                 <el-icon><DataLine /></el-icon>
               </div>
               <div>
-                <div class="action-title">Reports</div>
-                <div class="action-desc">View analytics</div>
+                <div class="action-title">统计报表</div>
+                <div class="action-desc">查看数据分析</div>
               </div>
             </button>
           </div>
@@ -89,19 +89,19 @@
       <!-- Recent Orders -->
       <div class="content-card">
         <div class="content-card-header">
-          <h3>Recent Orders</h3>
+          <h3>最近订单</h3>
         </div>
         <div class="content-card-body" style="padding: 0;">
-          <el-table :data="recentOrders" style="width: 100%" empty-text="No recent orders">
-            <el-table-column prop="order_no" label="Order" min-width="140" />
-            <el-table-column prop="plate_number" label="Vehicle" min-width="100" />
-            <el-table-column prop="start_date" label="Start" min-width="100" />
-            <el-table-column prop="status" label="Status" min-width="90">
+          <el-table :data="recentOrders" style="width: 100%" empty-text="暂无订单">
+            <el-table-column prop="order_no" label="订单号" min-width="140" />
+            <el-table-column prop="plate_number" label="车辆" min-width="100" />
+            <el-table-column prop="start_date" label="开始日期" min-width="100" />
+            <el-table-column prop="status" label="状态" min-width="90">
               <template #default="{ row }">
                 <el-tag :type="statusType(row.status)" size="small">{{ row.status }}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="total_cost" label="Cost" min-width="100">
+            <el-table-column prop="total_cost" label="费用" min-width="100">
               <template #default="{ row }">
                 {{ formatMoney(row.total_cost) }}
               </template>

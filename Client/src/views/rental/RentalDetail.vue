@@ -1,45 +1,45 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Rental Detail</h2>
-      <p>Order information</p>
+      <h2>租赁详情</h2>
+      <p>订单信息</p>
     </div>
 
     <el-card v-loading="loading">
       <div class="detail-grid" v-if="rental">
         <div class="detail-item">
-          <span class="detail-label">Order No.</span>
+          <span class="detail-label">订单号</span>
           <span class="detail-value">{{ rental.order_no }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">User</span>
+          <span class="detail-label">用户</span>
           <span class="detail-value">{{ rental.username }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Vehicle</span>
+          <span class="detail-label">车辆</span>
           <span class="detail-value">{{ rental.plate_number }} ({{ rental.brand }} {{ rental.model }})</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Start Date</span>
+          <span class="detail-label">开始日期</span>
           <span class="detail-value">{{ rental.start_date }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">End Date</span>
+          <span class="detail-label">结束日期</span>
           <span class="detail-value">{{ rental.end_date }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Status</span>
+          <span class="detail-label">状态</span>
           <span class="detail-value">
             <el-tag :type="statusType(rental.status)">{{ rental.status }}</el-tag>
           </span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Total Cost</span>
+          <span class="detail-label">总费用</span>
           <span class="detail-value">¥{{ rental.total_cost || 0 }}</span>
         </div>
         <div class="detail-item full-width">
-          <span class="detail-label">Notes</span>
-          <span class="detail-value">{{ rental.notes || 'N/A' }}</span>
+          <span class="detail-label">备注</span>
+          <span class="detail-value">{{ rental.notes || '暂无' }}</span>
         </div>
       </div>
 
@@ -51,7 +51,7 @@
           @click="handlePickup"
           :loading="actionLoading"
         >
-          <el-icon><Van /></el-icon> Pickup Vehicle
+          <el-icon><Van /></el-icon> 取车
         </el-button>
         <el-button
           v-if="rental && rental.status === 'active'"
@@ -59,12 +59,12 @@
           @click="handleReturn"
           :loading="actionLoading"
         >
-          <el-icon><Back /></el-icon> Return Vehicle
+          <el-icon><Back /></el-icon> 还车
         </el-button>
-        <el-button @click="$router.back()">Back</el-button>
+        <el-button @click="$router.back()">返回</el-button>
       </div>
       <div class="detail-actions" v-else>
-        <el-button @click="$router.back()">Back</el-button>
+        <el-button @click="$router.back()">返回</el-button>
       </div>
     </el-card>
   </div>
@@ -101,13 +101,13 @@ async function handlePickup() {
   try {
     const res = await pickupVehicle({ order_id: id })
     if (res.error === 0) {
-      ElMessage.success('Vehicle picked up')
+      ElMessage.success('车辆已取出')
       loadRental()
     } else {
-      ElMessage.error('Pickup failed')
+      ElMessage.error('取车失败')
     }
   } catch {
-    ElMessage.error('Pickup failed')
+    ElMessage.error('取车失败')
   } finally {
     actionLoading.value = false
   }
@@ -118,13 +118,13 @@ async function handleReturn() {
   try {
     const res = await returnVehicle({ order_id: id })
     if (res.error === 0) {
-      ElMessage.success('Vehicle returned')
+      ElMessage.success('车辆已归还')
       loadRental()
     } else {
-      ElMessage.error('Return failed')
+      ElMessage.error('还车失败')
     }
   } catch {
-    ElMessage.error('Return failed')
+    ElMessage.error('还车失败')
   } finally {
     actionLoading.value = false
   }
@@ -137,7 +137,7 @@ async function loadRental() {
     if (res.error === 0) {
       rental.value = res.rental || res
     } else {
-      ElMessage.error('Failed to load rental')
+      ElMessage.error('加载租赁详情失败')
     }
   } catch {
     ElMessage.error('Failed to load rental')
