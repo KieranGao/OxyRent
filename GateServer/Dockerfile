@@ -4,8 +4,8 @@ FROM docker.cnb.cool/oxythecrack/docker-sync/ubuntu:22.04_amd64 AS builder
 ENV DEBIAN_FRONTEND=noninteractive
 
 # 使用国内镜像源
-RUN sed -i 's|http://archive.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list && \
-    sed -i 's|http://security.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list
+RUN sed -i 's|http://archive.ubuntu.com|http://mirrors.ustc.edu.cn|g' /etc/apt/sources.list && \
+    sed -i 's|http://security.ubuntu.com|http://mirrors.ustc.edu.cn|g' /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     g++ cmake make \
@@ -38,8 +38,8 @@ FROM docker.cnb.cool/oxythecrack/docker-sync/ubuntu:22.04_amd64
 ENV DEBIAN_FRONTEND=noninteractive
 
 # 使用国内镜像源
-RUN sed -i 's|http://archive.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list && \
-    sed -i 's|http://security.ubuntu.com|http://mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list
+RUN sed -i 's|http://archive.ubuntu.com|http://mirrors.ustc.edu.cn|g' /etc/apt/sources.list && \
+    sed -i 's|http://security.ubuntu.com|http://mirrors.ustc.edu.cn|g' /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     libboost-system1.74.0 \
