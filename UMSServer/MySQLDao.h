@@ -34,6 +34,11 @@ public:
                      std::vector<UserListItemData>& users, int& total);
     bool updateUserStatus(int64_t uid, const std::string& status);
     bool updateUserRole(int64_t uid, const std::string& role);
+    // Balance operations
+    double getBalance(int64_t uid);
+    bool topupBalance(int64_t uid, double amount, int64_t operator_id, const std::string& remark);
+    bool consumeBalance(int64_t uid, double amount, const std::string& remark);
+    bool getBalanceRecords(int64_t uid, int page, int page_size, std::vector<BalanceRecordData>& records, int& total);
 private:
     std::unique_ptr<MySQLConnectPool> pool_;
 };

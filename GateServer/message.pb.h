@@ -47,7 +47,7 @@ struct TableStruct_message_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[49]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[55]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -58,6 +58,15 @@ namespace message {
 class AddVehicleRequest;
 class AddVehicleRequestDefaultTypeInternal;
 extern AddVehicleRequestDefaultTypeInternal _AddVehicleRequest_default_instance_;
+class BalanceRecordInfo;
+class BalanceRecordInfoDefaultTypeInternal;
+extern BalanceRecordInfoDefaultTypeInternal _BalanceRecordInfo_default_instance_;
+class BalanceRecordListRequest;
+class BalanceRecordListRequestDefaultTypeInternal;
+extern BalanceRecordListRequestDefaultTypeInternal _BalanceRecordListRequest_default_instance_;
+class BalanceRecordListResponse;
+class BalanceRecordListResponseDefaultTypeInternal;
+extern BalanceRecordListResponseDefaultTypeInternal _BalanceRecordListResponse_default_instance_;
 class CommonResponse;
 class CommonResponseDefaultTypeInternal;
 extern CommonResponseDefaultTypeInternal _CommonResponse_default_instance_;
@@ -73,6 +82,12 @@ extern CreatePaymentRequestDefaultTypeInternal _CreatePaymentRequest_default_ins
 class GenerateInvoiceRequest;
 class GenerateInvoiceRequestDefaultTypeInternal;
 extern GenerateInvoiceRequestDefaultTypeInternal _GenerateInvoiceRequest_default_instance_;
+class GetBalanceRequest;
+class GetBalanceRequestDefaultTypeInternal;
+extern GetBalanceRequestDefaultTypeInternal _GetBalanceRequest_default_instance_;
+class GetBalanceResponse;
+class GetBalanceResponseDefaultTypeInternal;
+extern GetBalanceResponseDefaultTypeInternal _GetBalanceResponse_default_instance_;
 class InvoiceInfo;
 class InvoiceInfoDefaultTypeInternal;
 extern InvoiceInfoDefaultTypeInternal _InvoiceInfo_default_instance_;
@@ -145,6 +160,9 @@ extern SendVerifyCodeResponseDefaultTypeInternal _SendVerifyCodeResponse_default
 class StatsOverviewResponse;
 class StatsOverviewResponseDefaultTypeInternal;
 extern StatsOverviewResponseDefaultTypeInternal _StatsOverviewResponse_default_instance_;
+class TopupRequest;
+class TopupRequestDefaultTypeInternal;
+extern TopupRequestDefaultTypeInternal _TopupRequest_default_instance_;
 class UpdateMaintenanceRequest;
 class UpdateMaintenanceRequestDefaultTypeInternal;
 extern UpdateMaintenanceRequestDefaultTypeInternal _UpdateMaintenanceRequest_default_instance_;
@@ -205,11 +223,16 @@ extern VehicleStatsResponseDefaultTypeInternal _VehicleStatsResponse_default_ins
 }  // namespace message
 PROTOBUF_NAMESPACE_OPEN
 template<> ::message::AddVehicleRequest* Arena::CreateMaybeMessage<::message::AddVehicleRequest>(Arena*);
+template<> ::message::BalanceRecordInfo* Arena::CreateMaybeMessage<::message::BalanceRecordInfo>(Arena*);
+template<> ::message::BalanceRecordListRequest* Arena::CreateMaybeMessage<::message::BalanceRecordListRequest>(Arena*);
+template<> ::message::BalanceRecordListResponse* Arena::CreateMaybeMessage<::message::BalanceRecordListResponse>(Arena*);
 template<> ::message::CommonResponse* Arena::CreateMaybeMessage<::message::CommonResponse>(Arena*);
 template<> ::message::CreateMaintenanceRequest* Arena::CreateMaybeMessage<::message::CreateMaintenanceRequest>(Arena*);
 template<> ::message::CreateOrderRequest* Arena::CreateMaybeMessage<::message::CreateOrderRequest>(Arena*);
 template<> ::message::CreatePaymentRequest* Arena::CreateMaybeMessage<::message::CreatePaymentRequest>(Arena*);
 template<> ::message::GenerateInvoiceRequest* Arena::CreateMaybeMessage<::message::GenerateInvoiceRequest>(Arena*);
+template<> ::message::GetBalanceRequest* Arena::CreateMaybeMessage<::message::GetBalanceRequest>(Arena*);
+template<> ::message::GetBalanceResponse* Arena::CreateMaybeMessage<::message::GetBalanceResponse>(Arena*);
 template<> ::message::InvoiceInfo* Arena::CreateMaybeMessage<::message::InvoiceInfo>(Arena*);
 template<> ::message::InvoiceListRequest* Arena::CreateMaybeMessage<::message::InvoiceListRequest>(Arena*);
 template<> ::message::InvoiceListResponse* Arena::CreateMaybeMessage<::message::InvoiceListResponse>(Arena*);
@@ -234,6 +257,7 @@ template<> ::message::SendMailResponse* Arena::CreateMaybeMessage<::message::Sen
 template<> ::message::SendVerifyCodeRequest* Arena::CreateMaybeMessage<::message::SendVerifyCodeRequest>(Arena*);
 template<> ::message::SendVerifyCodeResponse* Arena::CreateMaybeMessage<::message::SendVerifyCodeResponse>(Arena*);
 template<> ::message::StatsOverviewResponse* Arena::CreateMaybeMessage<::message::StatsOverviewResponse>(Arena*);
+template<> ::message::TopupRequest* Arena::CreateMaybeMessage<::message::TopupRequest>(Arena*);
 template<> ::message::UpdateMaintenanceRequest* Arena::CreateMaybeMessage<::message::UpdateMaintenanceRequest>(Arena*);
 template<> ::message::UpdateProfileRequest* Arena::CreateMaybeMessage<::message::UpdateProfileRequest>(Arena*);
 template<> ::message::UpdateUserRoleRequest* Arena::CreateMaybeMessage<::message::UpdateUserRoleRequest>(Arena*);
@@ -3154,6 +3178,1055 @@ class UpdateUserRoleRequest PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class GetBalanceRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.GetBalanceRequest) */ {
+ public:
+  inline GetBalanceRequest() : GetBalanceRequest(nullptr) {};
+  virtual ~GetBalanceRequest();
+
+  GetBalanceRequest(const GetBalanceRequest& from);
+  GetBalanceRequest(GetBalanceRequest&& from) noexcept
+    : GetBalanceRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline GetBalanceRequest& operator=(const GetBalanceRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetBalanceRequest& operator=(GetBalanceRequest&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GetBalanceRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GetBalanceRequest* internal_default_instance() {
+    return reinterpret_cast<const GetBalanceRequest*>(
+               &_GetBalanceRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(GetBalanceRequest& a, GetBalanceRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GetBalanceRequest* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetBalanceRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GetBalanceRequest* New() const final {
+    return CreateMaybeMessage<GetBalanceRequest>(nullptr);
+  }
+
+  GetBalanceRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GetBalanceRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GetBalanceRequest& from);
+  void MergeFrom(const GetBalanceRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GetBalanceRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.GetBalanceRequest";
+  }
+  protected:
+  explicit GetBalanceRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUidFieldNumber = 1,
+  };
+  // int64 uid = 1;
+  void clear_uid();
+  ::PROTOBUF_NAMESPACE_ID::int64 uid() const;
+  void set_uid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_uid() const;
+  void _internal_set_uid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.GetBalanceRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int64 uid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GetBalanceResponse PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.GetBalanceResponse) */ {
+ public:
+  inline GetBalanceResponse() : GetBalanceResponse(nullptr) {};
+  virtual ~GetBalanceResponse();
+
+  GetBalanceResponse(const GetBalanceResponse& from);
+  GetBalanceResponse(GetBalanceResponse&& from) noexcept
+    : GetBalanceResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline GetBalanceResponse& operator=(const GetBalanceResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetBalanceResponse& operator=(GetBalanceResponse&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GetBalanceResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GetBalanceResponse* internal_default_instance() {
+    return reinterpret_cast<const GetBalanceResponse*>(
+               &_GetBalanceResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    13;
+
+  friend void swap(GetBalanceResponse& a, GetBalanceResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GetBalanceResponse* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetBalanceResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GetBalanceResponse* New() const final {
+    return CreateMaybeMessage<GetBalanceResponse>(nullptr);
+  }
+
+  GetBalanceResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GetBalanceResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GetBalanceResponse& from);
+  void MergeFrom(const GetBalanceResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GetBalanceResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.GetBalanceResponse";
+  }
+  protected:
+  explicit GetBalanceResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kBalanceFieldNumber = 2,
+    kErrorFieldNumber = 1,
+  };
+  // double balance = 2;
+  void clear_balance();
+  double balance() const;
+  void set_balance(double value);
+  private:
+  double _internal_balance() const;
+  void _internal_set_balance(double value);
+  public:
+
+  // int32 error = 1;
+  void clear_error();
+  ::PROTOBUF_NAMESPACE_ID::int32 error() const;
+  void set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_error() const;
+  void _internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.GetBalanceResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  double balance_;
+  ::PROTOBUF_NAMESPACE_ID::int32 error_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TopupRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.TopupRequest) */ {
+ public:
+  inline TopupRequest() : TopupRequest(nullptr) {};
+  virtual ~TopupRequest();
+
+  TopupRequest(const TopupRequest& from);
+  TopupRequest(TopupRequest&& from) noexcept
+    : TopupRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline TopupRequest& operator=(const TopupRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TopupRequest& operator=(TopupRequest&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const TopupRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TopupRequest* internal_default_instance() {
+    return reinterpret_cast<const TopupRequest*>(
+               &_TopupRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    14;
+
+  friend void swap(TopupRequest& a, TopupRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TopupRequest* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TopupRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TopupRequest* New() const final {
+    return CreateMaybeMessage<TopupRequest>(nullptr);
+  }
+
+  TopupRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TopupRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const TopupRequest& from);
+  void MergeFrom(const TopupRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TopupRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.TopupRequest";
+  }
+  protected:
+  explicit TopupRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRemarkFieldNumber = 3,
+    kUidFieldNumber = 1,
+    kAmountFieldNumber = 2,
+  };
+  // string remark = 3;
+  void clear_remark();
+  const std::string& remark() const;
+  void set_remark(const std::string& value);
+  void set_remark(std::string&& value);
+  void set_remark(const char* value);
+  void set_remark(const char* value, size_t size);
+  std::string* mutable_remark();
+  std::string* release_remark();
+  void set_allocated_remark(std::string* remark);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_remark();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_remark(
+      std::string* remark);
+  private:
+  const std::string& _internal_remark() const;
+  void _internal_set_remark(const std::string& value);
+  std::string* _internal_mutable_remark();
+  public:
+
+  // int64 uid = 1;
+  void clear_uid();
+  ::PROTOBUF_NAMESPACE_ID::int64 uid() const;
+  void set_uid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_uid() const;
+  void _internal_set_uid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // double amount = 2;
+  void clear_amount();
+  double amount() const;
+  void set_amount(double value);
+  private:
+  double _internal_amount() const;
+  void _internal_set_amount(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.TopupRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr remark_;
+  ::PROTOBUF_NAMESPACE_ID::int64 uid_;
+  double amount_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class BalanceRecordInfo PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.BalanceRecordInfo) */ {
+ public:
+  inline BalanceRecordInfo() : BalanceRecordInfo(nullptr) {};
+  virtual ~BalanceRecordInfo();
+
+  BalanceRecordInfo(const BalanceRecordInfo& from);
+  BalanceRecordInfo(BalanceRecordInfo&& from) noexcept
+    : BalanceRecordInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline BalanceRecordInfo& operator=(const BalanceRecordInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BalanceRecordInfo& operator=(BalanceRecordInfo&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const BalanceRecordInfo& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BalanceRecordInfo* internal_default_instance() {
+    return reinterpret_cast<const BalanceRecordInfo*>(
+               &_BalanceRecordInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    15;
+
+  friend void swap(BalanceRecordInfo& a, BalanceRecordInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(BalanceRecordInfo* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BalanceRecordInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BalanceRecordInfo* New() const final {
+    return CreateMaybeMessage<BalanceRecordInfo>(nullptr);
+  }
+
+  BalanceRecordInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<BalanceRecordInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const BalanceRecordInfo& from);
+  void MergeFrom(const BalanceRecordInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(BalanceRecordInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.BalanceRecordInfo";
+  }
+  protected:
+  explicit BalanceRecordInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTypeFieldNumber = 4,
+    kRemarkFieldNumber = 6,
+    kCreatedAtFieldNumber = 7,
+    kIdFieldNumber = 1,
+    kUserIdFieldNumber = 2,
+    kAmountFieldNumber = 3,
+    kOperatorIdFieldNumber = 5,
+  };
+  // string type = 4;
+  void clear_type();
+  const std::string& type() const;
+  void set_type(const std::string& value);
+  void set_type(std::string&& value);
+  void set_type(const char* value);
+  void set_type(const char* value, size_t size);
+  std::string* mutable_type();
+  std::string* release_type();
+  void set_allocated_type(std::string* type);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_type();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_type(
+      std::string* type);
+  private:
+  const std::string& _internal_type() const;
+  void _internal_set_type(const std::string& value);
+  std::string* _internal_mutable_type();
+  public:
+
+  // string remark = 6;
+  void clear_remark();
+  const std::string& remark() const;
+  void set_remark(const std::string& value);
+  void set_remark(std::string&& value);
+  void set_remark(const char* value);
+  void set_remark(const char* value, size_t size);
+  std::string* mutable_remark();
+  std::string* release_remark();
+  void set_allocated_remark(std::string* remark);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_remark();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_remark(
+      std::string* remark);
+  private:
+  const std::string& _internal_remark() const;
+  void _internal_set_remark(const std::string& value);
+  std::string* _internal_mutable_remark();
+  public:
+
+  // string created_at = 7;
+  void clear_created_at();
+  const std::string& created_at() const;
+  void set_created_at(const std::string& value);
+  void set_created_at(std::string&& value);
+  void set_created_at(const char* value);
+  void set_created_at(const char* value, size_t size);
+  std::string* mutable_created_at();
+  std::string* release_created_at();
+  void set_allocated_created_at(std::string* created_at);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_created_at();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_created_at(
+      std::string* created_at);
+  private:
+  const std::string& _internal_created_at() const;
+  void _internal_set_created_at(const std::string& value);
+  std::string* _internal_mutable_created_at();
+  public:
+
+  // int64 id = 1;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // int64 user_id = 2;
+  void clear_user_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 user_id() const;
+  void set_user_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_user_id() const;
+  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // double amount = 3;
+  void clear_amount();
+  double amount() const;
+  void set_amount(double value);
+  private:
+  double _internal_amount() const;
+  void _internal_set_amount(double value);
+  public:
+
+  // int64 operator_id = 5;
+  void clear_operator_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 operator_id() const;
+  void set_operator_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_operator_id() const;
+  void _internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.BalanceRecordInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr type_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr remark_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr created_at_;
+  ::PROTOBUF_NAMESPACE_ID::int64 id_;
+  ::PROTOBUF_NAMESPACE_ID::int64 user_id_;
+  double amount_;
+  ::PROTOBUF_NAMESPACE_ID::int64 operator_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class BalanceRecordListRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.BalanceRecordListRequest) */ {
+ public:
+  inline BalanceRecordListRequest() : BalanceRecordListRequest(nullptr) {};
+  virtual ~BalanceRecordListRequest();
+
+  BalanceRecordListRequest(const BalanceRecordListRequest& from);
+  BalanceRecordListRequest(BalanceRecordListRequest&& from) noexcept
+    : BalanceRecordListRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline BalanceRecordListRequest& operator=(const BalanceRecordListRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BalanceRecordListRequest& operator=(BalanceRecordListRequest&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const BalanceRecordListRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BalanceRecordListRequest* internal_default_instance() {
+    return reinterpret_cast<const BalanceRecordListRequest*>(
+               &_BalanceRecordListRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    16;
+
+  friend void swap(BalanceRecordListRequest& a, BalanceRecordListRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(BalanceRecordListRequest* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BalanceRecordListRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BalanceRecordListRequest* New() const final {
+    return CreateMaybeMessage<BalanceRecordListRequest>(nullptr);
+  }
+
+  BalanceRecordListRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<BalanceRecordListRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const BalanceRecordListRequest& from);
+  void MergeFrom(const BalanceRecordListRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(BalanceRecordListRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.BalanceRecordListRequest";
+  }
+  protected:
+  explicit BalanceRecordListRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUidFieldNumber = 1,
+    kPageFieldNumber = 2,
+    kPageSizeFieldNumber = 3,
+  };
+  // int64 uid = 1;
+  void clear_uid();
+  ::PROTOBUF_NAMESPACE_ID::int64 uid() const;
+  void set_uid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_uid() const;
+  void _internal_set_uid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // int32 page = 2;
+  void clear_page();
+  ::PROTOBUF_NAMESPACE_ID::int32 page() const;
+  void set_page(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_page() const;
+  void _internal_set_page(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 page_size = 3;
+  void clear_page_size();
+  ::PROTOBUF_NAMESPACE_ID::int32 page_size() const;
+  void set_page_size(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_page_size() const;
+  void _internal_set_page_size(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.BalanceRecordListRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int64 uid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 page_;
+  ::PROTOBUF_NAMESPACE_ID::int32 page_size_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class BalanceRecordListResponse PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.BalanceRecordListResponse) */ {
+ public:
+  inline BalanceRecordListResponse() : BalanceRecordListResponse(nullptr) {};
+  virtual ~BalanceRecordListResponse();
+
+  BalanceRecordListResponse(const BalanceRecordListResponse& from);
+  BalanceRecordListResponse(BalanceRecordListResponse&& from) noexcept
+    : BalanceRecordListResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline BalanceRecordListResponse& operator=(const BalanceRecordListResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BalanceRecordListResponse& operator=(BalanceRecordListResponse&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const BalanceRecordListResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BalanceRecordListResponse* internal_default_instance() {
+    return reinterpret_cast<const BalanceRecordListResponse*>(
+               &_BalanceRecordListResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    17;
+
+  friend void swap(BalanceRecordListResponse& a, BalanceRecordListResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(BalanceRecordListResponse* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BalanceRecordListResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BalanceRecordListResponse* New() const final {
+    return CreateMaybeMessage<BalanceRecordListResponse>(nullptr);
+  }
+
+  BalanceRecordListResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<BalanceRecordListResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const BalanceRecordListResponse& from);
+  void MergeFrom(const BalanceRecordListResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(BalanceRecordListResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.BalanceRecordListResponse";
+  }
+  protected:
+  explicit BalanceRecordListResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRecordsFieldNumber = 2,
+    kErrorFieldNumber = 1,
+    kTotalFieldNumber = 3,
+    kBalanceFieldNumber = 4,
+  };
+  // repeated .message.BalanceRecordInfo records = 2;
+  int records_size() const;
+  private:
+  int _internal_records_size() const;
+  public:
+  void clear_records();
+  ::message::BalanceRecordInfo* mutable_records(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::BalanceRecordInfo >*
+      mutable_records();
+  private:
+  const ::message::BalanceRecordInfo& _internal_records(int index) const;
+  ::message::BalanceRecordInfo* _internal_add_records();
+  public:
+  const ::message::BalanceRecordInfo& records(int index) const;
+  ::message::BalanceRecordInfo* add_records();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::BalanceRecordInfo >&
+      records() const;
+
+  // int32 error = 1;
+  void clear_error();
+  ::PROTOBUF_NAMESPACE_ID::int32 error() const;
+  void set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_error() const;
+  void _internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 total = 3;
+  void clear_total();
+  ::PROTOBUF_NAMESPACE_ID::int32 total() const;
+  void set_total(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_total() const;
+  void _internal_set_total(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // double balance = 4;
+  void clear_balance();
+  double balance() const;
+  void set_balance(double value);
+  private:
+  double _internal_balance() const;
+  void _internal_set_balance(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.BalanceRecordListResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::BalanceRecordInfo > records_;
+  ::PROTOBUF_NAMESPACE_ID::int32 error_;
+  ::PROTOBUF_NAMESPACE_ID::int32 total_;
+  double balance_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
 class VehicleInfo PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.VehicleInfo) */ {
  public:
@@ -3196,7 +4269,7 @@ class VehicleInfo PROTOBUF_FINAL :
                &_VehicleInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    18;
 
   friend void swap(VehicleInfo& a, VehicleInfo& b) {
     a.Swap(&b);
@@ -3593,7 +4666,7 @@ class VehicleListRequest PROTOBUF_FINAL :
                &_VehicleListRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    19;
 
   friend void swap(VehicleListRequest& a, VehicleListRequest& b) {
     a.Swap(&b);
@@ -3822,7 +4895,7 @@ class VehicleListResponse PROTOBUF_FINAL :
                &_VehicleListResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    20;
 
   friend void swap(VehicleListResponse& a, VehicleListResponse& b) {
     a.Swap(&b);
@@ -4017,7 +5090,7 @@ class VehicleDetailRequest PROTOBUF_FINAL :
                &_VehicleDetailRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    21;
 
   friend void swap(VehicleDetailRequest& a, VehicleDetailRequest& b) {
     a.Swap(&b);
@@ -4154,7 +5227,7 @@ class AddVehicleRequest PROTOBUF_FINAL :
                &_AddVehicleRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    22;
 
   friend void swap(AddVehicleRequest& a, AddVehicleRequest& b) {
     a.Swap(&b);
@@ -4486,7 +5559,7 @@ class UpdateVehicleRequest PROTOBUF_FINAL :
                &_UpdateVehicleRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    23;
 
   friend void swap(UpdateVehicleRequest& a, UpdateVehicleRequest& b) {
     a.Swap(&b);
@@ -4856,7 +5929,7 @@ class OrderInfo PROTOBUF_FINAL :
                &_OrderInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    24;
 
   friend void swap(OrderInfo& a, OrderInfo& b) {
     a.Swap(&b);
@@ -5340,7 +6413,7 @@ class CreateOrderRequest PROTOBUF_FINAL :
                &_CreateOrderRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    25;
 
   friend void swap(CreateOrderRequest& a, CreateOrderRequest& b) {
     a.Swap(&b);
@@ -5569,7 +6642,7 @@ class OrderListRequest PROTOBUF_FINAL :
                &_OrderListRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    26;
 
   friend void swap(OrderListRequest& a, OrderListRequest& b) {
     a.Swap(&b);
@@ -5793,7 +6866,7 @@ class OrderListResponse PROTOBUF_FINAL :
                &_OrderListResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    27;
 
   friend void swap(OrderListResponse& a, OrderListResponse& b) {
     a.Swap(&b);
@@ -5988,7 +7061,7 @@ class OrderDetailRequest PROTOBUF_FINAL :
                &_OrderDetailRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    28;
 
   friend void swap(OrderDetailRequest& a, OrderDetailRequest& b) {
     a.Swap(&b);
@@ -6125,7 +7198,7 @@ class PickupRequest PROTOBUF_FINAL :
                &_PickupRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    29;
 
   friend void swap(PickupRequest& a, PickupRequest& b) {
     a.Swap(&b);
@@ -6262,7 +7335,7 @@ class ReturnRequest PROTOBUF_FINAL :
                &_ReturnRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    30;
 
   friend void swap(ReturnRequest& a, ReturnRequest& b) {
     a.Swap(&b);
@@ -6399,7 +7472,7 @@ class RenewRequest PROTOBUF_FINAL :
                &_RenewRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    31;
 
   friend void swap(RenewRequest& a, RenewRequest& b) {
     a.Swap(&b);
@@ -6563,7 +7636,7 @@ class MaintenanceInfo PROTOBUF_FINAL :
                &_MaintenanceInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    32;
 
   friend void swap(MaintenanceInfo& a, MaintenanceInfo& b) {
     a.Swap(&b);
@@ -6938,7 +8011,7 @@ class CreateMaintenanceRequest PROTOBUF_FINAL :
                &_CreateMaintenanceRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    33;
 
   friend void swap(CreateMaintenanceRequest& a, CreateMaintenanceRequest& b) {
     a.Swap(&b);
@@ -7194,7 +8267,7 @@ class UpdateMaintenanceRequest PROTOBUF_FINAL :
                &_UpdateMaintenanceRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    34;
 
   friend void swap(UpdateMaintenanceRequest& a, UpdateMaintenanceRequest& b) {
     a.Swap(&b);
@@ -7450,7 +8523,7 @@ class MaintenanceListRequest PROTOBUF_FINAL :
                &_MaintenanceListRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    35;
 
   friend void swap(MaintenanceListRequest& a, MaintenanceListRequest& b) {
     a.Swap(&b);
@@ -7663,7 +8736,7 @@ class MaintenanceListResponse PROTOBUF_FINAL :
                &_MaintenanceListResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    36;
 
   friend void swap(MaintenanceListResponse& a, MaintenanceListResponse& b) {
     a.Swap(&b);
@@ -7858,7 +8931,7 @@ class PaymentInfo PROTOBUF_FINAL :
                &_PaymentInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    37;
 
   friend void swap(PaymentInfo& a, PaymentInfo& b) {
     a.Swap(&b);
@@ -8206,7 +9279,7 @@ class CreatePaymentRequest PROTOBUF_FINAL :
                &_CreatePaymentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    38;
 
   friend void swap(CreatePaymentRequest& a, CreatePaymentRequest& b) {
     a.Swap(&b);
@@ -8435,7 +9508,7 @@ class PaymentListRequest PROTOBUF_FINAL :
                &_PaymentListRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    39;
 
   friend void swap(PaymentListRequest& a, PaymentListRequest& b) {
     a.Swap(&b);
@@ -8648,7 +9721,7 @@ class PaymentListResponse PROTOBUF_FINAL :
                &_PaymentListResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    40;
 
   friend void swap(PaymentListResponse& a, PaymentListResponse& b) {
     a.Swap(&b);
@@ -8843,7 +9916,7 @@ class InvoiceInfo PROTOBUF_FINAL :
                &_InvoiceInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    41;
 
   friend void swap(InvoiceInfo& a, InvoiceInfo& b) {
     a.Swap(&b);
@@ -9148,7 +10221,7 @@ class GenerateInvoiceRequest PROTOBUF_FINAL :
                &_GenerateInvoiceRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    42;
 
   friend void swap(GenerateInvoiceRequest& a, GenerateInvoiceRequest& b) {
     a.Swap(&b);
@@ -9285,7 +10358,7 @@ class InvoiceListRequest PROTOBUF_FINAL :
                &_InvoiceListRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    43;
 
   friend void swap(InvoiceListRequest& a, InvoiceListRequest& b) {
     a.Swap(&b);
@@ -9433,7 +10506,7 @@ class InvoiceListResponse PROTOBUF_FINAL :
                &_InvoiceListResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    44;
 
   friend void swap(InvoiceListResponse& a, InvoiceListResponse& b) {
     a.Swap(&b);
@@ -9628,7 +10701,7 @@ class StatsOverviewResponse PROTOBUF_FINAL :
                &_StatsOverviewResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    45;
 
   friend void swap(StatsOverviewResponse& a, StatsOverviewResponse& b) {
     a.Swap(&b);
@@ -9869,7 +10942,7 @@ class RevenueStatsRequest PROTOBUF_FINAL :
                &_RevenueStatsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    46;
 
   friend void swap(RevenueStatsRequest& a, RevenueStatsRequest& b) {
     a.Swap(&b);
@@ -10076,7 +11149,7 @@ class RevenueStatsItem PROTOBUF_FINAL :
                &_RevenueStatsItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    47;
 
   friend void swap(RevenueStatsItem& a, RevenueStatsItem& b) {
     a.Swap(&b);
@@ -10251,7 +11324,7 @@ class RevenueStatsResponse PROTOBUF_FINAL :
                &_RevenueStatsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    48;
 
   friend void swap(RevenueStatsResponse& a, RevenueStatsResponse& b) {
     a.Swap(&b);
@@ -10446,7 +11519,7 @@ class VehicleStatsResponse PROTOBUF_FINAL :
                &_VehicleStatsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    49;
 
   friend void swap(VehicleStatsResponse& a, VehicleStatsResponse& b) {
     a.Swap(&b);
@@ -10685,7 +11758,7 @@ class VehicleStatsBrandItem PROTOBUF_FINAL :
                &_VehicleStatsBrandItem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    50;
 
   friend void swap(VehicleStatsBrandItem& a, VehicleStatsBrandItem& b) {
     a.Swap(&b);
@@ -10849,7 +11922,7 @@ class SendMailRequest PROTOBUF_FINAL :
                &_SendMailRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    51;
 
   friend void swap(SendMailRequest& a, SendMailRequest& b) {
     a.Swap(&b);
@@ -11029,7 +12102,7 @@ class SendMailResponse PROTOBUF_FINAL :
                &_SendMailResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    52;
 
   friend void swap(SendMailResponse& a, SendMailResponse& b) {
     a.Swap(&b);
@@ -11166,7 +12239,7 @@ class SendVerifyCodeRequest PROTOBUF_FINAL :
                &_SendVerifyCodeRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    53;
 
   friend void swap(SendVerifyCodeRequest& a, SendVerifyCodeRequest& b) {
     a.Swap(&b);
@@ -11319,7 +12392,7 @@ class SendVerifyCodeResponse PROTOBUF_FINAL :
                &_SendVerifyCodeResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    54;
 
   friend void swap(SendVerifyCodeResponse& a, SendVerifyCodeResponse& b) {
     a.Swap(&b);
@@ -15415,6 +16488,693 @@ inline void UpdateUserRoleRequest::unsafe_arena_set_allocated_role(
   role_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       role, GetArena());
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.UpdateUserRoleRequest.role)
+}
+
+// -------------------------------------------------------------------
+
+// GetBalanceRequest
+
+// int64 uid = 1;
+inline void GetBalanceRequest::clear_uid() {
+  uid_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GetBalanceRequest::_internal_uid() const {
+  return uid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GetBalanceRequest::uid() const {
+  // @@protoc_insertion_point(field_get:message.GetBalanceRequest.uid)
+  return _internal_uid();
+}
+inline void GetBalanceRequest::_internal_set_uid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  uid_ = value;
+}
+inline void GetBalanceRequest::set_uid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_uid(value);
+  // @@protoc_insertion_point(field_set:message.GetBalanceRequest.uid)
+}
+
+// -------------------------------------------------------------------
+
+// GetBalanceResponse
+
+// int32 error = 1;
+inline void GetBalanceResponse::clear_error() {
+  error_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GetBalanceResponse::_internal_error() const {
+  return error_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GetBalanceResponse::error() const {
+  // @@protoc_insertion_point(field_get:message.GetBalanceResponse.error)
+  return _internal_error();
+}
+inline void GetBalanceResponse::_internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  error_ = value;
+}
+inline void GetBalanceResponse::set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:message.GetBalanceResponse.error)
+}
+
+// double balance = 2;
+inline void GetBalanceResponse::clear_balance() {
+  balance_ = 0;
+}
+inline double GetBalanceResponse::_internal_balance() const {
+  return balance_;
+}
+inline double GetBalanceResponse::balance() const {
+  // @@protoc_insertion_point(field_get:message.GetBalanceResponse.balance)
+  return _internal_balance();
+}
+inline void GetBalanceResponse::_internal_set_balance(double value) {
+  
+  balance_ = value;
+}
+inline void GetBalanceResponse::set_balance(double value) {
+  _internal_set_balance(value);
+  // @@protoc_insertion_point(field_set:message.GetBalanceResponse.balance)
+}
+
+// -------------------------------------------------------------------
+
+// TopupRequest
+
+// int64 uid = 1;
+inline void TopupRequest::clear_uid() {
+  uid_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 TopupRequest::_internal_uid() const {
+  return uid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 TopupRequest::uid() const {
+  // @@protoc_insertion_point(field_get:message.TopupRequest.uid)
+  return _internal_uid();
+}
+inline void TopupRequest::_internal_set_uid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  uid_ = value;
+}
+inline void TopupRequest::set_uid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_uid(value);
+  // @@protoc_insertion_point(field_set:message.TopupRequest.uid)
+}
+
+// double amount = 2;
+inline void TopupRequest::clear_amount() {
+  amount_ = 0;
+}
+inline double TopupRequest::_internal_amount() const {
+  return amount_;
+}
+inline double TopupRequest::amount() const {
+  // @@protoc_insertion_point(field_get:message.TopupRequest.amount)
+  return _internal_amount();
+}
+inline void TopupRequest::_internal_set_amount(double value) {
+  
+  amount_ = value;
+}
+inline void TopupRequest::set_amount(double value) {
+  _internal_set_amount(value);
+  // @@protoc_insertion_point(field_set:message.TopupRequest.amount)
+}
+
+// string remark = 3;
+inline void TopupRequest::clear_remark() {
+  remark_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& TopupRequest::remark() const {
+  // @@protoc_insertion_point(field_get:message.TopupRequest.remark)
+  return _internal_remark();
+}
+inline void TopupRequest::set_remark(const std::string& value) {
+  _internal_set_remark(value);
+  // @@protoc_insertion_point(field_set:message.TopupRequest.remark)
+}
+inline std::string* TopupRequest::mutable_remark() {
+  // @@protoc_insertion_point(field_mutable:message.TopupRequest.remark)
+  return _internal_mutable_remark();
+}
+inline const std::string& TopupRequest::_internal_remark() const {
+  return remark_.Get();
+}
+inline void TopupRequest::_internal_set_remark(const std::string& value) {
+  
+  remark_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void TopupRequest::set_remark(std::string&& value) {
+  
+  remark_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.TopupRequest.remark)
+}
+inline void TopupRequest::set_remark(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  remark_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.TopupRequest.remark)
+}
+inline void TopupRequest::set_remark(const char* value,
+    size_t size) {
+  
+  remark_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.TopupRequest.remark)
+}
+inline std::string* TopupRequest::_internal_mutable_remark() {
+  
+  return remark_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* TopupRequest::release_remark() {
+  // @@protoc_insertion_point(field_release:message.TopupRequest.remark)
+  return remark_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void TopupRequest::set_allocated_remark(std::string* remark) {
+  if (remark != nullptr) {
+    
+  } else {
+    
+  }
+  remark_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), remark,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.TopupRequest.remark)
+}
+inline std::string* TopupRequest::unsafe_arena_release_remark() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.TopupRequest.remark)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return remark_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void TopupRequest::unsafe_arena_set_allocated_remark(
+    std::string* remark) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (remark != nullptr) {
+    
+  } else {
+    
+  }
+  remark_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      remark, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.TopupRequest.remark)
+}
+
+// -------------------------------------------------------------------
+
+// BalanceRecordInfo
+
+// int64 id = 1;
+inline void BalanceRecordInfo::clear_id() {
+  id_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 BalanceRecordInfo::_internal_id() const {
+  return id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 BalanceRecordInfo::id() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordInfo.id)
+  return _internal_id();
+}
+inline void BalanceRecordInfo::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  id_ = value;
+}
+inline void BalanceRecordInfo::set_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordInfo.id)
+}
+
+// int64 user_id = 2;
+inline void BalanceRecordInfo::clear_user_id() {
+  user_id_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 BalanceRecordInfo::_internal_user_id() const {
+  return user_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 BalanceRecordInfo::user_id() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordInfo.user_id)
+  return _internal_user_id();
+}
+inline void BalanceRecordInfo::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  user_id_ = value;
+}
+inline void BalanceRecordInfo::set_user_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_user_id(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordInfo.user_id)
+}
+
+// double amount = 3;
+inline void BalanceRecordInfo::clear_amount() {
+  amount_ = 0;
+}
+inline double BalanceRecordInfo::_internal_amount() const {
+  return amount_;
+}
+inline double BalanceRecordInfo::amount() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordInfo.amount)
+  return _internal_amount();
+}
+inline void BalanceRecordInfo::_internal_set_amount(double value) {
+  
+  amount_ = value;
+}
+inline void BalanceRecordInfo::set_amount(double value) {
+  _internal_set_amount(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordInfo.amount)
+}
+
+// string type = 4;
+inline void BalanceRecordInfo::clear_type() {
+  type_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& BalanceRecordInfo::type() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordInfo.type)
+  return _internal_type();
+}
+inline void BalanceRecordInfo::set_type(const std::string& value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordInfo.type)
+}
+inline std::string* BalanceRecordInfo::mutable_type() {
+  // @@protoc_insertion_point(field_mutable:message.BalanceRecordInfo.type)
+  return _internal_mutable_type();
+}
+inline const std::string& BalanceRecordInfo::_internal_type() const {
+  return type_.Get();
+}
+inline void BalanceRecordInfo::_internal_set_type(const std::string& value) {
+  
+  type_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void BalanceRecordInfo::set_type(std::string&& value) {
+  
+  type_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.BalanceRecordInfo.type)
+}
+inline void BalanceRecordInfo::set_type(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  type_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.BalanceRecordInfo.type)
+}
+inline void BalanceRecordInfo::set_type(const char* value,
+    size_t size) {
+  
+  type_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.BalanceRecordInfo.type)
+}
+inline std::string* BalanceRecordInfo::_internal_mutable_type() {
+  
+  return type_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* BalanceRecordInfo::release_type() {
+  // @@protoc_insertion_point(field_release:message.BalanceRecordInfo.type)
+  return type_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void BalanceRecordInfo::set_allocated_type(std::string* type) {
+  if (type != nullptr) {
+    
+  } else {
+    
+  }
+  type_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), type,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.BalanceRecordInfo.type)
+}
+inline std::string* BalanceRecordInfo::unsafe_arena_release_type() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.BalanceRecordInfo.type)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return type_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void BalanceRecordInfo::unsafe_arena_set_allocated_type(
+    std::string* type) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (type != nullptr) {
+    
+  } else {
+    
+  }
+  type_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      type, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.BalanceRecordInfo.type)
+}
+
+// int64 operator_id = 5;
+inline void BalanceRecordInfo::clear_operator_id() {
+  operator_id_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 BalanceRecordInfo::_internal_operator_id() const {
+  return operator_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 BalanceRecordInfo::operator_id() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordInfo.operator_id)
+  return _internal_operator_id();
+}
+inline void BalanceRecordInfo::_internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  operator_id_ = value;
+}
+inline void BalanceRecordInfo::set_operator_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_operator_id(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordInfo.operator_id)
+}
+
+// string remark = 6;
+inline void BalanceRecordInfo::clear_remark() {
+  remark_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& BalanceRecordInfo::remark() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordInfo.remark)
+  return _internal_remark();
+}
+inline void BalanceRecordInfo::set_remark(const std::string& value) {
+  _internal_set_remark(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordInfo.remark)
+}
+inline std::string* BalanceRecordInfo::mutable_remark() {
+  // @@protoc_insertion_point(field_mutable:message.BalanceRecordInfo.remark)
+  return _internal_mutable_remark();
+}
+inline const std::string& BalanceRecordInfo::_internal_remark() const {
+  return remark_.Get();
+}
+inline void BalanceRecordInfo::_internal_set_remark(const std::string& value) {
+  
+  remark_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void BalanceRecordInfo::set_remark(std::string&& value) {
+  
+  remark_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.BalanceRecordInfo.remark)
+}
+inline void BalanceRecordInfo::set_remark(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  remark_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.BalanceRecordInfo.remark)
+}
+inline void BalanceRecordInfo::set_remark(const char* value,
+    size_t size) {
+  
+  remark_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.BalanceRecordInfo.remark)
+}
+inline std::string* BalanceRecordInfo::_internal_mutable_remark() {
+  
+  return remark_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* BalanceRecordInfo::release_remark() {
+  // @@protoc_insertion_point(field_release:message.BalanceRecordInfo.remark)
+  return remark_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void BalanceRecordInfo::set_allocated_remark(std::string* remark) {
+  if (remark != nullptr) {
+    
+  } else {
+    
+  }
+  remark_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), remark,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.BalanceRecordInfo.remark)
+}
+inline std::string* BalanceRecordInfo::unsafe_arena_release_remark() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.BalanceRecordInfo.remark)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return remark_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void BalanceRecordInfo::unsafe_arena_set_allocated_remark(
+    std::string* remark) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (remark != nullptr) {
+    
+  } else {
+    
+  }
+  remark_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      remark, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.BalanceRecordInfo.remark)
+}
+
+// string created_at = 7;
+inline void BalanceRecordInfo::clear_created_at() {
+  created_at_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& BalanceRecordInfo::created_at() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordInfo.created_at)
+  return _internal_created_at();
+}
+inline void BalanceRecordInfo::set_created_at(const std::string& value) {
+  _internal_set_created_at(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordInfo.created_at)
+}
+inline std::string* BalanceRecordInfo::mutable_created_at() {
+  // @@protoc_insertion_point(field_mutable:message.BalanceRecordInfo.created_at)
+  return _internal_mutable_created_at();
+}
+inline const std::string& BalanceRecordInfo::_internal_created_at() const {
+  return created_at_.Get();
+}
+inline void BalanceRecordInfo::_internal_set_created_at(const std::string& value) {
+  
+  created_at_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void BalanceRecordInfo::set_created_at(std::string&& value) {
+  
+  created_at_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.BalanceRecordInfo.created_at)
+}
+inline void BalanceRecordInfo::set_created_at(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  created_at_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.BalanceRecordInfo.created_at)
+}
+inline void BalanceRecordInfo::set_created_at(const char* value,
+    size_t size) {
+  
+  created_at_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.BalanceRecordInfo.created_at)
+}
+inline std::string* BalanceRecordInfo::_internal_mutable_created_at() {
+  
+  return created_at_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* BalanceRecordInfo::release_created_at() {
+  // @@protoc_insertion_point(field_release:message.BalanceRecordInfo.created_at)
+  return created_at_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void BalanceRecordInfo::set_allocated_created_at(std::string* created_at) {
+  if (created_at != nullptr) {
+    
+  } else {
+    
+  }
+  created_at_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), created_at,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.BalanceRecordInfo.created_at)
+}
+inline std::string* BalanceRecordInfo::unsafe_arena_release_created_at() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.BalanceRecordInfo.created_at)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return created_at_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void BalanceRecordInfo::unsafe_arena_set_allocated_created_at(
+    std::string* created_at) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (created_at != nullptr) {
+    
+  } else {
+    
+  }
+  created_at_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      created_at, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.BalanceRecordInfo.created_at)
+}
+
+// -------------------------------------------------------------------
+
+// BalanceRecordListRequest
+
+// int64 uid = 1;
+inline void BalanceRecordListRequest::clear_uid() {
+  uid_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 BalanceRecordListRequest::_internal_uid() const {
+  return uid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 BalanceRecordListRequest::uid() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordListRequest.uid)
+  return _internal_uid();
+}
+inline void BalanceRecordListRequest::_internal_set_uid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  uid_ = value;
+}
+inline void BalanceRecordListRequest::set_uid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_uid(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordListRequest.uid)
+}
+
+// int32 page = 2;
+inline void BalanceRecordListRequest::clear_page() {
+  page_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BalanceRecordListRequest::_internal_page() const {
+  return page_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BalanceRecordListRequest::page() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordListRequest.page)
+  return _internal_page();
+}
+inline void BalanceRecordListRequest::_internal_set_page(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  page_ = value;
+}
+inline void BalanceRecordListRequest::set_page(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_page(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordListRequest.page)
+}
+
+// int32 page_size = 3;
+inline void BalanceRecordListRequest::clear_page_size() {
+  page_size_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BalanceRecordListRequest::_internal_page_size() const {
+  return page_size_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BalanceRecordListRequest::page_size() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordListRequest.page_size)
+  return _internal_page_size();
+}
+inline void BalanceRecordListRequest::_internal_set_page_size(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  page_size_ = value;
+}
+inline void BalanceRecordListRequest::set_page_size(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_page_size(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordListRequest.page_size)
+}
+
+// -------------------------------------------------------------------
+
+// BalanceRecordListResponse
+
+// int32 error = 1;
+inline void BalanceRecordListResponse::clear_error() {
+  error_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BalanceRecordListResponse::_internal_error() const {
+  return error_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BalanceRecordListResponse::error() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordListResponse.error)
+  return _internal_error();
+}
+inline void BalanceRecordListResponse::_internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  error_ = value;
+}
+inline void BalanceRecordListResponse::set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordListResponse.error)
+}
+
+// repeated .message.BalanceRecordInfo records = 2;
+inline int BalanceRecordListResponse::_internal_records_size() const {
+  return records_.size();
+}
+inline int BalanceRecordListResponse::records_size() const {
+  return _internal_records_size();
+}
+inline void BalanceRecordListResponse::clear_records() {
+  records_.Clear();
+}
+inline ::message::BalanceRecordInfo* BalanceRecordListResponse::mutable_records(int index) {
+  // @@protoc_insertion_point(field_mutable:message.BalanceRecordListResponse.records)
+  return records_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::BalanceRecordInfo >*
+BalanceRecordListResponse::mutable_records() {
+  // @@protoc_insertion_point(field_mutable_list:message.BalanceRecordListResponse.records)
+  return &records_;
+}
+inline const ::message::BalanceRecordInfo& BalanceRecordListResponse::_internal_records(int index) const {
+  return records_.Get(index);
+}
+inline const ::message::BalanceRecordInfo& BalanceRecordListResponse::records(int index) const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordListResponse.records)
+  return _internal_records(index);
+}
+inline ::message::BalanceRecordInfo* BalanceRecordListResponse::_internal_add_records() {
+  return records_.Add();
+}
+inline ::message::BalanceRecordInfo* BalanceRecordListResponse::add_records() {
+  // @@protoc_insertion_point(field_add:message.BalanceRecordListResponse.records)
+  return _internal_add_records();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::message::BalanceRecordInfo >&
+BalanceRecordListResponse::records() const {
+  // @@protoc_insertion_point(field_list:message.BalanceRecordListResponse.records)
+  return records_;
+}
+
+// int32 total = 3;
+inline void BalanceRecordListResponse::clear_total() {
+  total_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BalanceRecordListResponse::_internal_total() const {
+  return total_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 BalanceRecordListResponse::total() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordListResponse.total)
+  return _internal_total();
+}
+inline void BalanceRecordListResponse::_internal_set_total(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  total_ = value;
+}
+inline void BalanceRecordListResponse::set_total(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_total(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordListResponse.total)
+}
+
+// double balance = 4;
+inline void BalanceRecordListResponse::clear_balance() {
+  balance_ = 0;
+}
+inline double BalanceRecordListResponse::_internal_balance() const {
+  return balance_;
+}
+inline double BalanceRecordListResponse::balance() const {
+  // @@protoc_insertion_point(field_get:message.BalanceRecordListResponse.balance)
+  return _internal_balance();
+}
+inline void BalanceRecordListResponse::_internal_set_balance(double value) {
+  
+  balance_ = value;
+}
+inline void BalanceRecordListResponse::set_balance(double value) {
+  _internal_set_balance(value);
+  // @@protoc_insertion_point(field_set:message.BalanceRecordListResponse.balance)
 }
 
 // -------------------------------------------------------------------
@@ -25113,6 +26873,18 @@ inline void SendVerifyCodeResponse::unsafe_arena_set_allocated_msg(
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

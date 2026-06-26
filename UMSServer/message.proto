@@ -99,6 +99,46 @@ message UpdateUserRoleRequest {
     string role = 2;
 }
 
+// Balance messages
+message GetBalanceRequest {
+    int64 uid = 1;
+}
+
+message GetBalanceResponse {
+    int32 error = 1;
+    double balance = 2;
+}
+
+message TopupRequest {
+    int64 uid = 1;
+    double amount = 2;
+    string remark = 3;
+}
+
+message BalanceRecordInfo {
+    int64 id = 1;
+    int64 user_id = 2;
+    double amount = 3;
+    string type = 4;
+    int64 operator_id = 5;
+    string remark = 6;
+    string created_at = 7;
+}
+
+message BalanceRecordListRequest {
+    int64 uid = 1;
+    int32 page = 2;
+    int32 page_size = 3;
+}
+
+message BalanceRecordListResponse {
+    int32 error = 1;
+    string msg = 2;
+    repeated BalanceRecordInfo records = 3;
+    int32 total = 4;
+    double balance = 5;
+}
+
 service UserService {
     rpc UserRegister(UserRegisterRequest) returns (CommonResponse);
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
@@ -107,4 +147,7 @@ service UserService {
     rpc GetUserList(UserListRequest) returns (UserListResponse);
     rpc UpdateUserStatus(UpdateUserStatusRequest) returns (CommonResponse);
     rpc UpdateUserRole(UpdateUserRoleRequest) returns (CommonResponse);
+    rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);
+    rpc TopupBalance(TopupRequest) returns (CommonResponse);
+    rpc GetBalanceRecords(BalanceRecordListRequest) returns (BalanceRecordListResponse);
 }

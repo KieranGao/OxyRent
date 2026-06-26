@@ -14,6 +14,7 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+extern PROTOBUF_INTERNAL_EXPORT_message_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_BalanceRecordInfo_message_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_message_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_InvoiceInfo_message_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_message_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_MaintenanceInfo_message_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_message_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_OrderInfo_message_2eproto;
@@ -71,6 +72,30 @@ class UpdateUserRoleRequestDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UpdateUserRoleRequest> _instance;
 } _UpdateUserRoleRequest_default_instance_;
+class GetBalanceRequestDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GetBalanceRequest> _instance;
+} _GetBalanceRequest_default_instance_;
+class GetBalanceResponseDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GetBalanceResponse> _instance;
+} _GetBalanceResponse_default_instance_;
+class TopupRequestDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TopupRequest> _instance;
+} _TopupRequest_default_instance_;
+class BalanceRecordInfoDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<BalanceRecordInfo> _instance;
+} _BalanceRecordInfo_default_instance_;
+class BalanceRecordListRequestDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<BalanceRecordListRequest> _instance;
+} _BalanceRecordListRequest_default_instance_;
+class BalanceRecordListResponseDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<BalanceRecordListResponse> _instance;
+} _BalanceRecordListResponse_default_instance_;
 class VehicleInfoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<VehicleInfo> _instance;
@@ -234,6 +259,49 @@ static void InitDefaultsscc_info_AddVehicleRequest_message_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AddVehicleRequest_message_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_AddVehicleRequest_message_2eproto}, {}};
 
+static void InitDefaultsscc_info_BalanceRecordInfo_message_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::message::_BalanceRecordInfo_default_instance_;
+    new (ptr) ::message::BalanceRecordInfo();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::message::BalanceRecordInfo::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_BalanceRecordInfo_message_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_BalanceRecordInfo_message_2eproto}, {}};
+
+static void InitDefaultsscc_info_BalanceRecordListRequest_message_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::message::_BalanceRecordListRequest_default_instance_;
+    new (ptr) ::message::BalanceRecordListRequest();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::message::BalanceRecordListRequest::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_BalanceRecordListRequest_message_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_BalanceRecordListRequest_message_2eproto}, {}};
+
+static void InitDefaultsscc_info_BalanceRecordListResponse_message_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::message::_BalanceRecordListResponse_default_instance_;
+    new (ptr) ::message::BalanceRecordListResponse();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::message::BalanceRecordListResponse::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_BalanceRecordListResponse_message_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_BalanceRecordListResponse_message_2eproto}, {
+      &scc_info_BalanceRecordInfo_message_2eproto.base,}};
+
 static void InitDefaultsscc_info_CommonResponse_message_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -303,6 +371,34 @@ static void InitDefaultsscc_info_GenerateInvoiceRequest_message_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GenerateInvoiceRequest_message_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GenerateInvoiceRequest_message_2eproto}, {}};
+
+static void InitDefaultsscc_info_GetBalanceRequest_message_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::message::_GetBalanceRequest_default_instance_;
+    new (ptr) ::message::GetBalanceRequest();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::message::GetBalanceRequest::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GetBalanceRequest_message_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GetBalanceRequest_message_2eproto}, {}};
+
+static void InitDefaultsscc_info_GetBalanceResponse_message_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::message::_GetBalanceResponse_default_instance_;
+    new (ptr) ::message::GetBalanceResponse();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::message::GetBalanceResponse::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GetBalanceResponse_message_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GetBalanceResponse_message_2eproto}, {}};
 
 static void InitDefaultsscc_info_InvoiceInfo_message_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -645,6 +741,20 @@ static void InitDefaultsscc_info_StatsOverviewResponse_message_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StatsOverviewResponse_message_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StatsOverviewResponse_message_2eproto}, {}};
 
+static void InitDefaultsscc_info_TopupRequest_message_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::message::_TopupRequest_default_instance_;
+    new (ptr) ::message::TopupRequest();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::message::TopupRequest::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TopupRequest_message_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TopupRequest_message_2eproto}, {}};
+
 static void InitDefaultsscc_info_UpdateMaintenanceRequest_message_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -914,7 +1024,7 @@ static void InitDefaultsscc_info_VehicleStatsResponse_message_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_VehicleStatsResponse_message_2eproto}, {
       &scc_info_VehicleStatsBrandItem_message_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_message_2eproto[49];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_message_2eproto[55];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_message_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_message_2eproto = nullptr;
 
@@ -1040,6 +1150,56 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_message_2eproto::offsets[] PRO
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::message::UpdateUserRoleRequest, uid_),
   PROTOBUF_FIELD_OFFSET(::message::UpdateUserRoleRequest, role_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::message::GetBalanceRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::message::GetBalanceRequest, uid_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::message::GetBalanceResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::message::GetBalanceResponse, error_),
+  PROTOBUF_FIELD_OFFSET(::message::GetBalanceResponse, balance_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::message::TopupRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::message::TopupRequest, uid_),
+  PROTOBUF_FIELD_OFFSET(::message::TopupRequest, amount_),
+  PROTOBUF_FIELD_OFFSET(::message::TopupRequest, remark_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordInfo, id_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordInfo, user_id_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordInfo, amount_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordInfo, type_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordInfo, operator_id_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordInfo, remark_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordInfo, created_at_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListRequest, uid_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListRequest, page_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListRequest, page_size_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListResponse, error_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListResponse, records_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListResponse, total_),
+  PROTOBUF_FIELD_OFFSET(::message::BalanceRecordListResponse, balance_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::message::VehicleInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1429,43 +1589,49 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 98, -1, sizeof(::message::UserListResponse)},
   { 107, -1, sizeof(::message::UpdateUserStatusRequest)},
   { 114, -1, sizeof(::message::UpdateUserRoleRequest)},
-  { 121, -1, sizeof(::message::VehicleInfo)},
-  { 139, -1, sizeof(::message::VehicleListRequest)},
-  { 149, -1, sizeof(::message::VehicleListResponse)},
-  { 158, -1, sizeof(::message::VehicleDetailRequest)},
-  { 164, -1, sizeof(::message::AddVehicleRequest)},
-  { 179, -1, sizeof(::message::UpdateVehicleRequest)},
-  { 196, -1, sizeof(::message::OrderInfo)},
-  { 219, -1, sizeof(::message::CreateOrderRequest)},
-  { 229, -1, sizeof(::message::OrderListRequest)},
-  { 240, -1, sizeof(::message::OrderListResponse)},
-  { 249, -1, sizeof(::message::OrderDetailRequest)},
-  { 255, -1, sizeof(::message::PickupRequest)},
-  { 261, -1, sizeof(::message::ReturnRequest)},
-  { 267, -1, sizeof(::message::RenewRequest)},
-  { 274, -1, sizeof(::message::MaintenanceInfo)},
-  { 290, -1, sizeof(::message::CreateMaintenanceRequest)},
-  { 301, -1, sizeof(::message::UpdateMaintenanceRequest)},
-  { 312, -1, sizeof(::message::MaintenanceListRequest)},
-  { 322, -1, sizeof(::message::MaintenanceListResponse)},
-  { 331, -1, sizeof(::message::PaymentInfo)},
-  { 346, -1, sizeof(::message::CreatePaymentRequest)},
-  { 356, -1, sizeof(::message::PaymentListRequest)},
-  { 366, -1, sizeof(::message::PaymentListResponse)},
-  { 375, -1, sizeof(::message::InvoiceInfo)},
-  { 389, -1, sizeof(::message::GenerateInvoiceRequest)},
-  { 395, -1, sizeof(::message::InvoiceListRequest)},
-  { 402, -1, sizeof(::message::InvoiceListResponse)},
-  { 411, -1, sizeof(::message::StatsOverviewResponse)},
-  { 425, -1, sizeof(::message::RevenueStatsRequest)},
-  { 433, -1, sizeof(::message::RevenueStatsItem)},
-  { 441, -1, sizeof(::message::RevenueStatsResponse)},
-  { 450, -1, sizeof(::message::VehicleStatsResponse)},
-  { 463, -1, sizeof(::message::VehicleStatsBrandItem)},
-  { 470, -1, sizeof(::message::SendMailRequest)},
-  { 477, -1, sizeof(::message::SendMailResponse)},
-  { 483, -1, sizeof(::message::SendVerifyCodeRequest)},
-  { 489, -1, sizeof(::message::SendVerifyCodeResponse)},
+  { 121, -1, sizeof(::message::GetBalanceRequest)},
+  { 127, -1, sizeof(::message::GetBalanceResponse)},
+  { 134, -1, sizeof(::message::TopupRequest)},
+  { 142, -1, sizeof(::message::BalanceRecordInfo)},
+  { 154, -1, sizeof(::message::BalanceRecordListRequest)},
+  { 162, -1, sizeof(::message::BalanceRecordListResponse)},
+  { 171, -1, sizeof(::message::VehicleInfo)},
+  { 189, -1, sizeof(::message::VehicleListRequest)},
+  { 199, -1, sizeof(::message::VehicleListResponse)},
+  { 208, -1, sizeof(::message::VehicleDetailRequest)},
+  { 214, -1, sizeof(::message::AddVehicleRequest)},
+  { 229, -1, sizeof(::message::UpdateVehicleRequest)},
+  { 246, -1, sizeof(::message::OrderInfo)},
+  { 269, -1, sizeof(::message::CreateOrderRequest)},
+  { 279, -1, sizeof(::message::OrderListRequest)},
+  { 290, -1, sizeof(::message::OrderListResponse)},
+  { 299, -1, sizeof(::message::OrderDetailRequest)},
+  { 305, -1, sizeof(::message::PickupRequest)},
+  { 311, -1, sizeof(::message::ReturnRequest)},
+  { 317, -1, sizeof(::message::RenewRequest)},
+  { 324, -1, sizeof(::message::MaintenanceInfo)},
+  { 340, -1, sizeof(::message::CreateMaintenanceRequest)},
+  { 351, -1, sizeof(::message::UpdateMaintenanceRequest)},
+  { 362, -1, sizeof(::message::MaintenanceListRequest)},
+  { 372, -1, sizeof(::message::MaintenanceListResponse)},
+  { 381, -1, sizeof(::message::PaymentInfo)},
+  { 396, -1, sizeof(::message::CreatePaymentRequest)},
+  { 406, -1, sizeof(::message::PaymentListRequest)},
+  { 416, -1, sizeof(::message::PaymentListResponse)},
+  { 425, -1, sizeof(::message::InvoiceInfo)},
+  { 439, -1, sizeof(::message::GenerateInvoiceRequest)},
+  { 445, -1, sizeof(::message::InvoiceListRequest)},
+  { 452, -1, sizeof(::message::InvoiceListResponse)},
+  { 461, -1, sizeof(::message::StatsOverviewResponse)},
+  { 475, -1, sizeof(::message::RevenueStatsRequest)},
+  { 483, -1, sizeof(::message::RevenueStatsItem)},
+  { 491, -1, sizeof(::message::RevenueStatsResponse)},
+  { 500, -1, sizeof(::message::VehicleStatsResponse)},
+  { 513, -1, sizeof(::message::VehicleStatsBrandItem)},
+  { 520, -1, sizeof(::message::SendMailRequest)},
+  { 527, -1, sizeof(::message::SendMailResponse)},
+  { 533, -1, sizeof(::message::SendVerifyCodeRequest)},
+  { 539, -1, sizeof(::message::SendVerifyCodeResponse)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -1481,6 +1647,12 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_UserListResponse_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_UpdateUserStatusRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_UpdateUserRoleRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_GetBalanceRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_GetBalanceResponse_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_TopupRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_BalanceRecordInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_BalanceRecordListRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_BalanceRecordListResponse_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_VehicleInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_VehicleListRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::message::_VehicleListResponse_default_instance_),
@@ -1553,183 +1725,206 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "Item\022\r\n\005total\030\004 \001(\005\"6\n\027UpdateUserStatusR"
   "equest\022\013\n\003uid\030\001 \001(\003\022\016\n\006status\030\002 \001(\t\"2\n\025U"
   "pdateUserRoleRequest\022\013\n\003uid\030\001 \001(\003\022\014\n\004rol"
-  "e\030\002 \001(\t\"\363\001\n\013VehicleInfo\022\n\n\002id\030\001 \001(\003\022\024\n\014p"
-  "late_number\030\002 \001(\t\022\r\n\005brand\030\003 \001(\t\022\r\n\005mode"
-  "l\030\004 \001(\t\022\r\n\005color\030\005 \001(\t\022\014\n\004year\030\006 \001(\005\022\017\n\007"
-  "mileage\030\007 \001(\005\022\016\n\006status\030\010 \001(\t\022\022\n\ndaily_r"
-  "ate\030\t \001(\001\022\026\n\016deposit_amount\030\n \001(\001\022\021\n\tima"
-  "ge_url\030\013 \001(\t\022\023\n\013description\030\014 \001(\t\022\022\n\ncre"
-  "ated_at\030\r \001(\t\"e\n\022VehicleListRequest\022\014\n\004p"
-  "age\030\001 \001(\005\022\021\n\tpage_size\030\002 \001(\005\022\017\n\007keyword\030"
-  "\003 \001(\t\022\016\n\006status\030\004 \001(\t\022\r\n\005brand\030\005 \001(\t\"h\n\023"
-  "VehicleListResponse\022\r\n\005error\030\001 \001(\005\022\013\n\003ms"
-  "g\030\002 \001(\t\022&\n\010vehicles\030\003 \003(\0132\024.message.Vehi"
-  "cleInfo\022\r\n\005total\030\004 \001(\005\"\"\n\024VehicleDetailR"
-  "equest\022\n\n\002id\030\001 \001(\003\"\311\001\n\021AddVehicleRequest"
-  "\022\024\n\014plate_number\030\001 \001(\t\022\r\n\005brand\030\002 \001(\t\022\r\n"
-  "\005model\030\003 \001(\t\022\r\n\005color\030\004 \001(\t\022\014\n\004year\030\005 \001("
-  "\005\022\017\n\007mileage\030\006 \001(\005\022\022\n\ndaily_rate\030\007 \001(\001\022\026"
-  "\n\016deposit_amount\030\010 \001(\001\022\021\n\timage_url\030\t \001("
-  "\t\022\023\n\013description\030\n \001(\t\"\350\001\n\024UpdateVehicle"
-  "Request\022\n\n\002id\030\001 \001(\003\022\024\n\014plate_number\030\002 \001("
-  "\t\022\r\n\005brand\030\003 \001(\t\022\r\n\005model\030\004 \001(\t\022\r\n\005color"
-  "\030\005 \001(\t\022\014\n\004year\030\006 \001(\005\022\017\n\007mileage\030\007 \001(\005\022\016\n"
-  "\006status\030\010 \001(\t\022\022\n\ndaily_rate\030\t \001(\001\022\026\n\016dep"
-  "osit_amount\030\n \001(\001\022\021\n\timage_url\030\013 \001(\t\022\023\n\013"
-  "description\030\014 \001(\t\"\337\002\n\tOrderInfo\022\n\n\002id\030\001 "
-  "\001(\003\022\020\n\010order_no\030\002 \001(\t\022\017\n\007user_id\030\003 \001(\003\022\020"
-  "\n\010username\030\004 \001(\t\022\022\n\nvehicle_id\030\005 \001(\003\022\024\n\014"
-  "plate_number\030\006 \001(\t\022\024\n\014vehicle_info\030\007 \001(\t"
-  "\022\022\n\nstart_date\030\010 \001(\t\022\020\n\010end_date\030\t \001(\t\022\032"
-  "\n\022actual_return_date\030\n \001(\t\022\016\n\006status\030\013 \001"
-  "(\t\022\017\n\007deposit\030\014 \001(\001\022\022\n\ndaily_rate\030\r \001(\001\022"
-  "\022\n\ntotal_days\030\016 \001(\005\022\022\n\ntotal_cost\030\017 \001(\001\022"
-  "\017\n\007penalty\030\020 \001(\001\022\r\n\005notes\030\021 \001(\t\022\022\n\ncreat"
-  "ed_at\030\022 \001(\t\"n\n\022CreateOrderRequest\022\017\n\007use"
-  "r_id\030\001 \001(\003\022\022\n\nvehicle_id\030\002 \001(\003\022\022\n\nstart_"
-  "date\030\003 \001(\t\022\020\n\010end_date\030\004 \001(\t\022\r\n\005notes\030\005 "
-  "\001(\t\"y\n\020OrderListRequest\022\014\n\004page\030\001 \001(\005\022\021\n"
-  "\tpage_size\030\002 \001(\005\022\017\n\007user_id\030\003 \001(\003\022\022\n\nveh"
-  "icle_id\030\004 \001(\003\022\016\n\006status\030\005 \001(\t\022\017\n\007keyword"
-  "\030\006 \001(\t\"b\n\021OrderListResponse\022\r\n\005error\030\001 \001"
-  "(\005\022\013\n\003msg\030\002 \001(\t\022\"\n\006orders\030\003 \003(\0132\022.messag"
-  "e.OrderInfo\022\r\n\005total\030\004 \001(\005\" \n\022OrderDetai"
-  "lRequest\022\n\n\002id\030\001 \001(\003\"!\n\rPickupRequest\022\020\n"
-  "\010order_id\030\001 \001(\003\"!\n\rReturnRequest\022\020\n\010orde"
-  "r_id\030\001 \001(\003\"6\n\014RenewRequest\022\020\n\010order_id\030\001"
-  " \001(\003\022\024\n\014new_end_date\030\002 \001(\t\"\326\001\n\017Maintenan"
-  "ceInfo\022\n\n\002id\030\001 \001(\003\022\022\n\nvehicle_id\030\002 \001(\003\022\024"
-  "\n\014plate_number\030\003 \001(\t\022\014\n\004type\030\004 \001(\t\022\023\n\013de"
-  "scription\030\005 \001(\t\022\014\n\004cost\030\006 \001(\001\022\022\n\ntechnic"
-  "ian\030\007 \001(\t\022\022\n\nstart_date\030\010 \001(\t\022\020\n\010end_dat"
-  "e\030\t \001(\t\022\016\n\006status\030\n \001(\t\022\022\n\ncreated_at\030\013 "
-  "\001(\t\"\207\001\n\030CreateMaintenanceRequest\022\022\n\nvehi"
-  "cle_id\030\001 \001(\003\022\014\n\004type\030\002 \001(\t\022\023\n\013descriptio"
-  "n\030\003 \001(\t\022\014\n\004cost\030\004 \001(\001\022\022\n\ntechnician\030\005 \001("
-  "\t\022\022\n\nstart_date\030\006 \001(\t\"\177\n\030UpdateMaintenan"
-  "ceRequest\022\n\n\002id\030\001 \001(\003\022\023\n\013description\030\002 \001"
-  "(\t\022\014\n\004cost\030\003 \001(\001\022\022\n\ntechnician\030\004 \001(\t\022\020\n\010"
-  "end_date\030\005 \001(\t\022\016\n\006status\030\006 \001(\t\"k\n\026Mainte"
-  "nanceListRequest\022\014\n\004page\030\001 \001(\005\022\021\n\tpage_s"
-  "ize\030\002 \001(\005\022\022\n\nvehicle_id\030\003 \001(\003\022\016\n\006status\030"
-  "\004 \001(\t\022\014\n\004type\030\005 \001(\t\"o\n\027MaintenanceListRe"
-  "sponse\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022)\n\007re"
-  "cords\030\003 \003(\0132\030.message.MaintenanceInfo\022\r\n"
-  "\005total\030\004 \001(\005\"\260\001\n\013PaymentInfo\022\n\n\002id\030\001 \001(\003"
-  "\022\020\n\010order_id\030\002 \001(\003\022\020\n\010order_no\030\003 \001(\t\022\016\n\006"
-  "amount\030\004 \001(\001\022\014\n\004type\030\005 \001(\t\022\016\n\006method\030\006 \001"
-  "(\t\022\016\n\006status\030\007 \001(\t\022\016\n\006remark\030\010 \001(\t\022\017\n\007pa"
-  "id_at\030\t \001(\t\022\022\n\ncreated_at\030\n \001(\t\"f\n\024Creat"
-  "ePaymentRequest\022\020\n\010order_id\030\001 \001(\003\022\016\n\006amo"
-  "unt\030\002 \001(\001\022\014\n\004type\030\003 \001(\t\022\016\n\006method\030\004 \001(\t\022"
-  "\016\n\006remark\030\005 \001(\t\"e\n\022PaymentListRequest\022\014\n"
-  "\004page\030\001 \001(\005\022\021\n\tpage_size\030\002 \001(\005\022\020\n\010order_"
-  "id\030\003 \001(\003\022\016\n\006status\030\004 \001(\t\022\014\n\004type\030\005 \001(\t\"h"
-  "\n\023PaymentListResponse\022\r\n\005error\030\001 \001(\005\022\013\n\003"
-  "msg\030\002 \001(\t\022&\n\010payments\030\003 \003(\0132\024.message.Pa"
-  "ymentInfo\022\r\n\005total\030\004 \001(\005\"\257\001\n\013InvoiceInfo"
-  "\022\n\n\002id\030\001 \001(\003\022\022\n\ninvoice_no\030\002 \001(\t\022\020\n\010orde"
-  "r_id\030\003 \001(\003\022\020\n\010order_no\030\004 \001(\t\022\017\n\007user_id\030"
-  "\005 \001(\003\022\020\n\010username\030\006 \001(\t\022\024\n\014total_amount\030"
-  "\007 \001(\001\022\r\n\005items\030\010 \001(\t\022\024\n\014generated_at\030\t \001"
-  "(\t\"*\n\026GenerateInvoiceRequest\022\020\n\010order_id"
-  "\030\001 \001(\003\"5\n\022InvoiceListRequest\022\014\n\004page\030\001 \001"
-  "(\005\022\021\n\tpage_size\030\002 \001(\005\"h\n\023InvoiceListResp"
-  "onse\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022&\n\010invo"
-  "ices\030\003 \003(\0132\024.message.InvoiceInfo\022\r\n\005tota"
-  "l\030\004 \001(\005\"\333\001\n\025StatsOverviewResponse\022\r\n\005err"
-  "or\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022\023\n\013total_users\030\003 \001"
-  "(\005\022\026\n\016total_vehicles\030\004 \001(\005\022\032\n\022available_"
-  "vehicles\030\005 \001(\005\022\025\n\ractive_orders\030\006 \001(\005\022\030\n"
-  "\020completed_orders\030\007 \001(\005\022\025\n\rtotal_revenue"
-  "\030\010 \001(\001\022\025\n\rmonth_revenue\030\t \001(\001\"P\n\023Revenue"
-  "StatsRequest\022\022\n\nstart_date\030\001 \001(\t\022\020\n\010end_"
-  "date\030\002 \001(\t\022\023\n\013granularity\030\003 \001(\t\"\?\n\020Reven"
-  "ueStatsItem\022\014\n\004date\030\001 \001(\t\022\016\n\006amount\030\002 \001("
-  "\001\022\r\n\005count\030\003 \001(\005\"k\n\024RevenueStatsResponse"
-  "\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022(\n\005items\030\003 "
-  "\003(\0132\031.message.RevenueStatsItem\022\r\n\005total\030"
-  "\004 \001(\001\"\305\001\n\024VehicleStatsResponse\022\r\n\005error\030"
-  "\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022\r\n\005total\030\003 \001(\005\022\021\n\tava"
-  "ilable\030\004 \001(\005\022\016\n\006rented\030\005 \001(\005\022\023\n\013maintena"
-  "nce\030\006 \001(\005\022\030\n\020utilization_rate\030\007 \001(\001\0220\n\010b"
-  "y_brand\030\010 \003(\0132\036.message.VehicleStatsBran"
-  "dItem\"5\n\025VehicleStatsBrandItem\022\r\n\005brand\030"
-  "\001 \001(\t\022\r\n\005count\030\002 \001(\005\".\n\017SendMailRequest\022"
-  "\r\n\005email\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\"!\n\020SendMail"
-  "Response\022\r\n\005error\030\001 \001(\005\"&\n\025SendVerifyCod"
-  "eRequest\022\r\n\005email\030\001 \001(\t\"4\n\026SendVerifyCod"
-  "eResponse\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t2\214\004"
-  "\n\013UserService\022E\n\014UserRegister\022\034.message."
-  "UserRegisterRequest\032\027.message.CommonResp"
-  "onse\022B\n\tUserLogin\022\031.message.UserLoginReq"
-  "uest\032\032.message.UserLoginResponse\022K\n\016GetU"
-  "serProfile\022\033.message.UserProfileRequest\032"
-  "\034.message.UserProfileResponse\022G\n\rUpdateP"
-  "rofile\022\035.message.UpdateProfileRequest\032\027."
-  "message.CommonResponse\022B\n\013GetUserList\022\030."
-  "message.UserListRequest\032\031.message.UserLi"
-  "stResponse\022M\n\020UpdateUserStatus\022 .message"
-  ".UpdateUserStatusRequest\032\027.message.Commo"
-  "nResponse\022I\n\016UpdateUserRole\022\036.message.Up"
-  "dateUserRoleRequest\032\027.message.CommonResp"
-  "onse2\370\007\n\016VehicleService\022K\n\016GetVehicleLis"
-  "t\022\033.message.VehicleListRequest\032\034.message"
-  ".VehicleListResponse\022G\n\020GetVehicleDetail"
-  "\022\035.message.VehicleDetailRequest\032\024.messag"
-  "e.VehicleInfo\022A\n\nAddVehicle\022\032.message.Ad"
-  "dVehicleRequest\032\027.message.CommonResponse"
-  "\022G\n\rUpdateVehicle\022\035.message.UpdateVehicl"
-  "eRequest\032\027.message.CommonResponse\022G\n\rDel"
-  "eteVehicle\022\035.message.VehicleDetailReques"
-  "t\032\027.message.CommonResponse\022>\n\013CreateOrde"
-  "r\022\033.message.CreateOrderRequest\032\022.message"
-  ".OrderInfo\022E\n\014GetOrderList\022\031.message.Ord"
-  "erListRequest\032\032.message.OrderListRespons"
-  "e\022A\n\016GetOrderDetail\022\033.message.OrderDetai"
-  "lRequest\032\022.message.OrderInfo\022@\n\rPickupVe"
-  "hicle\022\026.message.PickupRequest\032\027.message."
-  "CommonResponse\022;\n\rReturnVehicle\022\026.messag"
-  "e.ReturnRequest\032\022.message.OrderInfo\0227\n\nR"
-  "enewOrder\022\025.message.RenewRequest\032\022.messa"
-  "ge.OrderInfo\022O\n\021CreateMaintenance\022!.mess"
-  "age.CreateMaintenanceRequest\032\027.message.C"
-  "ommonResponse\022O\n\021UpdateMaintenance\022!.mes"
-  "sage.UpdateMaintenanceRequest\032\027.message."
-  "CommonResponse\022W\n\022GetMaintenanceList\022\037.m"
-  "essage.MaintenanceListRequest\032 .message."
-  "MaintenanceListResponse2\242\005\n\016FinanceServi"
-  "ce\022D\n\rCreatePayment\022\035.message.CreatePaym"
-  "entRequest\032\024.message.PaymentInfo\022K\n\016GetP"
-  "aymentList\022\033.message.PaymentListRequest\032"
-  "\034.message.PaymentListResponse\022>\n\020GetPaym"
-  "entDetail\022\024.message.PaymentInfo\032\024.messag"
-  "e.PaymentInfo\022H\n\017GenerateInvoice\022\037.messa"
-  "ge.GenerateInvoiceRequest\032\024.message.Invo"
-  "iceInfo\022>\n\020GetInvoiceDetail\022\024.message.In"
-  "voiceInfo\032\024.message.InvoiceInfo\022K\n\016GetIn"
-  "voiceList\022\033.message.InvoiceListRequest\032\034"
-  ".message.InvoiceListResponse\022K\n\020GetStats"
-  "Overview\022\027.message.CommonResponse\032\036.mess"
-  "age.StatsOverviewResponse\022N\n\017GetRevenueS"
-  "tats\022\034.message.RevenueStatsRequest\032\035.mes"
-  "sage.RevenueStatsResponse\022I\n\017GetVehicleS"
-  "tats\022\027.message.CommonResponse\032\035.message."
-  "VehicleStatsResponse2\243\001\n\rMailerService\022\?"
-  "\n\010SendMail\022\030.message.SendMailRequest\032\031.m"
-  "essage.SendMailResponse\022Q\n\016SendVerifyCod"
-  "e\022\036.message.SendVerifyCodeRequest\032\037.mess"
-  "age.SendVerifyCodeResponseb\006proto3"
+  "e\030\002 \001(\t\" \n\021GetBalanceRequest\022\013\n\003uid\030\001 \001("
+  "\003\"4\n\022GetBalanceResponse\022\r\n\005error\030\001 \001(\005\022\017"
+  "\n\007balance\030\002 \001(\001\";\n\014TopupRequest\022\013\n\003uid\030\001"
+  " \001(\003\022\016\n\006amount\030\002 \001(\001\022\016\n\006remark\030\003 \001(\t\"\207\001\n"
+  "\021BalanceRecordInfo\022\n\n\002id\030\001 \001(\003\022\017\n\007user_i"
+  "d\030\002 \001(\003\022\016\n\006amount\030\003 \001(\001\022\014\n\004type\030\004 \001(\t\022\023\n"
+  "\013operator_id\030\005 \001(\003\022\016\n\006remark\030\006 \001(\t\022\022\n\ncr"
+  "eated_at\030\007 \001(\t\"H\n\030BalanceRecordListReque"
+  "st\022\013\n\003uid\030\001 \001(\003\022\014\n\004page\030\002 \001(\005\022\021\n\tpage_si"
+  "ze\030\003 \001(\005\"w\n\031BalanceRecordListResponse\022\r\n"
+  "\005error\030\001 \001(\005\022+\n\007records\030\002 \003(\0132\032.message."
+  "BalanceRecordInfo\022\r\n\005total\030\003 \001(\005\022\017\n\007bala"
+  "nce\030\004 \001(\001\"\363\001\n\013VehicleInfo\022\n\n\002id\030\001 \001(\003\022\024\n"
+  "\014plate_number\030\002 \001(\t\022\r\n\005brand\030\003 \001(\t\022\r\n\005mo"
+  "del\030\004 \001(\t\022\r\n\005color\030\005 \001(\t\022\014\n\004year\030\006 \001(\005\022\017"
+  "\n\007mileage\030\007 \001(\005\022\016\n\006status\030\010 \001(\t\022\022\n\ndaily"
+  "_rate\030\t \001(\001\022\026\n\016deposit_amount\030\n \001(\001\022\021\n\ti"
+  "mage_url\030\013 \001(\t\022\023\n\013description\030\014 \001(\t\022\022\n\nc"
+  "reated_at\030\r \001(\t\"e\n\022VehicleListRequest\022\014\n"
+  "\004page\030\001 \001(\005\022\021\n\tpage_size\030\002 \001(\005\022\017\n\007keywor"
+  "d\030\003 \001(\t\022\016\n\006status\030\004 \001(\t\022\r\n\005brand\030\005 \001(\t\"h"
+  "\n\023VehicleListResponse\022\r\n\005error\030\001 \001(\005\022\013\n\003"
+  "msg\030\002 \001(\t\022&\n\010vehicles\030\003 \003(\0132\024.message.Ve"
+  "hicleInfo\022\r\n\005total\030\004 \001(\005\"\"\n\024VehicleDetai"
+  "lRequest\022\n\n\002id\030\001 \001(\003\"\311\001\n\021AddVehicleReque"
+  "st\022\024\n\014plate_number\030\001 \001(\t\022\r\n\005brand\030\002 \001(\t\022"
+  "\r\n\005model\030\003 \001(\t\022\r\n\005color\030\004 \001(\t\022\014\n\004year\030\005 "
+  "\001(\005\022\017\n\007mileage\030\006 \001(\005\022\022\n\ndaily_rate\030\007 \001(\001"
+  "\022\026\n\016deposit_amount\030\010 \001(\001\022\021\n\timage_url\030\t "
+  "\001(\t\022\023\n\013description\030\n \001(\t\"\350\001\n\024UpdateVehic"
+  "leRequest\022\n\n\002id\030\001 \001(\003\022\024\n\014plate_number\030\002 "
+  "\001(\t\022\r\n\005brand\030\003 \001(\t\022\r\n\005model\030\004 \001(\t\022\r\n\005col"
+  "or\030\005 \001(\t\022\014\n\004year\030\006 \001(\005\022\017\n\007mileage\030\007 \001(\005\022"
+  "\016\n\006status\030\010 \001(\t\022\022\n\ndaily_rate\030\t \001(\001\022\026\n\016d"
+  "eposit_amount\030\n \001(\001\022\021\n\timage_url\030\013 \001(\t\022\023"
+  "\n\013description\030\014 \001(\t\"\337\002\n\tOrderInfo\022\n\n\002id\030"
+  "\001 \001(\003\022\020\n\010order_no\030\002 \001(\t\022\017\n\007user_id\030\003 \001(\003"
+  "\022\020\n\010username\030\004 \001(\t\022\022\n\nvehicle_id\030\005 \001(\003\022\024"
+  "\n\014plate_number\030\006 \001(\t\022\024\n\014vehicle_info\030\007 \001"
+  "(\t\022\022\n\nstart_date\030\010 \001(\t\022\020\n\010end_date\030\t \001(\t"
+  "\022\032\n\022actual_return_date\030\n \001(\t\022\016\n\006status\030\013"
+  " \001(\t\022\017\n\007deposit\030\014 \001(\001\022\022\n\ndaily_rate\030\r \001("
+  "\001\022\022\n\ntotal_days\030\016 \001(\005\022\022\n\ntotal_cost\030\017 \001("
+  "\001\022\017\n\007penalty\030\020 \001(\001\022\r\n\005notes\030\021 \001(\t\022\022\n\ncre"
+  "ated_at\030\022 \001(\t\"n\n\022CreateOrderRequest\022\017\n\007u"
+  "ser_id\030\001 \001(\003\022\022\n\nvehicle_id\030\002 \001(\003\022\022\n\nstar"
+  "t_date\030\003 \001(\t\022\020\n\010end_date\030\004 \001(\t\022\r\n\005notes\030"
+  "\005 \001(\t\"y\n\020OrderListRequest\022\014\n\004page\030\001 \001(\005\022"
+  "\021\n\tpage_size\030\002 \001(\005\022\017\n\007user_id\030\003 \001(\003\022\022\n\nv"
+  "ehicle_id\030\004 \001(\003\022\016\n\006status\030\005 \001(\t\022\017\n\007keywo"
+  "rd\030\006 \001(\t\"b\n\021OrderListResponse\022\r\n\005error\030\001"
+  " \001(\005\022\013\n\003msg\030\002 \001(\t\022\"\n\006orders\030\003 \003(\0132\022.mess"
+  "age.OrderInfo\022\r\n\005total\030\004 \001(\005\" \n\022OrderDet"
+  "ailRequest\022\n\n\002id\030\001 \001(\003\"!\n\rPickupRequest\022"
+  "\020\n\010order_id\030\001 \001(\003\"!\n\rReturnRequest\022\020\n\010or"
+  "der_id\030\001 \001(\003\"6\n\014RenewRequest\022\020\n\010order_id"
+  "\030\001 \001(\003\022\024\n\014new_end_date\030\002 \001(\t\"\326\001\n\017Mainten"
+  "anceInfo\022\n\n\002id\030\001 \001(\003\022\022\n\nvehicle_id\030\002 \001(\003"
+  "\022\024\n\014plate_number\030\003 \001(\t\022\014\n\004type\030\004 \001(\t\022\023\n\013"
+  "description\030\005 \001(\t\022\014\n\004cost\030\006 \001(\001\022\022\n\ntechn"
+  "ician\030\007 \001(\t\022\022\n\nstart_date\030\010 \001(\t\022\020\n\010end_d"
+  "ate\030\t \001(\t\022\016\n\006status\030\n \001(\t\022\022\n\ncreated_at\030"
+  "\013 \001(\t\"\207\001\n\030CreateMaintenanceRequest\022\022\n\nve"
+  "hicle_id\030\001 \001(\003\022\014\n\004type\030\002 \001(\t\022\023\n\013descript"
+  "ion\030\003 \001(\t\022\014\n\004cost\030\004 \001(\001\022\022\n\ntechnician\030\005 "
+  "\001(\t\022\022\n\nstart_date\030\006 \001(\t\"\177\n\030UpdateMainten"
+  "anceRequest\022\n\n\002id\030\001 \001(\003\022\023\n\013description\030\002"
+  " \001(\t\022\014\n\004cost\030\003 \001(\001\022\022\n\ntechnician\030\004 \001(\t\022\020"
+  "\n\010end_date\030\005 \001(\t\022\016\n\006status\030\006 \001(\t\"k\n\026Main"
+  "tenanceListRequest\022\014\n\004page\030\001 \001(\005\022\021\n\tpage"
+  "_size\030\002 \001(\005\022\022\n\nvehicle_id\030\003 \001(\003\022\016\n\006statu"
+  "s\030\004 \001(\t\022\014\n\004type\030\005 \001(\t\"o\n\027MaintenanceList"
+  "Response\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022)\n\007"
+  "records\030\003 \003(\0132\030.message.MaintenanceInfo\022"
+  "\r\n\005total\030\004 \001(\005\"\260\001\n\013PaymentInfo\022\n\n\002id\030\001 \001"
+  "(\003\022\020\n\010order_id\030\002 \001(\003\022\020\n\010order_no\030\003 \001(\t\022\016"
+  "\n\006amount\030\004 \001(\001\022\014\n\004type\030\005 \001(\t\022\016\n\006method\030\006"
+  " \001(\t\022\016\n\006status\030\007 \001(\t\022\016\n\006remark\030\010 \001(\t\022\017\n\007"
+  "paid_at\030\t \001(\t\022\022\n\ncreated_at\030\n \001(\t\"f\n\024Cre"
+  "atePaymentRequest\022\020\n\010order_id\030\001 \001(\003\022\016\n\006a"
+  "mount\030\002 \001(\001\022\014\n\004type\030\003 \001(\t\022\016\n\006method\030\004 \001("
+  "\t\022\016\n\006remark\030\005 \001(\t\"e\n\022PaymentListRequest\022"
+  "\014\n\004page\030\001 \001(\005\022\021\n\tpage_size\030\002 \001(\005\022\020\n\010orde"
+  "r_id\030\003 \001(\003\022\016\n\006status\030\004 \001(\t\022\014\n\004type\030\005 \001(\t"
+  "\"h\n\023PaymentListResponse\022\r\n\005error\030\001 \001(\005\022\013"
+  "\n\003msg\030\002 \001(\t\022&\n\010payments\030\003 \003(\0132\024.message."
+  "PaymentInfo\022\r\n\005total\030\004 \001(\005\"\257\001\n\013InvoiceIn"
+  "fo\022\n\n\002id\030\001 \001(\003\022\022\n\ninvoice_no\030\002 \001(\t\022\020\n\010or"
+  "der_id\030\003 \001(\003\022\020\n\010order_no\030\004 \001(\t\022\017\n\007user_i"
+  "d\030\005 \001(\003\022\020\n\010username\030\006 \001(\t\022\024\n\014total_amoun"
+  "t\030\007 \001(\001\022\r\n\005items\030\010 \001(\t\022\024\n\014generated_at\030\t"
+  " \001(\t\"*\n\026GenerateInvoiceRequest\022\020\n\010order_"
+  "id\030\001 \001(\003\"5\n\022InvoiceListRequest\022\014\n\004page\030\001"
+  " \001(\005\022\021\n\tpage_size\030\002 \001(\005\"h\n\023InvoiceListRe"
+  "sponse\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022&\n\010in"
+  "voices\030\003 \003(\0132\024.message.InvoiceInfo\022\r\n\005to"
+  "tal\030\004 \001(\005\"\333\001\n\025StatsOverviewResponse\022\r\n\005e"
+  "rror\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022\023\n\013total_users\030\003"
+  " \001(\005\022\026\n\016total_vehicles\030\004 \001(\005\022\032\n\022availabl"
+  "e_vehicles\030\005 \001(\005\022\025\n\ractive_orders\030\006 \001(\005\022"
+  "\030\n\020completed_orders\030\007 \001(\005\022\025\n\rtotal_reven"
+  "ue\030\010 \001(\001\022\025\n\rmonth_revenue\030\t \001(\001\"P\n\023Reven"
+  "ueStatsRequest\022\022\n\nstart_date\030\001 \001(\t\022\020\n\010en"
+  "d_date\030\002 \001(\t\022\023\n\013granularity\030\003 \001(\t\"\?\n\020Rev"
+  "enueStatsItem\022\014\n\004date\030\001 \001(\t\022\016\n\006amount\030\002 "
+  "\001(\001\022\r\n\005count\030\003 \001(\005\"k\n\024RevenueStatsRespon"
+  "se\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022(\n\005items\030"
+  "\003 \003(\0132\031.message.RevenueStatsItem\022\r\n\005tota"
+  "l\030\004 \001(\001\"\305\001\n\024VehicleStatsResponse\022\r\n\005erro"
+  "r\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022\r\n\005total\030\003 \001(\005\022\021\n\ta"
+  "vailable\030\004 \001(\005\022\016\n\006rented\030\005 \001(\005\022\023\n\013mainte"
+  "nance\030\006 \001(\005\022\030\n\020utilization_rate\030\007 \001(\001\0220\n"
+  "\010by_brand\030\010 \003(\0132\036.message.VehicleStatsBr"
+  "andItem\"5\n\025VehicleStatsBrandItem\022\r\n\005bran"
+  "d\030\001 \001(\t\022\r\n\005count\030\002 \001(\005\".\n\017SendMailReques"
+  "t\022\r\n\005email\030\001 \001(\t\022\014\n\004code\030\002 \001(\t\"!\n\020SendMa"
+  "ilResponse\022\r\n\005error\030\001 \001(\005\"&\n\025SendVerifyC"
+  "odeRequest\022\r\n\005email\030\001 \001(\t\"4\n\026SendVerifyC"
+  "odeResponse\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t2"
+  "\357\005\n\013UserService\022E\n\014UserRegister\022\034.messag"
+  "e.UserRegisterRequest\032\027.message.CommonRe"
+  "sponse\022B\n\tUserLogin\022\031.message.UserLoginR"
+  "equest\032\032.message.UserLoginResponse\022K\n\016Ge"
+  "tUserProfile\022\033.message.UserProfileReques"
+  "t\032\034.message.UserProfileResponse\022G\n\rUpdat"
+  "eProfile\022\035.message.UpdateProfileRequest\032"
+  "\027.message.CommonResponse\022B\n\013GetUserList\022"
+  "\030.message.UserListRequest\032\031.message.User"
+  "ListResponse\022M\n\020UpdateUserStatus\022 .messa"
+  "ge.UpdateUserStatusRequest\032\027.message.Com"
+  "monResponse\022I\n\016UpdateUserRole\022\036.message."
+  "UpdateUserRoleRequest\032\027.message.CommonRe"
+  "sponse\022E\n\nGetBalance\022\032.message.GetBalanc"
+  "eRequest\032\033.message.GetBalanceResponse\022>\n"
+  "\014TopupBalance\022\025.message.TopupRequest\032\027.m"
+  "essage.CommonResponse\022Z\n\021GetBalanceRecor"
+  "ds\022!.message.BalanceRecordListRequest\032\"."
+  "message.BalanceRecordListResponse2\370\007\n\016Ve"
+  "hicleService\022K\n\016GetVehicleList\022\033.message"
+  ".VehicleListRequest\032\034.message.VehicleLis"
+  "tResponse\022G\n\020GetVehicleDetail\022\035.message."
+  "VehicleDetailRequest\032\024.message.VehicleIn"
+  "fo\022A\n\nAddVehicle\022\032.message.AddVehicleReq"
+  "uest\032\027.message.CommonResponse\022G\n\rUpdateV"
+  "ehicle\022\035.message.UpdateVehicleRequest\032\027."
+  "message.CommonResponse\022G\n\rDeleteVehicle\022"
+  "\035.message.VehicleDetailRequest\032\027.message"
+  ".CommonResponse\022>\n\013CreateOrder\022\033.message"
+  ".CreateOrderRequest\032\022.message.OrderInfo\022"
+  "E\n\014GetOrderList\022\031.message.OrderListReque"
+  "st\032\032.message.OrderListResponse\022A\n\016GetOrd"
+  "erDetail\022\033.message.OrderDetailRequest\032\022."
+  "message.OrderInfo\022@\n\rPickupVehicle\022\026.mes"
+  "sage.PickupRequest\032\027.message.CommonRespo"
+  "nse\022;\n\rReturnVehicle\022\026.message.ReturnReq"
+  "uest\032\022.message.OrderInfo\0227\n\nRenewOrder\022\025"
+  ".message.RenewRequest\032\022.message.OrderInf"
+  "o\022O\n\021CreateMaintenance\022!.message.CreateM"
+  "aintenanceRequest\032\027.message.CommonRespon"
+  "se\022O\n\021UpdateMaintenance\022!.message.Update"
+  "MaintenanceRequest\032\027.message.CommonRespo"
+  "nse\022W\n\022GetMaintenanceList\022\037.message.Main"
+  "tenanceListRequest\032 .message.Maintenance"
+  "ListResponse2\242\005\n\016FinanceService\022D\n\rCreat"
+  "ePayment\022\035.message.CreatePaymentRequest\032"
+  "\024.message.PaymentInfo\022K\n\016GetPaymentList\022"
+  "\033.message.PaymentListRequest\032\034.message.P"
+  "aymentListResponse\022>\n\020GetPaymentDetail\022\024"
+  ".message.PaymentInfo\032\024.message.PaymentIn"
+  "fo\022H\n\017GenerateInvoice\022\037.message.Generate"
+  "InvoiceRequest\032\024.message.InvoiceInfo\022>\n\020"
+  "GetInvoiceDetail\022\024.message.InvoiceInfo\032\024"
+  ".message.InvoiceInfo\022K\n\016GetInvoiceList\022\033"
+  ".message.InvoiceListRequest\032\034.message.In"
+  "voiceListResponse\022K\n\020GetStatsOverview\022\027."
+  "message.CommonResponse\032\036.message.StatsOv"
+  "erviewResponse\022N\n\017GetRevenueStats\022\034.mess"
+  "age.RevenueStatsRequest\032\035.message.Revenu"
+  "eStatsResponse\022I\n\017GetVehicleStats\022\027.mess"
+  "age.CommonResponse\032\035.message.VehicleStat"
+  "sResponse2\243\001\n\rMailerService\022\?\n\010SendMail\022"
+  "\030.message.SendMailRequest\032\031.message.Send"
+  "MailResponse\022Q\n\016SendVerifyCode\022\036.message"
+  ".SendVerifyCodeRequest\032\037.message.SendVer"
+  "ifyCodeResponseb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_message_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_message_2eproto_sccs[49] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_message_2eproto_sccs[55] = {
   &scc_info_AddVehicleRequest_message_2eproto.base,
+  &scc_info_BalanceRecordInfo_message_2eproto.base,
+  &scc_info_BalanceRecordListRequest_message_2eproto.base,
+  &scc_info_BalanceRecordListResponse_message_2eproto.base,
   &scc_info_CommonResponse_message_2eproto.base,
   &scc_info_CreateMaintenanceRequest_message_2eproto.base,
   &scc_info_CreateOrderRequest_message_2eproto.base,
   &scc_info_CreatePaymentRequest_message_2eproto.base,
   &scc_info_GenerateInvoiceRequest_message_2eproto.base,
+  &scc_info_GetBalanceRequest_message_2eproto.base,
+  &scc_info_GetBalanceResponse_message_2eproto.base,
   &scc_info_InvoiceInfo_message_2eproto.base,
   &scc_info_InvoiceListRequest_message_2eproto.base,
   &scc_info_InvoiceListResponse_message_2eproto.base,
@@ -1754,6 +1949,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_mes
   &scc_info_SendVerifyCodeRequest_message_2eproto.base,
   &scc_info_SendVerifyCodeResponse_message_2eproto.base,
   &scc_info_StatsOverviewResponse_message_2eproto.base,
+  &scc_info_TopupRequest_message_2eproto.base,
   &scc_info_UpdateMaintenanceRequest_message_2eproto.base,
   &scc_info_UpdateProfileRequest_message_2eproto.base,
   &scc_info_UpdateUserRoleRequest_message_2eproto.base,
@@ -1776,10 +1972,10 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_mes
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_message_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto = {
-  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 7954,
-  &descriptor_table_message_2eproto_once, descriptor_table_message_2eproto_sccs, descriptor_table_message_2eproto_deps, 49, 0,
+  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 8663,
+  &descriptor_table_message_2eproto_once, descriptor_table_message_2eproto_sccs, descriptor_table_message_2eproto_deps, 55, 0,
   schemas, file_default_instances, TableStruct_message_2eproto::offsets,
-  file_level_metadata_message_2eproto, 49, file_level_enum_descriptors_message_2eproto, file_level_service_descriptors_message_2eproto,
+  file_level_metadata_message_2eproto, 55, file_level_enum_descriptors_message_2eproto, file_level_service_descriptors_message_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -6000,6 +6196,1629 @@ void UpdateUserRoleRequest::InternalSwap(UpdateUserRoleRequest* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateUserRoleRequest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GetBalanceRequest::InitAsDefaultInstance() {
+}
+class GetBalanceRequest::_Internal {
+ public:
+};
+
+GetBalanceRequest::GetBalanceRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:message.GetBalanceRequest)
+}
+GetBalanceRequest::GetBalanceRequest(const GetBalanceRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  uid_ = from.uid_;
+  // @@protoc_insertion_point(copy_constructor:message.GetBalanceRequest)
+}
+
+void GetBalanceRequest::SharedCtor() {
+  uid_ = PROTOBUF_LONGLONG(0);
+}
+
+GetBalanceRequest::~GetBalanceRequest() {
+  // @@protoc_insertion_point(destructor:message.GetBalanceRequest)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void GetBalanceRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void GetBalanceRequest::ArenaDtor(void* object) {
+  GetBalanceRequest* _this = reinterpret_cast< GetBalanceRequest* >(object);
+  (void)_this;
+}
+void GetBalanceRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void GetBalanceRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GetBalanceRequest& GetBalanceRequest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GetBalanceRequest_message_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GetBalanceRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:message.GetBalanceRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  uid_ = PROTOBUF_LONGLONG(0);
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GetBalanceRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int64 uid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          uid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GetBalanceRequest::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:message.GetBalanceRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 uid = 1;
+  if (this->uid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_uid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:message.GetBalanceRequest)
+  return target;
+}
+
+size_t GetBalanceRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:message.GetBalanceRequest)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int64 uid = 1;
+  if (this->uid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_uid());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GetBalanceRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:message.GetBalanceRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GetBalanceRequest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GetBalanceRequest>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:message.GetBalanceRequest)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:message.GetBalanceRequest)
+    MergeFrom(*source);
+  }
+}
+
+void GetBalanceRequest::MergeFrom(const GetBalanceRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:message.GetBalanceRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.uid() != 0) {
+    _internal_set_uid(from._internal_uid());
+  }
+}
+
+void GetBalanceRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:message.GetBalanceRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GetBalanceRequest::CopyFrom(const GetBalanceRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:message.GetBalanceRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GetBalanceRequest::IsInitialized() const {
+  return true;
+}
+
+void GetBalanceRequest::InternalSwap(GetBalanceRequest* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  swap(uid_, other->uid_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GetBalanceRequest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GetBalanceResponse::InitAsDefaultInstance() {
+}
+class GetBalanceResponse::_Internal {
+ public:
+};
+
+GetBalanceResponse::GetBalanceResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:message.GetBalanceResponse)
+}
+GetBalanceResponse::GetBalanceResponse(const GetBalanceResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&balance_, &from.balance_,
+    static_cast<size_t>(reinterpret_cast<char*>(&error_) -
+    reinterpret_cast<char*>(&balance_)) + sizeof(error_));
+  // @@protoc_insertion_point(copy_constructor:message.GetBalanceResponse)
+}
+
+void GetBalanceResponse::SharedCtor() {
+  ::memset(&balance_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&error_) -
+      reinterpret_cast<char*>(&balance_)) + sizeof(error_));
+}
+
+GetBalanceResponse::~GetBalanceResponse() {
+  // @@protoc_insertion_point(destructor:message.GetBalanceResponse)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void GetBalanceResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void GetBalanceResponse::ArenaDtor(void* object) {
+  GetBalanceResponse* _this = reinterpret_cast< GetBalanceResponse* >(object);
+  (void)_this;
+}
+void GetBalanceResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void GetBalanceResponse::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GetBalanceResponse& GetBalanceResponse::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GetBalanceResponse_message_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GetBalanceResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:message.GetBalanceResponse)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&balance_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&error_) -
+      reinterpret_cast<char*>(&balance_)) + sizeof(error_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GetBalanceResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int32 error = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // double balance = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 17)) {
+          balance_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GetBalanceResponse::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:message.GetBalanceResponse)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 error = 1;
+  if (this->error() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
+  }
+
+  // double balance = 2;
+  if (!(this->balance() <= 0 && this->balance() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(2, this->_internal_balance(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:message.GetBalanceResponse)
+  return target;
+}
+
+size_t GetBalanceResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:message.GetBalanceResponse)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // double balance = 2;
+  if (!(this->balance() <= 0 && this->balance() >= 0)) {
+    total_size += 1 + 8;
+  }
+
+  // int32 error = 1;
+  if (this->error() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_error());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GetBalanceResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:message.GetBalanceResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GetBalanceResponse* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GetBalanceResponse>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:message.GetBalanceResponse)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:message.GetBalanceResponse)
+    MergeFrom(*source);
+  }
+}
+
+void GetBalanceResponse::MergeFrom(const GetBalanceResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:message.GetBalanceResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!(from.balance() <= 0 && from.balance() >= 0)) {
+    _internal_set_balance(from._internal_balance());
+  }
+  if (from.error() != 0) {
+    _internal_set_error(from._internal_error());
+  }
+}
+
+void GetBalanceResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:message.GetBalanceResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GetBalanceResponse::CopyFrom(const GetBalanceResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:message.GetBalanceResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GetBalanceResponse::IsInitialized() const {
+  return true;
+}
+
+void GetBalanceResponse::InternalSwap(GetBalanceResponse* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(GetBalanceResponse, error_)
+      + sizeof(GetBalanceResponse::error_)
+      - PROTOBUF_FIELD_OFFSET(GetBalanceResponse, balance_)>(
+          reinterpret_cast<char*>(&balance_),
+          reinterpret_cast<char*>(&other->balance_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GetBalanceResponse::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void TopupRequest::InitAsDefaultInstance() {
+}
+class TopupRequest::_Internal {
+ public:
+};
+
+TopupRequest::TopupRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:message.TopupRequest)
+}
+TopupRequest::TopupRequest(const TopupRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  remark_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_remark().empty()) {
+    remark_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_remark(),
+      GetArena());
+  }
+  ::memcpy(&uid_, &from.uid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&amount_) -
+    reinterpret_cast<char*>(&uid_)) + sizeof(amount_));
+  // @@protoc_insertion_point(copy_constructor:message.TopupRequest)
+}
+
+void TopupRequest::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TopupRequest_message_2eproto.base);
+  remark_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&uid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&amount_) -
+      reinterpret_cast<char*>(&uid_)) + sizeof(amount_));
+}
+
+TopupRequest::~TopupRequest() {
+  // @@protoc_insertion_point(destructor:message.TopupRequest)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void TopupRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  remark_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void TopupRequest::ArenaDtor(void* object) {
+  TopupRequest* _this = reinterpret_cast< TopupRequest* >(object);
+  (void)_this;
+}
+void TopupRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void TopupRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const TopupRequest& TopupRequest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TopupRequest_message_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void TopupRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:message.TopupRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  remark_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::memset(&uid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&amount_) -
+      reinterpret_cast<char*>(&uid_)) + sizeof(amount_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TopupRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int64 uid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          uid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // double amount = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 17)) {
+          amount_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
+      // string remark = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          auto str = _internal_mutable_remark();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "message.TopupRequest.remark"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* TopupRequest::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:message.TopupRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 uid = 1;
+  if (this->uid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_uid(), target);
+  }
+
+  // double amount = 2;
+  if (!(this->amount() <= 0 && this->amount() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(2, this->_internal_amount(), target);
+  }
+
+  // string remark = 3;
+  if (this->remark().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_remark().data(), static_cast<int>(this->_internal_remark().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "message.TopupRequest.remark");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_remark(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:message.TopupRequest)
+  return target;
+}
+
+size_t TopupRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:message.TopupRequest)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string remark = 3;
+  if (this->remark().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_remark());
+  }
+
+  // int64 uid = 1;
+  if (this->uid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_uid());
+  }
+
+  // double amount = 2;
+  if (!(this->amount() <= 0 && this->amount() >= 0)) {
+    total_size += 1 + 8;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void TopupRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:message.TopupRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const TopupRequest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TopupRequest>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:message.TopupRequest)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:message.TopupRequest)
+    MergeFrom(*source);
+  }
+}
+
+void TopupRequest::MergeFrom(const TopupRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:message.TopupRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.remark().size() > 0) {
+    _internal_set_remark(from._internal_remark());
+  }
+  if (from.uid() != 0) {
+    _internal_set_uid(from._internal_uid());
+  }
+  if (!(from.amount() <= 0 && from.amount() >= 0)) {
+    _internal_set_amount(from._internal_amount());
+  }
+}
+
+void TopupRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:message.TopupRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void TopupRequest::CopyFrom(const TopupRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:message.TopupRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TopupRequest::IsInitialized() const {
+  return true;
+}
+
+void TopupRequest::InternalSwap(TopupRequest* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  remark_.Swap(&other->remark_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TopupRequest, amount_)
+      + sizeof(TopupRequest::amount_)
+      - PROTOBUF_FIELD_OFFSET(TopupRequest, uid_)>(
+          reinterpret_cast<char*>(&uid_),
+          reinterpret_cast<char*>(&other->uid_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TopupRequest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void BalanceRecordInfo::InitAsDefaultInstance() {
+}
+class BalanceRecordInfo::_Internal {
+ public:
+};
+
+BalanceRecordInfo::BalanceRecordInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:message.BalanceRecordInfo)
+}
+BalanceRecordInfo::BalanceRecordInfo(const BalanceRecordInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_type().empty()) {
+    type_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_type(),
+      GetArena());
+  }
+  remark_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_remark().empty()) {
+    remark_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_remark(),
+      GetArena());
+  }
+  created_at_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_created_at().empty()) {
+    created_at_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_created_at(),
+      GetArena());
+  }
+  ::memcpy(&id_, &from.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&operator_id_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(operator_id_));
+  // @@protoc_insertion_point(copy_constructor:message.BalanceRecordInfo)
+}
+
+void BalanceRecordInfo::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_BalanceRecordInfo_message_2eproto.base);
+  type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  remark_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  created_at_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&operator_id_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(operator_id_));
+}
+
+BalanceRecordInfo::~BalanceRecordInfo() {
+  // @@protoc_insertion_point(destructor:message.BalanceRecordInfo)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void BalanceRecordInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  type_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  remark_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  created_at_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void BalanceRecordInfo::ArenaDtor(void* object) {
+  BalanceRecordInfo* _this = reinterpret_cast< BalanceRecordInfo* >(object);
+  (void)_this;
+}
+void BalanceRecordInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void BalanceRecordInfo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const BalanceRecordInfo& BalanceRecordInfo::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_BalanceRecordInfo_message_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void BalanceRecordInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:message.BalanceRecordInfo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  type_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  remark_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  created_at_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&operator_id_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(operator_id_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* BalanceRecordInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int64 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int64 user_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          user_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // double amount = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 25)) {
+          amount_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
+      // string type = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          auto str = _internal_mutable_type();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "message.BalanceRecordInfo.type"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int64 operator_id = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          operator_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string remark = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+          auto str = _internal_mutable_remark();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "message.BalanceRecordInfo.remark"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string created_at = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+          auto str = _internal_mutable_created_at();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "message.BalanceRecordInfo.created_at"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* BalanceRecordInfo::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:message.BalanceRecordInfo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 id = 1;
+  if (this->id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_id(), target);
+  }
+
+  // int64 user_id = 2;
+  if (this->user_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(2, this->_internal_user_id(), target);
+  }
+
+  // double amount = 3;
+  if (!(this->amount() <= 0 && this->amount() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(3, this->_internal_amount(), target);
+  }
+
+  // string type = 4;
+  if (this->type().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_type().data(), static_cast<int>(this->_internal_type().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "message.BalanceRecordInfo.type");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_type(), target);
+  }
+
+  // int64 operator_id = 5;
+  if (this->operator_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(5, this->_internal_operator_id(), target);
+  }
+
+  // string remark = 6;
+  if (this->remark().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_remark().data(), static_cast<int>(this->_internal_remark().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "message.BalanceRecordInfo.remark");
+    target = stream->WriteStringMaybeAliased(
+        6, this->_internal_remark(), target);
+  }
+
+  // string created_at = 7;
+  if (this->created_at().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_created_at().data(), static_cast<int>(this->_internal_created_at().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "message.BalanceRecordInfo.created_at");
+    target = stream->WriteStringMaybeAliased(
+        7, this->_internal_created_at(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:message.BalanceRecordInfo)
+  return target;
+}
+
+size_t BalanceRecordInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:message.BalanceRecordInfo)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string type = 4;
+  if (this->type().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_type());
+  }
+
+  // string remark = 6;
+  if (this->remark().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_remark());
+  }
+
+  // string created_at = 7;
+  if (this->created_at().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_created_at());
+  }
+
+  // int64 id = 1;
+  if (this->id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_id());
+  }
+
+  // int64 user_id = 2;
+  if (this->user_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_user_id());
+  }
+
+  // double amount = 3;
+  if (!(this->amount() <= 0 && this->amount() >= 0)) {
+    total_size += 1 + 8;
+  }
+
+  // int64 operator_id = 5;
+  if (this->operator_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_operator_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void BalanceRecordInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:message.BalanceRecordInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  const BalanceRecordInfo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<BalanceRecordInfo>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:message.BalanceRecordInfo)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:message.BalanceRecordInfo)
+    MergeFrom(*source);
+  }
+}
+
+void BalanceRecordInfo::MergeFrom(const BalanceRecordInfo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:message.BalanceRecordInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.type().size() > 0) {
+    _internal_set_type(from._internal_type());
+  }
+  if (from.remark().size() > 0) {
+    _internal_set_remark(from._internal_remark());
+  }
+  if (from.created_at().size() > 0) {
+    _internal_set_created_at(from._internal_created_at());
+  }
+  if (from.id() != 0) {
+    _internal_set_id(from._internal_id());
+  }
+  if (from.user_id() != 0) {
+    _internal_set_user_id(from._internal_user_id());
+  }
+  if (!(from.amount() <= 0 && from.amount() >= 0)) {
+    _internal_set_amount(from._internal_amount());
+  }
+  if (from.operator_id() != 0) {
+    _internal_set_operator_id(from._internal_operator_id());
+  }
+}
+
+void BalanceRecordInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:message.BalanceRecordInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void BalanceRecordInfo::CopyFrom(const BalanceRecordInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:message.BalanceRecordInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool BalanceRecordInfo::IsInitialized() const {
+  return true;
+}
+
+void BalanceRecordInfo::InternalSwap(BalanceRecordInfo* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  type_.Swap(&other->type_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  remark_.Swap(&other->remark_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  created_at_.Swap(&other->created_at_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BalanceRecordInfo, operator_id_)
+      + sizeof(BalanceRecordInfo::operator_id_)
+      - PROTOBUF_FIELD_OFFSET(BalanceRecordInfo, id_)>(
+          reinterpret_cast<char*>(&id_),
+          reinterpret_cast<char*>(&other->id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata BalanceRecordInfo::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void BalanceRecordListRequest::InitAsDefaultInstance() {
+}
+class BalanceRecordListRequest::_Internal {
+ public:
+};
+
+BalanceRecordListRequest::BalanceRecordListRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:message.BalanceRecordListRequest)
+}
+BalanceRecordListRequest::BalanceRecordListRequest(const BalanceRecordListRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&uid_, &from.uid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&page_size_) -
+    reinterpret_cast<char*>(&uid_)) + sizeof(page_size_));
+  // @@protoc_insertion_point(copy_constructor:message.BalanceRecordListRequest)
+}
+
+void BalanceRecordListRequest::SharedCtor() {
+  ::memset(&uid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&page_size_) -
+      reinterpret_cast<char*>(&uid_)) + sizeof(page_size_));
+}
+
+BalanceRecordListRequest::~BalanceRecordListRequest() {
+  // @@protoc_insertion_point(destructor:message.BalanceRecordListRequest)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void BalanceRecordListRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void BalanceRecordListRequest::ArenaDtor(void* object) {
+  BalanceRecordListRequest* _this = reinterpret_cast< BalanceRecordListRequest* >(object);
+  (void)_this;
+}
+void BalanceRecordListRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void BalanceRecordListRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const BalanceRecordListRequest& BalanceRecordListRequest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_BalanceRecordListRequest_message_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void BalanceRecordListRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:message.BalanceRecordListRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&uid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&page_size_) -
+      reinterpret_cast<char*>(&uid_)) + sizeof(page_size_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* BalanceRecordListRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int64 uid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          uid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 page = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          page_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 page_size = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          page_size_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* BalanceRecordListRequest::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:message.BalanceRecordListRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 uid = 1;
+  if (this->uid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_uid(), target);
+  }
+
+  // int32 page = 2;
+  if (this->page() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_page(), target);
+  }
+
+  // int32 page_size = 3;
+  if (this->page_size() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_page_size(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:message.BalanceRecordListRequest)
+  return target;
+}
+
+size_t BalanceRecordListRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:message.BalanceRecordListRequest)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int64 uid = 1;
+  if (this->uid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_uid());
+  }
+
+  // int32 page = 2;
+  if (this->page() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_page());
+  }
+
+  // int32 page_size = 3;
+  if (this->page_size() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_page_size());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void BalanceRecordListRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:message.BalanceRecordListRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const BalanceRecordListRequest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<BalanceRecordListRequest>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:message.BalanceRecordListRequest)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:message.BalanceRecordListRequest)
+    MergeFrom(*source);
+  }
+}
+
+void BalanceRecordListRequest::MergeFrom(const BalanceRecordListRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:message.BalanceRecordListRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.uid() != 0) {
+    _internal_set_uid(from._internal_uid());
+  }
+  if (from.page() != 0) {
+    _internal_set_page(from._internal_page());
+  }
+  if (from.page_size() != 0) {
+    _internal_set_page_size(from._internal_page_size());
+  }
+}
+
+void BalanceRecordListRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:message.BalanceRecordListRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void BalanceRecordListRequest::CopyFrom(const BalanceRecordListRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:message.BalanceRecordListRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool BalanceRecordListRequest::IsInitialized() const {
+  return true;
+}
+
+void BalanceRecordListRequest::InternalSwap(BalanceRecordListRequest* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BalanceRecordListRequest, page_size_)
+      + sizeof(BalanceRecordListRequest::page_size_)
+      - PROTOBUF_FIELD_OFFSET(BalanceRecordListRequest, uid_)>(
+          reinterpret_cast<char*>(&uid_),
+          reinterpret_cast<char*>(&other->uid_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata BalanceRecordListRequest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void BalanceRecordListResponse::InitAsDefaultInstance() {
+}
+class BalanceRecordListResponse::_Internal {
+ public:
+};
+
+BalanceRecordListResponse::BalanceRecordListResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  records_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:message.BalanceRecordListResponse)
+}
+BalanceRecordListResponse::BalanceRecordListResponse(const BalanceRecordListResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      records_(from.records_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&error_, &from.error_,
+    static_cast<size_t>(reinterpret_cast<char*>(&balance_) -
+    reinterpret_cast<char*>(&error_)) + sizeof(balance_));
+  // @@protoc_insertion_point(copy_constructor:message.BalanceRecordListResponse)
+}
+
+void BalanceRecordListResponse::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_BalanceRecordListResponse_message_2eproto.base);
+  ::memset(&error_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&balance_) -
+      reinterpret_cast<char*>(&error_)) + sizeof(balance_));
+}
+
+BalanceRecordListResponse::~BalanceRecordListResponse() {
+  // @@protoc_insertion_point(destructor:message.BalanceRecordListResponse)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void BalanceRecordListResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void BalanceRecordListResponse::ArenaDtor(void* object) {
+  BalanceRecordListResponse* _this = reinterpret_cast< BalanceRecordListResponse* >(object);
+  (void)_this;
+}
+void BalanceRecordListResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void BalanceRecordListResponse::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const BalanceRecordListResponse& BalanceRecordListResponse::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_BalanceRecordListResponse_message_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void BalanceRecordListResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:message.BalanceRecordListResponse)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  records_.Clear();
+  ::memset(&error_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&balance_) -
+      reinterpret_cast<char*>(&error_)) + sizeof(balance_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* BalanceRecordListResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int32 error = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          error_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .message.BalanceRecordInfo records = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_records(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // int32 total = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          total_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // double balance = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 33)) {
+          balance_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* BalanceRecordListResponse::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:message.BalanceRecordListResponse)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 error = 1;
+  if (this->error() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_error(), target);
+  }
+
+  // repeated .message.BalanceRecordInfo records = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_records_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, this->_internal_records(i), target, stream);
+  }
+
+  // int32 total = 3;
+  if (this->total() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_total(), target);
+  }
+
+  // double balance = 4;
+  if (!(this->balance() <= 0 && this->balance() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(4, this->_internal_balance(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:message.BalanceRecordListResponse)
+  return target;
+}
+
+size_t BalanceRecordListResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:message.BalanceRecordListResponse)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .message.BalanceRecordInfo records = 2;
+  total_size += 1UL * this->_internal_records_size();
+  for (const auto& msg : this->records_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // int32 error = 1;
+  if (this->error() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_error());
+  }
+
+  // int32 total = 3;
+  if (this->total() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_total());
+  }
+
+  // double balance = 4;
+  if (!(this->balance() <= 0 && this->balance() >= 0)) {
+    total_size += 1 + 8;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void BalanceRecordListResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:message.BalanceRecordListResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  const BalanceRecordListResponse* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<BalanceRecordListResponse>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:message.BalanceRecordListResponse)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:message.BalanceRecordListResponse)
+    MergeFrom(*source);
+  }
+}
+
+void BalanceRecordListResponse::MergeFrom(const BalanceRecordListResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:message.BalanceRecordListResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  records_.MergeFrom(from.records_);
+  if (from.error() != 0) {
+    _internal_set_error(from._internal_error());
+  }
+  if (from.total() != 0) {
+    _internal_set_total(from._internal_total());
+  }
+  if (!(from.balance() <= 0 && from.balance() >= 0)) {
+    _internal_set_balance(from._internal_balance());
+  }
+}
+
+void BalanceRecordListResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:message.BalanceRecordListResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void BalanceRecordListResponse::CopyFrom(const BalanceRecordListResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:message.BalanceRecordListResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool BalanceRecordListResponse::IsInitialized() const {
+  return true;
+}
+
+void BalanceRecordListResponse::InternalSwap(BalanceRecordListResponse* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  records_.InternalSwap(&other->records_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BalanceRecordListResponse, balance_)
+      + sizeof(BalanceRecordListResponse::balance_)
+      - PROTOBUF_FIELD_OFFSET(BalanceRecordListResponse, error_)>(
+          reinterpret_cast<char*>(&error_),
+          reinterpret_cast<char*>(&other->error_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata BalanceRecordListResponse::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -18544,6 +20363,24 @@ template<> PROTOBUF_NOINLINE ::message::UpdateUserStatusRequest* Arena::CreateMa
 }
 template<> PROTOBUF_NOINLINE ::message::UpdateUserRoleRequest* Arena::CreateMaybeMessage< ::message::UpdateUserRoleRequest >(Arena* arena) {
   return Arena::CreateMessageInternal< ::message::UpdateUserRoleRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::message::GetBalanceRequest* Arena::CreateMaybeMessage< ::message::GetBalanceRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::message::GetBalanceRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::message::GetBalanceResponse* Arena::CreateMaybeMessage< ::message::GetBalanceResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::message::GetBalanceResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::message::TopupRequest* Arena::CreateMaybeMessage< ::message::TopupRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::message::TopupRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::message::BalanceRecordInfo* Arena::CreateMaybeMessage< ::message::BalanceRecordInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::message::BalanceRecordInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::message::BalanceRecordListRequest* Arena::CreateMaybeMessage< ::message::BalanceRecordListRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::message::BalanceRecordListRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::message::BalanceRecordListResponse* Arena::CreateMaybeMessage< ::message::BalanceRecordListResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::message::BalanceRecordListResponse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::message::VehicleInfo* Arena::CreateMaybeMessage< ::message::VehicleInfo >(Arena* arena) {
   return Arena::CreateMessageInternal< ::message::VehicleInfo >(arena);

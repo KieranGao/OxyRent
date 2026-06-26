@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM docker.cnb.cool/oxythecrack/docker-sync/node:20-alpine_amd64
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --registry=https://registry.npmmirror.com

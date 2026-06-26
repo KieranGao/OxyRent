@@ -21,6 +21,11 @@ using message::UserListResponse;
 using message::UpdateUserStatusRequest;
 using message::UpdateUserRoleRequest;
 using message::CommonResponse;
+using message::GetBalanceRequest;
+using message::GetBalanceResponse;
+using message::TopupRequest;
+using message::BalanceRecordListRequest;
+using message::BalanceRecordListResponse;
 using message::UserService;
 
 class UMSGrpcServiceImpl final : public UserService::Service {
@@ -33,6 +38,9 @@ public:
     Status GetUserList(ServerContext* context, const UserListRequest* req, UserListResponse* resp) override;
     Status UpdateUserStatus(ServerContext* context, const UpdateUserStatusRequest* req, CommonResponse* resp) override;
     Status UpdateUserRole(ServerContext* context, const UpdateUserRoleRequest* req, CommonResponse* resp) override;
+    Status GetBalance(ServerContext* context, const GetBalanceRequest* req, GetBalanceResponse* resp) override;
+    Status TopupBalance(ServerContext* context, const TopupRequest* req, CommonResponse* resp) override;
+    Status GetBalanceRecords(ServerContext* context, const BalanceRecordListRequest* req, BalanceRecordListResponse* resp) override;
 };
 
 #endif /* UMSGRPCSERVICEIMPL_H */

@@ -480,6 +480,206 @@ LogicSystem::LogicSystem() {
         }
     });
 
+    // ============ 余额路由 ============
+
+    // GET /user/balance - 获取当前用户余额（任何登录用户）
+    registerGet("/user/balance", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        auto uid_it = connection->req_.find("X-User-Id");
+        if (uid_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        int64_t uid = 0;
+        try {
+            uid = std::stoll(std::string(uid_it->value().data(), uid_it->value().size()));
+        } catch (...) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::USER_ID_INVALID);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, uid]() {
+            Json::Value result;
+            try {
+                GetBalanceRequest request;
+                request.set_uid(uid);
+                GetBalanceResponse rsp = UserGrpcClient::getInstance().getBalance(request);
+                result["error"] = rsp.error();
+                result["balance"] = rsp.balance();
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+        }
+    });
+
+    // POST /user/topup - 充值余额（仅管理员/员工）
+    registerPost("/user/topup", [](std::shared_ptr<HttpConnection> connection) {
+        auto body = beast::buffers_to_string(connection->req_.body().data());
+        LOG_DEBUG("[Gate] TOPUP_BALANCE: {}", body);
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonData, jsonResp;
+        Json::Reader reader;
+        if(!reader.parse(body, jsonData)) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        // 检查调用者角色 - 仅管理员/员工
+        auto caller_it = connection->req_.find("X-User-Id");
+        if (caller_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
+        std::string caller_role;
+        if (!RedisManager::getInstance().get(USER_ROLE_PREFIX + caller_uid_str, caller_role) ||
+            (caller_role != "2" && caller_role != "admin" && caller_role != "1" && caller_role != "staff")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
+            jsonResp["msg"] = "Staff access required";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        int64_t uid = jsonData["uid"].asInt64();
+        double amount = jsonData["amount"].asDouble();
+        std::string remark = jsonData.get("remark", "").asString();
+        int64_t caller_uid = std::stoll(caller_uid_str);
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, uid, amount, remark, caller_uid]() {
+            Json::Value result;
+            try {
+                TopupRequest request;
+                request.set_uid(uid);
+                request.set_amount(amount);
+                request.set_remark(remark);
+                CommonResponse rsp = UserGrpcClient::getInstance().topupBalance(request);
+                result["error"] = rsp.error();
+                result["msg"] = rsp.msg();
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+        }
+    });
+
+    // GET /user/balance/records - 获取余额记录
+    registerGet("/user/balance/records", [](std::shared_ptr<HttpConnection> connection) {
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonResp;
+
+        auto uid_it = connection->req_.find("X-User-Id");
+        if (uid_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        int64_t uid = 0;
+        try {
+            uid = std::stoll(std::string(uid_it->value().data(), uid_it->value().size()));
+        } catch (...) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::USER_ID_INVALID);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        int page = 1, page_size = 20;
+        if (connection->get_params_.count("page")) {
+            try { page = std::stoi(connection->get_params_["page"]); } catch (...) {}
+        }
+        if (connection->get_params_.count("page_size")) {
+            try { page_size = std::stoi(connection->get_params_["page_size"]); } catch (...) {}
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, uid, page, page_size]() {
+            Json::Value result;
+            try {
+                BalanceRecordListRequest request;
+                request.set_uid(uid);
+                request.set_page(page);
+                request.set_page_size(page_size);
+                BalanceRecordListResponse rsp = UserGrpcClient::getInstance().getBalanceRecords(request);
+                result["error"] = rsp.error();
+                result["total"] = rsp.total();
+                result["balance"] = rsp.balance();
+                Json::Value records(Json::arrayValue);
+                for (int i = 0; i < rsp.records_size(); ++i) {
+                    auto& r = rsp.records(i);
+                    Json::Value record;
+                    record["id"] = static_cast<Json::Int64>(r.id());
+                    record["user_id"] = static_cast<Json::Int64>(r.user_id());
+                    record["amount"] = r.amount();
+                    record["type"] = r.type();
+                    record["operator_id"] = static_cast<Json::Int64>(r.operator_id());
+                    record["remark"] = r.remark();
+                    record["created_at"] = r.created_at();
+                    records.append(record);
+                }
+                result["records"] = records;
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+        }
+    });
+
     // ============ 车辆路由 ============
 
     registerGet("/vehicle/list", [](std::shared_ptr<HttpConnection> connection) {

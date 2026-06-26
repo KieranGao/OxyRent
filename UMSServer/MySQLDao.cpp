@@ -263,3 +263,121 @@ bool MySQLDao::updateUserRole(int64_t uid, const std::string& role) {
         return false;
     }
 }
+
+double MySQLDao::getBalance(int64_t uid) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            sql_conn->prepareStatement("SELECT balance FROM user WHERE uid = ? LIMIT 1"));
+        pstmt->setInt64(1, uid);
+        std::unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        if (res && res->next()) {
+            return res->getDouble("balance");
+        }
+        return 0.0;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in getBalance: {}", exp.what());
+        return 0.0;
+    }
+}
+
+bool MySQLDao::topupBalance(int64_t uid, double amount, int64_t operator_id, const std::string& remark) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+        // Update balance
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            sql_conn->prepareStatement("UPDATE user SET balance = balance + ? WHERE uid = ? AND balance + ? >= 0"));
+        pstmt->setDouble(1, amount);
+        pstmt->setInt64(2, uid);
+        pstmt->setDouble(3, amount);
+        int affected = pstmt->executeUpdate();
+        if (affected <= 0) {
+            LOG_ERROR("topupBalance failed for uid={}", uid);
+            return false;
+        }
+        // Insert record
+        std::unique_ptr<sql::PreparedStatement> recStmt(
+            sql_conn->prepareStatement("INSERT INTO balance_records (user_id, amount, type, operator_id, remark) VALUES (?, ?, 'topup', ?, ?)"));
+        recStmt->setInt64(1, uid);
+        recStmt->setDouble(2, amount);
+        recStmt->setInt64(3, operator_id);
+        recStmt->setString(4, remark);
+        recStmt->executeUpdate();
+        LOG_DEBUG("topupBalance uid={} amount={} operator_id={}", uid, amount, operator_id);
+        return true;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in topupBalance: {}", exp.what());
+        return false;
+    }
+}
+
+bool MySQLDao::consumeBalance(int64_t uid, double amount, const std::string& remark) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+        // Update balance
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            sql_conn->prepareStatement("UPDATE user SET balance = balance - ? WHERE uid = ? AND balance >= ?"));
+        pstmt->setDouble(1, amount);
+        pstmt->setInt64(2, uid);
+        pstmt->setDouble(3, amount);
+        int affected = pstmt->executeUpdate();
+        if (affected <= 0) {
+            LOG_ERROR("consumeBalance failed: insufficient balance for uid={}", uid);
+            return false;
+        }
+        // Insert record
+        std::unique_ptr<sql::PreparedStatement> recStmt(
+            sql_conn->prepareStatement("INSERT INTO balance_records (user_id, amount, type, remark) VALUES (?, ?, 'consume', ?)"));
+        recStmt->setInt64(1, uid);
+        recStmt->setDouble(2, amount);
+        recStmt->setString(3, remark);
+        recStmt->executeUpdate();
+        LOG_DEBUG("consumeBalance uid={} amount={}", uid, amount);
+        return true;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in consumeBalance: {}", exp.what());
+        return false;
+    }
+}
+
+bool MySQLDao::getBalanceRecords(int64_t uid, int page, int page_size, std::vector<BalanceRecordData>& records, int& total) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+        // Count
+        std::unique_ptr<sql::PreparedStatement> countStmt(
+            sql_conn->prepareStatement("SELECT COUNT(*) AS cnt FROM balance_records WHERE user_id = ?"));
+        countStmt->setInt64(1, uid);
+        std::unique_ptr<sql::ResultSet> countRes(countStmt->executeQuery());
+        if (countRes && countRes->next()) {
+            total = countRes->getInt("cnt");
+        }
+        // Query
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            sql_conn->prepareStatement(
+                "SELECT id, user_id, amount, type, operator_id, remark, created_at "
+                "FROM balance_records WHERE user_id = ? ORDER BY id DESC LIMIT ? OFFSET ?"));
+        pstmt->setInt64(1, uid);
+        pstmt->setInt(2, page_size);
+        pstmt->setInt(3, (page - 1) * page_size);
+        std::unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        while (res && res->next()) {
+            BalanceRecordData item;
+            item.id = res->getInt64("id");
+            item.user_id = res->getInt64("user_id");
+            item.amount = res->getDouble("amount");
+            item.type = res->getString("type");
+            item.operator_id = res->getInt64("operator_id");
+            item.remark = res->getString("remark");
+            item.created_at = res->getString("created_at");
+            records.push_back(item);
+        }
+        return true;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in getBalanceRecords: {}", exp.what());
+        return false;
+    }
+}

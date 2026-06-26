@@ -18,9 +18,12 @@ export const useAuthStore = defineStore('auth', () => {
   const uid = ref(Number(localStorage.getItem('uid')) || 0)
   const username = ref(localStorage.getItem('username') || '')
   const role = ref(Number(localStorage.getItem('role')) || 0)
+  const balance = ref(Number(localStorage.getItem('balance')) || 0)
 
   const isLoggedIn = computed(() => !!token.value)
   const isAdmin = computed(() => role.value === 2)
+  const isStaff = computed(() => role.value === 1)
+  const isCustomer = computed(() => role.value === 0)
   const roleLabel = computed(() => ROLE_LABELS[role.value] || 'User')
   const roleKey = computed(() => ROLE_KEYS[role.value] || 'user')
 
@@ -37,10 +40,12 @@ export const useAuthStore = defineStore('auth', () => {
     uid.value = 0
     username.value = ''
     role.value = 0
+    balance.value = 0
     localStorage.removeItem('token')
     localStorage.removeItem('uid')
     localStorage.removeItem('username')
     localStorage.removeItem('role')
+    localStorage.removeItem('balance')
   }
 
   async function login({ username: loginUsername, password }) {
@@ -50,11 +55,17 @@ export const useAuthStore = defineStore('auth', () => {
     uid.value = res.uid
     username.value = loginUsername
     role.value = mapRole(res.role)
+    if (res.balance !== undefined) {
+      balance.value = res.balance
+    }
 
     persist('token', res.token)
     persist('uid', res.uid)
     persist('username', loginUsername)
     persist('role', mapRole(res.role))
+    if (res.balance !== undefined) {
+      persist('balance', res.balance)
+    }
     return res
   }
 
@@ -64,14 +75,19 @@ export const useAuthStore = defineStore('auth', () => {
     return res
   }
 
+  function setBalance(val) {
+    balance.value = val
+    persist('balance', val)
+  }
+
   function logout() {
     clearAuth()
     window.location.hash = '#/login'
   }
 
   return {
-    token, uid, username, role,
-    isLoggedIn, isAdmin, roleLabel, roleKey,
-    login, register, logout, clearAuth,
+    token, uid, username, role, balance,
+    isLoggedIn, isAdmin, isStaff, isCustomer, roleLabel, roleKey,
+    login, register, logout, clearAuth, setBalance,
   }
 })

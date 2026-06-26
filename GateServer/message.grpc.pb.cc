@@ -29,6 +29,9 @@ static const char* UserService_method_names[] = {
   "/message.UserService/GetUserList",
   "/message.UserService/UpdateUserStatus",
   "/message.UserService/UpdateUserRole",
+  "/message.UserService/GetBalance",
+  "/message.UserService/TopupBalance",
+  "/message.UserService/GetBalanceRecords",
 };
 
 std::unique_ptr< UserService::Stub> UserService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -45,6 +48,9 @@ UserService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channe
   , rpcmethod_GetUserList_(UserService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_UpdateUserStatus_(UserService_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_UpdateUserRole_(UserService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetBalance_(UserService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_TopupBalance_(UserService_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetBalanceRecords_(UserService_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status UserService::Stub::UserRegister(::grpc::ClientContext* context, const ::message::UserRegisterRequest& request, ::message::CommonResponse* response) {
@@ -243,6 +249,90 @@ void UserService::Stub::experimental_async::UpdateUserRole(::grpc::ClientContext
   return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::CommonResponse>::Create(channel_.get(), cq, rpcmethod_UpdateUserRole_, context, request, false);
 }
 
+::grpc::Status UserService::Stub::GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::message::GetBalanceResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetBalance_, context, request, response);
+}
+
+void UserService::Stub::experimental_async::GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_GetBalance_, context, request, response, std::move(f));
+}
+
+void UserService::Stub::experimental_async::GetBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::GetBalanceResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_GetBalance_, context, request, response, std::move(f));
+}
+
+void UserService::Stub::experimental_async::GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_GetBalance_, context, request, response, reactor);
+}
+
+void UserService::Stub::experimental_async::GetBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::GetBalanceResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_GetBalance_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::GetBalanceResponse>* UserService::Stub::AsyncGetBalanceRaw(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::GetBalanceResponse>::Create(channel_.get(), cq, rpcmethod_GetBalance_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::GetBalanceResponse>* UserService::Stub::PrepareAsyncGetBalanceRaw(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::GetBalanceResponse>::Create(channel_.get(), cq, rpcmethod_GetBalance_, context, request, false);
+}
+
+::grpc::Status UserService::Stub::TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::message::CommonResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_TopupBalance_, context, request, response);
+}
+
+void UserService::Stub::experimental_async::TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_TopupBalance_, context, request, response, std::move(f));
+}
+
+void UserService::Stub::experimental_async::TopupBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_TopupBalance_, context, request, response, std::move(f));
+}
+
+void UserService::Stub::experimental_async::TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_TopupBalance_, context, request, response, reactor);
+}
+
+void UserService::Stub::experimental_async::TopupBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_TopupBalance_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* UserService::Stub::AsyncTopupBalanceRaw(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::CommonResponse>::Create(channel_.get(), cq, rpcmethod_TopupBalance_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* UserService::Stub::PrepareAsyncTopupBalanceRaw(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::CommonResponse>::Create(channel_.get(), cq, rpcmethod_TopupBalance_, context, request, false);
+}
+
+::grpc::Status UserService::Stub::GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::message::BalanceRecordListResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetBalanceRecords_, context, request, response);
+}
+
+void UserService::Stub::experimental_async::GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_GetBalanceRecords_, context, request, response, std::move(f));
+}
+
+void UserService::Stub::experimental_async::GetBalanceRecords(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::BalanceRecordListResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_GetBalanceRecords_, context, request, response, std::move(f));
+}
+
+void UserService::Stub::experimental_async::GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_GetBalanceRecords_, context, request, response, reactor);
+}
+
+void UserService::Stub::experimental_async::GetBalanceRecords(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::BalanceRecordListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_GetBalanceRecords_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::BalanceRecordListResponse>* UserService::Stub::AsyncGetBalanceRecordsRaw(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::BalanceRecordListResponse>::Create(channel_.get(), cq, rpcmethod_GetBalanceRecords_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::BalanceRecordListResponse>* UserService::Stub::PrepareAsyncGetBalanceRecordsRaw(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::BalanceRecordListResponse>::Create(channel_.get(), cq, rpcmethod_GetBalanceRecords_, context, request, false);
+}
+
 UserService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       UserService_method_names[0],
@@ -314,6 +404,36 @@ UserService::Service::Service() {
              ::message::CommonResponse* resp) {
                return service->UpdateUserRole(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      UserService_method_names[7],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< UserService::Service, ::message::GetBalanceRequest, ::message::GetBalanceResponse>(
+          [](UserService::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::message::GetBalanceRequest* req,
+             ::message::GetBalanceResponse* resp) {
+               return service->GetBalance(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      UserService_method_names[8],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< UserService::Service, ::message::TopupRequest, ::message::CommonResponse>(
+          [](UserService::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::message::TopupRequest* req,
+             ::message::CommonResponse* resp) {
+               return service->TopupBalance(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      UserService_method_names[9],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< UserService::Service, ::message::BalanceRecordListRequest, ::message::BalanceRecordListResponse>(
+          [](UserService::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::message::BalanceRecordListRequest* req,
+             ::message::BalanceRecordListResponse* resp) {
+               return service->GetBalanceRecords(ctx, req, resp);
+             }, this)));
 }
 
 UserService::Service::~Service() {
@@ -362,6 +482,27 @@ UserService::Service::~Service() {
 }
 
 ::grpc::Status UserService::Service::UpdateUserRole(::grpc::ServerContext* context, const ::message::UpdateUserRoleRequest* request, ::message::CommonResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status UserService::Service::GetBalance(::grpc::ServerContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status UserService::Service::TopupBalance(::grpc::ServerContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status UserService::Service::GetBalanceRecords(::grpc::ServerContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response) {
   (void) context;
   (void) request;
   (void) response;

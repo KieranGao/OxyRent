@@ -83,3 +83,5 @@
 [2026-06-26 20:03:14.642] [WARN] [Finance] GenerateInvoice failed for order: 20260625002
 [2026-06-26 20:03:15.307] [ERROR] SQLException in generateInvoice: Table 'vehicle_rental.users' doesn't exist
 [2026-06-26 20:03:15.307] [WARN] [Finance] GenerateInvoice failed for order: 20260625002
+[2026-06-26 20:27:29.303] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 20:27:29.307] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055

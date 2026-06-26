@@ -54,3 +54,37 @@
 [2026-06-26 19:54:00.067] [INFO] GateServer starting on port 8080
 [2026-06-26 20:00:00.227] [INFO] GateServer starting on port 8080
 [2026-06-26 20:00:00.229] [ERROR] Fatal error: bind: Address already in use
+[2026-06-26 20:24:51.847] [ERROR] VehicleService GetMaintenanceList RPC failed: failed to connect to all addresses
+[2026-06-26 20:24:53.657] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:24:54.708] [ERROR] VehicleService GetMaintenanceList RPC failed: failed to connect to all addresses
+[2026-06-26 20:24:56.792] [ERROR] VehicleService GetVehicleList RPC failed: failed to connect to all addresses
+[2026-06-26 20:24:57.502] [ERROR] FinanceService GetStatsOverview RPC failed: failed to connect to all addresses
+[2026-06-26 20:24:59.002] [ERROR] FinanceService GetStatsOverview RPC failed: failed to connect to all addresses
+[2026-06-26 20:25:00.251] [ERROR] FinanceService GetRevenueStats RPC failed: failed to connect to all addresses
+[2026-06-26 20:25:00.251] [ERROR] FinanceService GetVehicleStats RPC failed: failed to connect to all addresses
+[2026-06-26 20:25:01.587] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:25:03.025] [ERROR] FinanceService GetPaymentList RPC failed: failed to connect to all addresses
+[2026-06-26 20:25:03.025] [ERROR] FinanceService GetInvoiceList RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:28.988] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:30.393] [ERROR] VehicleService GetMaintenanceList RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:33.459] [ERROR] FinanceService GetStatsOverview RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:33.922] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:46.611] [ERROR] FinanceService GetInvoiceList RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:46.611] [ERROR] FinanceService GetStatsOverview RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:48.424] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:48.424] [ERROR] VehicleService GetVehicleList RPC failed: failed to connect to all addresses
+[2026-06-26 20:26:48.426] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:03.394] [ERROR] VehicleService GetVehicleList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:03.395] [ERROR] FinanceService GetStatsOverview RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:03.836] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:04.058] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:19.920] [ERROR] VehicleService GetVehicleList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:20.638] [ERROR] FinanceService GetStatsOverview RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:20.876] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:25.583] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:26.042] [ERROR] VehicleService GetVehicleList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:26.503] [ERROR] FinanceService GetStatsOverview RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:26.873] [ERROR] VehicleService GetOrderList RPC failed: failed to connect to all addresses
+[2026-06-26 20:27:31.294] [INFO] GateServer starting on port 8080
+[2026-06-26 20:27:31.295] [ERROR] Fatal error: bind: Address already in use
+[2026-06-26 20:28:40.078] [INFO] GateServer starting on port 8080

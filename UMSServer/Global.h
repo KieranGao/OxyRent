@@ -36,6 +36,16 @@ struct UserProfileData {
     std::string status;
 };
 
+struct BalanceRecordData {
+    int64_t id = 0;
+    int64_t user_id = 0;
+    double amount = 0.0;
+    std::string type;
+    int64_t operator_id = 0;
+    std::string remark;
+    std::string created_at;
+};
+
 enum class ErrorCodes {
     SUCCESS = 0,
 
@@ -64,6 +74,11 @@ enum class ErrorCodes {
 
     // Payment
     PAYMENT_FAILED          = 1016,
+
+    // Balance
+    BALANCE_INSUFFICIENT    = 1017,
+    BALANCE_TOPUP_FAILED    = 1018,
+    BALANCE_CONSUME_FAILED  = 1019,
 };
 
 #endif /* GLOBAL_H */

@@ -207,3 +207,68 @@ Status UMSGrpcServiceImpl::UpdateUserRole(ServerContext* context, const UpdateUs
     resp->set_msg("User role updated");
     return Status::OK;
 }
+
+Status UMSGrpcServiceImpl::GetBalance(ServerContext* context, const GetBalanceRequest* req, GetBalanceResponse* resp) {
+    int64_t uid = req->uid();
+    LOG_DEBUG("[UMS] GetBalance uid={}", uid);
+
+    double balance = MySQLManager::getInstance().getBalance(uid);
+    resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
+    resp->set_balance(balance);
+    return Status::OK;
+}
+
+Status UMSGrpcServiceImpl::TopupBalance(ServerContext* context, const TopupRequest* req, CommonResponse* resp) {
+    int64_t uid = req->uid();
+    double amount = req->amount();
+    std::string remark = req->remark();
+    LOG_INFO("[UMS] TopupBalance uid={} amount={}", uid, amount);
+
+    if (amount <= 0) {
+        resp->set_error(static_cast<int>(ErrorCodes::BALANCE_TOPUP_FAILED));
+        resp->set_msg("Amount must be positive");
+        return Status::OK;
+    }
+
+    bool ok = MySQLManager::getInstance().topupBalance(uid, amount, uid, remark);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::BALANCE_TOPUP_FAILED));
+        resp->set_msg("Topup failed");
+        return Status::OK;
+    }
+
+    resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
+    resp->set_msg("Topup successful");
+    return Status::OK;
+}
+
+Status UMSGrpcServiceImpl::GetBalanceRecords(ServerContext* context, const BalanceRecordListRequest* req, BalanceRecordListResponse* resp) {
+    int64_t uid = req->uid();
+    int page = req->page() > 0 ? req->page() : 1;
+    int page_size = req->page_size() > 0 ? req->page_size() : 20;
+    LOG_DEBUG("[UMS] GetBalanceRecords uid={} page={} page_size={}", uid, page, page_size);
+
+    std::vector<BalanceRecordData> records;
+    int total = 0;
+    bool ok = MySQLManager::getInstance().getBalanceRecords(uid, page, page_size, records, total);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
+        resp->set_msg("Failed to fetch balance records");
+        return Status::OK;
+    }
+
+    resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
+    resp->set_total(total);
+    resp->set_balance(MySQLManager::getInstance().getBalance(uid));
+    for (auto& r : records) {
+        auto* item = resp->add_records();
+        item->set_id(r.id);
+        item->set_user_id(r.user_id);
+        item->set_amount(r.amount);
+        item->set_type(r.type);
+        item->set_operator_id(r.operator_id);
+        item->set_remark(r.remark);
+        item->set_created_at(r.created_at);
+    }
+    return Status::OK;
+}

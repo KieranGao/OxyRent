@@ -5,37 +5,86 @@
       <p>欢迎回来，{{ authStore.username }}</p>
     </div>
 
-    <!-- Stat Cards -->
-    <div class="stat-grid anim-stagger">
-      <div class="stat-card">
-        <div class="stat-icon blue">
-          <el-icon :size="20"><User /></el-icon>
+    <!-- Customer Dashboard -->
+    <template v-if="authStore.isCustomer">
+      <div class="stat-grid anim-stagger">
+        <div class="stat-card stat-card-wide">
+          <div class="stat-icon gold">
+            <el-icon :size="20"><Wallet /></el-icon>
+          </div>
+          <div class="stat-value stat-value-large">{{ formatMoney(authStore.balance) }}</div>
+          <div class="stat-label">账户余额</div>
         </div>
-        <div class="stat-value">{{ stats.total_users }}</div>
-        <div class="stat-label">用户总数</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon green">
-          <el-icon :size="20"><Van /></el-icon>
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <el-icon :size="20"><Van /></el-icon>
+          </div>
+          <div class="stat-value">{{ stats.available_vehicles }}</div>
+          <div class="stat-label">可用车辆</div>
         </div>
-        <div class="stat-value">{{ stats.available_vehicles }}</div>
-        <div class="stat-label">可用车辆</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon amber">
-          <el-icon :size="20"><Document /></el-icon>
+        <div class="stat-card">
+          <div class="stat-icon amber">
+            <el-icon :size="20"><Document /></el-icon>
+          </div>
+          <div class="stat-value">{{ stats.active_orders }}</div>
+          <div class="stat-label">进行中订单</div>
         </div>
-        <div class="stat-value">{{ stats.active_orders }}</div>
-        <div class="stat-label">进行中订单</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-icon gold">
-          <el-icon :size="20"><Wallet /></el-icon>
+    </template>
+
+    <!-- Staff Dashboard -->
+    <template v-else-if="authStore.isStaff">
+      <div class="stat-grid anim-stagger">
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <el-icon :size="20"><Van /></el-icon>
+          </div>
+          <div class="stat-value">{{ stats.available_vehicles }}</div>
+          <div class="stat-label">可用车辆</div>
         </div>
-        <div class="stat-value">{{ formatMoney(stats.monthly_revenue) }}</div>
-        <div class="stat-label">本月收入</div>
+        <div class="stat-card">
+          <div class="stat-icon amber">
+            <el-icon :size="20"><Document /></el-icon>
+          </div>
+          <div class="stat-value">{{ stats.active_orders }}</div>
+          <div class="stat-label">进行中订单</div>
+        </div>
       </div>
-    </div>
+    </template>
+
+    <!-- Admin Dashboard -->
+    <template v-else>
+      <div class="stat-grid anim-stagger">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <el-icon :size="20"><User /></el-icon>
+          </div>
+          <div class="stat-value">{{ stats.total_users }}</div>
+          <div class="stat-label">用户总数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <el-icon :size="20"><Van /></el-icon>
+          </div>
+          <div class="stat-value">{{ stats.available_vehicles }}</div>
+          <div class="stat-label">可用车辆</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">
+            <el-icon :size="20"><Document /></el-icon>
+          </div>
+          <div class="stat-value">{{ stats.active_orders }}</div>
+          <div class="stat-label">进行中订单</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold">
+            <el-icon :size="20"><Wallet /></el-icon>
+          </div>
+          <div class="stat-value">{{ formatMoney(stats.monthly_revenue) }}</div>
+          <div class="stat-label">本月收入</div>
+        </div>
+      </div>
+    </template>
 
     <!-- Quick Actions + Recent Orders -->
     <div class="dashboard-grid">
@@ -55,25 +104,34 @@
                 <div class="action-desc">创建租赁订单</div>
               </div>
             </button>
-            <button v-if="authStore.isAdmin" class="action-item" @click="$router.push('/vehicles/add')">
+            <button class="action-item" @click="$router.push('/rentals')">
+              <div class="action-icon amber">
+                <el-icon><Document /></el-icon>
+              </div>
+              <div>
+                <div class="action-title">查看订单</div>
+                <div class="action-desc">管理租赁订单</div>
+              </div>
+            </button>
+            <button v-if="authStore.isStaff || authStore.isAdmin" class="action-item" @click="$router.push('/vehicles')">
               <div class="action-icon blue">
                 <el-icon><Van /></el-icon>
               </div>
               <div>
-                <div class="action-title">添加车辆</div>
-                <div class="action-desc">注册新车辆</div>
+                <div class="action-title">车辆管理</div>
+                <div class="action-desc">查看车辆信息</div>
               </div>
             </button>
-            <button v-if="authStore.isAdmin" class="action-item" @click="$router.push('/payments')">
+            <button v-if="authStore.isStaff || authStore.isAdmin" class="action-item" @click="$router.push('/topup')">
               <div class="action-icon green">
                 <el-icon><Wallet /></el-icon>
               </div>
               <div>
-                <div class="action-title">收费管理</div>
-                <div class="action-desc">查看收费记录</div>
+                <div class="action-title">充值客户</div>
+                <div class="action-desc">为客户充值余额</div>
               </div>
             </button>
-            <button class="action-item" @click="$router.push('/statistics')">
+            <button v-if="authStore.isAdmin" class="action-item" @click="$router.push('/statistics')">
               <div class="action-icon amber">
                 <el-icon><DataLine /></el-icon>
               </div>
@@ -118,6 +176,7 @@ import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { getStatsOverview } from '@/api/finance'
 import { getRentalList } from '@/api/rental'
+import { getBalance } from '@/api/user'
 import { User, Van, Document, Wallet, Plus, DataLine } from '@element-plus/icons-vue'
 
 const authStore = useAuthStore()
@@ -147,18 +206,48 @@ function statusType(status) {
 }
 
 onMounted(async () => {
-  try {
-    const res = await getStatsOverview()
-    if (res.error === 0) {
-      stats.value = {
-        total_users: res.total_users || 0,
-        available_vehicles: res.available_vehicles || 0,
-        active_orders: res.active_orders || 0,
-        monthly_revenue: res.monthly_revenue || 0,
+  // Fetch balance for customer and staff
+  if (authStore.isCustomer || authStore.isStaff) {
+    try {
+      const res = await getBalance()
+      if (res.error === 0) {
+        authStore.setBalance(res.balance || 0)
       }
+    } catch {
+      // Balance unavailable
     }
-  } catch {
-    // Stats unavailable
+  }
+
+  // Fetch stats overview only for admin; staff/customer get limited stats
+  if (authStore.isAdmin) {
+    try {
+      const res = await getStatsOverview()
+      if (res.error === 0) {
+        stats.value = {
+          total_users: res.total_users || 0,
+          available_vehicles: res.available_vehicles || 0,
+          active_orders: res.active_orders || 0,
+          monthly_revenue: res.monthly_revenue || 0,
+        }
+      }
+    } catch {
+      // Stats unavailable
+    }
+  } else {
+    // Non-admin users still get basic vehicle/order counts
+    try {
+      const res = await getStatsOverview()
+      if (res.error === 0) {
+        stats.value = {
+          total_users: 0,
+          available_vehicles: res.available_vehicles || 0,
+          active_orders: res.active_orders || 0,
+          monthly_revenue: res.monthly_revenue || 0,
+        }
+      }
+    } catch {
+      // Stats unavailable
+    }
   }
 
   try {
@@ -178,6 +267,14 @@ onMounted(async () => {
   grid-template-columns: 340px 1fr;
   gap: 24px;
   align-items: start;
+}
+
+.stat-card-wide {
+  grid-column: 1 / -1;
+}
+
+.stat-value-large {
+  font-size: 36px !important;
 }
 
 /* ===== Action List ===== */

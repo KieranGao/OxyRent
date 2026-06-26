@@ -39,3 +39,19 @@ bool MySQLManager::updateUserStatus(int64_t uid, const std::string& status) {
 bool MySQLManager::updateUserRole(int64_t uid, const std::string& role) {
     return dao_->updateUserRole(uid, role);
 }
+
+double MySQLManager::getBalance(int64_t uid) {
+    return dao_->getBalance(uid);
+}
+
+bool MySQLManager::topupBalance(int64_t uid, double amount, int64_t operator_id, const std::string& remark) {
+    return dao_->topupBalance(uid, amount, operator_id, remark);
+}
+
+bool MySQLManager::consumeBalance(int64_t uid, double amount, const std::string& remark) {
+    return dao_->consumeBalance(uid, amount, remark);
+}
+
+bool MySQLManager::getBalanceRecords(int64_t uid, int page, int page_size, std::vector<BalanceRecordData>& records, int& total) {
+    return dao_->getBalanceRecords(uid, page, page_size, records, total);
+}

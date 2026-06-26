@@ -98,3 +98,42 @@ CommonResponse UserGrpcClient::updateUserRole(const UpdateUserRoleRequest& reque
     }
     return response;
 }
+
+GetBalanceResponse UserGrpcClient::getBalance(const GetBalanceRequest& request) {
+    GetBalanceResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->GetBalance(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("UserService GetBalance RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}
+
+CommonResponse UserGrpcClient::topupBalance(const TopupRequest& request) {
+    CommonResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->TopupBalance(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("UserService TopupBalance RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}
+
+BalanceRecordListResponse UserGrpcClient::getBalanceRecords(const BalanceRecordListRequest& request) {
+    BalanceRecordListResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->GetBalanceRecords(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("UserService GetBalanceRecords RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}

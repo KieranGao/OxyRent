@@ -85,6 +85,27 @@ class UserService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> PrepareAsyncUpdateUserRole(::grpc::ClientContext* context, const ::message::UpdateUserRoleRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>>(PrepareAsyncUpdateUserRoleRaw(context, request, cq));
     }
+    virtual ::grpc::Status GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::message::GetBalanceResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::GetBalanceResponse>> AsyncGetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::GetBalanceResponse>>(AsyncGetBalanceRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::GetBalanceResponse>> PrepareAsyncGetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::GetBalanceResponse>>(PrepareAsyncGetBalanceRaw(context, request, cq));
+    }
+    virtual ::grpc::Status TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::message::CommonResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> AsyncTopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>>(AsyncTopupBalanceRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> PrepareAsyncTopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>>(PrepareAsyncTopupBalanceRaw(context, request, cq));
+    }
+    virtual ::grpc::Status GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::message::BalanceRecordListResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::BalanceRecordListResponse>> AsyncGetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::BalanceRecordListResponse>>(AsyncGetBalanceRecordsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::BalanceRecordListResponse>> PrepareAsyncGetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::BalanceRecordListResponse>>(PrepareAsyncGetBalanceRecordsRaw(context, request, cq));
+    }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
@@ -172,6 +193,42 @@ class UserService final {
       #else
       virtual void UpdateUserRole(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      virtual void GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::GetBalanceResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void GetBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::GetBalanceResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void GetBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::GetBalanceResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      virtual void TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void TopupBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void TopupBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void TopupBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      virtual void GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetBalanceRecords(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::BalanceRecordListResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void GetBalanceRecords(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::BalanceRecordListResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void GetBalanceRecords(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::BalanceRecordListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
     };
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     typedef class experimental_async_interface async_interface;
@@ -195,6 +252,12 @@ class UserService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* PrepareAsyncUpdateUserStatusRaw(::grpc::ClientContext* context, const ::message::UpdateUserStatusRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* AsyncUpdateUserRoleRaw(::grpc::ClientContext* context, const ::message::UpdateUserRoleRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* PrepareAsyncUpdateUserRoleRaw(::grpc::ClientContext* context, const ::message::UpdateUserRoleRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::GetBalanceResponse>* AsyncGetBalanceRaw(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::GetBalanceResponse>* PrepareAsyncGetBalanceRaw(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* AsyncTopupBalanceRaw(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* PrepareAsyncTopupBalanceRaw(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::BalanceRecordListResponse>* AsyncGetBalanceRecordsRaw(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::BalanceRecordListResponse>* PrepareAsyncGetBalanceRecordsRaw(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -247,6 +310,27 @@ class UserService final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> PrepareAsyncUpdateUserRole(::grpc::ClientContext* context, const ::message::UpdateUserRoleRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>>(PrepareAsyncUpdateUserRoleRaw(context, request, cq));
+    }
+    ::grpc::Status GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::message::GetBalanceResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::GetBalanceResponse>> AsyncGetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::GetBalanceResponse>>(AsyncGetBalanceRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::GetBalanceResponse>> PrepareAsyncGetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::GetBalanceResponse>>(PrepareAsyncGetBalanceRaw(context, request, cq));
+    }
+    ::grpc::Status TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::message::CommonResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> AsyncTopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>>(AsyncTopupBalanceRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> PrepareAsyncTopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>>(PrepareAsyncTopupBalanceRaw(context, request, cq));
+    }
+    ::grpc::Status GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::message::BalanceRecordListResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::BalanceRecordListResponse>> AsyncGetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::BalanceRecordListResponse>>(AsyncGetBalanceRecordsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::BalanceRecordListResponse>> PrepareAsyncGetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::BalanceRecordListResponse>>(PrepareAsyncGetBalanceRecordsRaw(context, request, cq));
     }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
@@ -335,6 +419,42 @@ class UserService final {
       #else
       void UpdateUserRole(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
+      void GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response, std::function<void(::grpc::Status)>) override;
+      void GetBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::GetBalanceResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void GetBalance(::grpc::ClientContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void GetBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::GetBalanceResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void GetBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::GetBalanceResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      void TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
+      void TopupBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void TopupBalance(::grpc::ClientContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void TopupBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void TopupBalance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      void GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response, std::function<void(::grpc::Status)>) override;
+      void GetBalanceRecords(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::BalanceRecordListResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void GetBalanceRecords(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void GetBalanceRecords(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::BalanceRecordListResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void GetBalanceRecords(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::BalanceRecordListResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
      private:
       friend class Stub;
       explicit experimental_async(Stub* stub): stub_(stub) { }
@@ -360,6 +480,12 @@ class UserService final {
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* PrepareAsyncUpdateUserStatusRaw(::grpc::ClientContext* context, const ::message::UpdateUserStatusRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* AsyncUpdateUserRoleRaw(::grpc::ClientContext* context, const ::message::UpdateUserRoleRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* PrepareAsyncUpdateUserRoleRaw(::grpc::ClientContext* context, const ::message::UpdateUserRoleRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::GetBalanceResponse>* AsyncGetBalanceRaw(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::GetBalanceResponse>* PrepareAsyncGetBalanceRaw(::grpc::ClientContext* context, const ::message::GetBalanceRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* AsyncTopupBalanceRaw(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* PrepareAsyncTopupBalanceRaw(::grpc::ClientContext* context, const ::message::TopupRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::BalanceRecordListResponse>* AsyncGetBalanceRecordsRaw(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::BalanceRecordListResponse>* PrepareAsyncGetBalanceRecordsRaw(::grpc::ClientContext* context, const ::message::BalanceRecordListRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_UserRegister_;
     const ::grpc::internal::RpcMethod rpcmethod_UserLogin_;
     const ::grpc::internal::RpcMethod rpcmethod_GetUserProfile_;
@@ -367,6 +493,9 @@ class UserService final {
     const ::grpc::internal::RpcMethod rpcmethod_GetUserList_;
     const ::grpc::internal::RpcMethod rpcmethod_UpdateUserStatus_;
     const ::grpc::internal::RpcMethod rpcmethod_UpdateUserRole_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetBalance_;
+    const ::grpc::internal::RpcMethod rpcmethod_TopupBalance_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetBalanceRecords_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -381,6 +510,9 @@ class UserService final {
     virtual ::grpc::Status GetUserList(::grpc::ServerContext* context, const ::message::UserListRequest* request, ::message::UserListResponse* response);
     virtual ::grpc::Status UpdateUserStatus(::grpc::ServerContext* context, const ::message::UpdateUserStatusRequest* request, ::message::CommonResponse* response);
     virtual ::grpc::Status UpdateUserRole(::grpc::ServerContext* context, const ::message::UpdateUserRoleRequest* request, ::message::CommonResponse* response);
+    virtual ::grpc::Status GetBalance(::grpc::ServerContext* context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response);
+    virtual ::grpc::Status TopupBalance(::grpc::ServerContext* context, const ::message::TopupRequest* request, ::message::CommonResponse* response);
+    virtual ::grpc::Status GetBalanceRecords(::grpc::ServerContext* context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_UserRegister : public BaseClass {
@@ -522,7 +654,67 @@ class UserService final {
       ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_UserRegister<WithAsyncMethod_UserLogin<WithAsyncMethod_GetUserProfile<WithAsyncMethod_UpdateProfile<WithAsyncMethod_GetUserList<WithAsyncMethod_UpdateUserStatus<WithAsyncMethod_UpdateUserRole<Service > > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_GetBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetBalance() {
+      ::grpc::Service::MarkMethodAsync(7);
+    }
+    ~WithAsyncMethod_GetBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalance(::grpc::ServerContext* /*context*/, const ::message::GetBalanceRequest* /*request*/, ::message::GetBalanceResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetBalance(::grpc::ServerContext* context, ::message::GetBalanceRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::GetBalanceResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_TopupBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_TopupBalance() {
+      ::grpc::Service::MarkMethodAsync(8);
+    }
+    ~WithAsyncMethod_TopupBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status TopupBalance(::grpc::ServerContext* /*context*/, const ::message::TopupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestTopupBalance(::grpc::ServerContext* context, ::message::TopupRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_GetBalanceRecords : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetBalanceRecords() {
+      ::grpc::Service::MarkMethodAsync(9);
+    }
+    ~WithAsyncMethod_GetBalanceRecords() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalanceRecords(::grpc::ServerContext* /*context*/, const ::message::BalanceRecordListRequest* /*request*/, ::message::BalanceRecordListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetBalanceRecords(::grpc::ServerContext* context, ::message::BalanceRecordListRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::BalanceRecordListResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_UserRegister<WithAsyncMethod_UserLogin<WithAsyncMethod_GetUserProfile<WithAsyncMethod_UpdateProfile<WithAsyncMethod_GetUserList<WithAsyncMethod_UpdateUserStatus<WithAsyncMethod_UpdateUserRole<WithAsyncMethod_GetBalance<WithAsyncMethod_TopupBalance<WithAsyncMethod_GetBalanceRecords<Service > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_UserRegister : public BaseClass {
    private:
@@ -852,11 +1044,152 @@ class UserService final {
     #endif
       { return nullptr; }
   };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_GetBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_GetBalance() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(7,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::GetBalanceRequest, ::message::GetBalanceResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::GetBalanceRequest* request, ::message::GetBalanceResponse* response) { return this->GetBalance(context, request, response); }));}
+    void SetMessageAllocatorFor_GetBalance(
+        ::grpc::experimental::MessageAllocator< ::message::GetBalanceRequest, ::message::GetBalanceResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(7);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::GetBalanceRequest, ::message::GetBalanceResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_GetBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalance(::grpc::ServerContext* /*context*/, const ::message::GetBalanceRequest* /*request*/, ::message::GetBalanceResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* GetBalance(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::GetBalanceRequest* /*request*/, ::message::GetBalanceResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* GetBalance(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::GetBalanceRequest* /*request*/, ::message::GetBalanceResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_TopupBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_TopupBalance() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(8,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::TopupRequest, ::message::CommonResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::TopupRequest* request, ::message::CommonResponse* response) { return this->TopupBalance(context, request, response); }));}
+    void SetMessageAllocatorFor_TopupBalance(
+        ::grpc::experimental::MessageAllocator< ::message::TopupRequest, ::message::CommonResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(8);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::TopupRequest, ::message::CommonResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_TopupBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status TopupBalance(::grpc::ServerContext* /*context*/, const ::message::TopupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* TopupBalance(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::TopupRequest* /*request*/, ::message::CommonResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* TopupBalance(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::TopupRequest* /*request*/, ::message::CommonResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_GetBalanceRecords : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_GetBalanceRecords() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(9,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::BalanceRecordListRequest, ::message::BalanceRecordListResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::BalanceRecordListRequest* request, ::message::BalanceRecordListResponse* response) { return this->GetBalanceRecords(context, request, response); }));}
+    void SetMessageAllocatorFor_GetBalanceRecords(
+        ::grpc::experimental::MessageAllocator< ::message::BalanceRecordListRequest, ::message::BalanceRecordListResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(9);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::BalanceRecordListRequest, ::message::BalanceRecordListResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_GetBalanceRecords() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalanceRecords(::grpc::ServerContext* /*context*/, const ::message::BalanceRecordListRequest* /*request*/, ::message::BalanceRecordListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* GetBalanceRecords(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::BalanceRecordListRequest* /*request*/, ::message::BalanceRecordListResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* GetBalanceRecords(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::BalanceRecordListRequest* /*request*/, ::message::BalanceRecordListResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_UserRegister<ExperimentalWithCallbackMethod_UserLogin<ExperimentalWithCallbackMethod_GetUserProfile<ExperimentalWithCallbackMethod_UpdateProfile<ExperimentalWithCallbackMethod_GetUserList<ExperimentalWithCallbackMethod_UpdateUserStatus<ExperimentalWithCallbackMethod_UpdateUserRole<Service > > > > > > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_UserRegister<ExperimentalWithCallbackMethod_UserLogin<ExperimentalWithCallbackMethod_GetUserProfile<ExperimentalWithCallbackMethod_UpdateProfile<ExperimentalWithCallbackMethod_GetUserList<ExperimentalWithCallbackMethod_UpdateUserStatus<ExperimentalWithCallbackMethod_UpdateUserRole<ExperimentalWithCallbackMethod_GetBalance<ExperimentalWithCallbackMethod_TopupBalance<ExperimentalWithCallbackMethod_GetBalanceRecords<Service > > > > > > > > > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_UserRegister<ExperimentalWithCallbackMethod_UserLogin<ExperimentalWithCallbackMethod_GetUserProfile<ExperimentalWithCallbackMethod_UpdateProfile<ExperimentalWithCallbackMethod_GetUserList<ExperimentalWithCallbackMethod_UpdateUserStatus<ExperimentalWithCallbackMethod_UpdateUserRole<Service > > > > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_UserRegister<ExperimentalWithCallbackMethod_UserLogin<ExperimentalWithCallbackMethod_GetUserProfile<ExperimentalWithCallbackMethod_UpdateProfile<ExperimentalWithCallbackMethod_GetUserList<ExperimentalWithCallbackMethod_UpdateUserStatus<ExperimentalWithCallbackMethod_UpdateUserRole<ExperimentalWithCallbackMethod_GetBalance<ExperimentalWithCallbackMethod_TopupBalance<ExperimentalWithCallbackMethod_GetBalanceRecords<Service > > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_UserRegister : public BaseClass {
    private:
@@ -972,6 +1305,57 @@ class UserService final {
     }
     // disable synchronous version of this method
     ::grpc::Status UpdateUserRole(::grpc::ServerContext* /*context*/, const ::message::UpdateUserRoleRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_GetBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetBalance() {
+      ::grpc::Service::MarkMethodGeneric(7);
+    }
+    ~WithGenericMethod_GetBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalance(::grpc::ServerContext* /*context*/, const ::message::GetBalanceRequest* /*request*/, ::message::GetBalanceResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_TopupBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_TopupBalance() {
+      ::grpc::Service::MarkMethodGeneric(8);
+    }
+    ~WithGenericMethod_TopupBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status TopupBalance(::grpc::ServerContext* /*context*/, const ::message::TopupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_GetBalanceRecords : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetBalanceRecords() {
+      ::grpc::Service::MarkMethodGeneric(9);
+    }
+    ~WithGenericMethod_GetBalanceRecords() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalanceRecords(::grpc::ServerContext* /*context*/, const ::message::BalanceRecordListRequest* /*request*/, ::message::BalanceRecordListResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1114,6 +1498,66 @@ class UserService final {
     }
     void RequestUpdateUserRole(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_GetBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetBalance() {
+      ::grpc::Service::MarkMethodRaw(7);
+    }
+    ~WithRawMethod_GetBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalance(::grpc::ServerContext* /*context*/, const ::message::GetBalanceRequest* /*request*/, ::message::GetBalanceResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetBalance(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_TopupBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_TopupBalance() {
+      ::grpc::Service::MarkMethodRaw(8);
+    }
+    ~WithRawMethod_TopupBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status TopupBalance(::grpc::ServerContext* /*context*/, const ::message::TopupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestTopupBalance(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_GetBalanceRecords : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetBalanceRecords() {
+      ::grpc::Service::MarkMethodRaw(9);
+    }
+    ~WithRawMethod_GetBalanceRecords() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalanceRecords(::grpc::ServerContext* /*context*/, const ::message::BalanceRecordListRequest* /*request*/, ::message::BalanceRecordListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetBalanceRecords(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1383,6 +1827,120 @@ class UserService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_GetBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_GetBalance() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(7,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetBalance(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_GetBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalance(::grpc::ServerContext* /*context*/, const ::message::GetBalanceRequest* /*request*/, ::message::GetBalanceResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* GetBalance(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* GetBalance(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_TopupBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_TopupBalance() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(8,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->TopupBalance(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_TopupBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status TopupBalance(::grpc::ServerContext* /*context*/, const ::message::TopupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* TopupBalance(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* TopupBalance(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_GetBalanceRecords : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_GetBalanceRecords() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(9,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetBalanceRecords(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_GetBalanceRecords() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetBalanceRecords(::grpc::ServerContext* /*context*/, const ::message::BalanceRecordListRequest* /*request*/, ::message::BalanceRecordListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* GetBalanceRecords(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* GetBalanceRecords(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_UserRegister : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -1571,9 +2129,90 @@ class UserService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedUpdateUserRole(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::UpdateUserRoleRequest,::message::CommonResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_UserRegister<WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_GetUserProfile<WithStreamedUnaryMethod_UpdateProfile<WithStreamedUnaryMethod_GetUserList<WithStreamedUnaryMethod_UpdateUserStatus<WithStreamedUnaryMethod_UpdateUserRole<Service > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_GetBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetBalance() {
+      ::grpc::Service::MarkMethodStreamed(7,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::GetBalanceRequest, ::message::GetBalanceResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::GetBalanceRequest, ::message::GetBalanceResponse>* streamer) {
+                       return this->StreamedGetBalance(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetBalance(::grpc::ServerContext* /*context*/, const ::message::GetBalanceRequest* /*request*/, ::message::GetBalanceResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetBalance(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::GetBalanceRequest,::message::GetBalanceResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_TopupBalance : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_TopupBalance() {
+      ::grpc::Service::MarkMethodStreamed(8,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::TopupRequest, ::message::CommonResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::TopupRequest, ::message::CommonResponse>* streamer) {
+                       return this->StreamedTopupBalance(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_TopupBalance() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status TopupBalance(::grpc::ServerContext* /*context*/, const ::message::TopupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedTopupBalance(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::TopupRequest,::message::CommonResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_GetBalanceRecords : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetBalanceRecords() {
+      ::grpc::Service::MarkMethodStreamed(9,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::BalanceRecordListRequest, ::message::BalanceRecordListResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::BalanceRecordListRequest, ::message::BalanceRecordListResponse>* streamer) {
+                       return this->StreamedGetBalanceRecords(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetBalanceRecords() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetBalanceRecords(::grpc::ServerContext* /*context*/, const ::message::BalanceRecordListRequest* /*request*/, ::message::BalanceRecordListResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetBalanceRecords(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::BalanceRecordListRequest,::message::BalanceRecordListResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_UserRegister<WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_GetUserProfile<WithStreamedUnaryMethod_UpdateProfile<WithStreamedUnaryMethod_GetUserList<WithStreamedUnaryMethod_UpdateUserStatus<WithStreamedUnaryMethod_UpdateUserRole<WithStreamedUnaryMethod_GetBalance<WithStreamedUnaryMethod_TopupBalance<WithStreamedUnaryMethod_GetBalanceRecords<Service > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_UserRegister<WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_GetUserProfile<WithStreamedUnaryMethod_UpdateProfile<WithStreamedUnaryMethod_GetUserList<WithStreamedUnaryMethod_UpdateUserStatus<WithStreamedUnaryMethod_UpdateUserRole<Service > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_UserRegister<WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_GetUserProfile<WithStreamedUnaryMethod_UpdateProfile<WithStreamedUnaryMethod_GetUserList<WithStreamedUnaryMethod_UpdateUserStatus<WithStreamedUnaryMethod_UpdateUserRole<WithStreamedUnaryMethod_GetBalance<WithStreamedUnaryMethod_TopupBalance<WithStreamedUnaryMethod_GetBalanceRecords<Service > > > > > > > > > > StreamedService;
 };
 
 class VehicleService final {

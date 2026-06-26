@@ -24,6 +24,11 @@ using message::UserListResponse;
 using message::UpdateUserStatusRequest;
 using message::UpdateUserRoleRequest;
 using message::CommonResponse;
+using message::GetBalanceRequest;
+using message::GetBalanceResponse;
+using message::TopupRequest;
+using message::BalanceRecordListRequest;
+using message::BalanceRecordListResponse;
 using message::UserService;
 
 class UserGrpcClient : public Singleton<UserGrpcClient> {
@@ -36,6 +41,9 @@ public:
     UserListResponse getUserList(const UserListRequest& request);
     CommonResponse updateUserStatus(const UpdateUserStatusRequest& request);
     CommonResponse updateUserRole(const UpdateUserRoleRequest& request);
+    GetBalanceResponse getBalance(const GetBalanceRequest& request);
+    CommonResponse topupBalance(const TopupRequest& request);
+    BalanceRecordListResponse getBalanceRecords(const BalanceRecordListRequest& request);
 private:
     std::unique_ptr<UserConnectPool> rpc_pool_;
     UserGrpcClient();

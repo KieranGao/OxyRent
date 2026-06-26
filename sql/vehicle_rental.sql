@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS user (
     birth_date      VARCHAR(20)     DEFAULT NULL,
     address         VARCHAR(256)    DEFAULT NULL,
     avatar_url      VARCHAR(512)    DEFAULT NULL,
+    balance         DECIMAL(10,2)   DEFAULT 0.00 COMMENT '账户余额',
     role            VARCHAR(20)     NOT NULL DEFAULT 'customer',
     status          VARCHAR(20)     NOT NULL DEFAULT 'pending',
     created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -182,22 +183,37 @@ CREATE TABLE IF NOT EXISTS invoices (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ============================================================
+-- Balance Records
+-- ============================================================
+CREATE TABLE IF NOT EXISTS balance_records (
+    id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id         BIGINT UNSIGNED NOT NULL,
+    amount          DECIMAL(10,2)   NOT NULL COMMENT '充值金额（正数）',
+    type            ENUM('topup','consume') NOT NULL COMMENT 'topup=充值, consume=消费',
+    operator_id     BIGINT UNSIGNED COMMENT '操作人ID（充值时）',
+    remark          VARCHAR(255)    COMMENT '备注',
+    created_at      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_user_id (user_id),
+    CONSTRAINT fk_balance_user FOREIGN KEY (user_id) REFERENCES user(uid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ============================================================
 -- Seed Data
 -- ============================================================
--- NOTE: Seed passwords below are stored as plaintext for demo convenience.
--- In production, all passwords MUST be stored as SHA-256 hashes.
+-- NOTE: Seed passwords below are stored as MD5 hashes for demo convenience.
 
 -- Admin user (admin / admin123)
-INSERT INTO user (username, password, email, real_name, role, status)
-VALUES ('admin', '0192023a7bbd73250516f069df18b500', 'admin@oxypark.com', 'System Admin', 'admin', 'active');
+INSERT INTO user (username, password, email, real_name, role, status, balance)
+VALUES ('admin', '0192023a7bbd73250516f069df18b500', 'admin@oxypark.com', 'System Admin', 'admin', 'active', 0.00);
 
 -- Staff user (staff01 / staff123)
-INSERT INTO user (username, password, email, real_name, role, status)
-VALUES ('staff01', 'de9bf5643eabf80f4a56fda3bbb84483', 'staff01@oxypark.com', 'Staff One', 'staff', 'active');
+INSERT INTO user (username, password, email, real_name, role, status, balance)
+VALUES ('staff01', 'de9bf5643eabf80f4a56fda3bbb84483', 'staff01@oxypark.com', 'Staff One', 'staff', 'active', 0.00);
 
 -- Customer user (customer01 / customer123)
-INSERT INTO user (username, password, email, real_name, role, status)
-VALUES ('customer01', 'f4ad231214cb99a985dff0f056a36242', 'customer01@example.com', 'Customer One', 'customer', 'active');
+INSERT INTO user (username, password, email, real_name, role, status, balance)
+VALUES ('customer01', 'f4ad231214cb99a985dff0f056a36242', 'customer01@example.com', 'Customer One', 'customer', 'active', 5000.00);
 
 -- 5 Test Vehicles
 INSERT INTO vehicles (plate_number, brand, model, color, year, mileage, daily_rate, deposit_amount, status, image_url, description, location) VALUES
@@ -261,3 +277,7 @@ INSERT INTO invoices (invoice_no, order_id, order_no, user_id, username, total_a
 ('INV20260627001', 3, 'R20260623001', 3, 'customer01', 1770.00,
  '[{"type":"rental","amount":1350,"description":"租车费用3天（京C-11111）"},{"type":"penalty","amount":420,"description":"逾期1天罚款"}]',
  'issued', '2026-06-27 17:00:00', '2026-06-27 17:00:00');
+
+-- Balance records for customer01
+INSERT INTO balance_records (user_id, amount, type, operator_id, remark) VALUES
+(3, 5000.00, 'topup', 1, '初始充值');

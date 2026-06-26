@@ -8,7 +8,7 @@
     <div class="search-bar">
       <el-select v-model="query.status" placeholder="全部状态" clearable style="width: 140px" @change="loadList">
         <el-option label="待支付" value="pending" />
-        <el-option label="已完成" value="completed" />
+        <el-option label="成功" value="success" />
         <el-option label="失败" value="failed" />
         <el-option label="已退款" value="refunded" />
       </el-select>

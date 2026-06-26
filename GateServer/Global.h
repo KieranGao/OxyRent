@@ -78,6 +78,11 @@ enum class ErrorCodes {
 
     // Invoice
     INVOICE_NOT_FOUND       = 1018,
+
+    // Balance
+    BALANCE_INSUFFICIENT    = 1019,
+    BALANCE_TOPUP_FAILED    = 1020,
+    BALANCE_CONSUME_FAILED  = 1021,
 };
 
 // ---------- Network constants ----------

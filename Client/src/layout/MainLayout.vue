@@ -30,9 +30,13 @@
           <el-icon><Document /></el-icon>
           <span>租赁管理</span>
         </el-menu-item>
-        <el-menu-item index="/maintenance" v-if="authStore.isAdmin">
+        <el-menu-item index="/maintenance" v-if="authStore.isStaff || authStore.isAdmin">
           <el-icon><SetUp /></el-icon>
           <span>维保管理</span>
+        </el-menu-item>
+        <el-menu-item index="/topup" v-if="authStore.isStaff || authStore.isAdmin">
+          <el-icon><Wallet /></el-icon>
+          <span>充值管理</span>
         </el-menu-item>
 
         <template v-if="authStore.isAdmin">

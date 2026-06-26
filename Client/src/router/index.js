@@ -19,6 +19,8 @@ import InvoiceList from '@/views/finance/InvoiceList.vue'
 import Statistics from '@/views/stats/Statistics.vue'
 import UserProfile from '@/views/user/UserProfile.vue'
 import UserList from '@/views/user/UserList.vue'
+import BalanceView from '@/views/user/BalanceView.vue'
+import TopupView from '@/views/user/TopupView.vue'
 
 const ROLE_MAP = { 0: 'customer', 1: 'staff', 2: 'admin' }
 
@@ -53,9 +55,11 @@ const routes = [
       { path: 'rentals', name: 'RentalList', component: RentalList, meta: { title: '租赁管理' } },
       { path: 'rentals/create', name: 'RentalCreate', component: RentalCreate, meta: { title: '新建租赁' } },
       { path: 'rentals/:id', name: 'RentalDetail', component: RentalDetail, meta: { title: '租赁详情' } },
-      { path: 'maintenance', name: 'MaintenanceList', component: MaintenanceList, meta: { title: '维保管理', roles: ['admin'] } },
-      { path: 'maintenance/add', name: 'MaintenanceAdd', component: MaintenanceForm, meta: { title: '添加维保', roles: ['admin'] } },
-      { path: 'maintenance/:id/edit', name: 'MaintenanceEdit', component: MaintenanceForm, meta: { title: '编辑维保', roles: ['admin'] } },
+      { path: 'maintenance', name: 'MaintenanceList', component: MaintenanceList, meta: { title: '维保管理', roles: ['staff', 'admin'] } },
+      { path: 'maintenance/add', name: 'MaintenanceAdd', component: MaintenanceForm, meta: { title: '添加维保', roles: ['staff', 'admin'] } },
+      { path: 'maintenance/:id/edit', name: 'MaintenanceEdit', component: MaintenanceForm, meta: { title: '编辑维保', roles: ['staff', 'admin'] } },
+      { path: 'balance', name: 'BalanceView', component: BalanceView, meta: { title: '我的余额' } },
+      { path: 'topup', name: 'TopupView', component: TopupView, meta: { title: '充值管理', roles: ['staff', 'admin'] } },
       { path: 'payments', name: 'PaymentList', component: PaymentList, meta: { title: '收费管理', roles: ['admin'] } },
       { path: 'invoices', name: 'InvoiceList', component: InvoiceList, meta: { title: '账单管理', roles: ['admin'] } },
       { path: 'statistics', name: 'Statistics', component: Statistics, meta: { title: '统计报表', roles: ['admin'] } },

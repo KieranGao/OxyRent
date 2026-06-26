@@ -63,3 +63,5 @@
 [2026-06-26 20:02:18.741] [INFO] [Vehicle] ReturnVehicle order_id=2
 [2026-06-26 20:02:18.747] [INFO] returnVehicle: order 2 returned, total_cost=880, penalty=0
 [2026-06-26 20:02:18.748] [INFO] [Vehicle] ReturnVehicle success, order_id=2, total_cost=880, penalty=0
+[2026-06-26 20:27:27.285] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 20:27:27.289] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
