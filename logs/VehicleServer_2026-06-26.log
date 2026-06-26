@@ -88,3 +88,5 @@
 [2026-06-26 21:13:43.920] [INFO] [Vehicle] CreateMaintenance success, id=12
 [2026-06-26 21:14:13.485] [INFO] createMaintenance: vehicle 5 status changed to maintenance
 [2026-06-26 21:14:13.486] [INFO] [Vehicle] CreateMaintenance success, id=13
+[2026-06-26 21:18:10.609] [INFO] updateMaintenance: vehicle 1 status changed to available
+[2026-06-26 21:18:18.016] [INFO] updateMaintenance: vehicle 1 status changed to available

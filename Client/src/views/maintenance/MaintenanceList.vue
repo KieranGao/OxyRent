@@ -27,7 +27,7 @@
 
     <el-card>
       <el-table :data="records" v-loading="loading" style="width: 100%" empty-text="暂无记录">
-        <el-table-column prop="vehicle_plate" label="车辆" min-width="120" />
+        <el-table-column prop="plate_number" label="车辆" min-width="120" />
         <el-table-column prop="type" label="类型" min-width="100">
           <template #default="{ row }">
             <el-tag>{{ row.type }}</el-tag>
