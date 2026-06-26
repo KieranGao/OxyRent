@@ -663,14 +663,25 @@ bool MySQLDao::updateMaintenance(int64_t id, const std::string& description, dou
         pstmt->setInt64(6, id);
         int affected = pstmt->executeUpdate();
 
-        // 如果维保状态变为completed，将车辆状态从maintenance改为available
-        if (affected > 0 && status == "completed" && old_status != "completed") {
-            std::unique_ptr<sql::PreparedStatement> vehicleStmt(
-                sql_conn->prepareStatement(
-                    "UPDATE vehicles SET status='available' WHERE id=? AND status='maintenance'"));
-            vehicleStmt->setInt64(1, vehicle_id);
-            vehicleStmt->executeUpdate();
-            LOG_INFO("updateMaintenance: vehicle {} status changed to available", vehicle_id);
+        // 同步车辆状态
+        if (affected > 0) {
+            if (status == "completed" && old_status != "completed") {
+                // 维保完成：车辆从maintenance改为available
+                std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+                    sql_conn->prepareStatement(
+                        "UPDATE vehicles SET status='available' WHERE id=? AND status='maintenance'"));
+                vehicleStmt->setInt64(1, vehicle_id);
+                vehicleStmt->executeUpdate();
+                LOG_INFO("updateMaintenance: vehicle {} status changed to available", vehicle_id);
+            } else if (old_status == "completed" && status != "completed") {
+                // 维保重新打开：车辆从available改回maintenance
+                std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+                    sql_conn->prepareStatement(
+                        "UPDATE vehicles SET status='maintenance' WHERE id=? AND status='available'"));
+                vehicleStmt->setInt64(1, vehicle_id);
+                vehicleStmt->executeUpdate();
+                LOG_INFO("updateMaintenance: vehicle {} status changed back to maintenance", vehicle_id);
+            }
         }
 
         LOG_DEBUG("updateMaintenance id={} affected={}", id, affected);
