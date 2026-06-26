@@ -774,10 +774,42 @@ bool MySQLDao::deleteMaintenance(int64_t id) {
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
+
+        // 先查询维保记录的车辆ID
+        std::unique_ptr<sql::PreparedStatement> selectStmt(
+            sql_conn->prepareStatement("SELECT vehicle_id FROM maintenance_records WHERE id=?"));
+        selectStmt->setInt64(1, id);
+        std::unique_ptr<sql::ResultSet> res(selectStmt->executeQuery());
+        if (!res || !res->next()) {
+            LOG_WARN("deleteMaintenance: record {} not found", id);
+            return false;
+        }
+        int64_t vehicle_id = res->getInt64("vehicle_id");
+
+        // 删除维保记录
         std::unique_ptr<sql::PreparedStatement> pstmt(
             sql_conn->prepareStatement("DELETE FROM maintenance_records WHERE id = ?"));
         pstmt->setInt64(1, id);
         int affected = pstmt->executeUpdate();
+
+        // 删除成功后，检查该车辆是否还有其他进行中的维保记录
+        if (affected > 0) {
+            std::unique_ptr<sql::PreparedStatement> countStmt(
+                sql_conn->prepareStatement(
+                    "SELECT COUNT(*) AS cnt FROM maintenance_records WHERE vehicle_id=? AND status IN ('pending','in_progress')"));
+            countStmt->setInt64(1, vehicle_id);
+            std::unique_ptr<sql::ResultSet> countRes(countStmt->executeQuery());
+            if (countRes && countRes->next() && countRes->getInt("cnt") == 0) {
+                // 没有其他进行中的维保记录，将车辆状态改回available
+                std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+                    sql_conn->prepareStatement(
+                        "UPDATE vehicles SET status='available' WHERE id=? AND status='maintenance'"));
+                vehicleStmt->setInt64(1, vehicle_id);
+                vehicleStmt->executeUpdate();
+                LOG_INFO("deleteMaintenance: vehicle {} status changed to available", vehicle_id);
+            }
+        }
+
         LOG_DEBUG("deleteMaintenance id={} affected={}", id, affected);
         return affected > 0;
     } catch(const sql::SQLException& exp) {

@@ -94,3 +94,17 @@
 [2026-06-26 21:30:14.749] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
 [2026-06-26 21:30:33.463] [INFO] [Vehicle] DeleteMaintenance id=13
 [2026-06-26 21:32:37.379] [INFO] [Vehicle] DeleteMaintenance id=13
+[2026-06-26 21:33:44.943] [INFO] [Vehicle] DeleteMaintenance id=11
+[2026-06-26 21:33:46.682] [INFO] [Vehicle] DeleteMaintenance id=10
+[2026-06-26 21:34:14.705] [INFO] createMaintenance: vehicle 9 status changed to maintenance
+[2026-06-26 21:34:14.707] [INFO] [Vehicle] CreateMaintenance success, id=14
+[2026-06-26 21:34:43.704] [INFO] createMaintenance: vehicle 10 status changed to maintenance
+[2026-06-26 21:34:43.705] [INFO] [Vehicle] CreateMaintenance success, id=15
+[2026-06-26 21:35:11.124] [INFO] [Vehicle] DeleteMaintenance id=12
+[2026-06-26 21:35:22.115] [INFO] [Vehicle] DeleteMaintenance id=14
+[2026-06-26 21:39:10.875] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 21:39:10.876] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 21:39:13.146] [INFO] [Vehicle] DeleteMaintenance id=12
+[2026-06-26 21:39:13.258] [WARN] deleteMaintenance: record 12 not found
+[2026-06-26 21:39:49.082] [INFO] [Vehicle] DeleteMaintenance id=15
+[2026-06-26 21:39:49.094] [INFO] deleteMaintenance: vehicle 10 status changed to available
