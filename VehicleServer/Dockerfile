@@ -54,6 +54,8 @@ COPY --from=builder /app/build/VehicleServer /usr/local/bin/VehicleServer
 # Copy config
 COPY config.ini /etc/server/config.ini
 
+WORKDIR /etc/server
+
 EXPOSE 50054
 
-CMD ["VehicleServer", "--config", "/etc/server/config.ini"]
+CMD ["VehicleServer"]

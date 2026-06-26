@@ -54,6 +54,8 @@ COPY --from=builder /app/build/FinanceServer /usr/local/bin/FinanceServer
 # Copy config
 COPY config.ini /etc/server/config.ini
 
+WORKDIR /etc/server
+
 EXPOSE 50055
 
-CMD ["FinanceServer", "--config", "/etc/server/config.ini"]
+CMD ["FinanceServer"]

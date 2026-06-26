@@ -54,6 +54,8 @@ COPY --from=builder /app/build/UMSServer /usr/local/bin/UMSServer
 # Copy config
 COPY config.ini /etc/server/config.ini
 
+WORKDIR /etc/server
+
 EXPOSE 50053
 
-CMD ["UMSServer", "--config", "/etc/server/config.ini"]
+CMD ["UMSServer"]
