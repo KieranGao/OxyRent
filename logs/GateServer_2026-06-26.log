@@ -27,3 +27,12 @@
 [2026-06-26 16:56:25.080] [ERROR] AUTH FAILED!
 [2026-06-26 16:56:25.080] [INFO] GateServer starting on port 8080
 [2026-06-26 16:56:25.080] [ERROR] Fatal error: bind: Address already in use
+[2026-06-26 16:58:29.952] [INFO] GateServer shutting down
+[2026-06-26 16:58:30.982] [ERROR] AUTH FAILED!
+[2026-06-26 16:58:30.983] [ERROR] AUTH FAILED!
+[2026-06-26 16:58:30.984] [ERROR] AUTH FAILED!
+[2026-06-26 16:58:30.984] [ERROR] AUTH FAILED!
+[2026-06-26 16:58:30.985] [ERROR] AUTH FAILED!
+[2026-06-26 16:58:30.985] [INFO] GateServer starting on port 8080
+[2026-06-26 16:59:34.211] [INFO] GateServer shutting down
+[2026-06-26 17:00:49.207] [INFO] GateServer starting on port 8080
