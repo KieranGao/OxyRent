@@ -90,7 +90,7 @@ bool MySQLDao::getPaymentList(int page, int page_size, int64_t order_id,
             params.push_back(type);
         }
 
-        // Count total
+        // 统计总数
         std::string countSql = "SELECT COUNT(*) AS cnt FROM payments p WHERE " + where;
         std::unique_ptr<sql::PreparedStatement> countStmt(sql_conn->prepareStatement(countSql));
         for (size_t i = 0; i < params.size(); ++i) {
@@ -101,7 +101,7 @@ bool MySQLDao::getPaymentList(int page, int page_size, int64_t order_id,
             total = countRes->getInt("cnt");
         }
 
-        // Paginated query
+        // 分页查询
         std::string querySql = "SELECT id, order_id, order_no, amount, type, method, status, "
                                "remark, paid_at, created_at "
                                "FROM payments p WHERE " + where + " ORDER BY id DESC LIMIT ? OFFSET ?";
@@ -172,7 +172,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Check if invoice already exists for this order
+        // 检查该订单是否已存在账单
         std::unique_ptr<sql::PreparedStatement> checkStmt(
             sql_conn->prepareStatement("SELECT id FROM invoices WHERE order_id = ? LIMIT 1"));
         checkStmt->setInt64(1, order_id);
@@ -182,7 +182,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
             return checkRes->getInt64("id");
         }
 
-        // Get order details
+        // 获取订单详情
         std::unique_ptr<sql::PreparedStatement> orderStmt(
             sql_conn->prepareStatement(
                 "SELECT o.id, o.order_no, o.user_id, u.username, o.total_amount "
@@ -201,7 +201,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         std::string username = orderRes->getString("username");
         double total_cost = orderRes->getDouble("total_amount");
 
-        // Generate invoice number
+        // 生成账单编号
         auto now = std::chrono::system_clock::now();
         auto tt = std::chrono::system_clock::to_time_t(now);
         std::tm tm;
@@ -222,7 +222,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         snprintf(seqBuf, sizeof(seqBuf), "%04d", seq);
         std::string invoice_no = "INV" + datePrefix + std::string(seqBuf);
 
-        // Aggregate payments as JSON items
+        // 将支付记录聚合为JSON项目
         std::string items_json = "[]";
         std::unique_ptr<sql::PreparedStatement> payStmt(
             sql_conn->prepareStatement(
@@ -253,7 +253,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         jsonItems << "]";
         items_json = jsonItems.str();
 
-        // Use total_cost if no completed payments, otherwise use aggregated total
+        // 如果没有已完成的支付则使用total_cost，否则使用聚合总额
         if (invoice_total == 0.0) {
             invoice_total = total_cost;
         }
@@ -324,12 +324,12 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Count users
+        // 统计用户数
         std::unique_ptr<sql::Statement> stmt1(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res1(stmt1->executeQuery("SELECT COUNT(*) AS cnt FROM users"));
         if (res1 && res1->next()) total_users = res1->getInt("cnt");
 
-        // Count vehicles (total and available)
+        // 统计车辆数（总数和可用数）
         std::unique_ptr<sql::Statement> stmt2(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res2(stmt2->executeQuery(
             "SELECT COUNT(*) AS total, "
@@ -340,7 +340,7 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
             available_vehicles = res2->getInt("available");
         }
 
-        // Count orders (active and completed)
+        // 统计订单数（进行中和已完成）
         std::unique_ptr<sql::Statement> stmt3(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res3(stmt3->executeQuery(
             "SELECT "
@@ -352,13 +352,13 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
             completed_orders = res3->getInt("completed");
         }
 
-        // Total revenue
+        // 总收入
         std::unique_ptr<sql::Statement> stmt4(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res4(stmt4->executeQuery(
             "SELECT COALESCE(SUM(total_cost), 0) AS total_revenue FROM rental_orders WHERE status = 'completed'"));
         if (res4 && res4->next()) total_revenue = res4->getDouble("total_revenue");
 
-        // Month revenue
+        // 本月收入
         auto now = std::chrono::system_clock::now();
         auto tt = std::chrono::system_clock::to_time_t(now);
         std::tm tm;
@@ -433,7 +433,7 @@ bool MySQLDao::getVehicleStats(int& total, int& available, int& rented, int& mai
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // Count by status
+        // 按状态统计
         std::unique_ptr<sql::Statement> stmt1(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res1(stmt1->executeQuery(
             "SELECT COUNT(*) AS total, "
@@ -449,7 +449,7 @@ bool MySQLDao::getVehicleStats(int& total, int& available, int& rented, int& mai
             utilization_rate = total > 0 ? static_cast<double>(rented) / total * 100.0 : 0.0;
         }
 
-        // Count by brand
+        // 按品牌统计
         std::unique_ptr<sql::Statement> stmt2(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res2(stmt2->executeQuery(
             "SELECT brand, COUNT(*) AS count FROM vehicles GROUP BY brand ORDER BY count DESC"));

@@ -31,36 +31,36 @@
         </el-form-item>
 
         <div class="form-row">
-          <el-form-item label="Cost (CNY)" style="flex: 1">
+          <el-form-item label="费用 (CNY)" style="flex: 1">
             <el-input-number v-model="form.cost" :min="0" :precision="2" style="width: 100%" />
           </el-form-item>
-          <el-form-item label="Technician" style="flex: 1">
-            <el-input v-model="form.technician" placeholder="Technician name" />
+          <el-form-item label="技师" style="flex: 1">
+            <el-input v-model="form.technician" placeholder="技师姓名" />
           </el-form-item>
         </div>
 
         <div class="form-row">
-          <el-form-item label="Start Date" style="flex: 1">
-            <el-date-picker v-model="form.start_date" type="date" placeholder="Start date" value-format="YYYY-MM-DD" style="width: 100%" />
+          <el-form-item label="开始日期" style="flex: 1">
+            <el-date-picker v-model="form.start_date" type="date" placeholder="开始日期" value-format="YYYY-MM-DD" style="width: 100%" />
           </el-form-item>
-          <el-form-item v-if="isEdit" label="End Date" style="flex: 1">
-            <el-date-picker v-model="form.end_date" type="date" placeholder="End date" value-format="YYYY-MM-DD" style="width: 100%" />
+          <el-form-item v-if="isEdit" label="结束日期" style="flex: 1">
+            <el-date-picker v-model="form.end_date" type="date" placeholder="结束日期" value-format="YYYY-MM-DD" style="width: 100%" />
           </el-form-item>
         </div>
 
-        <el-form-item v-if="isEdit" label="Status">
-          <el-select v-model="form.status" placeholder="Select status" style="width: 100%">
-            <el-option label="Pending" value="pending" />
-            <el-option label="In Progress" value="in_progress" />
-            <el-option label="Completed" value="completed" />
+        <el-form-item v-if="isEdit" label="状态">
+          <el-select v-model="form.status" placeholder="请选择状态" style="width: 100%">
+            <el-option label="待处理" value="pending" />
+            <el-option label="进行中" value="in_progress" />
+            <el-option label="已完成" value="completed" />
           </el-select>
         </el-form-item>
 
         <el-form-item>
           <el-button type="primary" :loading="submitting" @click="handleSubmit">
-            {{ isEdit ? 'Save Changes' : 'Create Record' }}
+            {{ isEdit ? '保存修改' : '创建记录' }}
           </el-button>
-          <el-button @click="$router.back()">Cancel</el-button>
+          <el-button @click="$router.back()">取消</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -91,9 +91,9 @@ const form = reactive({
 })
 
 const rules = {
-  vehicle_id: [{ required: true, message: 'Vehicle ID is required', trigger: 'blur' }],
-  type: [{ required: true, message: 'Type is required', trigger: 'change' }],
-  description: [{ required: true, message: 'Description is required', trigger: 'blur' }],
+  vehicle_id: [{ required: true, message: '请输入车辆ID', trigger: 'blur' }],
+  type: [{ required: true, message: '请选择类型', trigger: 'change' }],
+  description: [{ required: true, message: '请输入描述', trigger: 'blur' }],
 }
 
 async function loadRecord() {
@@ -115,7 +115,7 @@ async function loadRecord() {
       }
     }
   } catch {
-    ElMessage.error('Failed to load record')
+    ElMessage.error('加载记录失败')
   }
 }
 
@@ -132,13 +132,13 @@ async function handleSubmit() {
       res = await createMaintenance(form)
     }
     if (res.error === 0) {
-      ElMessage.success(isEdit.value ? 'Record updated' : 'Record created')
+      ElMessage.success(isEdit.value ? '记录已更新' : '记录已创建')
       router.push('/maintenance')
     } else {
-      ElMessage.error('Operation failed')
+      ElMessage.error('操作失败')
     }
   } catch {
-    ElMessage.error('Operation failed')
+    ElMessage.error('操作失败')
   } finally {
     submitting.value = false
   }
