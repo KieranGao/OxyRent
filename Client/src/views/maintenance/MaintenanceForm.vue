@@ -18,16 +18,14 @@
         </el-form-item>
 
         <el-form-item label="类型" prop="type">
-          <el-select v-model="form.type" placeholder="请选择类型" style="width: 100%">
-            <el-option label="常规保养" value="regular" />
+          <el-select v-model="form.type" placeholder="请选择类型" style="width: 100%" :disabled="isEdit">
+            <el-option label="常规保养" value="maintenance" />
             <el-option label="维修" value="repair" />
-            <el-option label="检测" value="inspection" />
-            <el-option label="紧急维修" value="emergency" />
           </el-select>
         </el-form-item>
 
         <el-form-item label="描述" prop="description">
-          <el-input v-model="form.description" type="textarea" :rows="3" placeholder="请描述维保内容" />
+          <el-input v-model="form.description" type="textarea" :rows="3" placeholder="请描述维保内容" :disabled="isEdit" />
         </el-form-item>
 
         <div class="form-row">
@@ -99,11 +97,12 @@ const rules = {
 async function loadRecord() {
   if (!isEdit.value) return
   try {
-    const res = await getMaintenanceList({ id: route.params.id })
+    const res = await getMaintenanceList({ page: 1, page_size: 100 })
     if (res.error === 0) {
-      const record = (res.list || []).find(r => String(r.id) === String(route.params.id))
+      const record = (res.list || res.records || []).find(r => String(r.id) === String(route.params.id))
       if (record) {
         Object.assign(form, {
+          vehicle_id: record.vehicle_id || undefined,
           type: record.type || '',
           description: record.description || '',
           cost: record.cost || 0,
