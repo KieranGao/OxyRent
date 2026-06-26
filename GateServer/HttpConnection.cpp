@@ -1,6 +1,7 @@
 #include "HttpConnection.h"
 #include "Logger.h"
 #include "RedisManager.h"
+#include <json/json.h>
 
 HttpConnection::HttpConnection(boost::asio::io_context& ioc)
     : socket_(ioc) {}
