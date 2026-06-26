@@ -218,28 +218,13 @@ onMounted(async () => {
     }
   }
 
-  // Fetch stats overview only for admin; staff/customer get limited stats
+  // 只有管理员获取统计数据
   if (authStore.isAdmin) {
     try {
       const res = await getStatsOverview()
       if (res.error === 0) {
         stats.value = {
           total_users: res.total_users || 0,
-          available_vehicles: res.available_vehicles || 0,
-          active_orders: res.active_orders || 0,
-          monthly_revenue: res.monthly_revenue || 0,
-        }
-      }
-    } catch {
-      // Stats unavailable
-    }
-  } else {
-    // Non-admin users still get basic vehicle/order counts
-    try {
-      const res = await getStatsOverview()
-      if (res.error === 0) {
-        stats.value = {
-          total_users: 0,
           available_vehicles: res.available_vehicles || 0,
           active_orders: res.active_orders || 0,
           monthly_revenue: res.monthly_revenue || 0,
