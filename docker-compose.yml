@@ -90,7 +90,7 @@ services:
   redis:
     image: docker.cnb.cool/oxythecrack/docker-sync/redis:latest_amd64
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
       - redis-data:/data
     networks:
