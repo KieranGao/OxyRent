@@ -1,5 +1,6 @@
 FROM docker.cnb.cool/oxythecrack/docker-sync/node:20-alpine_amd64 AS build
 WORKDIR /app
+RUN npm config set registry https://registry.npmmirror.com
 COPY package.json ./
 RUN rm -f package-lock.json && npm install
 COPY . .
