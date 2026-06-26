@@ -78,3 +78,13 @@
 [2026-06-26 21:02:11.521] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
 [2026-06-26 21:03:09.700] [INFO] updateMaintenance: vehicle 9 status changed back to maintenance
 [2026-06-26 21:03:09.924] [INFO] updateMaintenance: vehicle 9 status changed to available
+[2026-06-26 21:03:49.430] [INFO] updateMaintenance: vehicle 9 status changed back to maintenance
+[2026-06-26 21:03:57.909] [INFO] updateMaintenance: vehicle 9 status changed to available
+[2026-06-26 21:04:14.880] [INFO] [Vehicle] CreateMaintenance success, id=10
+[2026-06-26 21:05:01.648] [INFO] [Vehicle] CreateMaintenance success, id=11
+[2026-06-26 21:12:30.908] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 21:12:30.910] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 21:13:43.920] [INFO] createMaintenance: vehicle 9 status changed to maintenance
+[2026-06-26 21:13:43.920] [INFO] [Vehicle] CreateMaintenance success, id=12
+[2026-06-26 21:14:13.485] [INFO] createMaintenance: vehicle 5 status changed to maintenance
+[2026-06-26 21:14:13.486] [INFO] [Vehicle] CreateMaintenance success, id=13

@@ -612,6 +612,14 @@ int64_t MySQLDao::createMaintenance(int64_t vehicle_id, const std::string& type,
         insertStmt->setString(6, start_date);
         insertStmt->executeUpdate();
 
+        // 创建维保记录后，将车辆状态设置为maintenance
+        std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+            sql_conn->prepareStatement(
+                "UPDATE vehicles SET status='maintenance' WHERE id=? AND status='available'"));
+        vehicleStmt->setInt64(1, vehicle_id);
+        vehicleStmt->executeUpdate();
+        LOG_INFO("createMaintenance: vehicle {} status changed to maintenance", vehicle_id);
+
         std::unique_ptr<sql::Statement> stmtResult(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res(stmtResult->executeQuery("SELECT LAST_INSERT_ID() AS id"));
         if (res && res->next()) {
