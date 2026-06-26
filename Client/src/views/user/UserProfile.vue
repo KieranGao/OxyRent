@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Profile</h2>
-      <p>Manage your account information</p>
+      <h2>个人信息</h2>
+      <p>管理您的账户信息</p>
     </div>
 
     <el-card v-loading="loading">
@@ -13,60 +13,60 @@
         label-position="top"
         style="max-width: 560px"
       >
-        <el-form-item label="Username">
+        <el-form-item label="用户名">
           <el-input :value="authStore.username" disabled />
         </el-form-item>
 
-        <el-form-item label="Real Name">
-          <el-input v-model="form.real_name" placeholder="Enter your real name" />
+        <el-form-item label="真实姓名">
+          <el-input v-model="form.real_name" placeholder="请输入真实姓名" />
         </el-form-item>
 
-        <el-form-item label="Phone">
-          <el-input v-model="form.phone" placeholder="Enter your phone number" />
+        <el-form-item label="手机号">
+          <el-input v-model="form.phone" placeholder="请输入手机号" />
         </el-form-item>
 
-        <el-form-item label="Email">
-          <el-input v-model="form.email" placeholder="Enter your email" />
+        <el-form-item label="邮箱">
+          <el-input v-model="form.email" placeholder="请输入邮箱" />
         </el-form-item>
 
-        <el-form-item label="ID Card">
-          <el-input v-model="form.id_card" placeholder="Enter your ID card number" />
+        <el-form-item label="身份证号">
+          <el-input v-model="form.id_card" placeholder="请输入身份证号" />
         </el-form-item>
 
-        <el-form-item label="Driver License">
-          <el-input v-model="form.driver_license" placeholder="Enter your driver license number" />
+        <el-form-item label="驾驶证号">
+          <el-input v-model="form.driver_license" placeholder="请输入驾驶证号" />
         </el-form-item>
 
         <div class="form-row">
-          <el-form-item label="Gender" style="flex: 1">
-            <el-select v-model="form.gender" placeholder="Select gender" style="width: 100%">
-              <el-option label="Male" value="male" />
-              <el-option label="Female" value="female" />
-              <el-option label="Other" value="other" />
+          <el-form-item label="性别" style="flex: 1">
+            <el-select v-model="form.gender" placeholder="请选择性别" style="width: 100%">
+              <el-option label="男" value="male" />
+              <el-option label="女" value="female" />
+              <el-option label="其他" value="other" />
             </el-select>
           </el-form-item>
-          <el-form-item label="Birth Date" style="flex: 1">
+          <el-form-item label="出生日期" style="flex: 1">
             <el-date-picker
               v-model="form.birth_date"
               type="date"
-              placeholder="Select birth date"
+              placeholder="请选择出生日期"
               value-format="YYYY-MM-DD"
               style="width: 100%"
             />
           </el-form-item>
         </div>
 
-        <el-form-item label="Address">
-          <el-input v-model="form.address" placeholder="Enter your address" />
+        <el-form-item label="地址">
+          <el-input v-model="form.address" placeholder="请输入地址" />
         </el-form-item>
 
-        <el-form-item label="Avatar URL">
-          <el-input v-model="form.avatar_url" placeholder="Avatar image URL" />
+        <el-form-item label="头像URL">
+          <el-input v-model="form.avatar_url" placeholder="头像图片URL" />
         </el-form-item>
 
         <el-form-item>
           <el-button type="primary" :loading="saving" @click="handleSave">
-            Save Changes
+            保存修改
           </el-button>
         </el-form-item>
       </el-form>
@@ -118,7 +118,7 @@ async function loadProfile() {
       })
     }
   } catch {
-    ElMessage.error('Failed to load profile')
+    ElMessage.error('加载个人信息失败')
   } finally {
     loading.value = false
   }
@@ -129,12 +129,12 @@ async function handleSave() {
   try {
     const res = await updateProfile(form)
     if (res.error === 0) {
-      ElMessage.success('Profile updated')
+      ElMessage.success('个人信息已更新')
     } else {
-      ElMessage.error('Failed to update profile')
+      ElMessage.error('更新个人信息失败')
     }
   } catch {
-    ElMessage.error('Failed to update profile')
+    ElMessage.error('更新个人信息失败')
   } finally {
     saving.value = false
   }

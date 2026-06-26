@@ -1,66 +1,66 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Vehicle Detail</h2>
-      <p>Vehicle information</p>
+      <h2>车辆详情</h2>
+      <p>车辆信息</p>
     </div>
 
     <el-card v-loading="loading">
       <div class="detail-grid" v-if="vehicle">
         <div class="detail-item">
-          <span class="detail-label">Plate Number</span>
+          <span class="detail-label">车牌号</span>
           <span class="detail-value">{{ vehicle.plate_number }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Brand</span>
+          <span class="detail-label">品牌</span>
           <span class="detail-value">{{ vehicle.brand }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Model</span>
+          <span class="detail-label">型号</span>
           <span class="detail-value">{{ vehicle.model }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Color</span>
+          <span class="detail-label">颜色</span>
           <span class="detail-value">{{ vehicle.color }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Year</span>
+          <span class="detail-label">年份</span>
           <span class="detail-value">{{ vehicle.year }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Mileage</span>
+          <span class="detail-label">里程</span>
           <span class="detail-value">{{ vehicle.mileage }} km</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Daily Rate</span>
+          <span class="detail-label">日租金</span>
           <span class="detail-value">¥{{ vehicle.daily_rate }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Deposit</span>
+          <span class="detail-label">押金</span>
           <span class="detail-value">¥{{ vehicle.deposit_amount }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Status</span>
+          <span class="detail-label">状态</span>
           <span class="detail-value">
             <el-tag :type="statusType(vehicle.status)">{{ vehicle.status }}</el-tag>
           </span>
         </div>
         <div class="detail-item full-width">
-          <span class="detail-label">Description</span>
-          <span class="detail-value">{{ vehicle.description || 'N/A' }}</span>
+          <span class="detail-label">描述</span>
+          <span class="detail-value">{{ vehicle.description || '暂无' }}</span>
         </div>
       </div>
 
       <div class="detail-actions" v-if="authStore.isAdmin">
         <el-button type="primary" @click="$router.push(`/vehicles/${id}/edit`)">
-          <el-icon><Edit /></el-icon> Edit
+          <el-icon><Edit /></el-icon> 编辑
         </el-button>
-        <el-button @click="$router.back()">Back</el-button>
+        <el-button @click="$router.back()">返回</el-button>
       </div>
       <div class="detail-actions" v-else>
-        <el-button @click="$router.back()">Back</el-button>
+        <el-button @click="$router.back()">返回</el-button>
         <el-button type="primary" @click="$router.push('/rentals/create?vehicle_id=' + id)">
-          <el-icon><Document /></el-icon> Rent This Vehicle
+          <el-icon><Document /></el-icon> 租赁此车
         </el-button>
       </div>
     </el-card>
@@ -98,10 +98,10 @@ onMounted(async () => {
     if (res.error === 0) {
       vehicle.value = res.vehicle || res
     } else {
-      ElMessage.error('Failed to load vehicle')
+      ElMessage.error('加载车辆信息失败')
     }
   } catch {
-    ElMessage.error('Failed to load vehicle')
+    ElMessage.error('加载车辆信息失败')
   } finally {
     loading.value = false
   }

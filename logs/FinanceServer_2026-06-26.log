@@ -38,3 +38,6 @@
 [2026-06-26 18:32:56.013] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
 [2026-06-26 18:33:27.810] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
 [2026-06-26 18:33:36.673] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:34:03.405] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:35:07.149] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:35:29.400] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist

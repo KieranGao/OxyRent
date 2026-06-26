@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Statistics</h2>
-      <p>Revenue trends, vehicle status, and brand distribution</p>
+      <h2>统计报表</h2>
+      <p>收入趋势、车辆状态与品牌分布</p>
     </div>
 
     <!-- Date Range Filter -->
@@ -10,16 +10,16 @@
       <el-date-picker
         v-model="dateRange"
         type="daterange"
-        range-separator="to"
-        start-placeholder="Start date"
-        end-placeholder="End date"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
         value-format="YYYY-MM-DD"
         @change="loadRevenueData"
       />
-      <el-select v-model="granularity" placeholder="Granularity" style="width: 120px" @change="loadRevenueData">
-        <el-option label="Daily" value="daily" />
-        <el-option label="Weekly" value="weekly" />
-        <el-option label="Monthly" value="monthly" />
+      <el-select v-model="granularity" placeholder="时间粒度" style="width: 120px" @change="loadRevenueData">
+        <el-option label="按日" value="daily" />
+        <el-option label="按周" value="weekly" />
+        <el-option label="按月" value="monthly" />
       </el-select>
     </div>
 
@@ -28,7 +28,7 @@
       <!-- Revenue Trend -->
       <el-card class="chart-card">
         <template #header>
-          <span>Revenue Trend</span>
+          <span>收入趋势</span>
         </template>
         <v-chart :option="revenueOption" :autoresize="true" style="height: 320px" />
       </el-card>
@@ -36,7 +36,7 @@
       <!-- Vehicle Status Pie -->
       <el-card class="chart-card">
         <template #header>
-          <span>Vehicle Status</span>
+          <span>车辆状态</span>
         </template>
         <v-chart :option="statusOption" :autoresize="true" style="height: 320px" />
       </el-card>
@@ -46,7 +46,7 @@
       <!-- Brand Distribution -->
       <el-card class="chart-card full-width">
         <template #header>
-          <span>Brand Distribution</span>
+          <span>品牌分布</span>
         </template>
         <v-chart :option="brandOption" :autoresize="true" style="height: 320px" />
       </el-card>
@@ -88,9 +88,9 @@ const revenueOption = computed(() => ({
     data: revenueData.value.map(d => d.date || d.label),
     axisLabel: { rotate: 30 },
   },
-  yAxis: { type: 'value', name: 'Revenue (CNY)' },
+  yAxis: { type: 'value', name: '收入 (CNY)' },
   series: [{
-    name: 'Revenue',
+    name: '收入',
     type: 'line',
     smooth: true,
     areaStyle: { opacity: 0.15 },
@@ -105,7 +105,7 @@ const statusOption = computed(() => {
     tooltip: { trigger: 'item' },
     legend: { bottom: '0%' },
     series: [{
-      name: 'Vehicle Status',
+      name: '车辆状态',
       type: 'pie',
       radius: ['40%', '70%'],
       avoidLabelOverlap: false,
@@ -130,9 +130,9 @@ const brandOption = computed(() => {
       type: 'category',
       data: data.map(d => d.brand || d.name),
     },
-    yAxis: { type: 'value', name: 'Count' },
+    yAxis: { type: 'value', name: '数量' },
     series: [{
-      name: 'Count',
+      name: '数量',
       type: 'bar',
       data: data.map(d => d.count || d.value),
       itemStyle: {
@@ -162,7 +162,7 @@ async function loadRevenueData() {
       revenueData.value = res.data || res.list || []
     }
   } catch {
-    ElMessage.error('Failed to load revenue data')
+    ElMessage.error('加载收入数据失败')
   }
 }
 
@@ -173,7 +173,7 @@ async function loadVehicleStats() {
       vehicleStats.value = res.data || res
     }
   } catch {
-    ElMessage.error('Failed to load vehicle stats')
+    ElMessage.error('加载车辆统计失败')
   }
 }
 

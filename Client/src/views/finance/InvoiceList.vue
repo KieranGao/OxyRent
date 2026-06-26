@@ -1,58 +1,58 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Invoices</h2>
-      <p>Manage invoices for rental orders</p>
+      <h2>账单管理</h2>
+      <p>管理租赁订单账单</p>
     </div>
 
     <div class="search-bar">
       <el-button type="primary" @click="showGenerateDialog" style="margin-left: auto">
-        <el-icon><Plus /></el-icon> Generate Invoice
+        <el-icon><Plus /></el-icon> 生成账单
       </el-button>
     </div>
 
     <el-card>
-      <el-table :data="invoices" v-loading="loading" style="width: 100%" empty-text="No invoices found">
-        <el-table-column prop="id" label="Invoice No." min-width="100" />
-        <el-table-column prop="order_no" label="Order No." min-width="160" />
-        <el-table-column prop="amount" label="Amount" min-width="100">
+      <el-table :data="invoices" v-loading="loading" style="width: 100%" empty-text="暂无账单">
+        <el-table-column prop="id" label="账单号" min-width="100" />
+        <el-table-column prop="order_no" label="订单号" min-width="160" />
+        <el-table-column prop="amount" label="金额" min-width="100">
           <template #default="{ row }">¥{{ row.amount }}</template>
         </el-table-column>
-        <el-table-column prop="status" label="Status" min-width="100">
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="{ row }">
             <el-tag :type="row.status === 'generated' ? 'success' : 'info'">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="created_at" label="Date" min-width="120" />
-        <el-table-column label="Actions" min-width="100">
+        <el-table-column prop="created_at" label="日期" min-width="120" />
+        <el-table-column label="操作" min-width="100">
           <template #default="{ row }">
-            <el-button link type="primary" @click="viewDetail(row.id)">View</el-button>
+            <el-button link type="primary" @click="viewDetail(row.id)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
 
     <!-- Generate Invoice Dialog -->
-    <el-dialog v-model="dialogVisible" title="Generate Invoice" width="400px">
+    <el-dialog v-model="dialogVisible" title="生成账单" width="400px">
       <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
-        <el-form-item label="Order ID" prop="order_id">
+        <el-form-item label="订单ID" prop="order_id">
           <el-input-number v-model="form.order_id" :min="1" style="width: 100%" />
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" :loading="generating" @click="handleGenerate">Generate</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" :loading="generating" @click="handleGenerate">生成</el-button>
       </template>
     </el-dialog>
 
     <!-- Invoice Detail Dialog -->
-    <el-dialog v-model="detailVisible" title="Invoice Detail" width="500px">
+    <el-dialog v-model="detailVisible" title="账单详情" width="500px">
       <div v-if="invoiceDetail" class="invoice-detail">
-        <div class="invoice-row"><span>Invoice No.:</span><span>{{ invoiceDetail.id }}</span></div>
-        <div class="invoice-row"><span>Order No.:</span><span>{{ invoiceDetail.order_no }}</span></div>
-        <div class="invoice-row"><span>Amount:</span><span>¥{{ invoiceDetail.amount }}</span></div>
-        <div class="invoice-row"><span>Status:</span><span>{{ invoiceDetail.status }}</span></div>
-        <div class="invoice-row"><span>Date:</span><span>{{ invoiceDetail.created_at }}</span></div>
+        <div class="invoice-row"><span>账单号:</span><span>{{ invoiceDetail.id }}</span></div>
+        <div class="invoice-row"><span>订单号:</span><span>{{ invoiceDetail.order_no }}</span></div>
+        <div class="invoice-row"><span>金额:</span><span>¥{{ invoiceDetail.amount }}</span></div>
+        <div class="invoice-row"><span>状态:</span><span>{{ invoiceDetail.status }}</span></div>
+        <div class="invoice-row"><span>日期:</span><span>{{ invoiceDetail.created_at }}</span></div>
       </div>
     </el-dialog>
   </div>
@@ -74,7 +74,7 @@ const invoiceDetail = ref(null)
 
 const form = reactive({ order_id: undefined })
 const rules = {
-  order_id: [{ required: true, message: 'Order ID is required', trigger: 'blur' }],
+  order_id: [{ required: true, message: '请输入订单ID', trigger: 'blur' }],
 }
 
 function showGenerateDialog() {
@@ -89,13 +89,13 @@ async function handleGenerate() {
   try {
     const res = await generateInvoice(form)
     if (res.error === 0) {
-      ElMessage.success('Invoice generated')
+      ElMessage.success('账单已生成')
       dialogVisible.value = false
     } else {
-      ElMessage.error('Failed to generate invoice')
+      ElMessage.error('生成账单失败')
     }
   } catch {
-    ElMessage.error('Failed to generate invoice')
+    ElMessage.error('生成账单失败')
   } finally {
     generating.value = false
   }
@@ -109,7 +109,7 @@ async function viewDetail(id) {
       detailVisible.value = true
     }
   } catch {
-    ElMessage.error('Failed to load invoice detail')
+    ElMessage.error('加载账单详情失败')
   }
 }
 

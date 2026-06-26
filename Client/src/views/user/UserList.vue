@@ -1,69 +1,69 @@
 <template>
   <div class="page-container">
     <div class="page-header">
-      <h2>Users</h2>
-      <p>Manage system users</p>
+      <h2>用户管理</h2>
+      <p>管理系统用户</p>
     </div>
 
     <div class="search-bar">
       <el-input
         v-model="query.keyword"
-        placeholder="Search users..."
+        placeholder="搜索用户..."
         :prefix-icon="Search"
         clearable
         style="width: 200px"
         @keyup.enter="loadUsers"
         @clear="loadUsers"
       />
-      <el-select v-model="query.role" placeholder="All Roles" clearable style="width: 120px" @change="loadUsers">
-        <el-option label="Customer" value="customer" />
-        <el-option label="Staff" value="staff" />
-        <el-option label="Admin" value="admin" />
+      <el-select v-model="query.role" placeholder="全部角色" clearable style="width: 120px" @change="loadUsers">
+        <el-option label="客户" value="customer" />
+        <el-option label="员工" value="staff" />
+        <el-option label="管理员" value="admin" />
       </el-select>
-      <el-select v-model="query.status" placeholder="All Status" clearable style="width: 120px" @change="loadUsers">
-        <el-option label="Active" value="active" />
-        <el-option label="Disabled" value="disabled" />
+      <el-select v-model="query.status" placeholder="全部状态" clearable style="width: 120px" @change="loadUsers">
+        <el-option label="正常" value="active" />
+        <el-option label="已禁用" value="disabled" />
       </el-select>
       <el-button type="primary" @click="loadUsers">
-        <el-icon><Search /></el-icon> Search
+        <el-icon><Search /></el-icon> 搜索
       </el-button>
     </div>
 
     <el-card>
-      <el-table :data="users" v-loading="loading" style="width: 100%" empty-text="No users found">
+      <el-table :data="users" v-loading="loading" style="width: 100%" empty-text="暂无用户">
         <el-table-column prop="uid" label="UID" min-width="60" />
-        <el-table-column prop="username" label="Username" min-width="120" />
-        <el-table-column prop="real_name" label="Real Name" min-width="100" />
-        <el-table-column prop="phone" label="Phone" min-width="120" />
-        <el-table-column prop="email" label="Email" min-width="150" />
-        <el-table-column prop="role" label="Role" min-width="80">
+        <el-table-column prop="username" label="用户名" min-width="120" />
+        <el-table-column prop="real_name" label="真实姓名" min-width="100" />
+        <el-table-column prop="phone" label="手机号" min-width="120" />
+        <el-table-column prop="email" label="邮箱" min-width="150" />
+        <el-table-column prop="role" label="角色" min-width="80">
           <template #default="{ row }">
             <el-tag :type="row.role === 'admin' ? 'danger' : row.role === 'staff' ? 'warning' : 'info'">
-              {{ row.role === 'admin' ? 'Admin' : row.role === 'staff' ? 'Staff' : 'Customer' }}
+              {{ row.role === 'admin' ? '管理员' : row.role === 'staff' ? '员工' : '客户' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="Status" min-width="90">
+        <el-table-column prop="status" label="状态" min-width="90">
           <template #default="{ row }">
             <el-tag :type="row.status === 'active' ? 'success' : 'danger'">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="Actions" min-width="180">
+        <el-table-column label="操作" min-width="180">
           <template #default="{ row }">
-            <el-button link type="primary" @click="showRoleDialog(row)">Set Role</el-button>
+            <el-button link type="primary" @click="showRoleDialog(row)">设置角色</el-button>
             <el-button
               v-if="row.status === 'active'"
               link type="danger"
               @click="handleStatusChange(row.uid, 'disabled')"
             >
-              Disable
+              禁用
             </el-button>
             <el-button
               v-if="row.status === 'disabled'"
               link type="success"
               @click="handleStatusChange(row.uid, 'active')"
             >
-              Enable
+              启用
             </el-button>
           </template>
         </el-table-column>
@@ -82,19 +82,19 @@
     </el-card>
 
     <!-- Role Dialog -->
-    <el-dialog v-model="roleDialogVisible" title="Change User Role" width="400px">
+    <el-dialog v-model="roleDialogVisible" title="修改用户角色" width="400px">
       <el-form label-position="top">
-        <el-form-item label="Role">
-          <el-select v-model="newRole" placeholder="Select role" style="width: 100%">
-            <el-option label="Customer" value="customer" />
-            <el-option label="Staff" value="staff" />
-            <el-option label="Admin" value="admin" />
+        <el-form-item label="角色">
+          <el-select v-model="newRole" placeholder="请选择角色" style="width: 100%">
+            <el-option label="客户" value="customer" />
+            <el-option label="员工" value="staff" />
+            <el-option label="管理员" value="admin" />
           </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="roleDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" :loading="updatingRole" @click="handleRoleChange">Confirm</el-button>
+        <el-button @click="roleDialogVisible = false">取消</el-button>
+        <el-button type="primary" :loading="updatingRole" @click="handleRoleChange">确认</el-button>
       </template>
     </el-dialog>
   </div>
@@ -135,7 +135,7 @@ async function loadUsers() {
       total.value = res.total || 0
     }
   } catch {
-    ElMessage.error('Failed to load users')
+    ElMessage.error('加载用户列表失败')
   } finally {
     loading.value = false
   }
@@ -152,14 +152,14 @@ async function handleRoleChange() {
   try {
     const res = await updateUserRole({ uid: editingUid.value, role: newRole.value })
     if (res.error === 0) {
-      ElMessage.success('Role updated')
+      ElMessage.success('角色已更新')
       roleDialogVisible.value = false
       loadUsers()
     } else {
-      ElMessage.error('Failed to update role')
+      ElMessage.error('更新角色失败')
     }
   } catch {
-    ElMessage.error('Failed to update role')
+    ElMessage.error('更新角色失败')
   } finally {
     updatingRole.value = false
   }
@@ -168,16 +168,16 @@ async function handleRoleChange() {
 async function handleStatusChange(uid, status) {
   try {
     await ElMessageBox.confirm(
-      `Are you sure you want to ${status === 'active' ? 'enable' : 'disable'} this user?`,
-      'Confirm',
+      `确认${status === 'active' ? '启用' : '禁用'}此用户？`,
+      '确认',
       { type: 'warning' },
     )
     const res = await updateUserStatus({ uid, status })
     if (res.error === 0) {
-      ElMessage.success('Status updated')
+      ElMessage.success('状态已更新')
       loadUsers()
     } else {
-      ElMessage.error('Failed to update status')
+      ElMessage.error('更新状态失败')
     }
   } catch {
     // Cancelled
