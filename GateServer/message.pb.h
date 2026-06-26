@@ -47,7 +47,7 @@ struct TableStruct_message_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[43]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[47]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -124,6 +124,18 @@ extern RevenueStatsRequestDefaultTypeInternal _RevenueStatsRequest_default_insta
 class RevenueStatsResponse;
 class RevenueStatsResponseDefaultTypeInternal;
 extern RevenueStatsResponseDefaultTypeInternal _RevenueStatsResponse_default_instance_;
+class SendMailRequest;
+class SendMailRequestDefaultTypeInternal;
+extern SendMailRequestDefaultTypeInternal _SendMailRequest_default_instance_;
+class SendMailResponse;
+class SendMailResponseDefaultTypeInternal;
+extern SendMailResponseDefaultTypeInternal _SendMailResponse_default_instance_;
+class SendVerifyCodeRequest;
+class SendVerifyCodeRequestDefaultTypeInternal;
+extern SendVerifyCodeRequestDefaultTypeInternal _SendVerifyCodeRequest_default_instance_;
+class SendVerifyCodeResponse;
+class SendVerifyCodeResponseDefaultTypeInternal;
+extern SendVerifyCodeResponseDefaultTypeInternal _SendVerifyCodeResponse_default_instance_;
 class StatsOverviewResponse;
 class StatsOverviewResponseDefaultTypeInternal;
 extern StatsOverviewResponseDefaultTypeInternal _StatsOverviewResponse_default_instance_;
@@ -209,6 +221,10 @@ template<> ::message::ReturnRequest* Arena::CreateMaybeMessage<::message::Return
 template<> ::message::RevenueStatsItem* Arena::CreateMaybeMessage<::message::RevenueStatsItem>(Arena*);
 template<> ::message::RevenueStatsRequest* Arena::CreateMaybeMessage<::message::RevenueStatsRequest>(Arena*);
 template<> ::message::RevenueStatsResponse* Arena::CreateMaybeMessage<::message::RevenueStatsResponse>(Arena*);
+template<> ::message::SendMailRequest* Arena::CreateMaybeMessage<::message::SendMailRequest>(Arena*);
+template<> ::message::SendMailResponse* Arena::CreateMaybeMessage<::message::SendMailResponse>(Arena*);
+template<> ::message::SendVerifyCodeRequest* Arena::CreateMaybeMessage<::message::SendVerifyCodeRequest>(Arena*);
+template<> ::message::SendVerifyCodeResponse* Arena::CreateMaybeMessage<::message::SendVerifyCodeResponse>(Arena*);
 template<> ::message::StatsOverviewResponse* Arena::CreateMaybeMessage<::message::StatsOverviewResponse>(Arena*);
 template<> ::message::UpdateMaintenanceRequest* Arena::CreateMaybeMessage<::message::UpdateMaintenanceRequest>(Arena*);
 template<> ::message::UpdateProfileRequest* Arena::CreateMaybeMessage<::message::UpdateProfileRequest>(Arena*);
@@ -10435,6 +10451,640 @@ class VehicleStatsBrandItem PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr brand_;
   ::PROTOBUF_NAMESPACE_ID::int32 count_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SendMailRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.SendMailRequest) */ {
+ public:
+  inline SendMailRequest() : SendMailRequest(nullptr) {};
+  virtual ~SendMailRequest();
+
+  SendMailRequest(const SendMailRequest& from);
+  SendMailRequest(SendMailRequest&& from) noexcept
+    : SendMailRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline SendMailRequest& operator=(const SendMailRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SendMailRequest& operator=(SendMailRequest&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SendMailRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SendMailRequest* internal_default_instance() {
+    return reinterpret_cast<const SendMailRequest*>(
+               &_SendMailRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    43;
+
+  friend void swap(SendMailRequest& a, SendMailRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SendMailRequest* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SendMailRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SendMailRequest* New() const final {
+    return CreateMaybeMessage<SendMailRequest>(nullptr);
+  }
+
+  SendMailRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SendMailRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SendMailRequest& from);
+  void MergeFrom(const SendMailRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SendMailRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.SendMailRequest";
+  }
+  protected:
+  explicit SendMailRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kEmailFieldNumber = 1,
+    kCodeFieldNumber = 2,
+  };
+  // string email = 1;
+  void clear_email();
+  const std::string& email() const;
+  void set_email(const std::string& value);
+  void set_email(std::string&& value);
+  void set_email(const char* value);
+  void set_email(const char* value, size_t size);
+  std::string* mutable_email();
+  std::string* release_email();
+  void set_allocated_email(std::string* email);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_email();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_email(
+      std::string* email);
+  private:
+  const std::string& _internal_email() const;
+  void _internal_set_email(const std::string& value);
+  std::string* _internal_mutable_email();
+  public:
+
+  // string code = 2;
+  void clear_code();
+  const std::string& code() const;
+  void set_code(const std::string& value);
+  void set_code(std::string&& value);
+  void set_code(const char* value);
+  void set_code(const char* value, size_t size);
+  std::string* mutable_code();
+  std::string* release_code();
+  void set_allocated_code(std::string* code);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_code();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_code(
+      std::string* code);
+  private:
+  const std::string& _internal_code() const;
+  void _internal_set_code(const std::string& value);
+  std::string* _internal_mutable_code();
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.SendMailRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr email_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr code_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SendMailResponse PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.SendMailResponse) */ {
+ public:
+  inline SendMailResponse() : SendMailResponse(nullptr) {};
+  virtual ~SendMailResponse();
+
+  SendMailResponse(const SendMailResponse& from);
+  SendMailResponse(SendMailResponse&& from) noexcept
+    : SendMailResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline SendMailResponse& operator=(const SendMailResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SendMailResponse& operator=(SendMailResponse&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SendMailResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SendMailResponse* internal_default_instance() {
+    return reinterpret_cast<const SendMailResponse*>(
+               &_SendMailResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    44;
+
+  friend void swap(SendMailResponse& a, SendMailResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SendMailResponse* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SendMailResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SendMailResponse* New() const final {
+    return CreateMaybeMessage<SendMailResponse>(nullptr);
+  }
+
+  SendMailResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SendMailResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SendMailResponse& from);
+  void MergeFrom(const SendMailResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SendMailResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.SendMailResponse";
+  }
+  protected:
+  explicit SendMailResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorFieldNumber = 1,
+  };
+  // int32 error = 1;
+  void clear_error();
+  ::PROTOBUF_NAMESPACE_ID::int32 error() const;
+  void set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_error() const;
+  void _internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.SendMailResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 error_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SendVerifyCodeRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.SendVerifyCodeRequest) */ {
+ public:
+  inline SendVerifyCodeRequest() : SendVerifyCodeRequest(nullptr) {};
+  virtual ~SendVerifyCodeRequest();
+
+  SendVerifyCodeRequest(const SendVerifyCodeRequest& from);
+  SendVerifyCodeRequest(SendVerifyCodeRequest&& from) noexcept
+    : SendVerifyCodeRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline SendVerifyCodeRequest& operator=(const SendVerifyCodeRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SendVerifyCodeRequest& operator=(SendVerifyCodeRequest&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SendVerifyCodeRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SendVerifyCodeRequest* internal_default_instance() {
+    return reinterpret_cast<const SendVerifyCodeRequest*>(
+               &_SendVerifyCodeRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    45;
+
+  friend void swap(SendVerifyCodeRequest& a, SendVerifyCodeRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SendVerifyCodeRequest* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SendVerifyCodeRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SendVerifyCodeRequest* New() const final {
+    return CreateMaybeMessage<SendVerifyCodeRequest>(nullptr);
+  }
+
+  SendVerifyCodeRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SendVerifyCodeRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SendVerifyCodeRequest& from);
+  void MergeFrom(const SendVerifyCodeRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SendVerifyCodeRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.SendVerifyCodeRequest";
+  }
+  protected:
+  explicit SendVerifyCodeRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kEmailFieldNumber = 1,
+  };
+  // string email = 1;
+  void clear_email();
+  const std::string& email() const;
+  void set_email(const std::string& value);
+  void set_email(std::string&& value);
+  void set_email(const char* value);
+  void set_email(const char* value, size_t size);
+  std::string* mutable_email();
+  std::string* release_email();
+  void set_allocated_email(std::string* email);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_email();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_email(
+      std::string* email);
+  private:
+  const std::string& _internal_email() const;
+  void _internal_set_email(const std::string& value);
+  std::string* _internal_mutable_email();
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.SendVerifyCodeRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr email_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SendVerifyCodeResponse PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.SendVerifyCodeResponse) */ {
+ public:
+  inline SendVerifyCodeResponse() : SendVerifyCodeResponse(nullptr) {};
+  virtual ~SendVerifyCodeResponse();
+
+  SendVerifyCodeResponse(const SendVerifyCodeResponse& from);
+  SendVerifyCodeResponse(SendVerifyCodeResponse&& from) noexcept
+    : SendVerifyCodeResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline SendVerifyCodeResponse& operator=(const SendVerifyCodeResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SendVerifyCodeResponse& operator=(SendVerifyCodeResponse&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SendVerifyCodeResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SendVerifyCodeResponse* internal_default_instance() {
+    return reinterpret_cast<const SendVerifyCodeResponse*>(
+               &_SendVerifyCodeResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    46;
+
+  friend void swap(SendVerifyCodeResponse& a, SendVerifyCodeResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SendVerifyCodeResponse* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SendVerifyCodeResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SendVerifyCodeResponse* New() const final {
+    return CreateMaybeMessage<SendVerifyCodeResponse>(nullptr);
+  }
+
+  SendVerifyCodeResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SendVerifyCodeResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SendVerifyCodeResponse& from);
+  void MergeFrom(const SendVerifyCodeResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SendVerifyCodeResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.SendVerifyCodeResponse";
+  }
+  protected:
+  explicit SendVerifyCodeResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMsgFieldNumber = 2,
+    kErrorFieldNumber = 1,
+  };
+  // string msg = 2;
+  void clear_msg();
+  const std::string& msg() const;
+  void set_msg(const std::string& value);
+  void set_msg(std::string&& value);
+  void set_msg(const char* value);
+  void set_msg(const char* value, size_t size);
+  std::string* mutable_msg();
+  std::string* release_msg();
+  void set_allocated_msg(std::string* msg);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_msg();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_msg(
+      std::string* msg);
+  private:
+  const std::string& _internal_msg() const;
+  void _internal_set_msg(const std::string& value);
+  std::string* _internal_mutable_msg();
+  public:
+
+  // int32 error = 1;
+  void clear_error();
+  ::PROTOBUF_NAMESPACE_ID::int32 error() const;
+  void set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_error() const;
+  void _internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.SendVerifyCodeResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr msg_;
+  ::PROTOBUF_NAMESPACE_ID::int32 error_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_message_2eproto;
 };
@@ -23521,9 +24171,397 @@ inline void VehicleStatsBrandItem::set_count(::PROTOBUF_NAMESPACE_ID::int32 valu
   // @@protoc_insertion_point(field_set:message.VehicleStatsBrandItem.count)
 }
 
+// -------------------------------------------------------------------
+
+// SendMailRequest
+
+// string email = 1;
+inline void SendMailRequest::clear_email() {
+  email_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& SendMailRequest::email() const {
+  // @@protoc_insertion_point(field_get:message.SendMailRequest.email)
+  return _internal_email();
+}
+inline void SendMailRequest::set_email(const std::string& value) {
+  _internal_set_email(value);
+  // @@protoc_insertion_point(field_set:message.SendMailRequest.email)
+}
+inline std::string* SendMailRequest::mutable_email() {
+  // @@protoc_insertion_point(field_mutable:message.SendMailRequest.email)
+  return _internal_mutable_email();
+}
+inline const std::string& SendMailRequest::_internal_email() const {
+  return email_.Get();
+}
+inline void SendMailRequest::_internal_set_email(const std::string& value) {
+  
+  email_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void SendMailRequest::set_email(std::string&& value) {
+  
+  email_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.SendMailRequest.email)
+}
+inline void SendMailRequest::set_email(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  email_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.SendMailRequest.email)
+}
+inline void SendMailRequest::set_email(const char* value,
+    size_t size) {
+  
+  email_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.SendMailRequest.email)
+}
+inline std::string* SendMailRequest::_internal_mutable_email() {
+  
+  return email_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* SendMailRequest::release_email() {
+  // @@protoc_insertion_point(field_release:message.SendMailRequest.email)
+  return email_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void SendMailRequest::set_allocated_email(std::string* email) {
+  if (email != nullptr) {
+    
+  } else {
+    
+  }
+  email_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), email,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.SendMailRequest.email)
+}
+inline std::string* SendMailRequest::unsafe_arena_release_email() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.SendMailRequest.email)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return email_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void SendMailRequest::unsafe_arena_set_allocated_email(
+    std::string* email) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (email != nullptr) {
+    
+  } else {
+    
+  }
+  email_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      email, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.SendMailRequest.email)
+}
+
+// string code = 2;
+inline void SendMailRequest::clear_code() {
+  code_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& SendMailRequest::code() const {
+  // @@protoc_insertion_point(field_get:message.SendMailRequest.code)
+  return _internal_code();
+}
+inline void SendMailRequest::set_code(const std::string& value) {
+  _internal_set_code(value);
+  // @@protoc_insertion_point(field_set:message.SendMailRequest.code)
+}
+inline std::string* SendMailRequest::mutable_code() {
+  // @@protoc_insertion_point(field_mutable:message.SendMailRequest.code)
+  return _internal_mutable_code();
+}
+inline const std::string& SendMailRequest::_internal_code() const {
+  return code_.Get();
+}
+inline void SendMailRequest::_internal_set_code(const std::string& value) {
+  
+  code_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void SendMailRequest::set_code(std::string&& value) {
+  
+  code_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.SendMailRequest.code)
+}
+inline void SendMailRequest::set_code(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  code_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.SendMailRequest.code)
+}
+inline void SendMailRequest::set_code(const char* value,
+    size_t size) {
+  
+  code_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.SendMailRequest.code)
+}
+inline std::string* SendMailRequest::_internal_mutable_code() {
+  
+  return code_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* SendMailRequest::release_code() {
+  // @@protoc_insertion_point(field_release:message.SendMailRequest.code)
+  return code_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void SendMailRequest::set_allocated_code(std::string* code) {
+  if (code != nullptr) {
+    
+  } else {
+    
+  }
+  code_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), code,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.SendMailRequest.code)
+}
+inline std::string* SendMailRequest::unsafe_arena_release_code() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.SendMailRequest.code)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return code_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void SendMailRequest::unsafe_arena_set_allocated_code(
+    std::string* code) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (code != nullptr) {
+    
+  } else {
+    
+  }
+  code_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      code, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.SendMailRequest.code)
+}
+
+// -------------------------------------------------------------------
+
+// SendMailResponse
+
+// int32 error = 1;
+inline void SendMailResponse::clear_error() {
+  error_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 SendMailResponse::_internal_error() const {
+  return error_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 SendMailResponse::error() const {
+  // @@protoc_insertion_point(field_get:message.SendMailResponse.error)
+  return _internal_error();
+}
+inline void SendMailResponse::_internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  error_ = value;
+}
+inline void SendMailResponse::set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:message.SendMailResponse.error)
+}
+
+// -------------------------------------------------------------------
+
+// SendVerifyCodeRequest
+
+// string email = 1;
+inline void SendVerifyCodeRequest::clear_email() {
+  email_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& SendVerifyCodeRequest::email() const {
+  // @@protoc_insertion_point(field_get:message.SendVerifyCodeRequest.email)
+  return _internal_email();
+}
+inline void SendVerifyCodeRequest::set_email(const std::string& value) {
+  _internal_set_email(value);
+  // @@protoc_insertion_point(field_set:message.SendVerifyCodeRequest.email)
+}
+inline std::string* SendVerifyCodeRequest::mutable_email() {
+  // @@protoc_insertion_point(field_mutable:message.SendVerifyCodeRequest.email)
+  return _internal_mutable_email();
+}
+inline const std::string& SendVerifyCodeRequest::_internal_email() const {
+  return email_.Get();
+}
+inline void SendVerifyCodeRequest::_internal_set_email(const std::string& value) {
+  
+  email_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void SendVerifyCodeRequest::set_email(std::string&& value) {
+  
+  email_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.SendVerifyCodeRequest.email)
+}
+inline void SendVerifyCodeRequest::set_email(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  email_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.SendVerifyCodeRequest.email)
+}
+inline void SendVerifyCodeRequest::set_email(const char* value,
+    size_t size) {
+  
+  email_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.SendVerifyCodeRequest.email)
+}
+inline std::string* SendVerifyCodeRequest::_internal_mutable_email() {
+  
+  return email_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* SendVerifyCodeRequest::release_email() {
+  // @@protoc_insertion_point(field_release:message.SendVerifyCodeRequest.email)
+  return email_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void SendVerifyCodeRequest::set_allocated_email(std::string* email) {
+  if (email != nullptr) {
+    
+  } else {
+    
+  }
+  email_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), email,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.SendVerifyCodeRequest.email)
+}
+inline std::string* SendVerifyCodeRequest::unsafe_arena_release_email() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.SendVerifyCodeRequest.email)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return email_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void SendVerifyCodeRequest::unsafe_arena_set_allocated_email(
+    std::string* email) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (email != nullptr) {
+    
+  } else {
+    
+  }
+  email_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      email, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.SendVerifyCodeRequest.email)
+}
+
+// -------------------------------------------------------------------
+
+// SendVerifyCodeResponse
+
+// int32 error = 1;
+inline void SendVerifyCodeResponse::clear_error() {
+  error_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 SendVerifyCodeResponse::_internal_error() const {
+  return error_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 SendVerifyCodeResponse::error() const {
+  // @@protoc_insertion_point(field_get:message.SendVerifyCodeResponse.error)
+  return _internal_error();
+}
+inline void SendVerifyCodeResponse::_internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  error_ = value;
+}
+inline void SendVerifyCodeResponse::set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:message.SendVerifyCodeResponse.error)
+}
+
+// string msg = 2;
+inline void SendVerifyCodeResponse::clear_msg() {
+  msg_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& SendVerifyCodeResponse::msg() const {
+  // @@protoc_insertion_point(field_get:message.SendVerifyCodeResponse.msg)
+  return _internal_msg();
+}
+inline void SendVerifyCodeResponse::set_msg(const std::string& value) {
+  _internal_set_msg(value);
+  // @@protoc_insertion_point(field_set:message.SendVerifyCodeResponse.msg)
+}
+inline std::string* SendVerifyCodeResponse::mutable_msg() {
+  // @@protoc_insertion_point(field_mutable:message.SendVerifyCodeResponse.msg)
+  return _internal_mutable_msg();
+}
+inline const std::string& SendVerifyCodeResponse::_internal_msg() const {
+  return msg_.Get();
+}
+inline void SendVerifyCodeResponse::_internal_set_msg(const std::string& value) {
+  
+  msg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void SendVerifyCodeResponse::set_msg(std::string&& value) {
+  
+  msg_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.SendVerifyCodeResponse.msg)
+}
+inline void SendVerifyCodeResponse::set_msg(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  msg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.SendVerifyCodeResponse.msg)
+}
+inline void SendVerifyCodeResponse::set_msg(const char* value,
+    size_t size) {
+  
+  msg_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.SendVerifyCodeResponse.msg)
+}
+inline std::string* SendVerifyCodeResponse::_internal_mutable_msg() {
+  
+  return msg_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* SendVerifyCodeResponse::release_msg() {
+  // @@protoc_insertion_point(field_release:message.SendVerifyCodeResponse.msg)
+  return msg_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void SendVerifyCodeResponse::set_allocated_msg(std::string* msg) {
+  if (msg != nullptr) {
+    
+  } else {
+    
+  }
+  msg_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), msg,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.SendVerifyCodeResponse.msg)
+}
+inline std::string* SendVerifyCodeResponse::unsafe_arena_release_msg() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:message.SendVerifyCodeResponse.msg)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return msg_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void SendVerifyCodeResponse::unsafe_arena_set_allocated_msg(
+    std::string* msg) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (msg != nullptr) {
+    
+  } else {
+    
+  }
+  msg_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      msg, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.SendVerifyCodeResponse.msg)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

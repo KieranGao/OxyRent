@@ -1,0 +1,8 @@
+[2026-06-26 18:53:57.048] [DEBUG] Redis connecting to : pool_size=5
+[2026-06-26 18:53:57.049] [ERROR] Create redis context failed!
+[2026-06-26 18:53:57.049] [ERROR] Create redis context failed!
+[2026-06-26 18:53:57.049] [ERROR] Create redis context failed!
+[2026-06-26 18:53:57.049] [ERROR] Create redis context failed!
+[2026-06-26 18:53:57.049] [ERROR] Create redis context failed!
+[2026-06-26 18:53:57.049] [INFO] GateServer starting on port 0
+[2026-06-26 18:53:57.049] [DEBUG] GateServer is listening on port: 37405

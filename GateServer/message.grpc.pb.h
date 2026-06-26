@@ -6385,6 +6385,489 @@ class FinanceService final {
   typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > StreamedService;
 };
 
+class MailerService final {
+ public:
+  static constexpr char const* service_full_name() {
+    return "message.MailerService";
+  }
+  class StubInterface {
+   public:
+    virtual ~StubInterface() {}
+    virtual ::grpc::Status SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::message::SendMailResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::SendMailResponse>> AsyncSendMail(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::SendMailResponse>>(AsyncSendMailRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::SendMailResponse>> PrepareAsyncSendMail(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::SendMailResponse>>(PrepareAsyncSendMailRaw(context, request, cq));
+    }
+    virtual ::grpc::Status SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::message::SendVerifyCodeResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::SendVerifyCodeResponse>> AsyncSendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::SendVerifyCodeResponse>>(AsyncSendVerifyCodeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::SendVerifyCodeResponse>> PrepareAsyncSendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::SendVerifyCodeResponse>>(PrepareAsyncSendVerifyCodeRaw(context, request, cq));
+    }
+    class experimental_async_interface {
+     public:
+      virtual ~experimental_async_interface() {}
+      virtual void SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SendMail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendMailResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SendMail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendMailResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SendMail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendMailResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      virtual void SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SendVerifyCode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendVerifyCodeResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void SendVerifyCode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendVerifyCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void SendVerifyCode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendVerifyCodeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+    };
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    typedef class experimental_async_interface async_interface;
+    #endif
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    async_interface* async() { return experimental_async(); }
+    #endif
+    virtual class experimental_async_interface* experimental_async() { return nullptr; }
+  private:
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::SendMailResponse>* AsyncSendMailRaw(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::SendMailResponse>* PrepareAsyncSendMailRaw(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::SendVerifyCodeResponse>* AsyncSendVerifyCodeRaw(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::SendVerifyCodeResponse>* PrepareAsyncSendVerifyCodeRaw(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) = 0;
+  };
+  class Stub final : public StubInterface {
+   public:
+    Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
+    ::grpc::Status SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::message::SendMailResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::SendMailResponse>> AsyncSendMail(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::SendMailResponse>>(AsyncSendMailRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::SendMailResponse>> PrepareAsyncSendMail(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::SendMailResponse>>(PrepareAsyncSendMailRaw(context, request, cq));
+    }
+    ::grpc::Status SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::message::SendVerifyCodeResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::SendVerifyCodeResponse>> AsyncSendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::SendVerifyCodeResponse>>(AsyncSendVerifyCodeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::SendVerifyCodeResponse>> PrepareAsyncSendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::SendVerifyCodeResponse>>(PrepareAsyncSendVerifyCodeRaw(context, request, cq));
+    }
+    class experimental_async final :
+      public StubInterface::experimental_async_interface {
+     public:
+      void SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response, std::function<void(::grpc::Status)>) override;
+      void SendMail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendMailResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SendMail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendMailResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SendMail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendMailResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      void SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response, std::function<void(::grpc::Status)>) override;
+      void SendVerifyCode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendVerifyCodeResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void SendVerifyCode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendVerifyCodeResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void SendVerifyCode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendVerifyCodeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+     private:
+      friend class Stub;
+      explicit experimental_async(Stub* stub): stub_(stub) { }
+      Stub* stub() { return stub_; }
+      Stub* stub_;
+    };
+    class experimental_async_interface* experimental_async() override { return &async_stub_; }
+
+   private:
+    std::shared_ptr< ::grpc::ChannelInterface> channel_;
+    class experimental_async async_stub_{this};
+    ::grpc::ClientAsyncResponseReader< ::message::SendMailResponse>* AsyncSendMailRaw(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::SendMailResponse>* PrepareAsyncSendMailRaw(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::SendVerifyCodeResponse>* AsyncSendVerifyCodeRaw(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::SendVerifyCodeResponse>* PrepareAsyncSendVerifyCodeRaw(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) override;
+    const ::grpc::internal::RpcMethod rpcmethod_SendMail_;
+    const ::grpc::internal::RpcMethod rpcmethod_SendVerifyCode_;
+  };
+  static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
+
+  class Service : public ::grpc::Service {
+   public:
+    Service();
+    virtual ~Service();
+    virtual ::grpc::Status SendMail(::grpc::ServerContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response);
+    virtual ::grpc::Status SendVerifyCode(::grpc::ServerContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response);
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_SendMail : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SendMail() {
+      ::grpc::Service::MarkMethodAsync(0);
+    }
+    ~WithAsyncMethod_SendMail() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendMail(::grpc::ServerContext* /*context*/, const ::message::SendMailRequest* /*request*/, ::message::SendMailResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSendMail(::grpc::ServerContext* context, ::message::SendMailRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::SendMailResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_SendVerifyCode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SendVerifyCode() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_SendVerifyCode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendVerifyCode(::grpc::ServerContext* /*context*/, const ::message::SendVerifyCodeRequest* /*request*/, ::message::SendVerifyCodeResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSendVerifyCode(::grpc::ServerContext* context, ::message::SendVerifyCodeRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::SendVerifyCodeResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_SendMail<WithAsyncMethod_SendVerifyCode<Service > > AsyncService;
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SendMail : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SendMail() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(0,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::SendMailRequest, ::message::SendMailResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response) { return this->SendMail(context, request, response); }));}
+    void SetMessageAllocatorFor_SendMail(
+        ::grpc::experimental::MessageAllocator< ::message::SendMailRequest, ::message::SendMailResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(0);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::SendMailRequest, ::message::SendMailResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SendMail() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendMail(::grpc::ServerContext* /*context*/, const ::message::SendMailRequest* /*request*/, ::message::SendMailResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SendMail(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::SendMailRequest* /*request*/, ::message::SendMailResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SendMail(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::SendMailRequest* /*request*/, ::message::SendMailResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_SendVerifyCode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_SendVerifyCode() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(1,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::SendVerifyCodeRequest, ::message::SendVerifyCodeResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response) { return this->SendVerifyCode(context, request, response); }));}
+    void SetMessageAllocatorFor_SendVerifyCode(
+        ::grpc::experimental::MessageAllocator< ::message::SendVerifyCodeRequest, ::message::SendVerifyCodeResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::SendVerifyCodeRequest, ::message::SendVerifyCodeResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_SendVerifyCode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendVerifyCode(::grpc::ServerContext* /*context*/, const ::message::SendVerifyCodeRequest* /*request*/, ::message::SendVerifyCodeResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SendVerifyCode(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::SendVerifyCodeRequest* /*request*/, ::message::SendVerifyCodeResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SendVerifyCode(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::SendVerifyCodeRequest* /*request*/, ::message::SendVerifyCodeResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+  typedef ExperimentalWithCallbackMethod_SendMail<ExperimentalWithCallbackMethod_SendVerifyCode<Service > > CallbackService;
+  #endif
+
+  typedef ExperimentalWithCallbackMethod_SendMail<ExperimentalWithCallbackMethod_SendVerifyCode<Service > > ExperimentalCallbackService;
+  template <class BaseClass>
+  class WithGenericMethod_SendMail : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SendMail() {
+      ::grpc::Service::MarkMethodGeneric(0);
+    }
+    ~WithGenericMethod_SendMail() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendMail(::grpc::ServerContext* /*context*/, const ::message::SendMailRequest* /*request*/, ::message::SendMailResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_SendVerifyCode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SendVerifyCode() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_SendVerifyCode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendVerifyCode(::grpc::ServerContext* /*context*/, const ::message::SendVerifyCodeRequest* /*request*/, ::message::SendVerifyCodeResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_SendMail : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SendMail() {
+      ::grpc::Service::MarkMethodRaw(0);
+    }
+    ~WithRawMethod_SendMail() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendMail(::grpc::ServerContext* /*context*/, const ::message::SendMailRequest* /*request*/, ::message::SendMailResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSendMail(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_SendVerifyCode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SendVerifyCode() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_SendVerifyCode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendVerifyCode(::grpc::ServerContext* /*context*/, const ::message::SendVerifyCodeRequest* /*request*/, ::message::SendVerifyCodeResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSendVerifyCode(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SendMail : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SendMail() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(0,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SendMail(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SendMail() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendMail(::grpc::ServerContext* /*context*/, const ::message::SendMailRequest* /*request*/, ::message::SendMailResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SendMail(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SendMail(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_SendVerifyCode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_SendVerifyCode() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(1,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SendVerifyCode(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_SendVerifyCode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendVerifyCode(::grpc::ServerContext* /*context*/, const ::message::SendVerifyCodeRequest* /*request*/, ::message::SendVerifyCodeResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* SendVerifyCode(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* SendVerifyCode(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SendMail : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SendMail() {
+      ::grpc::Service::MarkMethodStreamed(0,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::SendMailRequest, ::message::SendMailResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::SendMailRequest, ::message::SendMailResponse>* streamer) {
+                       return this->StreamedSendMail(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SendMail() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SendMail(::grpc::ServerContext* /*context*/, const ::message::SendMailRequest* /*request*/, ::message::SendMailResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSendMail(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::SendMailRequest,::message::SendMailResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SendVerifyCode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SendVerifyCode() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::SendVerifyCodeRequest, ::message::SendVerifyCodeResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::SendVerifyCodeRequest, ::message::SendVerifyCodeResponse>* streamer) {
+                       return this->StreamedSendVerifyCode(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SendVerifyCode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SendVerifyCode(::grpc::ServerContext* /*context*/, const ::message::SendVerifyCodeRequest* /*request*/, ::message::SendVerifyCodeResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSendVerifyCode(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::SendVerifyCodeRequest,::message::SendVerifyCodeResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_SendMail<WithStreamedUnaryMethod_SendVerifyCode<Service > > StreamedUnaryService;
+  typedef Service SplitStreamedService;
+  typedef WithStreamedUnaryMethod_SendMail<WithStreamedUnaryMethod_SendVerifyCode<Service > > StreamedService;
+};
+
 }  // namespace message
 
 

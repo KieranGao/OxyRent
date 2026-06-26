@@ -31,7 +31,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         UserRegisterRequest request;
@@ -58,15 +58,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             LOG_ERROR("[Gate] /user/register timed out after 5s");
         }
     });
@@ -79,7 +79,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string username = jsonData["username"].asString();
@@ -121,15 +121,15 @@ LogicSystem::LogicSystem() {
                     std::string role = result["role"].asString();
                     RedisManager::getInstance().setex(USER_ROLE_PREFIX + uid_str, role, 86400);
                 }
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             LOG_ERROR("[Gate] /user/login timed out after 5s");
         }
     });
@@ -143,7 +143,7 @@ LogicSystem::LogicSystem() {
         auto uid_it = connection->req_.find("X-User-Id");
         if (uid_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         int64_t uid = 0;
@@ -151,7 +151,7 @@ LogicSystem::LogicSystem() {
             uid = std::stoll(std::string(uid_it->value().data(), uid_it->value().size()));
         } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::USER_ID_INVALID);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -191,14 +191,14 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -210,14 +210,14 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
         auto uid_it = connection->req_.find("X-User-Id");
         if (uid_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         int64_t uid = 0;
@@ -225,7 +225,7 @@ LogicSystem::LogicSystem() {
             uid = std::stoll(std::string(uid_it->value().data(), uid_it->value().size()));
         } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::USER_ID_INVALID);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -258,14 +258,14 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -325,14 +325,14 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -345,7 +345,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -353,7 +353,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -362,7 +362,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -371,7 +371,7 @@ LogicSystem::LogicSystem() {
             uid = jsonData["uid"].asInt64();
         } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::USER_ID_INVALID);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string new_status = jsonData["status"].asString();
@@ -397,14 +397,14 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -417,7 +417,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -425,7 +425,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -434,7 +434,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -443,7 +443,7 @@ LogicSystem::LogicSystem() {
             uid = jsonData["uid"].asInt64();
         } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::USER_ID_INVALID);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string role = jsonData["role"].asString();
@@ -469,14 +469,14 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -541,15 +541,15 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -560,13 +560,13 @@ LogicSystem::LogicSystem() {
         if (!connection->get_params_.count("id")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
             jsonResp["msg"] = "Missing id parameter";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         int64_t id = 0;
         try { id = std::stoll(connection->get_params_["id"]); } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -607,14 +607,14 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -626,7 +626,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -634,7 +634,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -643,7 +643,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -679,15 +679,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -699,7 +699,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -707,7 +707,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -716,14 +716,14 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
         int64_t id = 0;
         try { id = jsonData["id"].asInt64(); } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -758,15 +758,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -778,7 +778,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -786,7 +786,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -795,14 +795,14 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
         int64_t id = 0;
         try { id = jsonData["id"].asInt64(); } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -826,15 +826,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -848,20 +848,20 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
         auto uid_it = connection->req_.find("X-User-Id");
         if (uid_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         int64_t uid = 0;
         try { uid = std::stoll(std::string(uid_it->value().data(), uid_it->value().size())); } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::USER_ID_INVALID);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -907,15 +907,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -990,15 +990,15 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1009,13 +1009,13 @@ LogicSystem::LogicSystem() {
         if (!connection->get_params_.count("id")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
             jsonResp["msg"] = "Missing id parameter";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         int64_t id = 0;
         try { id = std::stoll(connection->get_params_["id"]); } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1061,14 +1061,14 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1080,7 +1080,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1104,15 +1104,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1124,7 +1124,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1158,15 +1158,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1178,7 +1178,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1212,15 +1212,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1234,7 +1234,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1242,7 +1242,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1251,7 +1251,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1283,15 +1283,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1303,7 +1303,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1311,7 +1311,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1320,7 +1320,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1349,15 +1349,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1421,15 +1421,15 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1443,7 +1443,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1451,7 +1451,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1460,7 +1460,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1501,15 +1501,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1521,7 +1521,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1530,7 +1530,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1589,15 +1589,15 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1609,7 +1609,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1618,20 +1618,20 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
         if (!connection->get_params_.count("id")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
             jsonResp["msg"] = "Missing id parameter";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         int64_t id = 0;
         try { id = std::stoll(connection->get_params_["id"]); } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1669,15 +1669,15 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1689,7 +1689,7 @@ LogicSystem::LogicSystem() {
         Json::Reader reader;
         if(!reader.parse(body, jsonData)) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1697,7 +1697,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1706,7 +1706,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1743,15 +1743,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1763,7 +1763,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1772,20 +1772,20 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
         if (!connection->get_params_.count("id")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
             jsonResp["msg"] = "Missing id parameter";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         int64_t id = 0;
         try { id = std::stoll(connection->get_params_["id"]); } catch (...) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1822,15 +1822,15 @@ LogicSystem::LogicSystem() {
         if (status_f == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1844,7 +1844,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1853,7 +1853,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1886,15 +1886,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1906,7 +1906,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1915,7 +1915,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -1955,15 +1955,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 
@@ -1975,7 +1975,7 @@ LogicSystem::LogicSystem() {
         auto caller_it = connection->req_.find("X-User-Id");
         if (caller_it == connection->req_.end()) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
         std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
@@ -1984,7 +1984,7 @@ LogicSystem::LogicSystem() {
             (caller_role != "2" && caller_role != "admin")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
             jsonResp["msg"] = "Admin access required";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
 
@@ -2024,15 +2024,15 @@ LogicSystem::LogicSystem() {
         if (status == std::future_status::ready) {
             try {
                 Json::Value result = f.get();
-                beast::ostream(connection->resp_.body()) << result.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
             } catch (...) {
                 jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
-                beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             }
         } else {
             jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
             jsonResp["msg"] = "timeout";
-            beast::ostream(connection->resp_.body()) << jsonResp.toStyledString();
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
         }
     });
 }

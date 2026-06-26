@@ -21,3 +21,22 @@
 [2026-06-26 16:47:59.205] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
 [2026-06-26 16:56:21.036] [INFO] VehicleServer starting on 0.0.0.0:50054
 [2026-06-26 16:56:21.038] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 18:40:28.955] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:40:28.968] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:40:28.981] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:40:28.991] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:40:29.009] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:50:29.166] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:51:09.258] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 18:51:09.259] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 18:52:03.876] [ERROR] SQL Initialize Error! Access denied for user 'root'@'172.18.0.1' (using password: YES)
+[2026-06-26 18:55:09.340] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 18:55:09.341] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 18:57:50.504] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 18:57:50.507] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 19:03:04.039] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 19:03:04.041] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 19:09:20.885] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 19:09:20.887] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 19:12:51.449] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 19:12:51.451] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054

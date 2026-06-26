@@ -1441,5 +1441,118 @@ FinanceService::Service::~Service() {
 }
 
 
+static const char* MailerService_method_names[] = {
+  "/message.MailerService/SendMail",
+  "/message.MailerService/SendVerifyCode",
+};
+
+std::unique_ptr< MailerService::Stub> MailerService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+  (void)options;
+  std::unique_ptr< MailerService::Stub> stub(new MailerService::Stub(channel));
+  return stub;
+}
+
+MailerService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
+  : channel_(channel), rpcmethod_SendMail_(MailerService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SendVerifyCode_(MailerService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  {}
+
+::grpc::Status MailerService::Stub::SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::message::SendMailResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_SendMail_, context, request, response);
+}
+
+void MailerService::Stub::experimental_async::SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SendMail_, context, request, response, std::move(f));
+}
+
+void MailerService::Stub::experimental_async::SendMail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendMailResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SendMail_, context, request, response, std::move(f));
+}
+
+void MailerService::Stub::experimental_async::SendMail(::grpc::ClientContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SendMail_, context, request, response, reactor);
+}
+
+void MailerService::Stub::experimental_async::SendMail(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendMailResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SendMail_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::SendMailResponse>* MailerService::Stub::AsyncSendMailRaw(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::SendMailResponse>::Create(channel_.get(), cq, rpcmethod_SendMail_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::SendMailResponse>* MailerService::Stub::PrepareAsyncSendMailRaw(::grpc::ClientContext* context, const ::message::SendMailRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::SendMailResponse>::Create(channel_.get(), cq, rpcmethod_SendMail_, context, request, false);
+}
+
+::grpc::Status MailerService::Stub::SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::message::SendVerifyCodeResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_SendVerifyCode_, context, request, response);
+}
+
+void MailerService::Stub::experimental_async::SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SendVerifyCode_, context, request, response, std::move(f));
+}
+
+void MailerService::Stub::experimental_async::SendVerifyCode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendVerifyCodeResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SendVerifyCode_, context, request, response, std::move(f));
+}
+
+void MailerService::Stub::experimental_async::SendVerifyCode(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SendVerifyCode_, context, request, response, reactor);
+}
+
+void MailerService::Stub::experimental_async::SendVerifyCode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::SendVerifyCodeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SendVerifyCode_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::SendVerifyCodeResponse>* MailerService::Stub::AsyncSendVerifyCodeRaw(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::SendVerifyCodeResponse>::Create(channel_.get(), cq, rpcmethod_SendVerifyCode_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::SendVerifyCodeResponse>* MailerService::Stub::PrepareAsyncSendVerifyCodeRaw(::grpc::ClientContext* context, const ::message::SendVerifyCodeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::SendVerifyCodeResponse>::Create(channel_.get(), cq, rpcmethod_SendVerifyCode_, context, request, false);
+}
+
+MailerService::Service::Service() {
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      MailerService_method_names[0],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< MailerService::Service, ::message::SendMailRequest, ::message::SendMailResponse>(
+          [](MailerService::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::message::SendMailRequest* req,
+             ::message::SendMailResponse* resp) {
+               return service->SendMail(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      MailerService_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< MailerService::Service, ::message::SendVerifyCodeRequest, ::message::SendVerifyCodeResponse>(
+          [](MailerService::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::message::SendVerifyCodeRequest* req,
+             ::message::SendVerifyCodeResponse* resp) {
+               return service->SendVerifyCode(ctx, req, resp);
+             }, this)));
+}
+
+MailerService::Service::~Service() {
+}
+
+::grpc::Status MailerService::Service::SendMail(::grpc::ServerContext* context, const ::message::SendMailRequest* request, ::message::SendMailResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status MailerService::Service::SendVerifyCode(::grpc::ServerContext* context, const ::message::SendVerifyCodeRequest* request, ::message::SendVerifyCodeResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+
 }  // namespace message
 

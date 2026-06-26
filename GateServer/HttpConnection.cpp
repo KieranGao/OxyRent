@@ -1,4 +1,5 @@
 #include "HttpConnection.h"
+#include "Global.h"
 #include "Logger.h"
 #include "RedisManager.h"
 #include <json/json.h>
@@ -125,7 +126,7 @@ bool HttpConnection::authenticateRequest_() {
         resp_.set(http::field::content_type, "application/json");
         Json::Value err;
         err["error"] = error_code;
-        beast::ostream(resp_.body()) << err.toStyledString();
+        beast::ostream(resp_.body()) << jsonToString(err);
     };
 
     auto auth_it = req_.find(http::field::authorization);

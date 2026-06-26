@@ -46,3 +46,50 @@
 [2026-06-26 17:45:27.957] [INFO] [UMS] Redis SETEX result: success
 [2026-06-26 18:26:18.649] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=c6b1597985b4385bb7a5fba154059584
 [2026-06-26 18:26:18.651] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:37:36.671] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=141b3d149e570ee7ea627a0d9c6d7e98
+[2026-06-26 18:37:36.672] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:37:54.594] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=51cb192d72a6073030e9ecbdcc9c7c65
+[2026-06-26 18:37:54.594] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:41:29.175] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:41:29.185] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:41:29.200] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:41:29.221] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:41:29.230] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:42:20.977] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=4f691121e61a378d94ab13e2cbf21dfc
+[2026-06-26 18:42:20.979] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:43:23.015] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=2f3ab7e6e0245dbaa36971fe012c2c17
+[2026-06-26 18:43:23.016] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:51:07.265] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-26 18:51:07.274] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-26 18:51:15.279] [ERROR] SQLException in loginUser: Lost connection to MySQL server during query
+[2026-06-26 18:51:29.422] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:51:51.037] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=7d4e265be0cf450ec5eb7af2ab67bd9f
+[2026-06-26 18:51:51.038] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:52:03.792] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=69dbc502ad7aedd15a3942863fa1de8a
+[2026-06-26 18:52:03.793] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:52:16.936] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=6e4d7f18a259d73254a86f8280e6f3c6
+[2026-06-26 18:52:16.937] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:55:07.342] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-26 18:55:07.344] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-26 18:55:16.480] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=ff1a5efdcd6aac58923941cb36a68412
+[2026-06-26 18:55:16.480] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:57:22.441] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=1c70e14df891d752d7d47ed830f86523
+[2026-06-26 18:57:22.442] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 18:57:48.491] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-26 18:57:48.492] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-26 18:58:04.736] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=204568175e02125f231dfe772b76b907
+[2026-06-26 18:58:04.737] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 19:03:02.022] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-26 19:03:02.023] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-26 19:03:11.159] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=5393ad89f37f7723f1d4f851dd049426
+[2026-06-26 19:03:11.160] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 19:09:18.863] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-26 19:09:18.864] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-26 19:09:28.007] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=94049263e06304f06011c23c72e9103f
+[2026-06-26 19:09:28.008] [INFO] [UMS] Redis SETEX result: success
+[2026-06-26 19:11:45.024] [ERROR] SQLException in loginUser: Lost connection to MySQL server during query
+[2026-06-26 19:11:49.653] [ERROR] SQLException in loginUser: Lost connection to MySQL server during query
+[2026-06-26 19:12:49.438] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-26 19:12:49.440] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-26 19:13:03.625] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=19796f7e687430f3f958fe3a2fc818f3
+[2026-06-26 19:13:03.625] [INFO] [UMS] Redis SETEX result: success

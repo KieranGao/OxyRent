@@ -78,7 +78,7 @@ services:
     ports:
       - "3307:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: vehicle_rental
     volumes:
       - mysql-data:/var/lib/mysql

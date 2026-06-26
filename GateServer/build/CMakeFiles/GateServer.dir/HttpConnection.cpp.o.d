@@ -1619,6 +1619,18 @@ CMakeFiles/GateServer.dir/HttpConnection.cpp.o: \
  /usr/include/boost/beast/websocket/impl/stream.hpp \
  /usr/include/boost/beast/websocket/impl/write.hpp \
  /usr/include/boost/beast/zlib.hpp \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/json.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/config.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/allocator.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/version.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/json_features.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/forwards.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/reader.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/value.h \
+ /usr/include/c++/11/deque /usr/include/c++/11/bits/stl_deque.h \
+ /usr/include/c++/11/bits/deque.tcc /usr/include/c++/11/stack \
+ /usr/include/c++/11/bits/stl_stack.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/writer.h \
  /home/oxythecrack/Desktop/OxyPark/GateServer/LogicSystem.h \
  /home/oxythecrack/Desktop/OxyPark/GateServer/Singleton.h \
  /usr/include/c++/11/unordered_set \
@@ -1634,16 +1646,5 @@ CMakeFiles/GateServer.dir/HttpConnection.cpp.o: \
  /usr/include/hiredis/sds.h /usr/include/hiredis/alloc.h \
  /usr/include/c++/11/stdlib.h \
  /home/oxythecrack/Desktop/OxyPark/GateServer/RedisConnectPool.h \
- /usr/include/c++/11/queue /usr/include/c++/11/deque \
- /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
- /usr/include/c++/11/bits/stl_queue.h /usr/include/c++/11/iostream \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/json.h \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/config.h \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/allocator.h \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/version.h \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/json_features.h \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/forwards.h \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/reader.h \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/value.h \
- /usr/include/c++/11/stack /usr/include/c++/11/bits/stl_stack.h \
- /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/writer.h
+ /usr/include/c++/11/queue /usr/include/c++/11/bits/stl_queue.h \
+ /usr/include/c++/11/iostream

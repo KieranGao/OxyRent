@@ -1622,7 +1622,20 @@ CMakeFiles/GateServer.dir/Logger.cpp.o: \
  /usr/include/boost/beast/websocket/impl/read.hpp \
  /usr/include/boost/beast/websocket/impl/stream.hpp \
  /usr/include/boost/beast/websocket/impl/write.hpp \
- /usr/include/boost/beast/zlib.hpp /usr/include/boost/filesystem.hpp \
+ /usr/include/boost/beast/zlib.hpp \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/json.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/config.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/allocator.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/version.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/json_features.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/forwards.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/reader.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/value.h \
+ /usr/include/c++/11/deque /usr/include/c++/11/bits/stl_deque.h \
+ /usr/include/c++/11/bits/deque.tcc /usr/include/c++/11/stack \
+ /usr/include/c++/11/bits/stl_stack.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/../jsoncpp/include/json/writer.h \
+ /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp \
  /usr/include/boost/filesystem/path.hpp \
  /usr/include/boost/filesystem/path_traits.hpp /usr/include/c++/11/list \

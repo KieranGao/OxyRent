@@ -236,10 +236,24 @@ CMakeFiles/GateServer.dir/FinanceGrpcClient.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GateServer.dir/FinanceGrpcClient.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/oxythecrack/Desktop/OxyPark/GateServer/FinanceGrpcClient.cpp -o CMakeFiles/GateServer.dir/FinanceGrpcClient.cpp.s
 
+CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o: CMakeFiles/GateServer.dir/flags.make
+CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o: ../MailerGrpcClient.cpp
+CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o: CMakeFiles/GateServer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o -MF CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o.d -o CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o -c /home/oxythecrack/Desktop/OxyPark/GateServer/MailerGrpcClient.cpp
+
+CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/oxythecrack/Desktop/OxyPark/GateServer/MailerGrpcClient.cpp > CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.i
+
+CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/oxythecrack/Desktop/OxyPark/GateServer/MailerGrpcClient.cpp -o CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.s
+
 CMakeFiles/GateServer.dir/LogicSystem.cpp.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/LogicSystem.cpp.o: ../LogicSystem.cpp
 CMakeFiles/GateServer.dir/LogicSystem.cpp.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/GateServer.dir/LogicSystem.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/GateServer.dir/LogicSystem.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/LogicSystem.cpp.o -MF CMakeFiles/GateServer.dir/LogicSystem.cpp.o.d -o CMakeFiles/GateServer.dir/LogicSystem.cpp.o -c /home/oxythecrack/Desktop/OxyPark/GateServer/LogicSystem.cpp
 
 CMakeFiles/GateServer.dir/LogicSystem.cpp.i: cmake_force
@@ -253,7 +267,7 @@ CMakeFiles/GateServer.dir/LogicSystem.cpp.s: cmake_force
 CMakeFiles/GateServer.dir/MainServer.cpp.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/MainServer.cpp.o: ../MainServer.cpp
 CMakeFiles/GateServer.dir/MainServer.cpp.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/GateServer.dir/MainServer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/GateServer.dir/MainServer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/MainServer.cpp.o -MF CMakeFiles/GateServer.dir/MainServer.cpp.o.d -o CMakeFiles/GateServer.dir/MainServer.cpp.o -c /home/oxythecrack/Desktop/OxyPark/GateServer/MainServer.cpp
 
 CMakeFiles/GateServer.dir/MainServer.cpp.i: cmake_force
@@ -267,7 +281,7 @@ CMakeFiles/GateServer.dir/MainServer.cpp.s: cmake_force
 CMakeFiles/GateServer.dir/main.cpp.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/main.cpp.o: ../main.cpp
 CMakeFiles/GateServer.dir/main.cpp.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/GateServer.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/GateServer.dir/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/main.cpp.o -MF CMakeFiles/GateServer.dir/main.cpp.o.d -o CMakeFiles/GateServer.dir/main.cpp.o -c /home/oxythecrack/Desktop/OxyPark/GateServer/main.cpp
 
 CMakeFiles/GateServer.dir/main.cpp.i: cmake_force
@@ -281,7 +295,7 @@ CMakeFiles/GateServer.dir/main.cpp.s: cmake_force
 CMakeFiles/GateServer.dir/Logger.cpp.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/Logger.cpp.o: ../Logger.cpp
 CMakeFiles/GateServer.dir/Logger.cpp.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/GateServer.dir/Logger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/GateServer.dir/Logger.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/Logger.cpp.o -MF CMakeFiles/GateServer.dir/Logger.cpp.o.d -o CMakeFiles/GateServer.dir/Logger.cpp.o -c /home/oxythecrack/Desktop/OxyPark/GateServer/Logger.cpp
 
 CMakeFiles/GateServer.dir/Logger.cpp.i: cmake_force
@@ -295,7 +309,7 @@ CMakeFiles/GateServer.dir/Logger.cpp.s: cmake_force
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.o: /home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.o -MF CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.o.d -o CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.o -c /home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp
 
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_reader.cpp.i: cmake_force
@@ -309,7 +323,7 @@ CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.o: /home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.o -MF CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.o.d -o CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.o -c /home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp
 
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_writer.cpp.i: cmake_force
@@ -323,7 +337,7 @@ CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.o: /home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.o -MF CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.o.d -o CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.o -c /home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp
 
 CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/json_value.cpp.i: cmake_force
@@ -337,7 +351,7 @@ CMakeFiles/GateServer.dir/home/oxythecrack/Desktop/OxyPark/jsoncpp/src/lib_json/
 CMakeFiles/GateServer.dir/message.pb.cc.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/message.pb.cc.o: ../message.pb.cc
 CMakeFiles/GateServer.dir/message.pb.cc.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/GateServer.dir/message.pb.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/GateServer.dir/message.pb.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/message.pb.cc.o -MF CMakeFiles/GateServer.dir/message.pb.cc.o.d -o CMakeFiles/GateServer.dir/message.pb.cc.o -c /home/oxythecrack/Desktop/OxyPark/GateServer/message.pb.cc
 
 CMakeFiles/GateServer.dir/message.pb.cc.i: cmake_force
@@ -351,7 +365,7 @@ CMakeFiles/GateServer.dir/message.pb.cc.s: cmake_force
 CMakeFiles/GateServer.dir/message.grpc.pb.cc.o: CMakeFiles/GateServer.dir/flags.make
 CMakeFiles/GateServer.dir/message.grpc.pb.cc.o: ../message.grpc.pb.cc
 CMakeFiles/GateServer.dir/message.grpc.pb.cc.o: CMakeFiles/GateServer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/GateServer.dir/message.grpc.pb.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/GateServer.dir/message.grpc.pb.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GateServer.dir/message.grpc.pb.cc.o -MF CMakeFiles/GateServer.dir/message.grpc.pb.cc.o.d -o CMakeFiles/GateServer.dir/message.grpc.pb.cc.o -c /home/oxythecrack/Desktop/OxyPark/GateServer/message.grpc.pb.cc
 
 CMakeFiles/GateServer.dir/message.grpc.pb.cc.i: cmake_force
@@ -375,6 +389,7 @@ GateServer_OBJECTS = \
 "CMakeFiles/GateServer.dir/UserGrpcClient.cpp.o" \
 "CMakeFiles/GateServer.dir/VehicleGrpcClient.cpp.o" \
 "CMakeFiles/GateServer.dir/FinanceGrpcClient.cpp.o" \
+"CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o" \
 "CMakeFiles/GateServer.dir/LogicSystem.cpp.o" \
 "CMakeFiles/GateServer.dir/MainServer.cpp.o" \
 "CMakeFiles/GateServer.dir/main.cpp.o" \
@@ -399,6 +414,7 @@ GateServer: CMakeFiles/GateServer.dir/RPCConnectPool.cpp.o
 GateServer: CMakeFiles/GateServer.dir/UserGrpcClient.cpp.o
 GateServer: CMakeFiles/GateServer.dir/VehicleGrpcClient.cpp.o
 GateServer: CMakeFiles/GateServer.dir/FinanceGrpcClient.cpp.o
+GateServer: CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o
 GateServer: CMakeFiles/GateServer.dir/LogicSystem.cpp.o
 GateServer: CMakeFiles/GateServer.dir/MainServer.cpp.o
 GateServer: CMakeFiles/GateServer.dir/main.cpp.o
@@ -415,7 +431,7 @@ GateServer: /usr/lib/x86_64-linux-gnu/libprotobuf.so
 GateServer: /usr/lib/x86_64-linux-gnu/libhiredis.so
 GateServer: /usr/lib/x86_64-linux-gnu/libmysqlcppconn.so
 GateServer: CMakeFiles/GateServer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Linking CXX executable GateServer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/oxythecrack/Desktop/OxyPark/GateServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Linking CXX executable GateServer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/GateServer.dir/link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Copying config.ini to build directory"
 	/usr/bin/cmake -E copy_if_different /home/oxythecrack/Desktop/OxyPark/GateServer/config.ini /home/oxythecrack/Desktop/OxyPark/GateServer/build/config.ini

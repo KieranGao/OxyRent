@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/GateServer.dir/Logger.cpp.o.d"
   "CMakeFiles/GateServer.dir/LogicSystem.cpp.o"
   "CMakeFiles/GateServer.dir/LogicSystem.cpp.o.d"
+  "CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o"
+  "CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o.d"
   "CMakeFiles/GateServer.dir/MainServer.cpp.o"
   "CMakeFiles/GateServer.dir/MainServer.cpp.o.d"
   "CMakeFiles/GateServer.dir/MySQLConnectPool.cpp.o"

@@ -41,3 +41,21 @@
 [2026-06-26 18:34:03.405] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
 [2026-06-26 18:35:07.149] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
 [2026-06-26 18:35:29.400] [ERROR] SQLException in getStatsOverview: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 18:40:28.756] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:40:28.785] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:40:28.805] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:40:28.822] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:40:28.835] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:50:28.966] [ERROR] Error keeping connection alive: Lost connection to MySQL server during query
+[2026-06-26 18:51:11.283] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 18:51:11.285] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 18:55:11.346] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 18:55:11.348] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 18:57:52.519] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 18:57:52.521] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 19:03:06.056] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 19:03:06.058] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 19:09:22.892] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 19:09:22.894] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 19:12:53.465] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 19:12:53.467] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055

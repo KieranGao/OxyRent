@@ -297,6 +297,30 @@ LogicSystem.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GateServer.dir/build.make CMakeFiles/GateServer.dir/LogicSystem.cpp.s
 .PHONY : LogicSystem.cpp.s
 
+MailerGrpcClient.o: MailerGrpcClient.cpp.o
+.PHONY : MailerGrpcClient.o
+
+# target to build an object file
+MailerGrpcClient.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GateServer.dir/build.make CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o
+.PHONY : MailerGrpcClient.cpp.o
+
+MailerGrpcClient.i: MailerGrpcClient.cpp.i
+.PHONY : MailerGrpcClient.i
+
+# target to preprocess a source file
+MailerGrpcClient.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GateServer.dir/build.make CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.i
+.PHONY : MailerGrpcClient.cpp.i
+
+MailerGrpcClient.s: MailerGrpcClient.cpp.s
+.PHONY : MailerGrpcClient.s
+
+# target to generate assembly for a file
+MailerGrpcClient.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GateServer.dir/build.make CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.s
+.PHONY : MailerGrpcClient.cpp.s
+
 MainServer.o: MainServer.cpp.o
 .PHONY : MainServer.o
 
@@ -639,6 +663,9 @@ help:
 	@echo "... LogicSystem.o"
 	@echo "... LogicSystem.i"
 	@echo "... LogicSystem.s"
+	@echo "... MailerGrpcClient.o"
+	@echo "... MailerGrpcClient.i"
+	@echo "... MailerGrpcClient.s"
 	@echo "... MainServer.o"
 	@echo "... MainServer.i"
 	@echo "... MainServer.s"

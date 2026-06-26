@@ -36,3 +36,12 @@
 [2026-06-26 16:58:30.985] [INFO] GateServer starting on port 8080
 [2026-06-26 16:59:34.211] [INFO] GateServer shutting down
 [2026-06-26 17:00:49.207] [INFO] GateServer starting on port 8080
+[2026-06-26 18:45:37.325] [INFO] GateServer shutting down
+[2026-06-26 18:51:13.297] [INFO] GateServer starting on port 8080
+[2026-06-26 18:52:07.074] [ERROR] VehicleService GetMaintenanceList RPC failed: Socket closed
+[2026-06-26 18:53:08.356] [INFO] GateServer shutting down
+[2026-06-26 18:55:13.355] [INFO] GateServer starting on port 8080
+[2026-06-26 18:57:54.533] [INFO] GateServer starting on port 8080
+[2026-06-26 19:03:08.072] [INFO] GateServer starting on port 8080
+[2026-06-26 19:09:24.909] [INFO] GateServer starting on port 8080
+[2026-06-26 19:12:55.480] [INFO] GateServer starting on port 8080

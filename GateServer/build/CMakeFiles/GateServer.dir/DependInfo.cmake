@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/oxythecrack/Desktop/OxyPark/GateServer/IOContextPool.cpp" "CMakeFiles/GateServer.dir/IOContextPool.cpp.o" "gcc" "CMakeFiles/GateServer.dir/IOContextPool.cpp.o.d"
   "/home/oxythecrack/Desktop/OxyPark/GateServer/Logger.cpp" "CMakeFiles/GateServer.dir/Logger.cpp.o" "gcc" "CMakeFiles/GateServer.dir/Logger.cpp.o.d"
   "/home/oxythecrack/Desktop/OxyPark/GateServer/LogicSystem.cpp" "CMakeFiles/GateServer.dir/LogicSystem.cpp.o" "gcc" "CMakeFiles/GateServer.dir/LogicSystem.cpp.o.d"
+  "/home/oxythecrack/Desktop/OxyPark/GateServer/MailerGrpcClient.cpp" "CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o" "gcc" "CMakeFiles/GateServer.dir/MailerGrpcClient.cpp.o.d"
   "/home/oxythecrack/Desktop/OxyPark/GateServer/MainServer.cpp" "CMakeFiles/GateServer.dir/MainServer.cpp.o" "gcc" "CMakeFiles/GateServer.dir/MainServer.cpp.o.d"
   "/home/oxythecrack/Desktop/OxyPark/GateServer/MySQLConnectPool.cpp" "CMakeFiles/GateServer.dir/MySQLConnectPool.cpp.o" "gcc" "CMakeFiles/GateServer.dir/MySQLConnectPool.cpp.o.d"
   "/home/oxythecrack/Desktop/OxyPark/GateServer/RPCConnectPool.cpp" "CMakeFiles/GateServer.dir/RPCConnectPool.cpp.o" "gcc" "CMakeFiles/GateServer.dir/RPCConnectPool.cpp.o.d"

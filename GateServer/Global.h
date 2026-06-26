@@ -4,6 +4,23 @@
 #include <boost/beast/http.hpp>
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
+#include <json/json.h>
+#include <string>
+
+// UTF-8安全的JSON序列化（替代toStyledString，解决中文乱码问题）
+inline std::string jsonToString(const Json::Value& value) {
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "";
+    builder["emitUTF8"] = true;
+    return Json::writeString(builder, value);
+}
+
+inline std::string jsonToStringPretty(const Json::Value& value) {
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "    ";
+    builder["emitUTF8"] = true;
+    return Json::writeString(builder, value);
+}
 
 #define CODE_PREFIX "code_"
 #define USER_TOKEN_PREFIX  "utoken_"
