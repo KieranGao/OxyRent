@@ -6,6 +6,7 @@
 #include "FinanceGrpcClient.h"
 #include "RedisManager.h"
 #include "Logger.h"
+#include <json/json.h>
 
 void LogicSystem::registerGet(std::string url, HttpHandler handler) {
     getHandlers_[url] = handler;
