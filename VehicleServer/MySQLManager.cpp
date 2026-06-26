@@ -100,3 +100,7 @@ bool MySQLManager::getMaintenanceList(int page, int page_size, int64_t vehicle_i
                                        std::vector<MaintenanceData>& records, int& total) {
     return dao_->getMaintenanceList(page, page_size, vehicle_id, status, type, records, total);
 }
+
+bool MySQLManager::deleteMaintenance(int64_t id) {
+    return dao_->deleteMaintenance(id);
+}

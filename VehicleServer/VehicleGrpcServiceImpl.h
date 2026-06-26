@@ -55,6 +55,7 @@ public:
     Status CreateMaintenance(ServerContext* context, const CreateMaintenanceRequest* req, CommonResponse* resp) override;
     Status UpdateMaintenance(ServerContext* context, const UpdateMaintenanceRequest* req, CommonResponse* resp) override;
     Status GetMaintenanceList(ServerContext* context, const MaintenanceListRequest* req, MaintenanceListResponse* resp) override;
+    Status DeleteMaintenance(ServerContext* context, const VehicleDetailRequest* req, CommonResponse* resp) override;
 };
 
 #endif /* VEHICLEGRPCSERVICEIMPL_H */

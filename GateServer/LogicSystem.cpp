@@ -1633,6 +1633,74 @@ LogicSystem::LogicSystem() {
         }
     });
 
+    registerPost("/maintenance/delete", [](std::shared_ptr<HttpConnection> connection) {
+        auto body = beast::buffers_to_string(connection->req_.body().data());
+        LOG_DEBUG("[Gate] DELETE_MAINTENANCE: {}", body);
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonData, jsonResp;
+        Json::Reader reader;
+        if(!reader.parse(body, jsonData)) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        // 管理员/员工验证
+        auto caller_it = connection->req_.find("X-User-Id");
+        if (caller_it == connection->req_.end()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_MISSING);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        std::string caller_uid_str(caller_it->value().data(), caller_it->value().size());
+        std::string caller_role;
+        if (!RedisManager::getInstance().get(USER_ROLE_PREFIX + caller_uid_str, caller_role) ||
+            (caller_role != "2" && caller_role != "admin" && caller_role != "1" && caller_role != "staff")) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
+            jsonResp["msg"] = "Staff access required";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        int64_t id = 0;
+        try { id = jsonData["id"].asInt64(); } catch (...) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, id]() {
+            Json::Value result;
+            try {
+                VehicleDetailRequest request;
+                request.set_id(id);
+                CommonResponse rsp = VehicleGrpcClient::getInstance().deleteMaintenance(request);
+                result["error"] = rsp.error();
+                result["msg"] = rsp.msg();
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+        }
+    });
+
     // ============ 财务路由 ============
 
     registerPost("/payment/create", [](std::shared_ptr<HttpConnection> connection) {

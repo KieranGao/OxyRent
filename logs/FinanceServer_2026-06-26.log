@@ -87,3 +87,5 @@
 [2026-06-26 20:27:29.307] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
 [2026-06-26 20:33:04.293] [INFO] FinanceServer starting on 0.0.0.0:50055
 [2026-06-26 20:33:04.294] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 21:21:13.201] [WARN] generateInvoice: invoice already exists for order 3
+[2026-06-26 21:21:13.206] [INFO] [Finance] GenerateInvoice success, id=2 invoice_no=INV20260627001

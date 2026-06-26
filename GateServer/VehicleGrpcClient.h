@@ -57,6 +57,7 @@ public:
     CommonResponse createMaintenance(const CreateMaintenanceRequest& request);
     CommonResponse updateMaintenance(const UpdateMaintenanceRequest& request);
     MaintenanceListResponse getMaintenanceList(const MaintenanceListRequest& request);
+    CommonResponse deleteMaintenance(const VehicleDetailRequest& request);
 
 private:
     std::unique_ptr<VehicleConnectPool> rpc_pool_;

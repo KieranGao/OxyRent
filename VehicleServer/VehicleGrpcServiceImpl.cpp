@@ -505,3 +505,19 @@ Status VehicleGrpcServiceImpl::GetMaintenanceList(ServerContext* context, const 
     }
     return Status::OK;
 }
+
+Status VehicleGrpcServiceImpl::DeleteMaintenance(ServerContext* context, const VehicleDetailRequest* req, CommonResponse* resp) {
+    int64_t id = req->id();
+    LOG_INFO("[Vehicle] DeleteMaintenance id={}", id);
+
+    bool ok = MySQLManager::getInstance().deleteMaintenance(id);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
+        resp->set_msg("Maintenance record not found or delete failed");
+        return Status::OK;
+    }
+
+    resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
+    resp->set_msg("Maintenance record deleted successfully");
+    return Status::OK;
+}

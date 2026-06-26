@@ -769,3 +769,19 @@ bool MySQLDao::getMaintenanceList(int page, int page_size, int64_t vehicle_id,
         return false;
     }
 }
+
+bool MySQLDao::deleteMaintenance(int64_t id) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            sql_conn->prepareStatement("DELETE FROM maintenance_records WHERE id = ?"));
+        pstmt->setInt64(1, id);
+        int affected = pstmt->executeUpdate();
+        LOG_DEBUG("deleteMaintenance id={} affected={}", id, affected);
+        return affected > 0;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in deleteMaintenance: {}", exp.what());
+        return false;
+    }
+}

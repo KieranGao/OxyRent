@@ -90,3 +90,6 @@
 [2026-06-26 21:14:13.486] [INFO] [Vehicle] CreateMaintenance success, id=13
 [2026-06-26 21:18:10.609] [INFO] updateMaintenance: vehicle 1 status changed to available
 [2026-06-26 21:18:18.016] [INFO] updateMaintenance: vehicle 1 status changed to available
+[2026-06-26 21:30:14.745] [INFO] VehicleServer starting on 0.0.0.0:50054
+[2026-06-26 21:30:14.749] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
+[2026-06-26 21:30:33.463] [INFO] [Vehicle] DeleteMaintenance id=13

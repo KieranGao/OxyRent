@@ -202,4 +202,5 @@ service VehicleService {
     rpc CreateMaintenance(CreateMaintenanceRequest) returns (CommonResponse);
     rpc UpdateMaintenance(UpdateMaintenanceRequest) returns (CommonResponse);
     rpc GetMaintenanceList(MaintenanceListRequest) returns (MaintenanceListResponse);
+    rpc DeleteMaintenance(VehicleDetailRequest) returns (CommonResponse);
 }

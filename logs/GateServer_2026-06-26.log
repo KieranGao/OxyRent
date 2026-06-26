@@ -90,3 +90,5 @@
 [2026-06-26 20:28:40.078] [INFO] GateServer starting on port 8080
 [2026-06-26 20:32:30.242] [ERROR] FinanceService GetStatsOverview RPC failed: failed to connect to all addresses
 [2026-06-26 21:06:43.781] [ERROR] VehicleService GetMaintenanceList RPC failed: failed to connect to all addresses
+[2026-06-26 21:29:53.252] [INFO] GateServer shutting down
+[2026-06-26 21:30:16.747] [INFO] GateServer starting on port 8080

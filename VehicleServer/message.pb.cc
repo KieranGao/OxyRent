@@ -717,7 +717,7 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "(\t\022\014\n\004type\030\005 \001(\t\"o\n\027MaintenanceListRespo"
   "nse\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022)\n\007recor"
   "ds\030\003 \003(\0132\030.message.MaintenanceInfo\022\r\n\005to"
-  "tal\030\004 \001(\0052\370\007\n\016VehicleService\022K\n\016GetVehic"
+  "tal\030\004 \001(\0052\305\010\n\016VehicleService\022K\n\016GetVehic"
   "leList\022\033.message.VehicleListRequest\032\034.me"
   "ssage.VehicleListResponse\022G\n\020GetVehicleD"
   "etail\022\035.message.VehicleDetailRequest\032\024.m"
@@ -742,7 +742,9 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "!.message.UpdateMaintenanceRequest\032\027.mes"
   "sage.CommonResponse\022W\n\022GetMaintenanceLis"
   "t\022\037.message.MaintenanceListRequest\032 .mes"
-  "sage.MaintenanceListResponseb\006proto3"
+  "sage.MaintenanceListResponse\022K\n\021DeleteMa"
+  "intenance\022\035.message.VehicleDetailRequest"
+  "\032\027.message.CommonResponseb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_message_2eproto_deps[1] = {
 };
@@ -770,7 +772,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_mes
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_message_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto = {
-  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 3596,
+  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 3673,
   &descriptor_table_message_2eproto_once, descriptor_table_message_2eproto_sccs, descriptor_table_message_2eproto_deps, 20, 0,
   schemas, file_default_instances, TableStruct_message_2eproto::offsets,
   file_level_metadata_message_2eproto, 20, file_level_enum_descriptors_message_2eproto, file_level_service_descriptors_message_2eproto,

@@ -55,6 +55,7 @@ public:
     bool getMaintenanceList(int page, int page_size, int64_t vehicle_id,
                             const std::string& status, const std::string& type,
                             std::vector<MaintenanceData>& records, int& total);
+    bool deleteMaintenance(int64_t id);
 
 private:
     std::unique_ptr<MySQLConnectPool> pool_;

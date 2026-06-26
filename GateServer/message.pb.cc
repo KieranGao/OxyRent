@@ -1862,7 +1862,7 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "\014TopupBalance\022\025.message.TopupRequest\032\027.m"
   "essage.CommonResponse\022Z\n\021GetBalanceRecor"
   "ds\022!.message.BalanceRecordListRequest\032\"."
-  "message.BalanceRecordListResponse2\370\007\n\016Ve"
+  "message.BalanceRecordListResponse2\305\010\n\016Ve"
   "hicleService\022K\n\016GetVehicleList\022\033.message"
   ".VehicleListRequest\032\034.message.VehicleLis"
   "tResponse\022G\n\020GetVehicleDetail\022\035.message."
@@ -1888,28 +1888,30 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "MaintenanceRequest\032\027.message.CommonRespo"
   "nse\022W\n\022GetMaintenanceList\022\037.message.Main"
   "tenanceListRequest\032 .message.Maintenance"
-  "ListResponse2\242\005\n\016FinanceService\022D\n\rCreat"
-  "ePayment\022\035.message.CreatePaymentRequest\032"
-  "\024.message.PaymentInfo\022K\n\016GetPaymentList\022"
-  "\033.message.PaymentListRequest\032\034.message.P"
-  "aymentListResponse\022>\n\020GetPaymentDetail\022\024"
-  ".message.PaymentInfo\032\024.message.PaymentIn"
-  "fo\022H\n\017GenerateInvoice\022\037.message.Generate"
-  "InvoiceRequest\032\024.message.InvoiceInfo\022>\n\020"
-  "GetInvoiceDetail\022\024.message.InvoiceInfo\032\024"
-  ".message.InvoiceInfo\022K\n\016GetInvoiceList\022\033"
-  ".message.InvoiceListRequest\032\034.message.In"
-  "voiceListResponse\022K\n\020GetStatsOverview\022\027."
-  "message.CommonResponse\032\036.message.StatsOv"
-  "erviewResponse\022N\n\017GetRevenueStats\022\034.mess"
-  "age.RevenueStatsRequest\032\035.message.Revenu"
-  "eStatsResponse\022I\n\017GetVehicleStats\022\027.mess"
-  "age.CommonResponse\032\035.message.VehicleStat"
-  "sResponse2\243\001\n\rMailerService\022\?\n\010SendMail\022"
-  "\030.message.SendMailRequest\032\031.message.Send"
-  "MailResponse\022Q\n\016SendVerifyCode\022\036.message"
-  ".SendVerifyCodeRequest\032\037.message.SendVer"
-  "ifyCodeResponseb\006proto3"
+  "ListResponse\022K\n\021DeleteMaintenance\022\035.mess"
+  "age.VehicleDetailRequest\032\027.message.Commo"
+  "nResponse2\242\005\n\016FinanceService\022D\n\rCreatePa"
+  "yment\022\035.message.CreatePaymentRequest\032\024.m"
+  "essage.PaymentInfo\022K\n\016GetPaymentList\022\033.m"
+  "essage.PaymentListRequest\032\034.message.Paym"
+  "entListResponse\022>\n\020GetPaymentDetail\022\024.me"
+  "ssage.PaymentInfo\032\024.message.PaymentInfo\022"
+  "H\n\017GenerateInvoice\022\037.message.GenerateInv"
+  "oiceRequest\032\024.message.InvoiceInfo\022>\n\020Get"
+  "InvoiceDetail\022\024.message.InvoiceInfo\032\024.me"
+  "ssage.InvoiceInfo\022K\n\016GetInvoiceList\022\033.me"
+  "ssage.InvoiceListRequest\032\034.message.Invoi"
+  "ceListResponse\022K\n\020GetStatsOverview\022\027.mes"
+  "sage.CommonResponse\032\036.message.StatsOverv"
+  "iewResponse\022N\n\017GetRevenueStats\022\034.message"
+  ".RevenueStatsRequest\032\035.message.RevenueSt"
+  "atsResponse\022I\n\017GetVehicleStats\022\027.message"
+  ".CommonResponse\032\035.message.VehicleStatsRe"
+  "sponse2\243\001\n\rMailerService\022\?\n\010SendMail\022\030.m"
+  "essage.SendMailRequest\032\031.message.SendMai"
+  "lResponse\022Q\n\016SendVerifyCode\022\036.message.Se"
+  "ndVerifyCodeRequest\032\037.message.SendVerify"
+  "CodeResponseb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_message_2eproto_deps[1] = {
 };
@@ -1972,7 +1974,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_mes
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_message_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto = {
-  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 8663,
+  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 8740,
   &descriptor_table_message_2eproto_once, descriptor_table_message_2eproto_sccs, descriptor_table_message_2eproto_deps, 55, 0,
   schemas, file_default_instances, TableStruct_message_2eproto::offsets,
   file_level_metadata_message_2eproto, 55, file_level_enum_descriptors_message_2eproto, file_level_service_descriptors_message_2eproto,

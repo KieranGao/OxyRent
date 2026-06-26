@@ -11,3 +11,7 @@ export function updateMaintenance(data) {
 export function getMaintenanceList(params) {
   return request.get('/maintenance/list', { params })
 }
+
+export function deleteMaintenance(data) {
+  return request.post('/maintenance/delete', data)
+}

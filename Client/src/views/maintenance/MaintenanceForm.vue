@@ -13,8 +13,10 @@
         label-position="top"
         style="max-width: 560px"
       >
-        <el-form-item v-if="!isEdit" label="车辆ID" prop="vehicle_id">
-          <el-input-number v-model="form.vehicle_id" :min="1" style="width: 100%" placeholder="车辆ID" />
+        <el-form-item v-if="!isEdit" label="选择车辆" prop="vehicle_id">
+          <el-select v-model="form.vehicle_id" placeholder="请选择需要维护的车辆" style="width: 100%" filterable>
+            <el-option v-for="v in vehicles" :key="v.id" :label="`${v.plate_number} - ${v.brand} ${v.model}`" :value="v.id" />
+          </el-select>
         </el-form-item>
 
         <el-form-item label="类型" prop="type">
@@ -69,6 +71,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { createMaintenance, updateMaintenance, getMaintenanceList } from '@/api/maintenance'
+import { getVehicleList } from '@/api/vehicle'
 import { ElMessage } from 'element-plus'
 
 const route = useRoute()
@@ -76,6 +79,7 @@ const router = useRouter()
 const isEdit = computed(() => !!route.params.id)
 const submitting = ref(false)
 const formRef = ref(null)
+const vehicles = ref([])
 
 const form = reactive({
   vehicle_id: undefined,
@@ -94,7 +98,7 @@ const rules = computed(() => {
     description: [{ required: true, message: '请输入描述', trigger: 'blur' }],
   }
   if (!isEdit.value) {
-    baseRules.vehicle_id = [{ required: true, message: '请输入车辆ID', trigger: 'blur' }]
+    baseRules.vehicle_id = [{ required: true, message: '请选择车辆', trigger: 'change' }]
   } else {
     baseRules.end_date = [{ required: true, message: '请填入结束日期', trigger: 'change' }]
   }
@@ -150,7 +154,21 @@ async function handleSubmit() {
   }
 }
 
-onMounted(loadRecord)
+async function loadVehicles() {
+  try {
+    const res = await getVehicleList({ page: 1, page_size: 1000 })
+    if (res.error === 0) {
+      vehicles.value = (res.vehicles || []).filter(v => v.status === 'available' || v.status === 'maintenance')
+    }
+  } catch {
+    ElMessage.error('加载车辆列表失败')
+  }
+}
+
+onMounted(() => {
+  loadVehicles()
+  loadRecord()
+})
 </script>
 
 <style scoped>

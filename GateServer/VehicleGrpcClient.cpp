@@ -190,3 +190,16 @@ MaintenanceListResponse VehicleGrpcClient::getMaintenanceList(const MaintenanceL
     }
     return response;
 }
+
+CommonResponse VehicleGrpcClient::deleteMaintenance(const VehicleDetailRequest& request) {
+    CommonResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->DeleteMaintenance(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("VehicleService DeleteMaintenance RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}

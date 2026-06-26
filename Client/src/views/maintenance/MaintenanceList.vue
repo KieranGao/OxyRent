@@ -47,6 +47,7 @@
         <el-table-column label="操作" min-width="100">
           <template #default="{ row }">
             <el-button link type="primary" @click="$router.push(`/maintenance/${row.id}/edit`)">编辑</el-button>
+            <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -67,8 +68,8 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { getMaintenanceList } from '@/api/maintenance'
-import { ElMessage } from 'element-plus'
+import { getMaintenanceList, deleteMaintenance } from '@/api/maintenance'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Plus } from '@element-plus/icons-vue'
 
 const loading = ref(false)
@@ -112,6 +113,27 @@ async function loadList() {
 function handlePageChange(page) {
   query.page = page
   loadList()
+}
+
+async function handleDelete(row) {
+  try {
+    await ElMessageBox.confirm('确定要删除这条维保记录吗？此操作不可撤销。', '删除确认', {
+      confirmButtonText: '确定删除',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+    const res = await deleteMaintenance({ id: row.id })
+    if (res.error === 0) {
+      ElMessage.success('维保记录已删除')
+      loadList()
+    } else {
+      ElMessage.error(res.msg || '删除失败')
+    }
+  } catch (e) {
+    if (e !== 'cancel') {
+      ElMessage.error('删除失败')
+    }
+  }
 }
 
 onMounted(loadList)

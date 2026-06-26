@@ -525,6 +525,7 @@ static const char* VehicleService_method_names[] = {
   "/message.VehicleService/CreateMaintenance",
   "/message.VehicleService/UpdateMaintenance",
   "/message.VehicleService/GetMaintenanceList",
+  "/message.VehicleService/DeleteMaintenance",
 };
 
 std::unique_ptr< VehicleService::Stub> VehicleService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -548,6 +549,7 @@ VehicleService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& cha
   , rpcmethod_CreateMaintenance_(VehicleService_method_names[11], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_UpdateMaintenance_(VehicleService_method_names[12], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_GetMaintenanceList_(VehicleService_method_names[13], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteMaintenance_(VehicleService_method_names[14], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status VehicleService::Stub::GetVehicleList(::grpc::ClientContext* context, const ::message::VehicleListRequest& request, ::message::VehicleListResponse* response) {
@@ -942,6 +944,34 @@ void VehicleService::Stub::experimental_async::GetMaintenanceList(::grpc::Client
   return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::MaintenanceListResponse>::Create(channel_.get(), cq, rpcmethod_GetMaintenanceList_, context, request, false);
 }
 
+::grpc::Status VehicleService::Stub::DeleteMaintenance(::grpc::ClientContext* context, const ::message::VehicleDetailRequest& request, ::message::CommonResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_DeleteMaintenance_, context, request, response);
+}
+
+void VehicleService::Stub::experimental_async::DeleteMaintenance(::grpc::ClientContext* context, const ::message::VehicleDetailRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_DeleteMaintenance_, context, request, response, std::move(f));
+}
+
+void VehicleService::Stub::experimental_async::DeleteMaintenance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_DeleteMaintenance_, context, request, response, std::move(f));
+}
+
+void VehicleService::Stub::experimental_async::DeleteMaintenance(::grpc::ClientContext* context, const ::message::VehicleDetailRequest* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_DeleteMaintenance_, context, request, response, reactor);
+}
+
+void VehicleService::Stub::experimental_async::DeleteMaintenance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_DeleteMaintenance_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* VehicleService::Stub::AsyncDeleteMaintenanceRaw(::grpc::ClientContext* context, const ::message::VehicleDetailRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::CommonResponse>::Create(channel_.get(), cq, rpcmethod_DeleteMaintenance_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* VehicleService::Stub::PrepareAsyncDeleteMaintenanceRaw(::grpc::ClientContext* context, const ::message::VehicleDetailRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::CommonResponse>::Create(channel_.get(), cq, rpcmethod_DeleteMaintenance_, context, request, false);
+}
+
 VehicleService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       VehicleService_method_names[0],
@@ -1083,6 +1113,16 @@ VehicleService::Service::Service() {
              ::message::MaintenanceListResponse* resp) {
                return service->GetMaintenanceList(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      VehicleService_method_names[14],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< VehicleService::Service, ::message::VehicleDetailRequest, ::message::CommonResponse>(
+          [](VehicleService::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::message::VehicleDetailRequest* req,
+             ::message::CommonResponse* resp) {
+               return service->DeleteMaintenance(ctx, req, resp);
+             }, this)));
 }
 
 VehicleService::Service::~Service() {
@@ -1180,6 +1220,13 @@ VehicleService::Service::~Service() {
 }
 
 ::grpc::Status VehicleService::Service::GetMaintenanceList(::grpc::ServerContext* context, const ::message::MaintenanceListRequest* request, ::message::MaintenanceListResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status VehicleService::Service::DeleteMaintenance(::grpc::ServerContext* context, const ::message::VehicleDetailRequest* request, ::message::CommonResponse* response) {
   (void) context;
   (void) request;
   (void) response;
