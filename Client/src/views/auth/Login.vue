@@ -5,7 +5,7 @@
       :model="form"
       :rules="rules"
       label-position="top"
-      @keyup.enter="handleLogin"
+      @submit.prevent="handleLogin"
     >
       <el-form-item label="Username" prop="username">
         <el-input
@@ -22,40 +22,38 @@
           type="password"
           placeholder="Enter your password"
           :prefix-icon="Lock"
-          size="large"
           show-password
+          size="large"
+          @keyup.enter="handleLogin"
         />
       </el-form-item>
 
-      <el-form-item>
-        <el-button
-          type="primary"
-          size="large"
-          :loading="loading"
-          style="width: 100%"
-          @click="handleLogin"
-        >
-          {{ loading ? 'Logging in...' : 'Login' }}
-        </el-button>
-      </el-form-item>
+      <el-button
+        type="primary"
+        size="large"
+        :loading="loading"
+        native-type="submit"
+        style="width: 100%; height: 48px; margin-top: 8px; font-size: 14px;"
+      >
+        Sign In
+      </el-button>
     </el-form>
 
     <div class="login-footer">
-      <router-link to="/register">Don't have an account? Register</router-link>
+      <router-link to="/register">Create an account</router-link>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { ElMessage } from 'element-plus'
 import { User, Lock } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const authStore = useAuthStore()
-
 const formRef = ref(null)
 const loading = ref(false)
 
@@ -65,26 +63,27 @@ const form = reactive({
 })
 
 const rules = {
-  username: [
-    { required: true, message: 'Please enter your username', trigger: 'blur' },
-  ],
+  username: [{ required: true, message: 'Please enter username', trigger: 'blur' }],
   password: [
-    { required: true, message: 'Please enter your password', trigger: 'blur' },
+    { required: true, message: 'Please enter password', trigger: 'blur' },
     { min: 6, message: 'Password must be at least 6 characters', trigger: 'blur' },
   ],
 }
 
 async function handleLogin() {
-  const valid = await formRef.value.validate().catch(() => false)
-  if (!valid) return
+  try {
+    await formRef.value.validate()
+  } catch {
+    return
+  }
 
   loading.value = true
   try {
     await authStore.login({ username: form.username, password: form.password })
-    ElMessage.success('Login successful')
+    ElMessage.success('Welcome back')
     router.push('/dashboard')
-  } catch (e) {
-    ElMessage.error('Login failed, please check username and password')
+  } catch (err) {
+    ElMessage.error(err.message || 'Login failed')
   } finally {
     loading.value = false
   }
@@ -92,36 +91,55 @@ async function handleLogin() {
 </script>
 
 <style scoped>
-.login-view { width: 100%; }
+.login-view {
+  width: 100%;
+}
+
+.login-view :deep(.el-form-item) {
+  margin-bottom: 20px;
+}
+
+.login-view :deep(.el-form-item__label) {
+  color: var(--text-secondary);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+  padding-bottom: 4px;
+}
 
 .login-view :deep(.el-input__wrapper) {
-  border-radius: var(--radius-md) !important;
-  transition: all var(--transition-fast) !important;
+  height: 48px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
 }
 
-.login-view :deep(.el-input__wrapper:focus-within) {
-  box-shadow: 0 0 0 2px var(--color-primary-bg), 0 0 0 3px var(--color-primary) !important;
+.login-view :deep(.el-input__wrapper:hover) {
+  border-color: var(--border-hover);
 }
 
-.login-view :deep(.el-button--large) {
-  height: 46px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  border-radius: var(--radius-md);
-  margin-top: 4px;
+.login-view :deep(.el-input__wrapper.is-focus) {
+  border-color: var(--accent) !important;
+}
+
+.login-view :deep(.el-input__prefix) {
+  color: var(--text-tertiary);
 }
 
 .login-footer {
   text-align: center;
-  margin-top: 16px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 .login-footer a {
-  font-size: 13px;
-  color: var(--text-secondary);
-  transition: color var(--transition-fast);
+  color: var(--accent);
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.login-footer a:hover { color: var(--color-primary); }
+.login-footer a:hover {
+  color: var(--accent-light);
+}
 </style>

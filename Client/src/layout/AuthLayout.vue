@@ -1,16 +1,22 @@
 <template>
   <div class="auth-layout">
-    <div class="auth-bg-pattern"></div>
-    <div class="auth-card">
-      <div class="auth-card-stripe"></div>
-      <div class="auth-brand">
-        <div class="auth-logo-glow"></div>
-        <h1>OxyRent</h1>
-        <p>Vehicle Rental Management System</p>
+    <div class="auth-bg"></div>
+    <div class="auth-content">
+      <div class="auth-card">
+        <div class="auth-brand">
+          <div class="brand-mark">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 2L2 16L16 30L30 16L16 2Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path d="M16 8L8 16L16 24L24 16L16 8Z" fill="currentColor" opacity="0.3"/>
+            </svg>
+          </div>
+          <h1 class="brand-name">OxyRent</h1>
+          <p class="brand-tagline">Vehicle Rental Management</p>
+        </div>
+        <router-view />
       </div>
-      <router-view />
+      <p class="auth-footer">2026 OxyRent. Crafted with precision.</p>
     </div>
-    <div class="auth-footer">© 2026 OxyRent. Vehicle Rental Management.</div>
   </div>
 </template>
 
@@ -19,88 +25,99 @@
 
 <style scoped>
 .auth-layout {
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: var(--gradient-auth);
   position: relative;
-  overflow: hidden;
+  background: #030303;
 }
 
-.auth-bg-pattern {
+.auth-bg {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(ellipse at 25% 60%, rgba(79, 110, 247, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 75% 40%, rgba(124, 92, 252, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(34, 197, 94, 0.04) 0%, transparent 40%);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200, 169, 110, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(200, 169, 110, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 10% 60%, rgba(100, 100, 120, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
-.auth-card {
-  width: 440px;
-  padding: 44px;
-  background: var(--bg-secondary);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-xl);
+.auth-content {
   position: relative;
-  overflow: hidden;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  padding: 0 24px;
+  animation: fadeIn 0.8s var(--ease-out);
 }
 
-.auth-card-stripe {
+.auth-card {
+  width: 100%;
+  padding: 48px 40px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-card::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: var(--gradient-primary);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
 .auth-brand {
   text-align: center;
-  margin-bottom: 36px;
-  position: relative;
+  margin-bottom: 40px;
 }
 
-.auth-logo-glow {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 100px;
-  background: radial-gradient(ellipse, rgba(79, 110, 247, 0.1), transparent 70%);
-  pointer-events: none;
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--border-accent);
+  border-radius: 12px;
+  color: var(--accent);
+  margin-bottom: 20px;
 }
 
-.auth-brand h1 {
-  font-size: 28px;
-  font-weight: 800;
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
-  position: relative;
-  z-index: 1;
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
 }
 
-.auth-brand p {
-  margin-top: 8px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  letter-spacing: 0.3px;
+.brand-tagline {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 400;
 }
 
 .auth-footer {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.25);
-  letter-spacing: 0.5px;
+  margin-top: 32px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 1px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>

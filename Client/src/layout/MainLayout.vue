@@ -3,18 +3,19 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-logo">
-        <div class="logo-glow"></div>
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L2 16L16 30L30 16L16 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M16 8L8 16L16 24L24 16L16 8Z" fill="currentColor" opacity="0.4"/>
+          </svg>
+        </div>
         <span v-if="!appStore.sidebarCollapsed" class="logo-text">OxyRent</span>
-        <span v-else class="logo-icon">OR</span>
       </div>
 
       <el-menu
         :default-active="activeMenu"
         :collapse="appStore.sidebarCollapsed"
         :collapse-transition="false"
-        background-color="var(--bg-sidebar)"
-        text-color="var(--text-sidebar)"
-        active-text-color="var(--text-sidebar-active)"
         router
       >
         <el-menu-item index="/dashboard">
@@ -35,8 +36,8 @@
         </el-menu-item>
 
         <template v-if="authStore.isAdmin">
-          <el-divider style="margin: 8px 0; border-color: rgba(255,255,255,0.08)" />
-          <div v-if="!appStore.sidebarCollapsed" class="menu-group-title">Admin</div>
+          <el-divider style="margin: 12px 16px; border-color: var(--border)" />
+          <div v-if="!appStore.sidebarCollapsed" class="menu-group-title">Management</div>
           <el-menu-item index="/payments">
             <el-icon><Wallet /></el-icon>
             <span>Payments</span>
@@ -55,6 +56,10 @@
           </el-menu-item>
         </template>
       </el-menu>
+
+      <div class="sidebar-footer">
+        <div v-if="!appStore.sidebarCollapsed" class="version-text">v1.0</div>
+      </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -75,18 +80,9 @@
         </div>
 
         <div class="header-right">
-          <el-switch
-            v-model="isDark"
-            :active-action-icon="Moon"
-            :inactive-action-icon="Sunny"
-            inline-prompt
-            size="small"
-            @change="appStore.toggleTheme()"
-          />
-
           <el-dropdown trigger="click" @command="handleUserCommand">
             <span class="user-info">
-              <el-avatar :size="32" icon="UserFilled" />
+              <div class="user-avatar">{{ (authStore.username || 'G')[0].toUpperCase() }}</div>
               <span class="username">{{ authStore.username || 'Guest' }}</span>
               <el-icon class="arrow"><ArrowDown /></el-icon>
             </span>
@@ -96,7 +92,7 @@
                   <el-icon><User /></el-icon> Profile
                 </el-dropdown-item>
                 <el-dropdown-item command="logout" divided>
-                  <el-icon><SwitchButton /></el-icon> Logout
+                  <el-icon><SwitchButton /></el-icon> Sign Out
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -123,7 +119,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
 import {
   HomeFilled, Van, Document, SetUp, Wallet, Tickets, DataLine,
-  User, Expand, Fold, Moon, Sunny, ArrowDown, SwitchButton,
+  User, Expand, Fold, ArrowDown, SwitchButton,
 } from '@element-plus/icons-vue'
 
 const route = useRoute()
@@ -143,10 +139,6 @@ const activeMenu = computed(() => {
   return path
 })
 const pageTitle = computed(() => route.meta?.title || '')
-const isDark = computed({
-  get: () => appStore.theme === 'dark',
-  set: () => {},
-})
 
 watch(pageTitle, (title) => {
   appStore.setPageTitle(title)
@@ -166,6 +158,7 @@ function handleUserCommand(cmd) {
   display: flex;
   height: 100vh;
   overflow: hidden;
+  background: var(--bg-primary);
 }
 
 /* ===== Sidebar ===== */
@@ -175,83 +168,52 @@ function handleUserCommand(cmd) {
   background: var(--bg-sidebar);
   display: flex;
   flex-direction: column;
-  transition: width var(--transition-normal), min-width var(--transition-normal);
+  transition: width 0.3s var(--ease), min-width 0.3s var(--ease);
   overflow: hidden;
   position: relative;
-}
-
-.sidebar::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(79, 110, 247, 0.25), rgba(124, 92, 252, 0.08), transparent);
-  z-index: 1;
+  border-right: 1px solid var(--border);
 }
 
 .sidebar-collapsed .sidebar {
-  width: var(--sidebar-collapsed-width);
-  min-width: var(--sidebar-collapsed-width);
+  width: var(--sidebar-collapsed);
+  min-width: var(--sidebar-collapsed);
 }
 
 .sidebar-logo {
   height: var(--header-height);
   display: flex;
   align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo .logo-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--accent);
+  flex-shrink: 0;
 }
 
-.logo-glow {
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 160px;
-  height: 80px;
-  background: radial-gradient(ellipse, rgba(79, 110, 247, 0.15), transparent 70%);
-  pointer-events: none;
-  animation: logoPulse 4s ease-in-out infinite;
-}
-
-@keyframes logoPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.logo-text {
-  font-size: 17px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.5px;
-  position: relative;
-  z-index: 1;
-  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.logo-icon {
+.sidebar-logo .logo-text {
+  font-family: var(--font-display);
   font-size: 20px;
-  font-weight: 800;
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 1.5px;
+  white-space: nowrap;
 }
 
 .menu-group-title {
-  padding: 16px 20px 6px;
+  padding: 20px 20px 8px;
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .sidebar :deep(.el-menu) {
@@ -259,33 +221,58 @@ function handleUserCommand(cmd) {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 6px 0;
+  padding: 8px 0;
 }
 
 .sidebar :deep(.el-menu-item) {
-  height: 44px;
-  line-height: 44px;
-  margin: 2px 12px;
+  height: 40px;
+  line-height: 40px;
+  margin: 2px 10px;
   border-radius: var(--radius-sm);
   font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  transition: all var(--transition-fast);
+  font-weight: 400;
+  color: var(--text-secondary);
+  transition: all 0.2s var(--ease);
 }
 
 .sidebar :deep(.el-menu-item:hover) {
-  background: var(--bg-sidebar-hover) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--text-primary);
 }
 
 .sidebar :deep(.el-menu-item.is-active) {
-  background: var(--bg-sidebar-active) !important;
-  box-shadow: 0 2px 12px rgba(79, 110, 247, 0.25);
-  font-weight: 600;
+  background: var(--accent-muted) !important;
+  color: var(--accent) !important;
+  font-weight: 500;
+}
+
+.sidebar :deep(.el-menu-item.is-active::before) {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
 }
 
 .sidebar :deep(.el-divider--horizontal) {
-  margin: 8px 16px;
-  border-color: rgba(255, 255, 255, 0.04);
+  margin: 12px 16px;
+  border-color: var(--border);
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.version-text {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  letter-spacing: 1px;
+  text-align: center;
 }
 
 /* ===== Main Area ===== */
@@ -300,10 +287,10 @@ function handleUserCommand(cmd) {
 .header {
   height: var(--header-height);
   min-height: var(--header-height);
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid var(--border-light);
+  background: rgba(5, 5, 5, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -319,18 +306,19 @@ function handleUserCommand(cmd) {
   gap: 14px;
 }
 
+.collapse-btn {
+  color: var(--text-secondary);
+  font-size: 18px;
+}
+.collapse-btn:hover {
+  color: var(--text-primary);
+}
+
 .header-right {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
-
-.collapse-btn {
-  font-size: 18px;
-  color: var(--text-secondary);
-  transition: color var(--transition-fast);
-}
-.collapse-btn:hover { color: var(--color-primary); }
 
 .user-info {
   display: flex;
@@ -339,24 +327,37 @@ function handleUserCommand(cmd) {
   cursor: pointer;
   padding: 6px 12px;
   border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  transition: background 0.2s var(--ease);
 }
-.user-info:hover { background: var(--color-primary-bg); }
+
+.user-info:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent-muted);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
 
 .username {
   font-size: 13px;
   color: var(--text-primary);
-  max-width: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   font-weight: 500;
 }
 
 .arrow {
   font-size: 12px;
-  color: var(--text-secondary);
-  transition: transform var(--transition-fast);
+  color: var(--text-tertiary);
+  transition: transform 0.2s;
 }
 
 /* ===== Content ===== */
@@ -364,7 +365,11 @@ function handleUserCommand(cmd) {
   flex: 1;
   overflow-y: auto;
   background: var(--bg-primary);
-  background-image: var(--gradient-mesh);
-  background-attachment: fixed;
+}
+
+/* ===== Responsive ===== */
+.sidebar-collapsed .sidebar-logo {
+  justify-content: center;
+  padding: 0;
 }
 </style>

@@ -6,83 +6,110 @@
     </div>
 
     <!-- Stat Cards -->
-    <div class="stat-cards anim-stagger">
+    <div class="stat-grid anim-stagger">
       <div class="stat-card">
-        <div class="stat-icon" style="background: var(--color-primary-bg)">
-          <el-icon :size="24" color="var(--color-primary)"><User /></el-icon>
+        <div class="stat-icon blue">
+          <el-icon :size="20"><User /></el-icon>
         </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ stats.total_users }}</div>
-          <div class="stat-label">Total Users</div>
-        </div>
+        <div class="stat-value">{{ stats.total_users }}</div>
+        <div class="stat-label">Total Users</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon" style="background: var(--color-success-bg)">
-          <el-icon :size="24" color="var(--color-success)"><Van /></el-icon>
+        <div class="stat-icon green">
+          <el-icon :size="20"><Van /></el-icon>
         </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ stats.available_vehicles }}</div>
-          <div class="stat-label">Available Vehicles</div>
-        </div>
+        <div class="stat-value">{{ stats.available_vehicles }}</div>
+        <div class="stat-label">Available Vehicles</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon" style="background: var(--color-warning-bg)">
-          <el-icon :size="24" color="var(--color-warning)"><Document /></el-icon>
+        <div class="stat-icon amber">
+          <el-icon :size="20"><Document /></el-icon>
         </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ stats.active_orders }}</div>
-          <div class="stat-label">Active Orders</div>
-        </div>
+        <div class="stat-value">{{ stats.active_orders }}</div>
+        <div class="stat-label">Active Orders</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon" style="background: var(--color-danger-bg)">
-          <el-icon :size="24" color="var(--color-danger)"><Wallet /></el-icon>
+        <div class="stat-icon gold">
+          <el-icon :size="20"><Wallet /></el-icon>
         </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ formatMoney(stats.monthly_revenue) }}</div>
-          <div class="stat-label">Monthly Revenue</div>
-        </div>
+        <div class="stat-value">{{ formatMoney(stats.monthly_revenue) }}</div>
+        <div class="stat-label">Monthly Revenue</div>
       </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="section-title">Quick Actions</div>
-    <div class="quick-actions anim-stagger">
-      <el-button type="primary" @click="$router.push('/rentals/create')">
-        <el-icon><Plus /></el-icon> New Order
-      </el-button>
-      <el-button v-if="authStore.isAdmin" @click="$router.push('/vehicles/add')">
-        <el-icon><Plus /></el-icon> Add Vehicle
-      </el-button>
-      <el-button v-if="authStore.isAdmin" @click="$router.push('/payments')">
-        <el-icon><Wallet /></el-icon> Payments
-      </el-button>
-      <el-button @click="$router.push('/statistics')">
-        <el-icon><DataLine /></el-icon> Reports
-      </el-button>
-    </div>
+    <!-- Quick Actions + Recent Orders -->
+    <div class="dashboard-grid">
+      <!-- Quick Actions -->
+      <div class="content-card">
+        <div class="content-card-header">
+          <h3>Quick Actions</h3>
+        </div>
+        <div class="content-card-body">
+          <div class="action-list">
+            <button class="action-item" @click="$router.push('/rentals/create')">
+              <div class="action-icon gold">
+                <el-icon><Plus /></el-icon>
+              </div>
+              <div>
+                <div class="action-title">New Order</div>
+                <div class="action-desc">Create a rental order</div>
+              </div>
+            </button>
+            <button v-if="authStore.isAdmin" class="action-item" @click="$router.push('/vehicles/add')">
+              <div class="action-icon blue">
+                <el-icon><Van /></el-icon>
+              </div>
+              <div>
+                <div class="action-title">Add Vehicle</div>
+                <div class="action-desc">Register a new vehicle</div>
+              </div>
+            </button>
+            <button v-if="authStore.isAdmin" class="action-item" @click="$router.push('/payments')">
+              <div class="action-icon green">
+                <el-icon><Wallet /></el-icon>
+              </div>
+              <div>
+                <div class="action-title">Payments</div>
+                <div class="action-desc">View payment records</div>
+              </div>
+            </button>
+            <button class="action-item" @click="$router.push('/statistics')">
+              <div class="action-icon amber">
+                <el-icon><DataLine /></el-icon>
+              </div>
+              <div>
+                <div class="action-title">Reports</div>
+                <div class="action-desc">View analytics</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
 
-    <!-- Recent Orders -->
-    <div class="section-title">Recent Orders</div>
-    <el-card>
-      <el-table :data="recentOrders" style="width: 100%" empty-text="No recent orders">
-        <el-table-column prop="order_no" label="Order No." min-width="160" />
-        <el-table-column prop="username" label="User" min-width="100" />
-        <el-table-column prop="plate_number" label="Plate" min-width="100" />
-        <el-table-column prop="start_date" label="Start" min-width="110" />
-        <el-table-column prop="end_date" label="End" min-width="110" />
-        <el-table-column prop="status" label="Status" min-width="100">
-          <template #default="{ row }">
-            <el-tag :type="statusType(row.status)">{{ row.status }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="total_cost" label="Cost" min-width="100">
-          <template #default="{ row }">
-            {{ formatMoney(row.total_cost) }}
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
+      <!-- Recent Orders -->
+      <div class="content-card">
+        <div class="content-card-header">
+          <h3>Recent Orders</h3>
+        </div>
+        <div class="content-card-body" style="padding: 0;">
+          <el-table :data="recentOrders" style="width: 100%" empty-text="No recent orders">
+            <el-table-column prop="order_no" label="Order" min-width="140" />
+            <el-table-column prop="plate_number" label="Vehicle" min-width="100" />
+            <el-table-column prop="start_date" label="Start" min-width="100" />
+            <el-table-column prop="status" label="Status" min-width="90">
+              <template #default="{ row }">
+                <el-tag :type="statusType(row.status)" size="small">{{ row.status }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="total_cost" label="Cost" min-width="100">
+              <template #default="{ row }">
+                {{ formatMoney(row.total_cost) }}
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -131,7 +158,7 @@ onMounted(async () => {
       }
     }
   } catch {
-    // Stats unavailable, use defaults
+    // Stats unavailable
   }
 
   try {
@@ -146,62 +173,70 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.stat-cards {
+.dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-bottom: 32px;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: start;
 }
 
-.stat-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 24px;
+/* ===== Action List ===== */
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.action-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  transition: all var(--transition-fast);
-}
-
-.stat-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.stat-icon {
-  width: 52px;
-  height: 52px;
+  gap: 14px;
+  padding: 14px 12px;
   border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s var(--ease);
+}
+
+.action-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-}
-
-.stat-value {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.2;
-}
-
-.stat-label {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-}
-
-.section-title {
   font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 16px;
 }
 
-.quick-actions {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 32px;
+.action-icon.gold { background: var(--accent-muted); color: var(--accent); }
+.action-icon.blue { background: rgba(96, 165, 250, 0.1); color: #60a5fa; }
+.action-icon.green { background: rgba(74, 222, 128, 0.1); color: #4ade80; }
+.action-icon.amber { background: rgba(251, 191, 36, 0.1); color: #fbbf24; }
+
+.action-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.action-desc {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
