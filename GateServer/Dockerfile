@@ -48,7 +48,7 @@ RUN apt-get update && apt-get install -y \
     libprotobuf23 \
     libgrpc++1 \
     libhiredis0.14 \
-    libmysqlcppconn8 \
+    libmysqlcppconn7v5 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy binary from builder
