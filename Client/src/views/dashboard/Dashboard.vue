@@ -80,7 +80,7 @@
           <div class="stat-icon gold">
             <el-icon :size="20"><Wallet /></el-icon>
           </div>
-          <div class="stat-value">{{ formatMoney(stats.monthly_revenue) }}</div>
+          <div class="stat-value">{{ formatMoney(stats.month_revenue) }}</div>
           <div class="stat-label">本月收入</div>
         </div>
       </div>
@@ -185,7 +185,7 @@ const stats = ref({
   total_users: 0,
   available_vehicles: 0,
   active_orders: 0,
-  monthly_revenue: 0,
+  month_revenue: 0,
 })
 
 const recentOrders = ref([])
@@ -227,7 +227,7 @@ onMounted(async () => {
           total_users: res.total_users || 0,
           available_vehicles: res.available_vehicles || 0,
           active_orders: res.active_orders || 0,
-          monthly_revenue: res.monthly_revenue || 0,
+          month_revenue: res.month_revenue || 0,
         }
       }
     } catch {
