@@ -32,6 +32,7 @@ public:
     FinanceGrpcServiceImpl();
 
     Status CreatePayment(ServerContext* context, const CreatePaymentRequest* req, PaymentInfo* resp) override;
+    Status ConfirmPayment(ServerContext* context, const PaymentInfo* req, PaymentInfo* resp) override;
     Status GetPaymentList(ServerContext* context, const PaymentListRequest* req, PaymentListResponse* resp) override;
     Status GetPaymentDetail(ServerContext* context, const PaymentInfo* req, PaymentInfo* resp) override;
     Status GenerateInvoice(ServerContext* context, const GenerateInvoiceRequest* req, InvoiceInfo* resp) override;

@@ -197,6 +197,7 @@ service VehicleService {
     rpc PickupVehicle(PickupRequest) returns (CommonResponse);
     rpc ReturnVehicle(ReturnRequest) returns (OrderInfo);
     rpc RenewOrder(RenewRequest) returns (OrderInfo);
+    rpc CancelOrder(PickupRequest) returns (CommonResponse);
 
     // Maintenance
     rpc CreateMaintenance(CreateMaintenanceRequest) returns (CommonResponse);

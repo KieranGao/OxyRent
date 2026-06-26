@@ -1,0 +1,3 @@
+[2026-06-27 00:09:05.632] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-27 00:09:05.635] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-27 00:09:20.392] [INFO] [Finance] ConfirmPayment success, id=36

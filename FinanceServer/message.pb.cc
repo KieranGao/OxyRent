@@ -526,24 +526,25 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "\005\022\030\n\020utilization_rate\030\007 \001(\001\0220\n\010by_brand\030"
   "\010 \003(\0132\036.message.VehicleStatsBrandItem\"5\n"
   "\025VehicleStatsBrandItem\022\r\n\005brand\030\001 \001(\t\022\r\n"
-  "\005count\030\002 \001(\0052\242\005\n\016FinanceService\022D\n\rCreat"
+  "\005count\030\002 \001(\0052\340\005\n\016FinanceService\022D\n\rCreat"
   "ePayment\022\035.message.CreatePaymentRequest\032"
-  "\024.message.PaymentInfo\022K\n\016GetPaymentList\022"
-  "\033.message.PaymentListRequest\032\034.message.P"
-  "aymentListResponse\022>\n\020GetPaymentDetail\022\024"
-  ".message.PaymentInfo\032\024.message.PaymentIn"
-  "fo\022H\n\017GenerateInvoice\022\037.message.Generate"
-  "InvoiceRequest\032\024.message.InvoiceInfo\022>\n\020"
-  "GetInvoiceDetail\022\024.message.InvoiceInfo\032\024"
-  ".message.InvoiceInfo\022K\n\016GetInvoiceList\022\033"
-  ".message.InvoiceListRequest\032\034.message.In"
-  "voiceListResponse\022K\n\020GetStatsOverview\022\027."
-  "message.CommonResponse\032\036.message.StatsOv"
-  "erviewResponse\022N\n\017GetRevenueStats\022\034.mess"
-  "age.RevenueStatsRequest\032\035.message.Revenu"
-  "eStatsResponse\022I\n\017GetVehicleStats\022\027.mess"
-  "age.CommonResponse\032\035.message.VehicleStat"
-  "sResponseb\006proto3"
+  "\024.message.PaymentInfo\022<\n\016ConfirmPayment\022"
+  "\024.message.PaymentInfo\032\024.message.PaymentI"
+  "nfo\022K\n\016GetPaymentList\022\033.message.PaymentL"
+  "istRequest\032\034.message.PaymentListResponse"
+  "\022>\n\020GetPaymentDetail\022\024.message.PaymentIn"
+  "fo\032\024.message.PaymentInfo\022H\n\017GenerateInvo"
+  "ice\022\037.message.GenerateInvoiceRequest\032\024.m"
+  "essage.InvoiceInfo\022>\n\020GetInvoiceDetail\022\024"
+  ".message.InvoiceInfo\032\024.message.InvoiceIn"
+  "fo\022K\n\016GetInvoiceList\022\033.message.InvoiceLi"
+  "stRequest\032\034.message.InvoiceListResponse\022"
+  "K\n\020GetStatsOverview\022\027.message.CommonResp"
+  "onse\032\036.message.StatsOverviewResponse\022N\n\017"
+  "GetRevenueStats\022\034.message.RevenueStatsRe"
+  "quest\032\035.message.RevenueStatsResponse\022I\n\017"
+  "GetVehicleStats\022\027.message.CommonResponse"
+  "\032\035.message.VehicleStatsResponseb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_message_2eproto_deps[1] = {
 };
@@ -566,7 +567,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_mes
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_message_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto = {
-  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 2377,
+  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 2439,
   &descriptor_table_message_2eproto_once, descriptor_table_message_2eproto_sccs, descriptor_table_message_2eproto_deps, 15, 0,
   schemas, file_default_instances, TableStruct_message_2eproto::offsets,
   file_level_metadata_message_2eproto, 15, file_level_enum_descriptors_message_2eproto, file_level_service_descriptors_message_2eproto,

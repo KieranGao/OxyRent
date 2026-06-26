@@ -50,6 +50,7 @@ public:
     Status PickupVehicle(ServerContext* context, const PickupRequest* req, CommonResponse* resp) override;
     Status ReturnVehicle(ServerContext* context, const ReturnRequest* req, OrderInfo* resp) override;
     Status RenewOrder(ServerContext* context, const RenewRequest* req, OrderInfo* resp) override;
+    Status CancelOrder(ServerContext* context, const PickupRequest* req, CommonResponse* resp) override;
 
     // 维保管理
     Status CreateMaintenance(ServerContext* context, const CreateMaintenanceRequest* req, CommonResponse* resp) override;

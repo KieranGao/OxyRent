@@ -13,6 +13,7 @@ public:
     // 支付操作
     int64_t createPayment(int64_t order_id, double amount, const std::string& type,
                           const std::string& method, const std::string& remark);
+    bool confirmPayment(int64_t id);
     bool getPaymentList(int page, int page_size, int64_t order_id,
                         const std::string& status, const std::string& type,
                         std::vector<PaymentData>& payments, int& total);

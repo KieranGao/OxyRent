@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS vehicles (
     mileage         INT UNSIGNED    DEFAULT 0,
     daily_rate      DECIMAL(10,2)   NOT NULL DEFAULT 0.00,
     deposit_amount  DECIMAL(10,2)   NOT NULL DEFAULT 0.00,
-    status          ENUM('available','rented','maintenance') NOT NULL DEFAULT 'available',
+    status          ENUM('available','rented','maintenance','reserved') NOT NULL DEFAULT 'available',
     image_url       VARCHAR(512)    DEFAULT NULL,
     description     TEXT            DEFAULT NULL,
     location        VARCHAR(128)    DEFAULT NULL,

@@ -52,6 +52,7 @@ public:
     CommonResponse pickupVehicle(const PickupRequest& request);
     OrderInfo returnVehicle(const ReturnRequest& request);
     OrderInfo renewOrder(const RenewRequest& request);
+    CommonResponse cancelOrder(const PickupRequest& request);
 
     // Maintenance
     CommonResponse createMaintenance(const CreateMaintenanceRequest& request);

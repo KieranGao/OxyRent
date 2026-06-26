@@ -2302,6 +2302,13 @@ class VehicleService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>> PrepareAsyncRenewOrder(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>>(PrepareAsyncRenewOrderRaw(context, request, cq));
     }
+    virtual ::grpc::Status CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::message::CommonResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> AsyncCancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>>(AsyncCancelOrderRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> PrepareAsyncCancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>>(PrepareAsyncCancelOrderRaw(context, request, cq));
+    }
     // Maintenance
     virtual ::grpc::Status CreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::message::CommonResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> AsyncCreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) {
@@ -2468,6 +2475,18 @@ class VehicleService final {
       #else
       virtual void RenewOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::OrderInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       // Maintenance
       virtual void CreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void CreateMaintenance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
@@ -2548,6 +2567,8 @@ class VehicleService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>* PrepareAsyncReturnVehicleRaw(::grpc::ClientContext* context, const ::message::ReturnRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>* AsyncRenewOrderRaw(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>* PrepareAsyncRenewOrderRaw(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* AsyncCancelOrderRaw(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* PrepareAsyncCancelOrderRaw(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* AsyncCreateMaintenanceRaw(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* PrepareAsyncCreateMaintenanceRaw(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* AsyncUpdateMaintenanceRaw(::grpc::ClientContext* context, const ::message::UpdateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -2636,6 +2657,13 @@ class VehicleService final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>> PrepareAsyncRenewOrder(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>>(PrepareAsyncRenewOrderRaw(context, request, cq));
+    }
+    ::grpc::Status CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::message::CommonResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> AsyncCancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>>(AsyncCancelOrderRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> PrepareAsyncCancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>>(PrepareAsyncCancelOrderRaw(context, request, cq));
     }
     ::grpc::Status CreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::message::CommonResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> AsyncCreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) {
@@ -2800,6 +2828,18 @@ class VehicleService final {
       #else
       void RenewOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::OrderInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
+      void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
+      void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void CreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
       void CreateMaintenance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -2881,6 +2921,8 @@ class VehicleService final {
     ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>* PrepareAsyncReturnVehicleRaw(::grpc::ClientContext* context, const ::message::ReturnRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>* AsyncRenewOrderRaw(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>* PrepareAsyncRenewOrderRaw(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* AsyncCancelOrderRaw(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* PrepareAsyncCancelOrderRaw(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* AsyncCreateMaintenanceRaw(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* PrepareAsyncCreateMaintenanceRaw(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* AsyncUpdateMaintenanceRaw(::grpc::ClientContext* context, const ::message::UpdateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -2900,6 +2942,7 @@ class VehicleService final {
     const ::grpc::internal::RpcMethod rpcmethod_PickupVehicle_;
     const ::grpc::internal::RpcMethod rpcmethod_ReturnVehicle_;
     const ::grpc::internal::RpcMethod rpcmethod_RenewOrder_;
+    const ::grpc::internal::RpcMethod rpcmethod_CancelOrder_;
     const ::grpc::internal::RpcMethod rpcmethod_CreateMaintenance_;
     const ::grpc::internal::RpcMethod rpcmethod_UpdateMaintenance_;
     const ::grpc::internal::RpcMethod rpcmethod_GetMaintenanceList_;
@@ -2924,6 +2967,7 @@ class VehicleService final {
     virtual ::grpc::Status PickupVehicle(::grpc::ServerContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response);
     virtual ::grpc::Status ReturnVehicle(::grpc::ServerContext* context, const ::message::ReturnRequest* request, ::message::OrderInfo* response);
     virtual ::grpc::Status RenewOrder(::grpc::ServerContext* context, const ::message::RenewRequest* request, ::message::OrderInfo* response);
+    virtual ::grpc::Status CancelOrder(::grpc::ServerContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response);
     // Maintenance
     virtual ::grpc::Status CreateMaintenance(::grpc::ServerContext* context, const ::message::CreateMaintenanceRequest* request, ::message::CommonResponse* response);
     virtual ::grpc::Status UpdateMaintenance(::grpc::ServerContext* context, const ::message::UpdateMaintenanceRequest* request, ::message::CommonResponse* response);
@@ -3151,12 +3195,32 @@ class VehicleService final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_CancelOrder() {
+      ::grpc::Service::MarkMethodAsync(11);
+    }
+    ~WithAsyncMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCancelOrder(::grpc::ServerContext* context, ::message::PickupRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_CreateMaintenance() {
-      ::grpc::Service::MarkMethodAsync(11);
+      ::grpc::Service::MarkMethodAsync(12);
     }
     ~WithAsyncMethod_CreateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3167,7 +3231,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateMaintenance(::grpc::ServerContext* context, ::message::CreateMaintenanceRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -3176,7 +3240,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UpdateMaintenance() {
-      ::grpc::Service::MarkMethodAsync(12);
+      ::grpc::Service::MarkMethodAsync(13);
     }
     ~WithAsyncMethod_UpdateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3187,7 +3251,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateMaintenance(::grpc::ServerContext* context, ::message::UpdateMaintenanceRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -3196,7 +3260,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetMaintenanceList() {
-      ::grpc::Service::MarkMethodAsync(13);
+      ::grpc::Service::MarkMethodAsync(14);
     }
     ~WithAsyncMethod_GetMaintenanceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3207,7 +3271,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetMaintenanceList(::grpc::ServerContext* context, ::message::MaintenanceListRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::MaintenanceListResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -3216,7 +3280,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteMaintenance() {
-      ::grpc::Service::MarkMethodAsync(14);
+      ::grpc::Service::MarkMethodAsync(15);
     }
     ~WithAsyncMethod_DeleteMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3227,10 +3291,10 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteMaintenance(::grpc::ServerContext* context, ::message::VehicleDetailRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_GetVehicleList<WithAsyncMethod_GetVehicleDetail<WithAsyncMethod_AddVehicle<WithAsyncMethod_UpdateVehicle<WithAsyncMethod_DeleteVehicle<WithAsyncMethod_CreateOrder<WithAsyncMethod_GetOrderList<WithAsyncMethod_GetOrderDetail<WithAsyncMethod_PickupVehicle<WithAsyncMethod_ReturnVehicle<WithAsyncMethod_RenewOrder<WithAsyncMethod_CreateMaintenance<WithAsyncMethod_UpdateMaintenance<WithAsyncMethod_GetMaintenanceList<WithAsyncMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_GetVehicleList<WithAsyncMethod_GetVehicleDetail<WithAsyncMethod_AddVehicle<WithAsyncMethod_UpdateVehicle<WithAsyncMethod_DeleteVehicle<WithAsyncMethod_CreateOrder<WithAsyncMethod_GetOrderList<WithAsyncMethod_GetOrderDetail<WithAsyncMethod_PickupVehicle<WithAsyncMethod_ReturnVehicle<WithAsyncMethod_RenewOrder<WithAsyncMethod_CancelOrder<WithAsyncMethod_CreateMaintenance<WithAsyncMethod_UpdateMaintenance<WithAsyncMethod_GetMaintenanceList<WithAsyncMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_GetVehicleList : public BaseClass {
    private:
@@ -3749,6 +3813,53 @@ class VehicleService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithCallbackMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_CancelOrder() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(11,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::PickupRequest, ::message::CommonResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::PickupRequest* request, ::message::CommonResponse* response) { return this->CancelOrder(context, request, response); }));}
+    void SetMessageAllocatorFor_CancelOrder(
+        ::grpc::experimental::MessageAllocator< ::message::PickupRequest, ::message::CommonResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(11);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::PickupRequest, ::message::CommonResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* CancelOrder(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* CancelOrder(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithCallbackMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -3759,7 +3870,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(11,
+        MarkMethodCallback(12,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::CreateMaintenanceRequest, ::message::CommonResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -3771,9 +3882,9 @@ class VehicleService final {
     void SetMessageAllocatorFor_CreateMaintenance(
         ::grpc::experimental::MessageAllocator< ::message::CreateMaintenanceRequest, ::message::CommonResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(11);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(12);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::CreateMaintenanceRequest, ::message::CommonResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -3806,7 +3917,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(12,
+        MarkMethodCallback(13,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::UpdateMaintenanceRequest, ::message::CommonResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -3818,9 +3929,9 @@ class VehicleService final {
     void SetMessageAllocatorFor_UpdateMaintenance(
         ::grpc::experimental::MessageAllocator< ::message::UpdateMaintenanceRequest, ::message::CommonResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(12);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(13);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::UpdateMaintenanceRequest, ::message::CommonResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -3853,7 +3964,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(13,
+        MarkMethodCallback(14,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::MaintenanceListRequest, ::message::MaintenanceListResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -3865,9 +3976,9 @@ class VehicleService final {
     void SetMessageAllocatorFor_GetMaintenanceList(
         ::grpc::experimental::MessageAllocator< ::message::MaintenanceListRequest, ::message::MaintenanceListResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(13);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(14);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::MaintenanceListRequest, ::message::MaintenanceListResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -3900,7 +4011,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(14,
+        MarkMethodCallback(15,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::VehicleDetailRequest, ::message::CommonResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -3912,9 +4023,9 @@ class VehicleService final {
     void SetMessageAllocatorFor_DeleteMaintenance(
         ::grpc::experimental::MessageAllocator< ::message::VehicleDetailRequest, ::message::CommonResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(14);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(15);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::VehicleDetailRequest, ::message::CommonResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -3937,10 +4048,10 @@ class VehicleService final {
       { return nullptr; }
   };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_GetVehicleList<ExperimentalWithCallbackMethod_GetVehicleDetail<ExperimentalWithCallbackMethod_AddVehicle<ExperimentalWithCallbackMethod_UpdateVehicle<ExperimentalWithCallbackMethod_DeleteVehicle<ExperimentalWithCallbackMethod_CreateOrder<ExperimentalWithCallbackMethod_GetOrderList<ExperimentalWithCallbackMethod_GetOrderDetail<ExperimentalWithCallbackMethod_PickupVehicle<ExperimentalWithCallbackMethod_ReturnVehicle<ExperimentalWithCallbackMethod_RenewOrder<ExperimentalWithCallbackMethod_CreateMaintenance<ExperimentalWithCallbackMethod_UpdateMaintenance<ExperimentalWithCallbackMethod_GetMaintenanceList<ExperimentalWithCallbackMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_GetVehicleList<ExperimentalWithCallbackMethod_GetVehicleDetail<ExperimentalWithCallbackMethod_AddVehicle<ExperimentalWithCallbackMethod_UpdateVehicle<ExperimentalWithCallbackMethod_DeleteVehicle<ExperimentalWithCallbackMethod_CreateOrder<ExperimentalWithCallbackMethod_GetOrderList<ExperimentalWithCallbackMethod_GetOrderDetail<ExperimentalWithCallbackMethod_PickupVehicle<ExperimentalWithCallbackMethod_ReturnVehicle<ExperimentalWithCallbackMethod_RenewOrder<ExperimentalWithCallbackMethod_CancelOrder<ExperimentalWithCallbackMethod_CreateMaintenance<ExperimentalWithCallbackMethod_UpdateMaintenance<ExperimentalWithCallbackMethod_GetMaintenanceList<ExperimentalWithCallbackMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_GetVehicleList<ExperimentalWithCallbackMethod_GetVehicleDetail<ExperimentalWithCallbackMethod_AddVehicle<ExperimentalWithCallbackMethod_UpdateVehicle<ExperimentalWithCallbackMethod_DeleteVehicle<ExperimentalWithCallbackMethod_CreateOrder<ExperimentalWithCallbackMethod_GetOrderList<ExperimentalWithCallbackMethod_GetOrderDetail<ExperimentalWithCallbackMethod_PickupVehicle<ExperimentalWithCallbackMethod_ReturnVehicle<ExperimentalWithCallbackMethod_RenewOrder<ExperimentalWithCallbackMethod_CreateMaintenance<ExperimentalWithCallbackMethod_UpdateMaintenance<ExperimentalWithCallbackMethod_GetMaintenanceList<ExperimentalWithCallbackMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_GetVehicleList<ExperimentalWithCallbackMethod_GetVehicleDetail<ExperimentalWithCallbackMethod_AddVehicle<ExperimentalWithCallbackMethod_UpdateVehicle<ExperimentalWithCallbackMethod_DeleteVehicle<ExperimentalWithCallbackMethod_CreateOrder<ExperimentalWithCallbackMethod_GetOrderList<ExperimentalWithCallbackMethod_GetOrderDetail<ExperimentalWithCallbackMethod_PickupVehicle<ExperimentalWithCallbackMethod_ReturnVehicle<ExperimentalWithCallbackMethod_RenewOrder<ExperimentalWithCallbackMethod_CancelOrder<ExperimentalWithCallbackMethod_CreateMaintenance<ExperimentalWithCallbackMethod_UpdateMaintenance<ExperimentalWithCallbackMethod_GetMaintenanceList<ExperimentalWithCallbackMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_GetVehicleList : public BaseClass {
    private:
@@ -4129,12 +4240,29 @@ class VehicleService final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_CancelOrder() {
+      ::grpc::Service::MarkMethodGeneric(11);
+    }
+    ~WithGenericMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_CreateMaintenance() {
-      ::grpc::Service::MarkMethodGeneric(11);
+      ::grpc::Service::MarkMethodGeneric(12);
     }
     ~WithGenericMethod_CreateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4151,7 +4279,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UpdateMaintenance() {
-      ::grpc::Service::MarkMethodGeneric(12);
+      ::grpc::Service::MarkMethodGeneric(13);
     }
     ~WithGenericMethod_UpdateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4168,7 +4296,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetMaintenanceList() {
-      ::grpc::Service::MarkMethodGeneric(13);
+      ::grpc::Service::MarkMethodGeneric(14);
     }
     ~WithGenericMethod_GetMaintenanceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4185,7 +4313,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteMaintenance() {
-      ::grpc::Service::MarkMethodGeneric(14);
+      ::grpc::Service::MarkMethodGeneric(15);
     }
     ~WithGenericMethod_DeleteMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4417,12 +4545,32 @@ class VehicleService final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_CancelOrder() {
+      ::grpc::Service::MarkMethodRaw(11);
+    }
+    ~WithRawMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCancelOrder(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_CreateMaintenance() {
-      ::grpc::Service::MarkMethodRaw(11);
+      ::grpc::Service::MarkMethodRaw(12);
     }
     ~WithRawMethod_CreateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4433,7 +4581,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateMaintenance(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4442,7 +4590,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UpdateMaintenance() {
-      ::grpc::Service::MarkMethodRaw(12);
+      ::grpc::Service::MarkMethodRaw(13);
     }
     ~WithRawMethod_UpdateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4453,7 +4601,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateMaintenance(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4462,7 +4610,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetMaintenanceList() {
-      ::grpc::Service::MarkMethodRaw(13);
+      ::grpc::Service::MarkMethodRaw(14);
     }
     ~WithRawMethod_GetMaintenanceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4473,7 +4621,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetMaintenanceList(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4482,7 +4630,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteMaintenance() {
-      ::grpc::Service::MarkMethodRaw(14);
+      ::grpc::Service::MarkMethodRaw(15);
     }
     ~WithRawMethod_DeleteMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4493,7 +4641,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteMaintenance(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4915,6 +5063,44 @@ class VehicleService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_CancelOrder() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(11,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->CancelOrder(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* CancelOrder(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* CancelOrder(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -4925,7 +5111,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(11,
+        MarkMethodRawCallback(12,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -4963,7 +5149,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(12,
+        MarkMethodRawCallback(13,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -5001,7 +5187,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(13,
+        MarkMethodRawCallback(14,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -5039,7 +5225,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(14,
+        MarkMethodRawCallback(15,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -5364,12 +5550,39 @@ class VehicleService final {
     virtual ::grpc::Status StreamedRenewOrder(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::RenewRequest,::message::OrderInfo>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_CancelOrder() {
+      ::grpc::Service::MarkMethodStreamed(11,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::PickupRequest, ::message::CommonResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::PickupRequest, ::message::CommonResponse>* streamer) {
+                       return this->StreamedCancelOrder(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedCancelOrder(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::PickupRequest,::message::CommonResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_CreateMaintenance() {
-      ::grpc::Service::MarkMethodStreamed(11,
+      ::grpc::Service::MarkMethodStreamed(12,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::CreateMaintenanceRequest, ::message::CommonResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -5396,7 +5609,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UpdateMaintenance() {
-      ::grpc::Service::MarkMethodStreamed(12,
+      ::grpc::Service::MarkMethodStreamed(13,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::UpdateMaintenanceRequest, ::message::CommonResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -5423,7 +5636,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetMaintenanceList() {
-      ::grpc::Service::MarkMethodStreamed(13,
+      ::grpc::Service::MarkMethodStreamed(14,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::MaintenanceListRequest, ::message::MaintenanceListResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -5450,7 +5663,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteMaintenance() {
-      ::grpc::Service::MarkMethodStreamed(14,
+      ::grpc::Service::MarkMethodStreamed(15,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::VehicleDetailRequest, ::message::CommonResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -5471,9 +5684,9 @@ class VehicleService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedDeleteMaintenance(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::VehicleDetailRequest,::message::CommonResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_GetVehicleList<WithStreamedUnaryMethod_GetVehicleDetail<WithStreamedUnaryMethod_AddVehicle<WithStreamedUnaryMethod_UpdateVehicle<WithStreamedUnaryMethod_DeleteVehicle<WithStreamedUnaryMethod_CreateOrder<WithStreamedUnaryMethod_GetOrderList<WithStreamedUnaryMethod_GetOrderDetail<WithStreamedUnaryMethod_PickupVehicle<WithStreamedUnaryMethod_ReturnVehicle<WithStreamedUnaryMethod_RenewOrder<WithStreamedUnaryMethod_CreateMaintenance<WithStreamedUnaryMethod_UpdateMaintenance<WithStreamedUnaryMethod_GetMaintenanceList<WithStreamedUnaryMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_GetVehicleList<WithStreamedUnaryMethod_GetVehicleDetail<WithStreamedUnaryMethod_AddVehicle<WithStreamedUnaryMethod_UpdateVehicle<WithStreamedUnaryMethod_DeleteVehicle<WithStreamedUnaryMethod_CreateOrder<WithStreamedUnaryMethod_GetOrderList<WithStreamedUnaryMethod_GetOrderDetail<WithStreamedUnaryMethod_PickupVehicle<WithStreamedUnaryMethod_ReturnVehicle<WithStreamedUnaryMethod_RenewOrder<WithStreamedUnaryMethod_CancelOrder<WithStreamedUnaryMethod_CreateMaintenance<WithStreamedUnaryMethod_UpdateMaintenance<WithStreamedUnaryMethod_GetMaintenanceList<WithStreamedUnaryMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_GetVehicleList<WithStreamedUnaryMethod_GetVehicleDetail<WithStreamedUnaryMethod_AddVehicle<WithStreamedUnaryMethod_UpdateVehicle<WithStreamedUnaryMethod_DeleteVehicle<WithStreamedUnaryMethod_CreateOrder<WithStreamedUnaryMethod_GetOrderList<WithStreamedUnaryMethod_GetOrderDetail<WithStreamedUnaryMethod_PickupVehicle<WithStreamedUnaryMethod_ReturnVehicle<WithStreamedUnaryMethod_RenewOrder<WithStreamedUnaryMethod_CreateMaintenance<WithStreamedUnaryMethod_UpdateMaintenance<WithStreamedUnaryMethod_GetMaintenanceList<WithStreamedUnaryMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_GetVehicleList<WithStreamedUnaryMethod_GetVehicleDetail<WithStreamedUnaryMethod_AddVehicle<WithStreamedUnaryMethod_UpdateVehicle<WithStreamedUnaryMethod_DeleteVehicle<WithStreamedUnaryMethod_CreateOrder<WithStreamedUnaryMethod_GetOrderList<WithStreamedUnaryMethod_GetOrderDetail<WithStreamedUnaryMethod_PickupVehicle<WithStreamedUnaryMethod_ReturnVehicle<WithStreamedUnaryMethod_RenewOrder<WithStreamedUnaryMethod_CancelOrder<WithStreamedUnaryMethod_CreateMaintenance<WithStreamedUnaryMethod_UpdateMaintenance<WithStreamedUnaryMethod_GetMaintenanceList<WithStreamedUnaryMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > StreamedService;
 };
 
 class FinanceService final {
@@ -5490,6 +5703,13 @@ class FinanceService final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>> PrepareAsyncCreatePayment(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>>(PrepareAsyncCreatePaymentRaw(context, request, cq));
+    }
+    virtual ::grpc::Status ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::message::PaymentInfo* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>> AsyncConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>>(AsyncConfirmPaymentRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>> PrepareAsyncConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>>(PrepareAsyncConfirmPaymentRaw(context, request, cq));
     }
     virtual ::grpc::Status GetPaymentList(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::message::PaymentListResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentListResponse>> AsyncGetPaymentList(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::grpc::CompletionQueue* cq) {
@@ -5561,6 +5781,18 @@ class FinanceService final {
       virtual void CreatePayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       #else
       virtual void CreatePayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      virtual void ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ConfirmPayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void ConfirmPayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void ConfirmPayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
       virtual void GetPaymentList(::grpc::ClientContext* context, const ::message::PaymentListRequest* request, ::message::PaymentListResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetPaymentList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentListResponse* response, std::function<void(::grpc::Status)>) = 0;
@@ -5669,6 +5901,8 @@ class FinanceService final {
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>* AsyncCreatePaymentRaw(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>* PrepareAsyncCreatePaymentRaw(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>* AsyncConfirmPaymentRaw(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>* PrepareAsyncConfirmPaymentRaw(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentListResponse>* AsyncGetPaymentListRaw(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentListResponse>* PrepareAsyncGetPaymentListRaw(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::PaymentInfo>* AsyncGetPaymentDetailRaw(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) = 0;
@@ -5695,6 +5929,13 @@ class FinanceService final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>> PrepareAsyncCreatePayment(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>>(PrepareAsyncCreatePaymentRaw(context, request, cq));
+    }
+    ::grpc::Status ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::message::PaymentInfo* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>> AsyncConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>>(AsyncConfirmPaymentRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>> PrepareAsyncConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>>(PrepareAsyncConfirmPaymentRaw(context, request, cq));
     }
     ::grpc::Status GetPaymentList(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::message::PaymentListResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::PaymentListResponse>> AsyncGetPaymentList(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::grpc::CompletionQueue* cq) {
@@ -5766,6 +6007,18 @@ class FinanceService final {
       void CreatePayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::ClientUnaryReactor* reactor) override;
       #else
       void CreatePayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      void ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response, std::function<void(::grpc::Status)>) override;
+      void ConfirmPayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void ConfirmPayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void ConfirmPayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
       void GetPaymentList(::grpc::ClientContext* context, const ::message::PaymentListRequest* request, ::message::PaymentListResponse* response, std::function<void(::grpc::Status)>) override;
       void GetPaymentList(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentListResponse* response, std::function<void(::grpc::Status)>) override;
@@ -5876,6 +6129,8 @@ class FinanceService final {
     class experimental_async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>* AsyncCreatePaymentRaw(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>* PrepareAsyncCreatePaymentRaw(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>* AsyncConfirmPaymentRaw(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>* PrepareAsyncConfirmPaymentRaw(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::PaymentListResponse>* AsyncGetPaymentListRaw(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::PaymentListResponse>* PrepareAsyncGetPaymentListRaw(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>* AsyncGetPaymentDetailRaw(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) override;
@@ -5893,6 +6148,7 @@ class FinanceService final {
     ::grpc::ClientAsyncResponseReader< ::message::VehicleStatsResponse>* AsyncGetVehicleStatsRaw(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::VehicleStatsResponse>* PrepareAsyncGetVehicleStatsRaw(::grpc::ClientContext* context, const ::message::CommonResponse& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_CreatePayment_;
+    const ::grpc::internal::RpcMethod rpcmethod_ConfirmPayment_;
     const ::grpc::internal::RpcMethod rpcmethod_GetPaymentList_;
     const ::grpc::internal::RpcMethod rpcmethod_GetPaymentDetail_;
     const ::grpc::internal::RpcMethod rpcmethod_GenerateInvoice_;
@@ -5909,6 +6165,7 @@ class FinanceService final {
     Service();
     virtual ~Service();
     virtual ::grpc::Status CreatePayment(::grpc::ServerContext* context, const ::message::CreatePaymentRequest* request, ::message::PaymentInfo* response);
+    virtual ::grpc::Status ConfirmPayment(::grpc::ServerContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response);
     virtual ::grpc::Status GetPaymentList(::grpc::ServerContext* context, const ::message::PaymentListRequest* request, ::message::PaymentListResponse* response);
     virtual ::grpc::Status GetPaymentDetail(::grpc::ServerContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response);
     virtual ::grpc::Status GenerateInvoice(::grpc::ServerContext* context, const ::message::GenerateInvoiceRequest* request, ::message::InvoiceInfo* response);
@@ -5939,12 +6196,32 @@ class FinanceService final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_ConfirmPayment : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_ConfirmPayment() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_ConfirmPayment() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ConfirmPayment(::grpc::ServerContext* /*context*/, const ::message::PaymentInfo* /*request*/, ::message::PaymentInfo* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestConfirmPayment(::grpc::ServerContext* context, ::message::PaymentInfo* request, ::grpc::ServerAsyncResponseWriter< ::message::PaymentInfo>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_GetPaymentList : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetPaymentList() {
-      ::grpc::Service::MarkMethodAsync(1);
+      ::grpc::Service::MarkMethodAsync(2);
     }
     ~WithAsyncMethod_GetPaymentList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5955,7 +6232,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetPaymentList(::grpc::ServerContext* context, ::message::PaymentListRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::PaymentListResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5964,7 +6241,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetPaymentDetail() {
-      ::grpc::Service::MarkMethodAsync(2);
+      ::grpc::Service::MarkMethodAsync(3);
     }
     ~WithAsyncMethod_GetPaymentDetail() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5975,7 +6252,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetPaymentDetail(::grpc::ServerContext* context, ::message::PaymentInfo* request, ::grpc::ServerAsyncResponseWriter< ::message::PaymentInfo>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5984,7 +6261,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GenerateInvoice() {
-      ::grpc::Service::MarkMethodAsync(3);
+      ::grpc::Service::MarkMethodAsync(4);
     }
     ~WithAsyncMethod_GenerateInvoice() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5995,7 +6272,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGenerateInvoice(::grpc::ServerContext* context, ::message::GenerateInvoiceRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::InvoiceInfo>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6004,7 +6281,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetInvoiceDetail() {
-      ::grpc::Service::MarkMethodAsync(4);
+      ::grpc::Service::MarkMethodAsync(5);
     }
     ~WithAsyncMethod_GetInvoiceDetail() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6015,7 +6292,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetInvoiceDetail(::grpc::ServerContext* context, ::message::InvoiceInfo* request, ::grpc::ServerAsyncResponseWriter< ::message::InvoiceInfo>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6024,7 +6301,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetInvoiceList() {
-      ::grpc::Service::MarkMethodAsync(5);
+      ::grpc::Service::MarkMethodAsync(6);
     }
     ~WithAsyncMethod_GetInvoiceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6035,7 +6312,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetInvoiceList(::grpc::ServerContext* context, ::message::InvoiceListRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::InvoiceListResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6044,7 +6321,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetStatsOverview() {
-      ::grpc::Service::MarkMethodAsync(6);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_GetStatsOverview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6055,7 +6332,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetStatsOverview(::grpc::ServerContext* context, ::message::CommonResponse* request, ::grpc::ServerAsyncResponseWriter< ::message::StatsOverviewResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6064,7 +6341,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetRevenueStats() {
-      ::grpc::Service::MarkMethodAsync(7);
+      ::grpc::Service::MarkMethodAsync(8);
     }
     ~WithAsyncMethod_GetRevenueStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6075,7 +6352,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetRevenueStats(::grpc::ServerContext* context, ::message::RevenueStatsRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::RevenueStatsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6084,7 +6361,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetVehicleStats() {
-      ::grpc::Service::MarkMethodAsync(8);
+      ::grpc::Service::MarkMethodAsync(9);
     }
     ~WithAsyncMethod_GetVehicleStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6095,10 +6372,10 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetVehicleStats(::grpc::ServerContext* context, ::message::CommonResponse* request, ::grpc::ServerAsyncResponseWriter< ::message::VehicleStatsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_CreatePayment<WithAsyncMethod_GetPaymentList<WithAsyncMethod_GetPaymentDetail<WithAsyncMethod_GenerateInvoice<WithAsyncMethod_GetInvoiceDetail<WithAsyncMethod_GetInvoiceList<WithAsyncMethod_GetStatsOverview<WithAsyncMethod_GetRevenueStats<WithAsyncMethod_GetVehicleStats<Service > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_CreatePayment<WithAsyncMethod_ConfirmPayment<WithAsyncMethod_GetPaymentList<WithAsyncMethod_GetPaymentDetail<WithAsyncMethod_GenerateInvoice<WithAsyncMethod_GetInvoiceDetail<WithAsyncMethod_GetInvoiceList<WithAsyncMethod_GetStatsOverview<WithAsyncMethod_GetRevenueStats<WithAsyncMethod_GetVehicleStats<Service > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_CreatePayment : public BaseClass {
    private:
@@ -6147,6 +6424,53 @@ class FinanceService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithCallbackMethod_ConfirmPayment : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_ConfirmPayment() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(1,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::PaymentInfo, ::message::PaymentInfo>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response) { return this->ConfirmPayment(context, request, response); }));}
+    void SetMessageAllocatorFor_ConfirmPayment(
+        ::grpc::experimental::MessageAllocator< ::message::PaymentInfo, ::message::PaymentInfo>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::PaymentInfo, ::message::PaymentInfo>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_ConfirmPayment() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ConfirmPayment(::grpc::ServerContext* /*context*/, const ::message::PaymentInfo* /*request*/, ::message::PaymentInfo* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ConfirmPayment(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::PaymentInfo* /*request*/, ::message::PaymentInfo* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ConfirmPayment(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::PaymentInfo* /*request*/, ::message::PaymentInfo* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithCallbackMethod_GetPaymentList : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -6157,7 +6481,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(1,
+        MarkMethodCallback(2,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::PaymentListRequest, ::message::PaymentListResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6169,9 +6493,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetPaymentList(
         ::grpc::experimental::MessageAllocator< ::message::PaymentListRequest, ::message::PaymentListResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(1);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(2);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::PaymentListRequest, ::message::PaymentListResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -6204,7 +6528,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(2,
+        MarkMethodCallback(3,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::PaymentInfo, ::message::PaymentInfo>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6216,9 +6540,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetPaymentDetail(
         ::grpc::experimental::MessageAllocator< ::message::PaymentInfo, ::message::PaymentInfo>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(2);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(3);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::PaymentInfo, ::message::PaymentInfo>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -6251,7 +6575,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(3,
+        MarkMethodCallback(4,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::GenerateInvoiceRequest, ::message::InvoiceInfo>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6263,9 +6587,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GenerateInvoice(
         ::grpc::experimental::MessageAllocator< ::message::GenerateInvoiceRequest, ::message::InvoiceInfo>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(3);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(4);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::GenerateInvoiceRequest, ::message::InvoiceInfo>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -6298,7 +6622,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(4,
+        MarkMethodCallback(5,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::InvoiceInfo, ::message::InvoiceInfo>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6310,9 +6634,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetInvoiceDetail(
         ::grpc::experimental::MessageAllocator< ::message::InvoiceInfo, ::message::InvoiceInfo>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(4);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::InvoiceInfo, ::message::InvoiceInfo>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -6345,7 +6669,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(5,
+        MarkMethodCallback(6,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::InvoiceListRequest, ::message::InvoiceListResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6357,9 +6681,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetInvoiceList(
         ::grpc::experimental::MessageAllocator< ::message::InvoiceListRequest, ::message::InvoiceListResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(5);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(6);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::InvoiceListRequest, ::message::InvoiceListResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -6392,7 +6716,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(6,
+        MarkMethodCallback(7,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::CommonResponse, ::message::StatsOverviewResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6404,9 +6728,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetStatsOverview(
         ::grpc::experimental::MessageAllocator< ::message::CommonResponse, ::message::StatsOverviewResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(7);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::CommonResponse, ::message::StatsOverviewResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -6439,7 +6763,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(7,
+        MarkMethodCallback(8,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6451,9 +6775,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetRevenueStats(
         ::grpc::experimental::MessageAllocator< ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(7);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(8);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -6486,7 +6810,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(8,
+        MarkMethodCallback(9,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::CommonResponse, ::message::VehicleStatsResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6498,9 +6822,9 @@ class FinanceService final {
     void SetMessageAllocatorFor_GetVehicleStats(
         ::grpc::experimental::MessageAllocator< ::message::CommonResponse, ::message::VehicleStatsResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(8);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(9);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::CommonResponse, ::message::VehicleStatsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -6523,10 +6847,10 @@ class FinanceService final {
       { return nullptr; }
   };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_CreatePayment<ExperimentalWithCallbackMethod_GetPaymentList<ExperimentalWithCallbackMethod_GetPaymentDetail<ExperimentalWithCallbackMethod_GenerateInvoice<ExperimentalWithCallbackMethod_GetInvoiceDetail<ExperimentalWithCallbackMethod_GetInvoiceList<ExperimentalWithCallbackMethod_GetStatsOverview<ExperimentalWithCallbackMethod_GetRevenueStats<ExperimentalWithCallbackMethod_GetVehicleStats<Service > > > > > > > > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_CreatePayment<ExperimentalWithCallbackMethod_ConfirmPayment<ExperimentalWithCallbackMethod_GetPaymentList<ExperimentalWithCallbackMethod_GetPaymentDetail<ExperimentalWithCallbackMethod_GenerateInvoice<ExperimentalWithCallbackMethod_GetInvoiceDetail<ExperimentalWithCallbackMethod_GetInvoiceList<ExperimentalWithCallbackMethod_GetStatsOverview<ExperimentalWithCallbackMethod_GetRevenueStats<ExperimentalWithCallbackMethod_GetVehicleStats<Service > > > > > > > > > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_CreatePayment<ExperimentalWithCallbackMethod_GetPaymentList<ExperimentalWithCallbackMethod_GetPaymentDetail<ExperimentalWithCallbackMethod_GenerateInvoice<ExperimentalWithCallbackMethod_GetInvoiceDetail<ExperimentalWithCallbackMethod_GetInvoiceList<ExperimentalWithCallbackMethod_GetStatsOverview<ExperimentalWithCallbackMethod_GetRevenueStats<ExperimentalWithCallbackMethod_GetVehicleStats<Service > > > > > > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_CreatePayment<ExperimentalWithCallbackMethod_ConfirmPayment<ExperimentalWithCallbackMethod_GetPaymentList<ExperimentalWithCallbackMethod_GetPaymentDetail<ExperimentalWithCallbackMethod_GenerateInvoice<ExperimentalWithCallbackMethod_GetInvoiceDetail<ExperimentalWithCallbackMethod_GetInvoiceList<ExperimentalWithCallbackMethod_GetStatsOverview<ExperimentalWithCallbackMethod_GetRevenueStats<ExperimentalWithCallbackMethod_GetVehicleStats<Service > > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_CreatePayment : public BaseClass {
    private:
@@ -6545,12 +6869,29 @@ class FinanceService final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_ConfirmPayment : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_ConfirmPayment() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_ConfirmPayment() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ConfirmPayment(::grpc::ServerContext* /*context*/, const ::message::PaymentInfo* /*request*/, ::message::PaymentInfo* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_GetPaymentList : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetPaymentList() {
-      ::grpc::Service::MarkMethodGeneric(1);
+      ::grpc::Service::MarkMethodGeneric(2);
     }
     ~WithGenericMethod_GetPaymentList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6567,7 +6908,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetPaymentDetail() {
-      ::grpc::Service::MarkMethodGeneric(2);
+      ::grpc::Service::MarkMethodGeneric(3);
     }
     ~WithGenericMethod_GetPaymentDetail() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6584,7 +6925,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GenerateInvoice() {
-      ::grpc::Service::MarkMethodGeneric(3);
+      ::grpc::Service::MarkMethodGeneric(4);
     }
     ~WithGenericMethod_GenerateInvoice() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6601,7 +6942,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetInvoiceDetail() {
-      ::grpc::Service::MarkMethodGeneric(4);
+      ::grpc::Service::MarkMethodGeneric(5);
     }
     ~WithGenericMethod_GetInvoiceDetail() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6618,7 +6959,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetInvoiceList() {
-      ::grpc::Service::MarkMethodGeneric(5);
+      ::grpc::Service::MarkMethodGeneric(6);
     }
     ~WithGenericMethod_GetInvoiceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6635,7 +6976,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetStatsOverview() {
-      ::grpc::Service::MarkMethodGeneric(6);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_GetStatsOverview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6652,7 +6993,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetRevenueStats() {
-      ::grpc::Service::MarkMethodGeneric(7);
+      ::grpc::Service::MarkMethodGeneric(8);
     }
     ~WithGenericMethod_GetRevenueStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6669,7 +7010,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetVehicleStats() {
-      ::grpc::Service::MarkMethodGeneric(8);
+      ::grpc::Service::MarkMethodGeneric(9);
     }
     ~WithGenericMethod_GetVehicleStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6701,12 +7042,32 @@ class FinanceService final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_ConfirmPayment : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_ConfirmPayment() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_ConfirmPayment() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ConfirmPayment(::grpc::ServerContext* /*context*/, const ::message::PaymentInfo* /*request*/, ::message::PaymentInfo* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestConfirmPayment(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_GetPaymentList : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetPaymentList() {
-      ::grpc::Service::MarkMethodRaw(1);
+      ::grpc::Service::MarkMethodRaw(2);
     }
     ~WithRawMethod_GetPaymentList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6717,7 +7078,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetPaymentList(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6726,7 +7087,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetPaymentDetail() {
-      ::grpc::Service::MarkMethodRaw(2);
+      ::grpc::Service::MarkMethodRaw(3);
     }
     ~WithRawMethod_GetPaymentDetail() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6737,7 +7098,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetPaymentDetail(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6746,7 +7107,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GenerateInvoice() {
-      ::grpc::Service::MarkMethodRaw(3);
+      ::grpc::Service::MarkMethodRaw(4);
     }
     ~WithRawMethod_GenerateInvoice() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6757,7 +7118,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGenerateInvoice(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6766,7 +7127,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetInvoiceDetail() {
-      ::grpc::Service::MarkMethodRaw(4);
+      ::grpc::Service::MarkMethodRaw(5);
     }
     ~WithRawMethod_GetInvoiceDetail() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6777,7 +7138,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetInvoiceDetail(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6786,7 +7147,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetInvoiceList() {
-      ::grpc::Service::MarkMethodRaw(5);
+      ::grpc::Service::MarkMethodRaw(6);
     }
     ~WithRawMethod_GetInvoiceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6797,7 +7158,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetInvoiceList(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6806,7 +7167,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetStatsOverview() {
-      ::grpc::Service::MarkMethodRaw(6);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_GetStatsOverview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6817,7 +7178,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetStatsOverview(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6826,7 +7187,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetRevenueStats() {
-      ::grpc::Service::MarkMethodRaw(7);
+      ::grpc::Service::MarkMethodRaw(8);
     }
     ~WithRawMethod_GetRevenueStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6837,7 +7198,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetRevenueStats(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6846,7 +7207,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetVehicleStats() {
-      ::grpc::Service::MarkMethodRaw(8);
+      ::grpc::Service::MarkMethodRaw(9);
     }
     ~WithRawMethod_GetVehicleStats() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6857,7 +7218,7 @@ class FinanceService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetVehicleStats(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6899,6 +7260,44 @@ class FinanceService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_ConfirmPayment : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_ConfirmPayment() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(1,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ConfirmPayment(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_ConfirmPayment() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ConfirmPayment(::grpc::ServerContext* /*context*/, const ::message::PaymentInfo* /*request*/, ::message::PaymentInfo* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* ConfirmPayment(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* ConfirmPayment(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_GetPaymentList : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -6909,7 +7308,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(1,
+        MarkMethodRawCallback(2,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6947,7 +7346,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(2,
+        MarkMethodRawCallback(3,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -6985,7 +7384,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(3,
+        MarkMethodRawCallback(4,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -7023,7 +7422,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(4,
+        MarkMethodRawCallback(5,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -7061,7 +7460,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(5,
+        MarkMethodRawCallback(6,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -7099,7 +7498,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(6,
+        MarkMethodRawCallback(7,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -7137,7 +7536,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(7,
+        MarkMethodRawCallback(8,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -7175,7 +7574,7 @@ class FinanceService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(8,
+        MarkMethodRawCallback(9,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -7230,12 +7629,39 @@ class FinanceService final {
     virtual ::grpc::Status StreamedCreatePayment(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::CreatePaymentRequest,::message::PaymentInfo>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_ConfirmPayment : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_ConfirmPayment() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::PaymentInfo, ::message::PaymentInfo>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::PaymentInfo, ::message::PaymentInfo>* streamer) {
+                       return this->StreamedConfirmPayment(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_ConfirmPayment() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status ConfirmPayment(::grpc::ServerContext* /*context*/, const ::message::PaymentInfo* /*request*/, ::message::PaymentInfo* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedConfirmPayment(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::PaymentInfo,::message::PaymentInfo>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_GetPaymentList : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetPaymentList() {
-      ::grpc::Service::MarkMethodStreamed(1,
+      ::grpc::Service::MarkMethodStreamed(2,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::PaymentListRequest, ::message::PaymentListResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -7262,7 +7688,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetPaymentDetail() {
-      ::grpc::Service::MarkMethodStreamed(2,
+      ::grpc::Service::MarkMethodStreamed(3,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::PaymentInfo, ::message::PaymentInfo>(
             [this](::grpc_impl::ServerContext* context,
@@ -7289,7 +7715,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GenerateInvoice() {
-      ::grpc::Service::MarkMethodStreamed(3,
+      ::grpc::Service::MarkMethodStreamed(4,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::GenerateInvoiceRequest, ::message::InvoiceInfo>(
             [this](::grpc_impl::ServerContext* context,
@@ -7316,7 +7742,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetInvoiceDetail() {
-      ::grpc::Service::MarkMethodStreamed(4,
+      ::grpc::Service::MarkMethodStreamed(5,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::InvoiceInfo, ::message::InvoiceInfo>(
             [this](::grpc_impl::ServerContext* context,
@@ -7343,7 +7769,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetInvoiceList() {
-      ::grpc::Service::MarkMethodStreamed(5,
+      ::grpc::Service::MarkMethodStreamed(6,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::InvoiceListRequest, ::message::InvoiceListResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -7370,7 +7796,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetStatsOverview() {
-      ::grpc::Service::MarkMethodStreamed(6,
+      ::grpc::Service::MarkMethodStreamed(7,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::CommonResponse, ::message::StatsOverviewResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -7397,7 +7823,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetRevenueStats() {
-      ::grpc::Service::MarkMethodStreamed(7,
+      ::grpc::Service::MarkMethodStreamed(8,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -7424,7 +7850,7 @@ class FinanceService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetVehicleStats() {
-      ::grpc::Service::MarkMethodStreamed(8,
+      ::grpc::Service::MarkMethodStreamed(9,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::CommonResponse, ::message::VehicleStatsResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -7445,9 +7871,9 @@ class FinanceService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedGetVehicleStats(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::CommonResponse,::message::VehicleStatsResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetInvoiceList<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_ConfirmPayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetInvoiceList<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetInvoiceList<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_CreatePayment<WithStreamedUnaryMethod_ConfirmPayment<WithStreamedUnaryMethod_GetPaymentList<WithStreamedUnaryMethod_GetPaymentDetail<WithStreamedUnaryMethod_GenerateInvoice<WithStreamedUnaryMethod_GetInvoiceDetail<WithStreamedUnaryMethod_GetInvoiceList<WithStreamedUnaryMethod_GetStatsOverview<WithStreamedUnaryMethod_GetRevenueStats<WithStreamedUnaryMethod_GetVehicleStats<Service > > > > > > > > > > StreamedService;
 };
 
 class MailerService final {

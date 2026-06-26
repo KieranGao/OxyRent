@@ -340,6 +340,7 @@ service VehicleService {
     rpc PickupVehicle(PickupRequest) returns (CommonResponse);
     rpc ReturnVehicle(ReturnRequest) returns (OrderInfo);
     rpc RenewOrder(RenewRequest) returns (OrderInfo);
+    rpc CancelOrder(PickupRequest) returns (CommonResponse);
 
     // Maintenance
     rpc CreateMaintenance(CreateMaintenanceRequest) returns (CommonResponse);
@@ -463,6 +464,7 @@ message VehicleStatsBrandItem {
 
 service FinanceService {
     rpc CreatePayment(CreatePaymentRequest) returns (PaymentInfo);
+    rpc ConfirmPayment(PaymentInfo) returns (PaymentInfo);
     rpc GetPaymentList(PaymentListRequest) returns (PaymentListResponse);
     rpc GetPaymentDetail(PaymentInfo) returns (PaymentInfo);
     rpc GenerateInvoice(GenerateInvoiceRequest) returns (InvoiceInfo);

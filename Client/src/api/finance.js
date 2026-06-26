@@ -4,6 +4,10 @@ export function createPayment(data) {
   return request.post('/payment/create', data)
 }
 
+export function confirmPayment(data) {
+  return request.post('/payment/confirm', data)
+}
+
 export function getPaymentList(params) {
   return request.get('/payment/list', { params })
 }

@@ -89,3 +89,18 @@
 [2026-06-26 20:33:04.294] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
 [2026-06-26 21:21:13.201] [WARN] generateInvoice: invoice already exists for order 3
 [2026-06-26 21:21:13.206] [INFO] [Finance] GenerateInvoice success, id=2 invoice_no=INV20260627001
+[2026-06-26 23:17:13.217] [ERROR] SQLException in createPayment: Field 'user_id' doesn't have a default value
+[2026-06-26 23:17:13.218] [WARN] [Finance] CreatePayment failed: order not found or insert failed
+[2026-06-26 23:38:18.921] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 23:38:18.922] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 23:38:49.785] [INFO] [Finance] CreatePayment success, id=35
+[2026-06-26 23:39:40.374] [INFO] [Finance] CreatePayment success, id=36
+[2026-06-26 23:42:46.661] [ERROR] SQLException in generateInvoice: Table 'vehicle_rental.users' doesn't exist
+[2026-06-26 23:42:46.661] [WARN] [Finance] GenerateInvoice failed for order: 7
+[2026-06-26 23:44:43.437] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 23:44:43.438] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 23:45:14.389] [ERROR] SQLException in generateInvoice: Unknown column 'u.id' in 'on clause'
+[2026-06-26 23:45:14.389] [WARN] [Finance] GenerateInvoice failed for order: 7
+[2026-06-26 23:46:09.572] [INFO] FinanceServer starting on 0.0.0.0:50055
+[2026-06-26 23:46:09.574] [INFO] FinanceServer gRPC listening on 0.0.0.0:50055
+[2026-06-26 23:46:23.699] [INFO] [Finance] GenerateInvoice success, id=3 invoice_no=INV202606260001

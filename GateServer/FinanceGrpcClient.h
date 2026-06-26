@@ -34,6 +34,7 @@ class FinanceGrpcClient : public Singleton<FinanceGrpcClient> {
     friend class Singleton<FinanceGrpcClient>;
 public:
     PaymentInfo createPayment(const CreatePaymentRequest& request);
+    PaymentInfo confirmPayment(const PaymentInfo& request);
     PaymentListResponse getPaymentList(const PaymentListRequest& request);
     PaymentInfo getPaymentDetail(const PaymentInfo& request);
     InvoiceInfo generateInvoice(const GenerateInvoiceRequest& request);

@@ -45,6 +45,18 @@
           </template>
         </el-table-column>
         <el-table-column prop="created_at" label="日期" min-width="110" />
+        <el-table-column label="操作" min-width="100" fixed="right">
+          <template #default="{ row }">
+            <el-button
+              v-if="row.status === 'pending'"
+              type="success"
+              size="small"
+              @click="handleConfirm(row)"
+            >
+              确认支付
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
 
       <div class="pagination-wrapper" v-if="total > query.page_size">
@@ -97,7 +109,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { getPaymentList, createPayment } from '@/api/finance'
+import { getPaymentList, createPayment, confirmPayment } from '@/api/finance'
 import { ElMessage } from 'element-plus'
 import { Search, Plus } from '@element-plus/icons-vue'
 
@@ -185,6 +197,20 @@ async function loadList() {
 function handlePageChange(page) {
   query.page = page
   loadList()
+}
+
+async function handleConfirm(row) {
+  try {
+    const res = await confirmPayment({ id: row.id })
+    if (res.error === 0) {
+      ElMessage.success('支付已确认')
+      loadList()
+    } else {
+      ElMessage.error(res.msg || '确认支付失败')
+    }
+  } catch {
+    ElMessage.error('确认支付失败')
+  }
 }
 
 onMounted(loadList)

@@ -81,6 +81,10 @@ bool MySQLManager::renewOrder(int64_t order_id, const std::string& new_end_date,
     return dao_->renewOrder(order_id, new_end_date, new_total_days, daily_rate, total_cost);
 }
 
+bool MySQLManager::cancelOrder(int64_t order_id, int64_t vehicle_id) {
+    return dao_->cancelOrder(order_id, vehicle_id);
+}
+
 // ==================== Maintenance Operations ====================
 
 int64_t MySQLManager::createMaintenance(int64_t vehicle_id, const std::string& type,

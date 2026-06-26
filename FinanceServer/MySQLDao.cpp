@@ -29,10 +29,11 @@ int64_t MySQLDao::createPayment(int64_t order_id, double amount, const std::stri
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // 从rental_orders获取order_no
+        // 从rental_orders获取order_no和user_id
         std::string order_no;
+        int64_t user_id = 0;
         std::unique_ptr<sql::PreparedStatement> orderStmt(
-            sql_conn->prepareStatement("SELECT order_no FROM rental_orders WHERE id = ? LIMIT 1"));
+            sql_conn->prepareStatement("SELECT order_no, user_id FROM rental_orders WHERE id = ? LIMIT 1"));
         orderStmt->setInt64(1, order_id);
         std::unique_ptr<sql::ResultSet> orderRes(orderStmt->executeQuery());
         if (!orderRes || !orderRes->next()) {
@@ -40,17 +41,19 @@ int64_t MySQLDao::createPayment(int64_t order_id, double amount, const std::stri
             return -1;
         }
         order_no = orderRes->getString("order_no");
+        user_id = orderRes->getInt64("user_id");
 
         std::unique_ptr<sql::PreparedStatement> insertStmt(
             sql_conn->prepareStatement(
-                "INSERT INTO payments (order_id, order_no, amount, type, method, status, remark) "
-                "VALUES (?, ?, ?, ?, ?, 'pending', ?)"));
+                "INSERT INTO payments (order_id, order_no, user_id, amount, type, method, status, remark) "
+                "VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)"));
         insertStmt->setInt64(1, order_id);
         insertStmt->setString(2, order_no);
-        insertStmt->setDouble(3, amount);
-        insertStmt->setString(4, type);
-        insertStmt->setString(5, method);
-        insertStmt->setString(6, remark);
+        insertStmt->setInt64(3, user_id);
+        insertStmt->setDouble(4, amount);
+        insertStmt->setString(5, type);
+        insertStmt->setString(6, method);
+        insertStmt->setString(7, remark);
         insertStmt->executeUpdate();
 
         std::unique_ptr<sql::Statement> stmtResult(sql_conn->createStatement());
@@ -64,6 +67,23 @@ int64_t MySQLDao::createPayment(int64_t order_id, double amount, const std::stri
     } catch(const sql::SQLException& exp) {
         LOG_ERROR("SQLException in createPayment: {}", exp.what());
         return -1;
+    }
+}
+
+bool MySQLDao::confirmPayment(int64_t id) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            sql_conn->prepareStatement(
+                "UPDATE payments SET status='success', paid_at=NOW() WHERE id=? AND status='pending'"));
+        pstmt->setInt64(1, id);
+        int affected = pstmt->executeUpdate();
+        LOG_DEBUG("confirmPayment id={} affected={}", id, affected);
+        return affected > 0;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in confirmPayment: {}", exp.what());
+        return false;
     }
 }
 
@@ -185,9 +205,9 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         // 获取订单详情
         std::unique_ptr<sql::PreparedStatement> orderStmt(
             sql_conn->prepareStatement(
-                "SELECT o.id, o.order_no, o.user_id, u.username, o.total_amount "
+                "SELECT o.id, o.order_no, o.user_id, u.username, o.total_cost "
                 "FROM rental_orders o "
-                "LEFT JOIN users u ON o.user_id = u.id "
+                "LEFT JOIN user u ON o.user_id = u.uid "
                 "WHERE o.id = ? LIMIT 1"));
         orderStmt->setInt64(1, order_id);
         std::unique_ptr<sql::ResultSet> orderRes(orderStmt->executeQuery());
@@ -199,7 +219,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         std::string order_no = orderRes->getString("order_no");
         int64_t user_id = orderRes->getInt64("user_id");
         std::string username = orderRes->getString("username");
-        double total_cost = orderRes->getDouble("total_amount");
+        double total_cost = orderRes->getDouble("total_cost");
 
         // 生成账单编号
         auto now = std::chrono::system_clock::now();
@@ -227,7 +247,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         std::unique_ptr<sql::PreparedStatement> payStmt(
             sql_conn->prepareStatement(
                 "SELECT id, amount, type, method, paid_at FROM payments "
-                "WHERE order_id = ? AND status = 'completed'"));
+                "WHERE order_id = ? AND status = 'success'"));
         payStmt->setInt64(1, order_id);
         std::unique_ptr<sql::ResultSet> payRes(payStmt->executeQuery());
 
@@ -482,7 +502,8 @@ bool MySQLDao::getVehicleStats(int& total, int& available, int& rented, int& mai
             "SELECT COUNT(*) AS total, "
             "SUM(CASE WHEN status = 'available' THEN 1 ELSE 0 END) AS available, "
             "SUM(CASE WHEN status = 'rented' THEN 1 ELSE 0 END) AS rented, "
-            "SUM(CASE WHEN status = 'maintenance' THEN 1 ELSE 0 END) AS maintenance "
+            "SUM(CASE WHEN status = 'maintenance' THEN 1 ELSE 0 END) AS maintenance, "
+            "SUM(CASE WHEN status = 'reserved' THEN 1 ELSE 0 END) AS reserved "
             "FROM vehicles"));
         if (res1 && res1->next()) {
             total = res1->getInt("total");

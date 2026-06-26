@@ -341,6 +341,17 @@ int64_t MySQLDao::createOrder(int64_t user_id, int64_t vehicle_id,
         std::unique_ptr<sql::ResultSet> res(stmtResult->executeQuery("SELECT LAST_INSERT_ID() AS id"));
         if (res && res->next()) {
             int64_t id = res->getInt64("id");
+
+            // 将车辆状态设置为reserved，防止重复预订
+            std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+                sql_conn->prepareStatement(
+                    "UPDATE vehicles SET status = 'reserved' WHERE id = ? AND status = 'available'"));
+            vehicleStmt->setInt64(1, vehicle_id);
+            int vehicleAffected = vehicleStmt->executeUpdate();
+            if (vehicleAffected == 0) {
+                LOG_WARN("createOrder: failed to reserve vehicle {} (may not be available)", vehicle_id);
+            }
+
             LOG_DEBUG("new order id: {} order_no: {}", id, order_no);
             return id;
         }
@@ -506,7 +517,7 @@ bool MySQLDao::pickupVehicle(int64_t order_id, int64_t vehicle_id) {
         // 更新车辆状态为'rented'（vehicle_id由服务层传入）
         std::unique_ptr<sql::PreparedStatement> vehicleStmt(
             sql_conn->prepareStatement(
-                "UPDATE vehicles SET status = 'rented' WHERE id = ?"));
+                "UPDATE vehicles SET status = 'rented' WHERE id = ? AND status IN ('reserved', 'available')"));
         vehicleStmt->setInt64(1, vehicle_id);
         vehicleStmt->executeUpdate();
 
@@ -525,12 +536,13 @@ bool MySQLDao::returnVehicle(int64_t order_id, int64_t vehicle_id, const std::st
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // 计算罚金和总费用
+        // 计算罚金和总费用（至少按1天计费）
+        int billing_days = std::max(actual_days, 1);
         penalty = 0.0;
         if (actual_days > planned_days) {
             penalty = (actual_days - planned_days) * daily_rate * 1.5;
         }
-        total_cost = actual_days * daily_rate + penalty;
+        total_cost = billing_days * daily_rate + penalty;
 
         // 更新订单
         std::unique_ptr<sql::PreparedStatement> orderStmt(
@@ -588,6 +600,37 @@ bool MySQLDao::renewOrder(int64_t order_id, const std::string& new_end_date,
         return true;
     } catch(const sql::SQLException& exp) {
         LOG_ERROR("SQLException in renewOrder: {}", exp.what());
+        return false;
+    }
+}
+
+bool MySQLDao::cancelOrder(int64_t order_id, int64_t vehicle_id) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+
+        // 更新订单状态为'cancelled'
+        std::unique_ptr<sql::PreparedStatement> orderStmt(
+            sql_conn->prepareStatement(
+                "UPDATE rental_orders SET status = 'cancelled' WHERE id = ? AND status = 'pending'"));
+        orderStmt->setInt64(1, order_id);
+        int affected = orderStmt->executeUpdate();
+        if (affected == 0) {
+            LOG_WARN("cancelOrder: order {} not found or not in pending status", order_id);
+            return false;
+        }
+
+        // 释放车辆状态为'available'
+        std::unique_ptr<sql::PreparedStatement> vehicleStmt(
+            sql_conn->prepareStatement(
+                "UPDATE vehicles SET status = 'available' WHERE id = ? AND status = 'reserved'"));
+        vehicleStmt->setInt64(1, vehicle_id);
+        vehicleStmt->executeUpdate();
+
+        LOG_INFO("cancelOrder: order {} cancelled, vehicle {} released", order_id, vehicle_id);
+        return true;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in cancelOrder: {}", exp.what());
         return false;
     }
 }

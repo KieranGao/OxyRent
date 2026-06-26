@@ -11,6 +11,10 @@ int64_t MySQLManager::createPayment(int64_t order_id, double amount, const std::
     return dao_->createPayment(order_id, amount, type, method, remark);
 }
 
+bool MySQLManager::confirmPayment(int64_t id) {
+    return dao_->confirmPayment(id);
+}
+
 bool MySQLManager::getPaymentList(int page, int page_size, int64_t order_id,
                                    const std::string& status, const std::string& type,
                                    std::vector<PaymentData>& payments, int& total) {

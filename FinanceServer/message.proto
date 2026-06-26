@@ -120,6 +120,7 @@ message VehicleStatsBrandItem {
 
 service FinanceService {
     rpc CreatePayment(CreatePaymentRequest) returns (PaymentInfo);
+    rpc ConfirmPayment(PaymentInfo) returns (PaymentInfo);
     rpc GetPaymentList(PaymentListRequest) returns (PaymentListResponse);
     rpc GetPaymentDetail(PaymentInfo) returns (PaymentInfo);
     rpc GenerateInvoice(GenerateInvoiceRequest) returns (InvoiceInfo);

@@ -115,6 +115,13 @@ class VehicleService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>> PrepareAsyncRenewOrder(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>>(PrepareAsyncRenewOrderRaw(context, request, cq));
     }
+    virtual ::grpc::Status CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::message::CommonResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> AsyncCancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>>(AsyncCancelOrderRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> PrepareAsyncCancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>>(PrepareAsyncCancelOrderRaw(context, request, cq));
+    }
     // Maintenance
     virtual ::grpc::Status CreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::message::CommonResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>> AsyncCreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) {
@@ -281,6 +288,18 @@ class VehicleService final {
       #else
       virtual void RenewOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::OrderInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
       // Maintenance
       virtual void CreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void CreateMaintenance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) = 0;
@@ -361,6 +380,8 @@ class VehicleService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>* PrepareAsyncReturnVehicleRaw(::grpc::ClientContext* context, const ::message::ReturnRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>* AsyncRenewOrderRaw(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::OrderInfo>* PrepareAsyncRenewOrderRaw(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* AsyncCancelOrderRaw(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* PrepareAsyncCancelOrderRaw(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* AsyncCreateMaintenanceRaw(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* PrepareAsyncCreateMaintenanceRaw(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::CommonResponse>* AsyncUpdateMaintenanceRaw(::grpc::ClientContext* context, const ::message::UpdateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -449,6 +470,13 @@ class VehicleService final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>> PrepareAsyncRenewOrder(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>>(PrepareAsyncRenewOrderRaw(context, request, cq));
+    }
+    ::grpc::Status CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::message::CommonResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> AsyncCancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>>(AsyncCancelOrderRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> PrepareAsyncCancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>>(PrepareAsyncCancelOrderRaw(context, request, cq));
     }
     ::grpc::Status CreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::message::CommonResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>> AsyncCreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) {
@@ -613,6 +641,18 @@ class VehicleService final {
       #else
       void RenewOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::OrderInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
+      void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
+      void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void CancelOrder(::grpc::ClientContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void CancelOrder(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
       void CreateMaintenance(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
       void CreateMaintenance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::CommonResponse* response, std::function<void(::grpc::Status)>) override;
       #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -694,6 +734,8 @@ class VehicleService final {
     ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>* PrepareAsyncReturnVehicleRaw(::grpc::ClientContext* context, const ::message::ReturnRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>* AsyncRenewOrderRaw(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::OrderInfo>* PrepareAsyncRenewOrderRaw(::grpc::ClientContext* context, const ::message::RenewRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* AsyncCancelOrderRaw(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* PrepareAsyncCancelOrderRaw(::grpc::ClientContext* context, const ::message::PickupRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* AsyncCreateMaintenanceRaw(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* PrepareAsyncCreateMaintenanceRaw(::grpc::ClientContext* context, const ::message::CreateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::CommonResponse>* AsyncUpdateMaintenanceRaw(::grpc::ClientContext* context, const ::message::UpdateMaintenanceRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -713,6 +755,7 @@ class VehicleService final {
     const ::grpc::internal::RpcMethod rpcmethod_PickupVehicle_;
     const ::grpc::internal::RpcMethod rpcmethod_ReturnVehicle_;
     const ::grpc::internal::RpcMethod rpcmethod_RenewOrder_;
+    const ::grpc::internal::RpcMethod rpcmethod_CancelOrder_;
     const ::grpc::internal::RpcMethod rpcmethod_CreateMaintenance_;
     const ::grpc::internal::RpcMethod rpcmethod_UpdateMaintenance_;
     const ::grpc::internal::RpcMethod rpcmethod_GetMaintenanceList_;
@@ -737,6 +780,7 @@ class VehicleService final {
     virtual ::grpc::Status PickupVehicle(::grpc::ServerContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response);
     virtual ::grpc::Status ReturnVehicle(::grpc::ServerContext* context, const ::message::ReturnRequest* request, ::message::OrderInfo* response);
     virtual ::grpc::Status RenewOrder(::grpc::ServerContext* context, const ::message::RenewRequest* request, ::message::OrderInfo* response);
+    virtual ::grpc::Status CancelOrder(::grpc::ServerContext* context, const ::message::PickupRequest* request, ::message::CommonResponse* response);
     // Maintenance
     virtual ::grpc::Status CreateMaintenance(::grpc::ServerContext* context, const ::message::CreateMaintenanceRequest* request, ::message::CommonResponse* response);
     virtual ::grpc::Status UpdateMaintenance(::grpc::ServerContext* context, const ::message::UpdateMaintenanceRequest* request, ::message::CommonResponse* response);
@@ -964,12 +1008,32 @@ class VehicleService final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_CancelOrder() {
+      ::grpc::Service::MarkMethodAsync(11);
+    }
+    ~WithAsyncMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCancelOrder(::grpc::ServerContext* context, ::message::PickupRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_CreateMaintenance() {
-      ::grpc::Service::MarkMethodAsync(11);
+      ::grpc::Service::MarkMethodAsync(12);
     }
     ~WithAsyncMethod_CreateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -980,7 +1044,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateMaintenance(::grpc::ServerContext* context, ::message::CreateMaintenanceRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -989,7 +1053,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UpdateMaintenance() {
-      ::grpc::Service::MarkMethodAsync(12);
+      ::grpc::Service::MarkMethodAsync(13);
     }
     ~WithAsyncMethod_UpdateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1000,7 +1064,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateMaintenance(::grpc::ServerContext* context, ::message::UpdateMaintenanceRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1009,7 +1073,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetMaintenanceList() {
-      ::grpc::Service::MarkMethodAsync(13);
+      ::grpc::Service::MarkMethodAsync(14);
     }
     ~WithAsyncMethod_GetMaintenanceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1020,7 +1084,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetMaintenanceList(::grpc::ServerContext* context, ::message::MaintenanceListRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::MaintenanceListResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1029,7 +1093,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteMaintenance() {
-      ::grpc::Service::MarkMethodAsync(14);
+      ::grpc::Service::MarkMethodAsync(15);
     }
     ~WithAsyncMethod_DeleteMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1040,10 +1104,10 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteMaintenance(::grpc::ServerContext* context, ::message::VehicleDetailRequest* request, ::grpc::ServerAsyncResponseWriter< ::message::CommonResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_GetVehicleList<WithAsyncMethod_GetVehicleDetail<WithAsyncMethod_AddVehicle<WithAsyncMethod_UpdateVehicle<WithAsyncMethod_DeleteVehicle<WithAsyncMethod_CreateOrder<WithAsyncMethod_GetOrderList<WithAsyncMethod_GetOrderDetail<WithAsyncMethod_PickupVehicle<WithAsyncMethod_ReturnVehicle<WithAsyncMethod_RenewOrder<WithAsyncMethod_CreateMaintenance<WithAsyncMethod_UpdateMaintenance<WithAsyncMethod_GetMaintenanceList<WithAsyncMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_GetVehicleList<WithAsyncMethod_GetVehicleDetail<WithAsyncMethod_AddVehicle<WithAsyncMethod_UpdateVehicle<WithAsyncMethod_DeleteVehicle<WithAsyncMethod_CreateOrder<WithAsyncMethod_GetOrderList<WithAsyncMethod_GetOrderDetail<WithAsyncMethod_PickupVehicle<WithAsyncMethod_ReturnVehicle<WithAsyncMethod_RenewOrder<WithAsyncMethod_CancelOrder<WithAsyncMethod_CreateMaintenance<WithAsyncMethod_UpdateMaintenance<WithAsyncMethod_GetMaintenanceList<WithAsyncMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_GetVehicleList : public BaseClass {
    private:
@@ -1562,6 +1626,53 @@ class VehicleService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithCallbackMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_CancelOrder() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(11,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::message::PickupRequest, ::message::CommonResponse>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::PickupRequest* request, ::message::CommonResponse* response) { return this->CancelOrder(context, request, response); }));}
+    void SetMessageAllocatorFor_CancelOrder(
+        ::grpc::experimental::MessageAllocator< ::message::PickupRequest, ::message::CommonResponse>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(11);
+    #endif
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::PickupRequest, ::message::CommonResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* CancelOrder(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* CancelOrder(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithCallbackMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -1572,7 +1683,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(11,
+        MarkMethodCallback(12,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::CreateMaintenanceRequest, ::message::CommonResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -1584,9 +1695,9 @@ class VehicleService final {
     void SetMessageAllocatorFor_CreateMaintenance(
         ::grpc::experimental::MessageAllocator< ::message::CreateMaintenanceRequest, ::message::CommonResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(11);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(12);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::CreateMaintenanceRequest, ::message::CommonResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -1619,7 +1730,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(12,
+        MarkMethodCallback(13,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::UpdateMaintenanceRequest, ::message::CommonResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -1631,9 +1742,9 @@ class VehicleService final {
     void SetMessageAllocatorFor_UpdateMaintenance(
         ::grpc::experimental::MessageAllocator< ::message::UpdateMaintenanceRequest, ::message::CommonResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(12);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(13);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::UpdateMaintenanceRequest, ::message::CommonResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -1666,7 +1777,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(13,
+        MarkMethodCallback(14,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::MaintenanceListRequest, ::message::MaintenanceListResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -1678,9 +1789,9 @@ class VehicleService final {
     void SetMessageAllocatorFor_GetMaintenanceList(
         ::grpc::experimental::MessageAllocator< ::message::MaintenanceListRequest, ::message::MaintenanceListResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(13);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(14);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::MaintenanceListRequest, ::message::MaintenanceListResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -1713,7 +1824,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodCallback(14,
+        MarkMethodCallback(15,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::message::VehicleDetailRequest, ::message::CommonResponse>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -1725,9 +1836,9 @@ class VehicleService final {
     void SetMessageAllocatorFor_DeleteMaintenance(
         ::grpc::experimental::MessageAllocator< ::message::VehicleDetailRequest, ::message::CommonResponse>* allocator) {
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
     #else
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(14);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(15);
     #endif
       static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::message::VehicleDetailRequest, ::message::CommonResponse>*>(handler)
               ->SetMessageAllocator(allocator);
@@ -1750,10 +1861,10 @@ class VehicleService final {
       { return nullptr; }
   };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_GetVehicleList<ExperimentalWithCallbackMethod_GetVehicleDetail<ExperimentalWithCallbackMethod_AddVehicle<ExperimentalWithCallbackMethod_UpdateVehicle<ExperimentalWithCallbackMethod_DeleteVehicle<ExperimentalWithCallbackMethod_CreateOrder<ExperimentalWithCallbackMethod_GetOrderList<ExperimentalWithCallbackMethod_GetOrderDetail<ExperimentalWithCallbackMethod_PickupVehicle<ExperimentalWithCallbackMethod_ReturnVehicle<ExperimentalWithCallbackMethod_RenewOrder<ExperimentalWithCallbackMethod_CreateMaintenance<ExperimentalWithCallbackMethod_UpdateMaintenance<ExperimentalWithCallbackMethod_GetMaintenanceList<ExperimentalWithCallbackMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_GetVehicleList<ExperimentalWithCallbackMethod_GetVehicleDetail<ExperimentalWithCallbackMethod_AddVehicle<ExperimentalWithCallbackMethod_UpdateVehicle<ExperimentalWithCallbackMethod_DeleteVehicle<ExperimentalWithCallbackMethod_CreateOrder<ExperimentalWithCallbackMethod_GetOrderList<ExperimentalWithCallbackMethod_GetOrderDetail<ExperimentalWithCallbackMethod_PickupVehicle<ExperimentalWithCallbackMethod_ReturnVehicle<ExperimentalWithCallbackMethod_RenewOrder<ExperimentalWithCallbackMethod_CancelOrder<ExperimentalWithCallbackMethod_CreateMaintenance<ExperimentalWithCallbackMethod_UpdateMaintenance<ExperimentalWithCallbackMethod_GetMaintenanceList<ExperimentalWithCallbackMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_GetVehicleList<ExperimentalWithCallbackMethod_GetVehicleDetail<ExperimentalWithCallbackMethod_AddVehicle<ExperimentalWithCallbackMethod_UpdateVehicle<ExperimentalWithCallbackMethod_DeleteVehicle<ExperimentalWithCallbackMethod_CreateOrder<ExperimentalWithCallbackMethod_GetOrderList<ExperimentalWithCallbackMethod_GetOrderDetail<ExperimentalWithCallbackMethod_PickupVehicle<ExperimentalWithCallbackMethod_ReturnVehicle<ExperimentalWithCallbackMethod_RenewOrder<ExperimentalWithCallbackMethod_CreateMaintenance<ExperimentalWithCallbackMethod_UpdateMaintenance<ExperimentalWithCallbackMethod_GetMaintenanceList<ExperimentalWithCallbackMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_GetVehicleList<ExperimentalWithCallbackMethod_GetVehicleDetail<ExperimentalWithCallbackMethod_AddVehicle<ExperimentalWithCallbackMethod_UpdateVehicle<ExperimentalWithCallbackMethod_DeleteVehicle<ExperimentalWithCallbackMethod_CreateOrder<ExperimentalWithCallbackMethod_GetOrderList<ExperimentalWithCallbackMethod_GetOrderDetail<ExperimentalWithCallbackMethod_PickupVehicle<ExperimentalWithCallbackMethod_ReturnVehicle<ExperimentalWithCallbackMethod_RenewOrder<ExperimentalWithCallbackMethod_CancelOrder<ExperimentalWithCallbackMethod_CreateMaintenance<ExperimentalWithCallbackMethod_UpdateMaintenance<ExperimentalWithCallbackMethod_GetMaintenanceList<ExperimentalWithCallbackMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_GetVehicleList : public BaseClass {
    private:
@@ -1942,12 +2053,29 @@ class VehicleService final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_CancelOrder() {
+      ::grpc::Service::MarkMethodGeneric(11);
+    }
+    ~WithGenericMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_CreateMaintenance() {
-      ::grpc::Service::MarkMethodGeneric(11);
+      ::grpc::Service::MarkMethodGeneric(12);
     }
     ~WithGenericMethod_CreateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1964,7 +2092,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UpdateMaintenance() {
-      ::grpc::Service::MarkMethodGeneric(12);
+      ::grpc::Service::MarkMethodGeneric(13);
     }
     ~WithGenericMethod_UpdateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1981,7 +2109,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetMaintenanceList() {
-      ::grpc::Service::MarkMethodGeneric(13);
+      ::grpc::Service::MarkMethodGeneric(14);
     }
     ~WithGenericMethod_GetMaintenanceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1998,7 +2126,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteMaintenance() {
-      ::grpc::Service::MarkMethodGeneric(14);
+      ::grpc::Service::MarkMethodGeneric(15);
     }
     ~WithGenericMethod_DeleteMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2230,12 +2358,32 @@ class VehicleService final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_CancelOrder() {
+      ::grpc::Service::MarkMethodRaw(11);
+    }
+    ~WithRawMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCancelOrder(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_CreateMaintenance() {
-      ::grpc::Service::MarkMethodRaw(11);
+      ::grpc::Service::MarkMethodRaw(12);
     }
     ~WithRawMethod_CreateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2246,7 +2394,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateMaintenance(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2255,7 +2403,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UpdateMaintenance() {
-      ::grpc::Service::MarkMethodRaw(12);
+      ::grpc::Service::MarkMethodRaw(13);
     }
     ~WithRawMethod_UpdateMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2266,7 +2414,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateMaintenance(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2275,7 +2423,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetMaintenanceList() {
-      ::grpc::Service::MarkMethodRaw(13);
+      ::grpc::Service::MarkMethodRaw(14);
     }
     ~WithRawMethod_GetMaintenanceList() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2286,7 +2434,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetMaintenanceList(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2295,7 +2443,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteMaintenance() {
-      ::grpc::Service::MarkMethodRaw(14);
+      ::grpc::Service::MarkMethodRaw(15);
     }
     ~WithRawMethod_DeleteMaintenance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2306,7 +2454,7 @@ class VehicleService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteMaintenance(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2728,6 +2876,44 @@ class VehicleService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_CancelOrder() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(11,
+          new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->CancelOrder(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* CancelOrder(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* CancelOrder(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -2738,7 +2924,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(11,
+        MarkMethodRawCallback(12,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -2776,7 +2962,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(12,
+        MarkMethodRawCallback(13,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -2814,7 +3000,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(13,
+        MarkMethodRawCallback(14,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -2852,7 +3038,7 @@ class VehicleService final {
     #else
       ::grpc::Service::experimental().
     #endif
-        MarkMethodRawCallback(14,
+        MarkMethodRawCallback(15,
           new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
@@ -3177,12 +3363,39 @@ class VehicleService final {
     virtual ::grpc::Status StreamedRenewOrder(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::RenewRequest,::message::OrderInfo>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_CancelOrder : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_CancelOrder() {
+      ::grpc::Service::MarkMethodStreamed(11,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::PickupRequest, ::message::CommonResponse>(
+            [this](::grpc_impl::ServerContext* context,
+                   ::grpc_impl::ServerUnaryStreamer<
+                     ::message::PickupRequest, ::message::CommonResponse>* streamer) {
+                       return this->StreamedCancelOrder(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_CancelOrder() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status CancelOrder(::grpc::ServerContext* /*context*/, const ::message::PickupRequest* /*request*/, ::message::CommonResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedCancelOrder(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::PickupRequest,::message::CommonResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_CreateMaintenance : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_CreateMaintenance() {
-      ::grpc::Service::MarkMethodStreamed(11,
+      ::grpc::Service::MarkMethodStreamed(12,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::CreateMaintenanceRequest, ::message::CommonResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -3209,7 +3422,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UpdateMaintenance() {
-      ::grpc::Service::MarkMethodStreamed(12,
+      ::grpc::Service::MarkMethodStreamed(13,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::UpdateMaintenanceRequest, ::message::CommonResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -3236,7 +3449,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetMaintenanceList() {
-      ::grpc::Service::MarkMethodStreamed(13,
+      ::grpc::Service::MarkMethodStreamed(14,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::MaintenanceListRequest, ::message::MaintenanceListResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -3263,7 +3476,7 @@ class VehicleService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteMaintenance() {
-      ::grpc::Service::MarkMethodStreamed(14,
+      ::grpc::Service::MarkMethodStreamed(15,
         new ::grpc::internal::StreamedUnaryHandler<
           ::message::VehicleDetailRequest, ::message::CommonResponse>(
             [this](::grpc_impl::ServerContext* context,
@@ -3284,9 +3497,9 @@ class VehicleService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedDeleteMaintenance(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::VehicleDetailRequest,::message::CommonResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_GetVehicleList<WithStreamedUnaryMethod_GetVehicleDetail<WithStreamedUnaryMethod_AddVehicle<WithStreamedUnaryMethod_UpdateVehicle<WithStreamedUnaryMethod_DeleteVehicle<WithStreamedUnaryMethod_CreateOrder<WithStreamedUnaryMethod_GetOrderList<WithStreamedUnaryMethod_GetOrderDetail<WithStreamedUnaryMethod_PickupVehicle<WithStreamedUnaryMethod_ReturnVehicle<WithStreamedUnaryMethod_RenewOrder<WithStreamedUnaryMethod_CreateMaintenance<WithStreamedUnaryMethod_UpdateMaintenance<WithStreamedUnaryMethod_GetMaintenanceList<WithStreamedUnaryMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_GetVehicleList<WithStreamedUnaryMethod_GetVehicleDetail<WithStreamedUnaryMethod_AddVehicle<WithStreamedUnaryMethod_UpdateVehicle<WithStreamedUnaryMethod_DeleteVehicle<WithStreamedUnaryMethod_CreateOrder<WithStreamedUnaryMethod_GetOrderList<WithStreamedUnaryMethod_GetOrderDetail<WithStreamedUnaryMethod_PickupVehicle<WithStreamedUnaryMethod_ReturnVehicle<WithStreamedUnaryMethod_RenewOrder<WithStreamedUnaryMethod_CancelOrder<WithStreamedUnaryMethod_CreateMaintenance<WithStreamedUnaryMethod_UpdateMaintenance<WithStreamedUnaryMethod_GetMaintenanceList<WithStreamedUnaryMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_GetVehicleList<WithStreamedUnaryMethod_GetVehicleDetail<WithStreamedUnaryMethod_AddVehicle<WithStreamedUnaryMethod_UpdateVehicle<WithStreamedUnaryMethod_DeleteVehicle<WithStreamedUnaryMethod_CreateOrder<WithStreamedUnaryMethod_GetOrderList<WithStreamedUnaryMethod_GetOrderDetail<WithStreamedUnaryMethod_PickupVehicle<WithStreamedUnaryMethod_ReturnVehicle<WithStreamedUnaryMethod_RenewOrder<WithStreamedUnaryMethod_CreateMaintenance<WithStreamedUnaryMethod_UpdateMaintenance<WithStreamedUnaryMethod_GetMaintenanceList<WithStreamedUnaryMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_GetVehicleList<WithStreamedUnaryMethod_GetVehicleDetail<WithStreamedUnaryMethod_AddVehicle<WithStreamedUnaryMethod_UpdateVehicle<WithStreamedUnaryMethod_DeleteVehicle<WithStreamedUnaryMethod_CreateOrder<WithStreamedUnaryMethod_GetOrderList<WithStreamedUnaryMethod_GetOrderDetail<WithStreamedUnaryMethod_PickupVehicle<WithStreamedUnaryMethod_ReturnVehicle<WithStreamedUnaryMethod_RenewOrder<WithStreamedUnaryMethod_CancelOrder<WithStreamedUnaryMethod_CreateMaintenance<WithStreamedUnaryMethod_UpdateMaintenance<WithStreamedUnaryMethod_GetMaintenanceList<WithStreamedUnaryMethod_DeleteMaintenance<Service > > > > > > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace message

@@ -1,0 +1,4 @@
+[2026-06-27 00:09:01.641] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-27 00:09:01.654] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-27 00:09:20.142] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=953d58a61f8522d941081cc681bdbb70
+[2026-06-27 00:09:20.145] [INFO] [UMS] Redis SETEX result: success

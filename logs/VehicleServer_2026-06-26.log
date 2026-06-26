@@ -108,3 +108,23 @@
 [2026-06-26 21:39:13.258] [WARN] deleteMaintenance: record 12 not found
 [2026-06-26 21:39:49.082] [INFO] [Vehicle] DeleteMaintenance id=15
 [2026-06-26 21:39:49.094] [INFO] deleteMaintenance: vehicle 10 status changed to available
+[2026-06-26 22:41:41.194] [INFO] createMaintenance: vehicle 9 status changed to maintenance
+[2026-06-26 22:41:41.195] [INFO] [Vehicle] CreateMaintenance success, id=16
+[2026-06-26 22:42:22.472] [INFO] updateMaintenance: vehicle 9 status changed to available
+[2026-06-26 22:43:32.144] [INFO] createMaintenance: vehicle 5 status changed to maintenance
+[2026-06-26 22:43:32.145] [INFO] [Vehicle] CreateMaintenance success, id=17
+[2026-06-26 22:43:32.158] [INFO] [Vehicle] DeleteMaintenance id=18
+[2026-06-26 22:43:32.161] [WARN] deleteMaintenance: record 18 not found
+[2026-06-26 22:44:00.349] [INFO] [Vehicle] DeleteMaintenance id=17
+[2026-06-26 22:44:00.366] [INFO] deleteMaintenance: vehicle 5 status changed to available
+[2026-06-26 23:07:18.444] [INFO] updateMaintenance: vehicle 9 status changed back to maintenance
+[2026-06-26 23:07:36.865] [INFO] createMaintenance: vehicle 3 status changed to maintenance
+[2026-06-26 23:07:36.866] [INFO] [Vehicle] CreateMaintenance success, id=18
+[2026-06-26 23:07:44.818] [INFO] [Vehicle] DeleteMaintenance id=18
+[2026-06-26 23:07:44.833] [INFO] deleteMaintenance: vehicle 3 status changed to available
+[2026-06-26 23:15:46.537] [INFO] [Vehicle] CreateOrder success, id=7 order_no=R202606260002
+[2026-06-26 23:16:33.609] [INFO] [Vehicle] PickupVehicle order_id=7
+[2026-06-26 23:16:33.621] [INFO] pickupVehicle: order 7 picked up
+[2026-06-26 23:42:06.598] [INFO] [Vehicle] ReturnVehicle order_id=7
+[2026-06-26 23:42:06.614] [INFO] returnVehicle: order 7 returned, total_cost=0, penalty=0
+[2026-06-26 23:42:06.617] [INFO] [Vehicle] ReturnVehicle success, order_id=7, total_cost=0, penalty=0

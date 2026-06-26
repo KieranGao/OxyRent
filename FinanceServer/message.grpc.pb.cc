@@ -23,6 +23,7 @@ namespace message {
 
 static const char* FinanceService_method_names[] = {
   "/message.FinanceService/CreatePayment",
+  "/message.FinanceService/ConfirmPayment",
   "/message.FinanceService/GetPaymentList",
   "/message.FinanceService/GetPaymentDetail",
   "/message.FinanceService/GenerateInvoice",
@@ -41,14 +42,15 @@ std::unique_ptr< FinanceService::Stub> FinanceService::NewStub(const std::shared
 
 FinanceService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   : channel_(channel), rpcmethod_CreatePayment_(FinanceService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetPaymentList_(FinanceService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetPaymentDetail_(FinanceService_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GenerateInvoice_(FinanceService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetInvoiceDetail_(FinanceService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetInvoiceList_(FinanceService_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetStatsOverview_(FinanceService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetRevenueStats_(FinanceService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetVehicleStats_(FinanceService_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ConfirmPayment_(FinanceService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetPaymentList_(FinanceService_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetPaymentDetail_(FinanceService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GenerateInvoice_(FinanceService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetInvoiceDetail_(FinanceService_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetInvoiceList_(FinanceService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetStatsOverview_(FinanceService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetRevenueStats_(FinanceService_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetVehicleStats_(FinanceService_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status FinanceService::Stub::CreatePayment(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::message::PaymentInfo* response) {
@@ -77,6 +79,34 @@ void FinanceService::Stub::experimental_async::CreatePayment(::grpc::ClientConte
 
 ::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>* FinanceService::Stub::PrepareAsyncCreatePaymentRaw(::grpc::ClientContext* context, const ::message::CreatePaymentRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::PaymentInfo>::Create(channel_.get(), cq, rpcmethod_CreatePayment_, context, request, false);
+}
+
+::grpc::Status FinanceService::Stub::ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::message::PaymentInfo* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_ConfirmPayment_, context, request, response);
+}
+
+void FinanceService::Stub::experimental_async::ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ConfirmPayment_, context, request, response, std::move(f));
+}
+
+void FinanceService::Stub::experimental_async::ConfirmPayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, std::function<void(::grpc::Status)> f) {
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ConfirmPayment_, context, request, response, std::move(f));
+}
+
+void FinanceService::Stub::experimental_async::ConfirmPayment(::grpc::ClientContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ConfirmPayment_, context, request, response, reactor);
+}
+
+void FinanceService::Stub::experimental_async::ConfirmPayment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::message::PaymentInfo* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_ConfirmPayment_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>* FinanceService::Stub::AsyncConfirmPaymentRaw(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::PaymentInfo>::Create(channel_.get(), cq, rpcmethod_ConfirmPayment_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::message::PaymentInfo>* FinanceService::Stub::PrepareAsyncConfirmPaymentRaw(::grpc::ClientContext* context, const ::message::PaymentInfo& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::message::PaymentInfo>::Create(channel_.get(), cq, rpcmethod_ConfirmPayment_, context, request, false);
 }
 
 ::grpc::Status FinanceService::Stub::GetPaymentList(::grpc::ClientContext* context, const ::message::PaymentListRequest& request, ::message::PaymentListResponse* response) {
@@ -317,6 +347,16 @@ FinanceService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FinanceService_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::PaymentInfo, ::message::PaymentInfo>(
+          [](FinanceService::Service* service,
+             ::grpc_impl::ServerContext* ctx,
+             const ::message::PaymentInfo* req,
+             ::message::PaymentInfo* resp) {
+               return service->ConfirmPayment(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      FinanceService_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::PaymentListRequest, ::message::PaymentListResponse>(
           [](FinanceService::Service* service,
              ::grpc_impl::ServerContext* ctx,
@@ -325,7 +365,7 @@ FinanceService::Service::Service() {
                return service->GetPaymentList(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[2],
+      FinanceService_method_names[3],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::PaymentInfo, ::message::PaymentInfo>(
           [](FinanceService::Service* service,
@@ -335,7 +375,7 @@ FinanceService::Service::Service() {
                return service->GetPaymentDetail(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[3],
+      FinanceService_method_names[4],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::GenerateInvoiceRequest, ::message::InvoiceInfo>(
           [](FinanceService::Service* service,
@@ -345,7 +385,7 @@ FinanceService::Service::Service() {
                return service->GenerateInvoice(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[4],
+      FinanceService_method_names[5],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::InvoiceInfo, ::message::InvoiceInfo>(
           [](FinanceService::Service* service,
@@ -355,7 +395,7 @@ FinanceService::Service::Service() {
                return service->GetInvoiceDetail(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[5],
+      FinanceService_method_names[6],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::InvoiceListRequest, ::message::InvoiceListResponse>(
           [](FinanceService::Service* service,
@@ -365,7 +405,7 @@ FinanceService::Service::Service() {
                return service->GetInvoiceList(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[6],
+      FinanceService_method_names[7],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::CommonResponse, ::message::StatsOverviewResponse>(
           [](FinanceService::Service* service,
@@ -375,7 +415,7 @@ FinanceService::Service::Service() {
                return service->GetStatsOverview(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[7],
+      FinanceService_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::RevenueStatsRequest, ::message::RevenueStatsResponse>(
           [](FinanceService::Service* service,
@@ -385,7 +425,7 @@ FinanceService::Service::Service() {
                return service->GetRevenueStats(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FinanceService_method_names[8],
+      FinanceService_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FinanceService::Service, ::message::CommonResponse, ::message::VehicleStatsResponse>(
           [](FinanceService::Service* service,
@@ -400,6 +440,13 @@ FinanceService::Service::~Service() {
 }
 
 ::grpc::Status FinanceService::Service::CreatePayment(::grpc::ServerContext* context, const ::message::CreatePaymentRequest* request, ::message::PaymentInfo* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status FinanceService::Service::ConfirmPayment(::grpc::ServerContext* context, const ::message::PaymentInfo* request, ::message::PaymentInfo* response) {
   (void) context;
   (void) request;
   (void) response;

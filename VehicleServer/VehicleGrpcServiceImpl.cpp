@@ -431,6 +431,31 @@ Status VehicleGrpcServiceImpl::RenewOrder(ServerContext* context, const RenewReq
     return Status::OK;
 }
 
+Status VehicleGrpcServiceImpl::CancelOrder(ServerContext* context, const PickupRequest* req, CommonResponse* resp) {
+    int64_t order_id = req->order_id();
+    LOG_INFO("[Vehicle] CancelOrder order_id={}", order_id);
+
+    // 获取订单详情以获取vehicle_id
+    OrderData order;
+    bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND));
+        resp->set_msg("Order not found");
+        return Status::OK;
+    }
+
+    ok = MySQLManager::getInstance().cancelOrder(order_id, order.vehicle_id);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND));
+        resp->set_msg("Order not found or not in pending status");
+        return Status::OK;
+    }
+
+    resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
+    resp->set_msg("Order cancelled successfully");
+    return Status::OK;
+}
+
 // ==================== 维保管理 ====================
 
 Status VehicleGrpcServiceImpl::CreateMaintenance(ServerContext* context, const CreateMaintenanceRequest* req, CommonResponse* resp) {

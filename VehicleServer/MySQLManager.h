@@ -42,6 +42,7 @@ public:
                        double& total_cost, double& penalty);
     bool renewOrder(int64_t order_id, const std::string& new_end_date,
                     int new_total_days, double daily_rate, double& total_cost);
+    bool cancelOrder(int64_t order_id, int64_t vehicle_id);
 
     // Maintenance operations
     int64_t createMaintenance(int64_t vehicle_id, const std::string& type,

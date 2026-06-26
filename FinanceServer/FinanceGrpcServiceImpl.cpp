@@ -36,6 +36,35 @@ Status FinanceGrpcServiceImpl::CreatePayment(ServerContext* context, const Creat
     return Status::OK;
 }
 
+Status FinanceGrpcServiceImpl::ConfirmPayment(ServerContext* context, const PaymentInfo* req, PaymentInfo* resp) {
+    int64_t id = req->id();
+    LOG_DEBUG("[Finance] ConfirmPayment id={}", id);
+
+    bool ok = MySQLManager::getInstance().confirmPayment(id);
+    if (!ok) {
+        resp->set_id(0);
+        LOG_WARN("[Finance] ConfirmPayment failed: payment {} not found or not pending", id);
+        return Status::OK;
+    }
+
+    // 返回更新后的支付详情
+    PaymentData payment;
+    MySQLManager::getInstance().getPaymentDetail(id, payment);
+    resp->set_id(payment.id);
+    resp->set_order_id(payment.order_id);
+    resp->set_order_no(payment.order_no);
+    resp->set_amount(payment.amount);
+    resp->set_type(payment.type);
+    resp->set_method(payment.method);
+    resp->set_status(payment.status);
+    resp->set_remark(payment.remark);
+    resp->set_paid_at(payment.paid_at);
+    resp->set_created_at(payment.created_at);
+
+    LOG_INFO("[Finance] ConfirmPayment success, id={}", id);
+    return Status::OK;
+}
+
 Status FinanceGrpcServiceImpl::GetPaymentList(ServerContext* context, const PaymentListRequest* req, PaymentListResponse* resp) {
     LOG_DEBUG("[Finance] GetPaymentList page={} page_size={}", req->page(), req->page_size());
 

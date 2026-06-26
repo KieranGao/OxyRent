@@ -717,7 +717,7 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "(\t\022\014\n\004type\030\005 \001(\t\"o\n\027MaintenanceListRespo"
   "nse\022\r\n\005error\030\001 \001(\005\022\013\n\003msg\030\002 \001(\t\022)\n\007recor"
   "ds\030\003 \003(\0132\030.message.MaintenanceInfo\022\r\n\005to"
-  "tal\030\004 \001(\0052\305\010\n\016VehicleService\022K\n\016GetVehic"
+  "tal\030\004 \001(\0052\205\t\n\016VehicleService\022K\n\016GetVehic"
   "leList\022\033.message.VehicleListRequest\032\034.me"
   "ssage.VehicleListResponse\022G\n\020GetVehicleD"
   "etail\022\035.message.VehicleDetailRequest\032\024.m"
@@ -736,15 +736,17 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "sage.CommonResponse\022;\n\rReturnVehicle\022\026.m"
   "essage.ReturnRequest\032\022.message.OrderInfo"
   "\0227\n\nRenewOrder\022\025.message.RenewRequest\032\022."
-  "message.OrderInfo\022O\n\021CreateMaintenance\022!"
-  ".message.CreateMaintenanceRequest\032\027.mess"
-  "age.CommonResponse\022O\n\021UpdateMaintenance\022"
-  "!.message.UpdateMaintenanceRequest\032\027.mes"
-  "sage.CommonResponse\022W\n\022GetMaintenanceLis"
-  "t\022\037.message.MaintenanceListRequest\032 .mes"
-  "sage.MaintenanceListResponse\022K\n\021DeleteMa"
-  "intenance\022\035.message.VehicleDetailRequest"
-  "\032\027.message.CommonResponseb\006proto3"
+  "message.OrderInfo\022>\n\013CancelOrder\022\026.messa"
+  "ge.PickupRequest\032\027.message.CommonRespons"
+  "e\022O\n\021CreateMaintenance\022!.message.CreateM"
+  "aintenanceRequest\032\027.message.CommonRespon"
+  "se\022O\n\021UpdateMaintenance\022!.message.Update"
+  "MaintenanceRequest\032\027.message.CommonRespo"
+  "nse\022W\n\022GetMaintenanceList\022\037.message.Main"
+  "tenanceListRequest\032 .message.Maintenance"
+  "ListResponse\022K\n\021DeleteMaintenance\022\035.mess"
+  "age.VehicleDetailRequest\032\027.message.Commo"
+  "nResponseb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_message_2eproto_deps[1] = {
 };
@@ -772,7 +774,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_mes
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_message_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto = {
-  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 3673,
+  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 3737,
   &descriptor_table_message_2eproto_once, descriptor_table_message_2eproto_sccs, descriptor_table_message_2eproto_deps, 20, 0,
   schemas, file_default_instances, TableStruct_message_2eproto::offsets,
   file_level_metadata_message_2eproto, 20, file_level_enum_descriptors_message_2eproto, file_level_service_descriptors_message_2eproto,

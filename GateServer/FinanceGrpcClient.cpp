@@ -21,6 +21,19 @@ PaymentInfo FinanceGrpcClient::createPayment(const CreatePaymentRequest& request
     return response;
 }
 
+PaymentInfo FinanceGrpcClient::confirmPayment(const PaymentInfo& request) {
+    PaymentInfo response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->ConfirmPayment(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("FinanceService ConfirmPayment RPC failed: {}", status.error_message());
+        response.set_id(0);
+    }
+    return response;
+}
+
 PaymentListResponse FinanceGrpcClient::getPaymentList(const PaymentListRequest& request) {
     PaymentListResponse response;
     ClientContext context;

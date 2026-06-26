@@ -150,6 +150,19 @@ OrderInfo VehicleGrpcClient::renewOrder(const RenewRequest& request) {
     return response;
 }
 
+CommonResponse VehicleGrpcClient::cancelOrder(const PickupRequest& request) {
+    CommonResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->CancelOrder(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("VehicleService CancelOrder RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}
+
 // ==================== Maintenance ====================
 
 CommonResponse VehicleGrpcClient::createMaintenance(const CreateMaintenanceRequest& request) {
