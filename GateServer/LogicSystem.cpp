@@ -2113,7 +2113,10 @@ LogicSystem::LogicSystem() {
                 GenerateInvoiceRequest request;
                 request.set_order_id(jsonData["order_id"].asInt64());
                 InvoiceInfo rsp = FinanceGrpcClient::getInstance().generateInvoice(request);
-                if (rsp.id() == 0) {
+                if (rsp.id() == -2) {
+                    result["error"] = static_cast<int>(ErrorCodes::ORDER_NOT_COMPLETED);
+                    result["msg"] = "只能为已完成的订单生成账单";
+                } else if (rsp.id() == 0) {
                     result["error"] = static_cast<int>(ErrorCodes::INVOICE_NOT_FOUND);
                     result["msg"] = "Invoice generation failed";
                 } else {

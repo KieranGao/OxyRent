@@ -1,17 +1,15 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>个人信息</h2>
-      <p>管理您的账户信息</p>
-    </div>
-
-    <el-card v-loading="loading">
+    <div class="glass-card" style="max-width: 720px;" v-loading="loading">
+      <div class="glass-card-header">
+        <h3>个人信息</h3>
+      </div>
+      <div class="glass-card-body padded">
       <el-form
         ref="formRef"
         :model="form"
         :rules="rules"
         label-position="top"
-        style="max-width: 560px"
       >
         <el-form-item label="用户名">
           <el-input :value="authStore.username" disabled />
@@ -70,7 +68,8 @@
           </el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+      </div>
+    </div>
   </div>
 </template>
 

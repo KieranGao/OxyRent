@@ -205,7 +205,7 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         // 获取订单详情
         std::unique_ptr<sql::PreparedStatement> orderStmt(
             sql_conn->prepareStatement(
-                "SELECT o.id, o.order_no, o.user_id, u.username, o.total_cost "
+                "SELECT o.id, o.order_no, o.user_id, u.username, o.total_cost, o.status "
                 "FROM rental_orders o "
                 "LEFT JOIN user u ON o.user_id = u.uid "
                 "WHERE o.id = ? LIMIT 1"));
@@ -214,6 +214,13 @@ int64_t MySQLDao::generateInvoice(int64_t order_id) {
         if (!orderRes || !orderRes->next()) {
             LOG_WARN("generateInvoice: order {} not found", order_id);
             return -1;
+        }
+
+        // 验证订单状态 - 只有已完成的订单才能生成账单
+        std::string order_status = orderRes->getString("status");
+        if (order_status != "completed") {
+            LOG_WARN("generateInvoice: order {} status is '{}', not completed", order_id, order_status);
+            return -2;  // 返回-2表示订单状态不符合要求
         }
 
         std::string order_no = orderRes->getString("order_no");

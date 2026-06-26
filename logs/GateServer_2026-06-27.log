@@ -1,2 +1,4 @@
 [2026-06-27 00:01:32.456] [INFO] GateServer shutting down
 [2026-06-27 00:09:07.636] [INFO] GateServer starting on port 8080
+[2026-06-27 00:55:07.196] [INFO] GateServer starting on port 8080
+[2026-06-27 00:55:07.198] [ERROR] Fatal error: bind: Address already in use

@@ -1,10 +1,5 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>我的余额</h2>
-      <p>查看账户余额和充值消费记录</p>
-    </div>
-
     <!-- Balance Card -->
     <div class="balance-card">
       <div class="balance-card-inner">
@@ -19,12 +14,11 @@
     </div>
 
     <!-- Balance Records -->
-    <el-card>
-      <template #header>
-        <div class="card-header">
-          <span>收支明细</span>
-        </div>
-      </template>
+    <div class="glass-card">
+      <div class="glass-card-header">
+        <h3>收支明细</h3>
+      </div>
+      <div class="glass-card-body padded">
       <el-table :data="records" v-loading="loading" style="width: 100%" empty-text="暂无记录">
         <el-table-column prop="id" label="ID" min-width="60" />
         <el-table-column prop="type" label="类型" min-width="80">
@@ -55,7 +49,8 @@
           @current-change="handlePageChange"
         />
       </div>
-    </el-card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -141,9 +136,9 @@ onMounted(() => {
 
 .balance-value {
   font-size: 36px;
-  font-weight: 600;
+  font-weight: 300;
   color: var(--text-primary);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
 }
 
 .card-header {

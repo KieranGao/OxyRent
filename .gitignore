@@ -1,6 +1,21 @@
 OxyTeamTasks
-课程设计任务书.docx
-.claude
-docs
-.superpowers
 
+logs
+*.md
+
+FinanceServer/build
+GateServer/build
+VehicleServer/build
+UMSServer/build
+
+MailerServer/node_modules
+Client/node_modules
+
+!README.md
+docs
+*.docx
+
+.superpowers
+.claude
+.impeccable
+.vscode

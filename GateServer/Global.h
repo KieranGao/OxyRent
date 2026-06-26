@@ -83,6 +83,9 @@ enum class ErrorCodes {
     BALANCE_INSUFFICIENT    = 1019,
     BALANCE_TOPUP_FAILED    = 1020,
     BALANCE_CONSUME_FAILED  = 1021,
+
+    // Invoice (continued)
+    ORDER_NOT_COMPLETED     = 1023,
 };
 
 // ---------- Network constants ----------

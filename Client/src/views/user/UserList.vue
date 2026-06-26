@@ -1,85 +1,84 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>用户管理</h2>
-      <p>管理系统用户</p>
-    </div>
-
-    <div class="search-bar">
-      <el-input
-        v-model="query.keyword"
-        placeholder="搜索用户..."
-        :prefix-icon="Search"
-        clearable
-        style="width: 200px"
-        @keyup.enter="loadUsers"
-        @clear="loadUsers"
-      />
-      <el-select v-model="query.role" placeholder="全部角色" clearable style="width: 120px" @change="loadUsers">
-        <el-option label="客户" value="customer" />
-        <el-option label="员工" value="staff" />
-        <el-option label="管理员" value="admin" />
-      </el-select>
-      <el-select v-model="query.status" placeholder="全部状态" clearable style="width: 120px" @change="loadUsers">
-        <el-option label="正常" value="active" />
-        <el-option label="已禁用" value="disabled" />
-      </el-select>
-      <el-button type="primary" @click="loadUsers">
-        <el-icon><Search /></el-icon> 搜索
-      </el-button>
-    </div>
-
-    <el-card>
-      <el-table :data="users" v-loading="loading" style="width: 100%" empty-text="暂无用户">
-        <el-table-column prop="uid" label="UID" min-width="60" />
-        <el-table-column prop="username" label="用户名" min-width="120" />
-        <el-table-column prop="real_name" label="真实姓名" min-width="100" />
-        <el-table-column prop="phone" label="手机号" min-width="120" />
-        <el-table-column prop="email" label="邮箱" min-width="150" />
-        <el-table-column prop="role" label="角色" min-width="80">
-          <template #default="{ row }">
-            <el-tag :type="row.role === 'admin' ? 'danger' : row.role === 'staff' ? 'warning' : 'info'">
-              {{ row.role === 'admin' ? '管理员' : row.role === 'staff' ? '员工' : '客户' }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="status" label="状态" min-width="90">
-          <template #default="{ row }">
-            <el-tag :type="row.status === 'active' ? 'success' : 'danger'">{{ row.status }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" min-width="180">
-          <template #default="{ row }">
-            <el-button link type="primary" @click="showRoleDialog(row)">设置角色</el-button>
-            <el-button
-              v-if="row.status === 'active'"
-              link type="danger"
-              @click="handleStatusChange(row.uid, 'disabled')"
-            >
-              禁用
-            </el-button>
-            <el-button
-              v-if="row.status === 'disabled'"
-              link type="success"
-              @click="handleStatusChange(row.uid, 'active')"
-            >
-              启用
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <div class="pagination-wrapper" v-if="total > query.page_size">
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="total"
-          :page-size="query.page_size"
-          :current-page="query.page"
-          @current-change="handlePageChange"
-        />
+    <div class="glass-card">
+      <div class="glass-card-header">
+        <h3>用户管理</h3>
+        <div class="header-controls">
+          <el-input
+            v-model="query.keyword"
+            placeholder="搜索用户..."
+            :prefix-icon="Search"
+            clearable
+            style="width: 180px"
+            @keyup.enter="loadUsers"
+            @clear="loadUsers"
+          />
+          <el-select v-model="query.role" placeholder="全部角色" clearable style="width: 110px" @change="loadUsers">
+            <el-option label="客户" value="customer" />
+            <el-option label="员工" value="staff" />
+            <el-option label="管理员" value="admin" />
+          </el-select>
+          <el-select v-model="query.status" placeholder="全部状态" clearable style="width: 110px" @change="loadUsers">
+            <el-option label="正常" value="active" />
+            <el-option label="已禁用" value="disabled" />
+          </el-select>
+          <el-button type="primary" @click="loadUsers">
+            <el-icon><Search /></el-icon> 搜索
+          </el-button>
+        </div>
       </div>
-    </el-card>
+      <div class="glass-card-body">
+        <el-table :data="users" v-loading="loading" style="width: 100%" empty-text="暂无用户">
+          <el-table-column prop="uid" label="UID" min-width="60" />
+          <el-table-column prop="username" label="用户名" min-width="120" />
+          <el-table-column prop="real_name" label="真实姓名" min-width="100" />
+          <el-table-column prop="phone" label="手机号" min-width="120" />
+          <el-table-column prop="email" label="邮箱" min-width="150" />
+          <el-table-column prop="role" label="角色" min-width="80">
+            <template #default="{ row }">
+              <el-tag :type="row.role === 'admin' ? 'danger' : row.role === 'staff' ? 'warning' : 'info'" effect="dark" size="small">
+                {{ row.role === 'admin' ? '管理员' : row.role === 'staff' ? '员工' : '客户' }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="状态" min-width="90">
+            <template #default="{ row }">
+              <el-tag :type="row.status === 'active' ? 'success' : 'danger'" effect="dark" size="small">{{ row.status }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" min-width="180">
+            <template #default="{ row }">
+              <el-button link type="primary" @click="showRoleDialog(row)">设置角色</el-button>
+              <el-button
+                v-if="row.status === 'active'"
+                link type="danger"
+                @click="handleStatusChange(row.uid, 'disabled')"
+              >
+                禁用
+              </el-button>
+              <el-button
+                v-if="row.status === 'disabled'"
+                link type="success"
+                @click="handleStatusChange(row.uid, 'active')"
+              >
+                启用
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <div class="pagination-wrapper" v-if="total > query.page_size">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="query.page_size"
+            :current-page="query.page"
+            @current-change="handlePageChange"
+          />
+        </div>
+      </div>
+    </div>
 
     <!-- Role Dialog -->
     <el-dialog v-model="roleDialogVisible" title="修改用户角色" width="400px">
@@ -193,17 +192,16 @@ onMounted(loadUsers)
 </script>
 
 <style scoped>
-.search-bar {
+.header-controls {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
-  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
 .pagination-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  padding: 20px 0 8px;
 }
 </style>

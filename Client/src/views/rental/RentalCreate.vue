@@ -1,17 +1,15 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>创建租赁订单</h2>
-      <p>预订租赁车辆</p>
-    </div>
-
-    <el-card>
+    <div class="glass-card" style="max-width: 720px;">
+      <div class="glass-card-header">
+        <h3>创建租赁订单</h3>
+      </div>
+      <div class="glass-card-body padded">
       <el-form
         ref="formRef"
         :model="form"
         :rules="rules"
         label-position="top"
-        style="max-width: 560px"
       >
         <el-form-item label="车辆" prop="vehicle_id">
           <el-select
@@ -77,7 +75,8 @@
           <el-button @click="$router.back()">取消</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+      </div>
+    </div>
   </div>
 </template>
 

@@ -2,3 +2,21 @@
 [2026-06-27 00:09:01.654] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
 [2026-06-27 00:09:20.142] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=953d58a61f8522d941081cc681bdbb70
 [2026-06-27 00:09:20.145] [INFO] [UMS] Redis SETEX result: success
+[2026-06-27 00:18:38.791] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=e71271875a7f8b9a7f425760d0fae2ef
+[2026-06-27 00:18:38.792] [INFO] [UMS] Redis SETEX result: success
+[2026-06-27 00:43:43.858] [ERROR] Login failed: bad credentials for customer
+[2026-06-27 00:43:47.949] [ERROR] Login failed: bad credentials for customer01
+[2026-06-27 00:43:51.674] [INFO] [UMS] Storing token in Redis: key=utoken_3, token=6c3b1a6654732d5ad711f9317135805a
+[2026-06-27 00:43:51.675] [INFO] [UMS] Redis SETEX result: success
+[2026-06-27 00:45:38.135] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=d1232f0f6e34ff67608310b16cb55112
+[2026-06-27 00:45:38.136] [INFO] [UMS] Redis SETEX result: success
+[2026-06-27 00:55:01.159] [INFO] UMSServer starting on 0.0.0.0:50053
+[2026-06-27 00:55:01.165] [INFO] UMSServer gRPC listening on 0.0.0.0:50053
+[2026-06-27 02:20:44.833] [INFO] [UMS] Storing token in Redis: key=utoken_3, token=dcb33f6f996611e51dc49aed059af980
+[2026-06-27 02:20:44.835] [INFO] [UMS] Redis SETEX result: success
+[2026-06-27 02:20:44.943] [INFO] [UMS] Storing token in Redis: key=utoken_3, token=32db8c100b6edad4695bd977e764694d
+[2026-06-27 02:20:44.944] [INFO] [UMS] Redis SETEX result: success
+[2026-06-27 02:20:58.365] [INFO] [UMS] Storing token in Redis: key=utoken_3, token=0ef6593d4d12196d12ff43aa3813a84e
+[2026-06-27 02:20:58.366] [INFO] [UMS] Redis SETEX result: success
+[2026-06-27 02:21:36.414] [INFO] [UMS] Storing token in Redis: key=utoken_2, token=5525e12a7691dba941574cb50ce27f2a
+[2026-06-27 02:21:36.414] [INFO] [UMS] Redis SETEX result: success

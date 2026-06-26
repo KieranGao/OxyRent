@@ -1,75 +1,74 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>收费管理</h2>
-      <p>管理收费记录</p>
-    </div>
-
-    <div class="search-bar">
-      <el-select v-model="query.status" placeholder="全部状态" clearable style="width: 140px" @change="loadList">
-        <el-option label="待支付" value="pending" />
-        <el-option label="成功" value="success" />
-        <el-option label="失败" value="failed" />
-        <el-option label="已退款" value="refunded" />
-      </el-select>
-      <el-select v-model="query.type" placeholder="全部类型" clearable style="width: 140px" @change="loadList">
-        <el-option label="租赁费" value="rental" />
-        <el-option label="押金" value="deposit" />
-        <el-option label="罚款" value="penalty" />
-        <el-option label="退款" value="refund" />
-      </el-select>
-      <el-button type="primary" @click="loadList">
-        <el-icon><Search /></el-icon> 搜索
-      </el-button>
-      <el-button type="primary" @click="showCreateDialog" style="margin-left: auto">
-        <el-icon><Plus /></el-icon> 新建收费
-      </el-button>
-    </div>
-
-    <el-card>
-      <el-table :data="payments" v-loading="loading" style="width: 100%" empty-text="暂无收费记录">
-        <el-table-column prop="id" label="ID" min-width="60" />
-        <el-table-column prop="order_no" label="订单号" min-width="150" />
-        <el-table-column prop="amount" label="金额" min-width="100">
-          <template #default="{ row }">¥{{ row.amount }}</template>
-        </el-table-column>
-        <el-table-column prop="type" label="类型" min-width="80">
-          <template #default="{ row }">
-            <el-tag>{{ row.type }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="method" label="支付方式" min-width="100" />
-        <el-table-column prop="status" label="状态" min-width="100">
-          <template #default="{ row }">
-            <el-tag :type="paymentStatusType(row.status)">{{ row.status }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="created_at" label="日期" min-width="110" />
-        <el-table-column label="操作" min-width="100" fixed="right">
-          <template #default="{ row }">
-            <el-button
-              v-if="row.status === 'pending'"
-              type="success"
-              size="small"
-              @click="handleConfirm(row)"
-            >
-              确认支付
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <div class="pagination-wrapper" v-if="total > query.page_size">
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="total"
-          :page-size="query.page_size"
-          :current-page="query.page"
-          @current-change="handlePageChange"
-        />
+    <div class="glass-card">
+      <div class="glass-card-header">
+        <h3>收费管理</h3>
+        <div class="header-controls">
+          <el-select v-model="query.status" placeholder="全部状态" clearable style="width: 120px" @change="loadList">
+            <el-option label="待支付" value="pending" />
+            <el-option label="成功" value="success" />
+            <el-option label="失败" value="failed" />
+            <el-option label="已退款" value="refunded" />
+          </el-select>
+          <el-select v-model="query.type" placeholder="全部类型" clearable style="width: 120px" @change="loadList">
+            <el-option label="租赁费" value="rental" />
+            <el-option label="押金" value="deposit" />
+            <el-option label="罚款" value="penalty" />
+            <el-option label="退款" value="refund" />
+          </el-select>
+          <el-button type="primary" @click="loadList">
+            <el-icon><Search /></el-icon> 搜索
+          </el-button>
+          <el-button type="primary" @click="showCreateDialog">
+            <el-icon><Plus /></el-icon> 新建收费
+          </el-button>
+        </div>
       </div>
-    </el-card>
+      <div class="glass-card-body">
+        <el-table :data="payments" v-loading="loading" style="width: 100%" empty-text="暂无收费记录">
+          <el-table-column prop="id" label="ID" min-width="60" />
+          <el-table-column prop="order_no" label="订单号" min-width="150" />
+          <el-table-column prop="amount" label="金额" min-width="100">
+            <template #default="{ row }"><span class="text-accent">¥{{ row.amount }}</span></template>
+          </el-table-column>
+          <el-table-column prop="type" label="类型" min-width="80">
+            <template #default="{ row }">
+              <el-tag effect="dark" size="small">{{ row.type }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="method" label="支付方式" min-width="100" />
+          <el-table-column prop="status" label="状态" min-width="100">
+            <template #default="{ row }">
+              <el-tag :type="paymentStatusType(row.status)" effect="dark" size="small">{{ row.status }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="created_at" label="日期" min-width="110" />
+          <el-table-column label="操作" min-width="100" fixed="right">
+            <template #default="{ row }">
+              <el-button
+                v-if="row.status === 'pending'"
+                type="success"
+                size="small"
+                @click="handleConfirm(row)"
+              >
+                确认支付
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <div class="pagination-wrapper" v-if="total > query.page_size">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="query.page_size"
+            :current-page="query.page"
+            @current-change="handlePageChange"
+          />
+        </div>
+      </div>
+    </div>
 
     <!-- Create Payment Dialog -->
     <el-dialog v-model="dialogVisible" title="新建收费" width="480px">
@@ -143,7 +142,7 @@ const createRules = {
 }
 
 function paymentStatusType(status) {
-  const map = { 'pending': 'warning', 'completed': 'success', 'failed': 'danger', 'refunded': 'info' }
+  const map = { 'pending': 'warning', 'success': 'success', 'failed': 'danger', 'refunded': 'info' }
   return map[(status || '').toLowerCase()] || 'info'
 }
 
@@ -217,17 +216,16 @@ onMounted(loadList)
 </script>
 
 <style scoped>
-.search-bar {
+.header-controls {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
-  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
 .pagination-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  padding: 20px 0 8px;
 }
 </style>

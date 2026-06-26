@@ -1,72 +1,65 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>租赁详情</h2>
-      <p>订单信息</p>
+    <div class="glass-card" v-loading="loading">
+      <div class="glass-card-body padded">
+        <div class="detail-grid" v-if="rental">
+          <div class="detail-item">
+            <span class="detail-label">订单号</span>
+            <span class="detail-value">{{ rental.order_no }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">用户</span>
+            <span class="detail-value">{{ rental.username }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">车辆</span>
+            <span class="detail-value">{{ rental.plate_number }} ({{ rental.brand }} {{ rental.model }})</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">开始日期</span>
+            <span class="detail-value">{{ rental.start_date }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">结束日期</span>
+            <span class="detail-value">{{ rental.end_date }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">状态</span>
+            <span class="detail-value">
+              <el-tag :type="statusType(rental.status)" effect="dark">{{ rental.status }}</el-tag>
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">总费用</span>
+            <span class="detail-value text-accent">¥{{ rental.total_cost || 0 }}</span>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">备注</span>
+            <span class="detail-value">{{ rental.notes || '暂无' }}</span>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <el-button
+            v-if="authStore.isAdmin && rental && rental.status === 'pending'"
+            type="success"
+            @click="handlePickup"
+            :loading="actionLoading"
+          >
+            <el-icon><Van /></el-icon> 取车
+          </el-button>
+          <el-button
+            v-if="authStore.isAdmin && rental && rental.status === 'active'"
+            type="warning"
+            @click="handleReturn"
+            :loading="actionLoading"
+          >
+            <el-icon><Back /></el-icon> 还车
+          </el-button>
+          <el-button @click="$router.back()">返回</el-button>
+        </div>
+      </div>
     </div>
-
-    <el-card v-loading="loading">
-      <div class="detail-grid" v-if="rental">
-        <div class="detail-item">
-          <span class="detail-label">订单号</span>
-          <span class="detail-value">{{ rental.order_no }}</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">用户</span>
-          <span class="detail-value">{{ rental.username }}</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">车辆</span>
-          <span class="detail-value">{{ rental.plate_number }} ({{ rental.brand }} {{ rental.model }})</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">开始日期</span>
-          <span class="detail-value">{{ rental.start_date }}</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">结束日期</span>
-          <span class="detail-value">{{ rental.end_date }}</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">状态</span>
-          <span class="detail-value">
-            <el-tag :type="statusType(rental.status)">{{ rental.status }}</el-tag>
-          </span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">总费用</span>
-          <span class="detail-value">¥{{ rental.total_cost || 0 }}</span>
-        </div>
-        <div class="detail-item full-width">
-          <span class="detail-label">备注</span>
-          <span class="detail-value">{{ rental.notes || '暂无' }}</span>
-        </div>
-      </div>
-
-      <!-- Admin Actions -->
-      <div class="detail-actions" v-if="authStore.isAdmin">
-        <el-button
-          v-if="rental && rental.status === 'pending'"
-          type="success"
-          @click="handlePickup"
-          :loading="actionLoading"
-        >
-          <el-icon><Van /></el-icon> 取车
-        </el-button>
-        <el-button
-          v-if="rental && rental.status === 'active'"
-          type="warning"
-          @click="handleReturn"
-          :loading="actionLoading"
-        >
-          <el-icon><Back /></el-icon> 还车
-        </el-button>
-        <el-button @click="$router.back()">返回</el-button>
-      </div>
-      <div class="detail-actions" v-else>
-        <el-button @click="$router.back()">返回</el-button>
-      </div>
-    </el-card>
   </div>
 </template>
 
@@ -140,7 +133,7 @@ async function loadRental() {
       ElMessage.error('加载租赁详情失败')
     }
   } catch {
-    ElMessage.error('Failed to load rental')
+    ElMessage.error('加载租赁详情失败')
   } finally {
     loading.value = false
   }
@@ -160,6 +153,8 @@ onMounted(loadRental)
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .detail-item.full-width {
@@ -167,23 +162,23 @@ onMounted(loadRental)
 }
 
 .detail-label {
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 11px;
+  color: var(--text-tertiary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
+  letter-spacing: 1px;
+  font-weight: 500;
 }
 
 .detail-value {
   font-size: 15px;
   color: var(--text-primary);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .detail-actions {
   margin-top: 28px;
   padding-top: 20px;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--border);
   display: flex;
   gap: 12px;
 }

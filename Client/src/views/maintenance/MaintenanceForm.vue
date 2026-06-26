@@ -1,17 +1,15 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>{{ isEdit ? '编辑维保记录' : '添加维保记录' }}</h2>
-      <p>{{ isEdit ? '更新维保信息' : '记录新的维保工单' }}</p>
-    </div>
-
-    <el-card>
+    <div class="glass-card" style="max-width: 720px;">
+      <div class="glass-card-header">
+        <h3>{{ isEdit ? '编辑维保记录' : '添加维保记录' }}</h3>
+      </div>
+      <div class="glass-card-body padded">
       <el-form
         ref="formRef"
         :model="form"
         :rules="rules"
         label-position="top"
-        style="max-width: 560px"
       >
         <el-form-item v-if="!isEdit" label="选择车辆" prop="vehicle_id">
           <el-select v-model="form.vehicle_id" placeholder="请选择需要维护的车辆" style="width: 100%" filterable>
@@ -63,7 +61,8 @@
           <el-button @click="$router.back()">取消</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+      </div>
+    </div>
   </div>
 </template>
 

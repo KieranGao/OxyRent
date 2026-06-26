@@ -1,17 +1,15 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>充值管理</h2>
-      <p>为客户充值余额</p>
-    </div>
-
-    <el-card>
+    <div class="glass-card" style="max-width: 720px;">
+      <div class="glass-card-header">
+        <h3>充值管理</h3>
+      </div>
+      <div class="glass-card-body padded">
       <el-form
         ref="formRef"
         :model="form"
         :rules="rules"
         label-position="top"
-        style="max-width: 480px"
       >
         <el-form-item label="客户用户名" prop="username">
           <el-input v-model="form.username" placeholder="请输入客户用户名" />
@@ -31,7 +29,8 @@
           </el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+      </div>
+    </div>
   </div>
 </template>
 

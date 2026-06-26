@@ -1,17 +1,15 @@
 <template>
   <div class="page-container">
-    <div class="page-header">
-      <h2>{{ isEdit ? '编辑车辆' : '添加车辆' }}</h2>
-      <p>{{ isEdit ? '更新车辆信息' : '添加新车辆到库存' }}</p>
-    </div>
-
-    <el-card v-loading="loading">
+    <div class="glass-card" style="max-width: 720px;" v-loading="loading">
+      <div class="glass-card-header">
+        <h3>{{ isEdit ? '编辑车辆' : '添加车辆' }}</h3>
+      </div>
+      <div class="glass-card-body padded">
       <el-form
         ref="formRef"
         :model="form"
         :rules="rules"
         label-position="top"
-        style="max-width: 680px"
       >
         <el-form-item label="车牌号" prop="plate_number">
           <el-input v-model="form.plate_number" placeholder="例如 ABC-1234" />
@@ -63,7 +61,8 @@
           <el-button @click="$router.back()">取消</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+      </div>
+    </div>
   </div>
 </template>
 
