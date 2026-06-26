@@ -57,6 +57,8 @@ COPY --from=builder /app/GateServer/build/GateServer /usr/local/bin/GateServer
 # Copy config
 COPY GateServer/config.ini /etc/server/config.ini
 
+WORKDIR /etc/server
+
 EXPOSE 8080
 
-CMD ["GateServer", "--config", "/etc/server/config.ini"]
+CMD ["GateServer"]
