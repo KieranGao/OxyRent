@@ -57,6 +57,10 @@ enum class ErrorCodes {
 
     // Payment
     PAYMENT_FAILED          = 1016,
+    PAYMENT_NOT_FOUND       = 1017,
+
+    // Invoice
+    INVOICE_NOT_FOUND       = 1018,
 };
 
 // ---------- Network constants ----------

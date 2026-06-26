@@ -1,0 +1,3 @@
+/home/oxythecrack/Desktop/OxyPark/UMSServer/build/CMakeFiles/UMSServer.dir
+/home/oxythecrack/Desktop/OxyPark/UMSServer/build/CMakeFiles/edit_cache.dir
+/home/oxythecrack/Desktop/OxyPark/UMSServer/build/CMakeFiles/rebuild_cache.dir

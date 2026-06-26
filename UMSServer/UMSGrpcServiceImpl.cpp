@@ -1,5 +1,6 @@
 #include "UMSGrpcServiceImpl.h"
 #include "MySQLManager.h"
+#include "RedisManager.h"
 #include "Logger.h"
 #include <openssl/md5.h>
 #include <sstream>
@@ -80,6 +81,12 @@ Status UMSGrpcServiceImpl::UserLogin(ServerContext* context, const UserLoginRequ
         token_ss << std::hex << std::setw(2) << std::setfill('0') << dis(gen);
     }
     std::string token = token_ss.str();
+
+    // Store token in Redis with 24-hour expiry
+    std::string token_key = "utoken_" + std::to_string(uid);
+    LOG_INFO("[UMS] Storing token in Redis: key={}, token={}", token_key, token);
+    bool redis_ok = RedisManager::getInstance().setex(token_key, token, 86400);
+    LOG_INFO("[UMS] Redis SETEX result: {}", redis_ok ? "success" : "failed");
 
     resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
     resp->set_uid(uid);

@@ -15,15 +15,17 @@ RedisConnectPool::RedisConnectPool(size_t pool_size, std::string host, int port,
                 continue;
             }
 
-            redisReply* reply = static_cast<redisReply*>(redisCommand(context, "AUTH %s", password.c_str()));
-            if(reply->type == REDIS_REPLY_ERROR) {
-                LOG_ERROR("AUTH FAILED!");
+            if (!password.empty()) {
+                redisReply* reply = static_cast<redisReply*>(redisCommand(context, "AUTH %s", password.c_str()));
+                if(reply->type == REDIS_REPLY_ERROR) {
+                    LOG_ERROR("AUTH FAILED!");
+                    freeReplyObject(reply);
+                    redisFree(context);
+                    continue;
+                }
+                LOG_DEBUG("AUTH SUCCEED!");
                 freeReplyObject(reply);
-                redisFree(context);
-                continue;
             }
-            LOG_DEBUG("AUTH SUCCEED!");
-            freeReplyObject(reply);
             connections_.emplace(context);
         }
     }

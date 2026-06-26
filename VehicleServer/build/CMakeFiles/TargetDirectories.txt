@@ -1,0 +1,3 @@
+/home/oxythecrack/Desktop/OxyPark/VehicleServer/build/CMakeFiles/VehicleServer.dir
+/home/oxythecrack/Desktop/OxyPark/VehicleServer/build/CMakeFiles/edit_cache.dir
+/home/oxythecrack/Desktop/OxyPark/VehicleServer/build/CMakeFiles/rebuild_cache.dir
