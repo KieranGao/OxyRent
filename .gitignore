@@ -1,21 +1,38 @@
-OxyTeamTasks
+# ============ 构建产物 ============
+Client/dist/
+Client/node_modules/
+MailerServer/node_modules/
 
-logs
-*.md
+# C++ 构建目录
+GateServer/build/
+UMSServer/build/
+VehicleServer/build/
+FinanceServer/build/
 
-FinanceServer/build
-GateServer/build
-VehicleServer/build
-UMSServer/build
+# Protobuf 生成文件
+*.pb.cc
+*.pb.h
+*.grpc.pb.cc
+*.grpc.pb.h
 
-MailerServer/node_modules
-Client/node_modules
+# ============ 日志 ============
+logs/
+*/logs/
 
-!README.md
-docs
+# ============ IDE/工具配置 ============
+.claude/
+.vscode/
+.superpowers/
+.impeccable/
+.understand-anything/
+
+# ============ 冗余项目 ============
+OxyTeamTasks/
+
+# ============ 文档/临时文件 ============
+docs/
 *.docx
 
-.superpowers
-.claude
-.impeccable
-.vscode
+# ============ 保留 ============
+!README.md
+!LICENSE

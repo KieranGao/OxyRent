@@ -1,7 +1,0 @@
-[2026-06-27 00:09:03.622] [INFO] VehicleServer starting on 0.0.0.0:50054
-[2026-06-27 00:09:03.625] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
-[2026-06-27 00:09:20.410] [INFO] [Vehicle] CancelOrder order_id=0
-[2026-06-27 00:19:45.043] [INFO] [Vehicle] DeleteMaintenance id=16
-[2026-06-27 00:19:45.055] [INFO] deleteMaintenance: vehicle 9 status changed to available
-[2026-06-27 00:55:03.165] [INFO] VehicleServer starting on 0.0.0.0:50054
-[2026-06-27 00:55:03.167] [INFO] VehicleServer gRPC listening on 0.0.0.0:50054
