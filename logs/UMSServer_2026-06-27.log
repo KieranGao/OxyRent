@@ -20,3 +20,5 @@
 [2026-06-27 02:20:58.366] [INFO] [UMS] Redis SETEX result: success
 [2026-06-27 02:21:36.414] [INFO] [UMS] Storing token in Redis: key=utoken_2, token=5525e12a7691dba941574cb50ce27f2a
 [2026-06-27 02:21:36.414] [INFO] [UMS] Redis SETEX result: success
+[2026-06-27 02:32:27.593] [INFO] [UMS] Storing token in Redis: key=utoken_1, token=fe20bb9253f9b11558ca0429192292ce
+[2026-06-27 02:32:27.594] [INFO] [UMS] Redis SETEX result: success
