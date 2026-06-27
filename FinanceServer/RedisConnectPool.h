@@ -10,7 +10,7 @@
 #include <memory>
 #include <atomic>
 
-// Functor-style custom deleter (no function pointer overhead)
+// 仿函数风格的自定义删除器（无函数指针开销）
 struct redisDel {
     void operator()(redisContext* ptr) const {
         if(ptr) {

@@ -9,7 +9,7 @@ class MySQLManager : public Singleton<MySQLManager> {
 public:
     ~MySQLManager() = default;
 
-    // Vehicle operations
+    // 车辆操作
     bool getVehicleList(int page, int page_size, const std::string& keyword,
                         const std::string& status, const std::string& brand,
                         std::vector<VehicleData>& vehicles, int& total);
@@ -27,7 +27,7 @@ public:
     bool updateVehicleStatus(int64_t id, const std::string& status);
     bool getVehicleStatus(int64_t id, std::string& status, double& daily_rate, double& deposit_amount);
 
-    // Rental order operations
+    // 租赁订单操作
     int64_t createOrder(int64_t user_id, int64_t vehicle_id,
                         const std::string& start_date, const std::string& end_date,
                         const std::string& notes, double deposit, double daily_rate,
@@ -44,7 +44,7 @@ public:
                     int new_total_days, double daily_rate, double& total_cost);
     bool cancelOrder(int64_t order_id, int64_t vehicle_id);
 
-    // Maintenance operations
+    // 维保操作
     int64_t createMaintenance(int64_t vehicle_id, const std::string& type,
                               const std::string& description, double cost,
                               const std::string& technician, const std::string& start_date);

@@ -15,7 +15,7 @@
 
 enum class LogLevel { DEBUG = 0, INFO = 1, WARN = 2, ERROR = 3 };
 
-// C++20 std::format-style {} placeholder formatter
+// C++20 std::format风格的 {} 占位符格式化器
 template<typename... Args>
 std::string format_string(const std::string& fmt, Args&&... args) {
     std::ostringstream result;

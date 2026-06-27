@@ -8,7 +8,7 @@ VehicleGrpcClient::VehicleGrpcClient() {
     rpc_pool_ = std::make_unique<VehicleConnectPool>(8, host, port);
 }
 
-// ==================== Vehicle CRUD ====================
+// ==================== 车辆增删改查 ====================
 
 VehicleListResponse VehicleGrpcClient::getVehicleList(const VehicleListRequest& request) {
     VehicleListResponse response;
@@ -74,7 +74,7 @@ CommonResponse VehicleGrpcClient::deleteVehicle(const VehicleDetailRequest& requ
     return response;
 }
 
-// ==================== Rental Orders ====================
+// ==================== 租赁订单 ====================
 
 OrderInfo VehicleGrpcClient::createOrder(const CreateOrderRequest& request) {
     OrderInfo response;
@@ -163,7 +163,7 @@ CommonResponse VehicleGrpcClient::cancelOrder(const PickupRequest& request) {
     return response;
 }
 
-// ==================== Maintenance ====================
+// ==================== 维保管理 ====================
 
 CommonResponse VehicleGrpcClient::createMaintenance(const CreateMaintenanceRequest& request) {
     CommonResponse response;

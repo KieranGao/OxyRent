@@ -9,21 +9,21 @@ class MySQLManager : public Singleton<MySQLManager> {
 public:
     ~MySQLManager() = default;
 
-    // Payment operations
+    // 支付操作
     int64_t createPayment(int64_t order_id, double amount, const std::string& type,
                           const std::string& method, const std::string& remark);
-    bool confirmPayment(int64_t id);
+    bool confirmPayment(int64_t id, const std::string& paid_at = "");
     bool getPaymentList(int page, int page_size, int64_t order_id,
                         const std::string& status, const std::string& type,
                         std::vector<PaymentData>& payments, int& total);
     bool getPaymentDetail(int64_t id, PaymentData& payment);
 
-    // Invoice operations
+    // 发票操作
     int64_t generateInvoice(int64_t order_id);
     bool getInvoiceDetail(int64_t id, InvoiceData& invoice);
     bool getInvoiceList(int page, int page_size, std::vector<InvoiceData>& invoices, int& total);
 
-    // Statistics operations
+    // 统计操作
     bool getStatsOverview(int& total_users, int& total_vehicles, int& available_vehicles,
                           int& active_orders, int& completed_orders,
                           double& total_revenue, double& month_revenue);

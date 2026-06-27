@@ -4,7 +4,7 @@ MySQLManager::MySQLManager() {
     dao_ = std::make_unique<MySQLDao>();
 }
 
-// ==================== Vehicle Operations ====================
+// ==================== 车辆操作 ====================
 
 bool MySQLManager::getVehicleList(int page, int page_size, const std::string& keyword,
                                    const std::string& status, const std::string& brand,
@@ -45,7 +45,7 @@ bool MySQLManager::getVehicleStatus(int64_t id, std::string& status, double& dai
     return dao_->getVehicleStatus(id, status, daily_rate, deposit_amount);
 }
 
-// ==================== Rental Order Operations ====================
+// ==================== 租赁订单操作 ====================
 
 int64_t MySQLManager::createOrder(int64_t user_id, int64_t vehicle_id,
                                    const std::string& start_date, const std::string& end_date,
@@ -85,7 +85,7 @@ bool MySQLManager::cancelOrder(int64_t order_id, int64_t vehicle_id) {
     return dao_->cancelOrder(order_id, vehicle_id);
 }
 
-// ==================== Maintenance Operations ====================
+// ==================== 维保操作 ====================
 
 int64_t MySQLManager::createMaintenance(int64_t vehicle_id, const std::string& type,
                                          const std::string& description, double cost,

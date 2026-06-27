@@ -30,7 +30,9 @@ private:
     std::unordered_map<std::string, std::string> get_params_;
     inline static const std::unordered_set<std::string> PUBLIC_PATHS = {
         "/user/register",
-        "/user/login"
+        "/user/login",
+        "/send-verify-code",
+        "/user/reset-password"
     };
 };
 

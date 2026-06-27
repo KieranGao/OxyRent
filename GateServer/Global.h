@@ -22,7 +22,7 @@ inline std::string jsonToStringPretty(const Json::Value& value) {
     return Json::writeString(builder, value);
 }
 
-#define CODE_PREFIX "code_"
+#define CODE_PREFIX "verify_code_"
 #define USER_TOKEN_PREFIX  "utoken_"
 #define USER_ROLE_PREFIX   "urole_"
 
@@ -31,7 +31,7 @@ namespace http = beast::http;
 namespace net = boost::asio;
 using tcp = boost::asio::ip::tcp;
 
-// ---------- Domain structs ----------
+// ---------- 领域数据结构 ----------
 
 struct UserInfo {
     std::string username;
@@ -40,20 +40,20 @@ struct UserInfo {
     std::string phone;
     std::string real_name;
     int uid;
-    int role;       // 0=customer, 1=staff, 2=admin
-    int status;     // 0=pending, 1=active, 2=banned
+    int role;       // 0=客户, 1=员工, 2=管理员
+    int status;     // 0=待审核, 1=已激活, 2=已封禁
 };
 
-// ---------- Error codes ----------
+// ---------- 错误码 ----------
 
 enum class ErrorCodes {
     SUCCESS = 0,
 
-    // General
+    // 通用
     JSON_PARSE_ERROR        = 1001,
     RPC_ERROR               = 1002,
 
-    // Auth
+    // 认证
     VERIFY_CODE_EXPIRED     = 1003,
     USER_ALREADY_EXISTS     = 1004,
     USER_DO_NOT_EXISTS      = 1005,
@@ -64,31 +64,31 @@ enum class ErrorCodes {
     AUTH_TOKEN_INVALID      = 1010,
     AUTH_TOKEN_MISSING      = 1011,
 
-    // Vehicle
+    // 车辆
     VEHICLE_NOT_FOUND       = 1012,
     VEHICLE_UNAVAILABLE     = 1013,
 
-    // Rental
+    // 租赁
     RENTAL_ORDER_NOT_FOUND  = 1014,
     RENTAL_ORDER_ACTIVE     = 1015,
 
-    // Payment
+    // 支付
     PAYMENT_FAILED          = 1016,
     PAYMENT_NOT_FOUND       = 1017,
 
-    // Invoice
+    // 发票
     INVOICE_NOT_FOUND       = 1018,
 
-    // Balance
+    // 余额
     BALANCE_INSUFFICIENT    = 1019,
     BALANCE_TOPUP_FAILED    = 1020,
     BALANCE_CONSUME_FAILED  = 1021,
 
-    // Invoice (continued)
+    // 发票（续）
     ORDER_NOT_COMPLETED     = 1023,
 };
 
-// ---------- Network constants ----------
+// ---------- 网络常量 ----------
 
 #define MAX_LENGTH  2048
 #define HEAD_TOTAL_LEN 4

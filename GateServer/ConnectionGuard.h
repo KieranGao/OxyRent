@@ -4,7 +4,7 @@
 #include <memory>
 #include "MySQLConnectPool.h"
 
-// RAII guard for MySQL connections: returns connection to pool on destruction
+// MySQL连接的RAII守卫：析构时将连接归还连接池
 class ConnectionGuard {
 public:
     ConnectionGuard(MySQLConnectPool& pool, std::unique_ptr<SqlConnection> conn)

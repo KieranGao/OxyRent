@@ -30,22 +30,22 @@ Status UMSGrpcServiceImpl::UserRegister(ServerContext* context, const UserRegist
     int64_t uid = MySQLManager::getInstance().registerUser(username, password_hash, phone, email);
     if (uid == -1) {
         resp->set_error(static_cast<int>(ErrorCodes::USER_ALREADY_EXISTS));
-        resp->set_msg("Username already exists");
+        resp->set_msg("用户名已存在");
         return Status::OK;
     }
     if (uid == -2) {
         resp->set_error(static_cast<int>(ErrorCodes::USER_ALREADY_EXISTS));
-        resp->set_msg("Email already exists");
+        resp->set_msg("邮箱已存在");
         return Status::OK;
     }
     if (uid <= 0) {
         resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
-        resp->set_msg("Registration failed");
+        resp->set_msg("注册失败");
         return Status::OK;
     }
 
     resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
-    resp->set_msg("Registration successful");
+    resp->set_msg("注册成功");
     LOG_INFO("[UMS] Registration success, uid={}", uid);
     return Status::OK;
 }
@@ -61,13 +61,13 @@ Status UMSGrpcServiceImpl::UserLogin(ServerContext* context, const UserLoginRequ
     bool ok = MySQLManager::getInstance().loginUser(username, password_hash, uid, role, status);
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::USER_LOGIN_ERROR));
-        resp->set_msg("Invalid username or password");
+        resp->set_msg("用户名或密码错误");
         return Status::OK;
     }
 
     if (status != "active") {
         resp->set_error(static_cast<int>(ErrorCodes::USER_NOT_APPROVED));
-        resp->set_msg("Account is not active");
+        resp->set_msg("账号未激活");
         resp->set_uid(uid);
         return Status::OK;
     }
@@ -104,7 +104,7 @@ Status UMSGrpcServiceImpl::GetUserProfile(ServerContext* context, const UserProf
     bool ok = MySQLManager::getInstance().getUserProfile(uid, profile);
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::USER_DO_NOT_EXISTS));
-        resp->set_msg("User not found");
+        resp->set_msg("用户不存在");
         return Status::OK;
     }
 
@@ -135,12 +135,12 @@ Status UMSGrpcServiceImpl::UpdateProfile(ServerContext* context, const UpdatePro
 
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::USER_DO_NOT_EXISTS));
-        resp->set_msg("Update failed or user not found");
+        resp->set_msg("更新失败或用户不存在");
         return Status::OK;
     }
 
     resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
-    resp->set_msg("Profile updated successfully");
+    resp->set_msg("个人信息更新成功");
     return Status::OK;
 }
 
@@ -154,7 +154,7 @@ Status UMSGrpcServiceImpl::GetUserList(ServerContext* context, const UserListReq
 
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
-        resp->set_msg("Failed to fetch user list");
+        resp->set_msg("获取用户列表失败");
         return Status::OK;
     }
 
@@ -170,6 +170,7 @@ Status UMSGrpcServiceImpl::GetUserList(ServerContext* context, const UserListReq
         item->set_role(u.role);
         item->set_status(u.status);
         item->set_created_at(u.created_at);
+        item->set_balance(u.balance);
     }
     return Status::OK;
 }
@@ -182,12 +183,12 @@ Status UMSGrpcServiceImpl::UpdateUserStatus(ServerContext* context, const Update
     bool ok = MySQLManager::getInstance().updateUserStatus(uid, status);
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::USER_DO_NOT_EXISTS));
-        resp->set_msg("User not found or update failed");
+        resp->set_msg("用户不存在或更新失败");
         return Status::OK;
     }
 
     resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
-    resp->set_msg("User status updated");
+    resp->set_msg("用户状态已更新");
     return Status::OK;
 }
 
@@ -199,12 +200,12 @@ Status UMSGrpcServiceImpl::UpdateUserRole(ServerContext* context, const UpdateUs
     bool ok = MySQLManager::getInstance().updateUserRole(uid, role);
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::USER_DO_NOT_EXISTS));
-        resp->set_msg("User not found or update failed");
+        resp->set_msg("用户不存在或更新失败");
         return Status::OK;
     }
 
     resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
-    resp->set_msg("User role updated");
+    resp->set_msg("用户角色已更新");
     return Status::OK;
 }
 
@@ -226,19 +227,43 @@ Status UMSGrpcServiceImpl::TopupBalance(ServerContext* context, const TopupReque
 
     if (amount <= 0) {
         resp->set_error(static_cast<int>(ErrorCodes::BALANCE_TOPUP_FAILED));
-        resp->set_msg("Amount must be positive");
+        resp->set_msg("充值金额必须大于0");
         return Status::OK;
     }
 
     bool ok = MySQLManager::getInstance().topupBalance(uid, amount, uid, remark);
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::BALANCE_TOPUP_FAILED));
-        resp->set_msg("Topup failed");
+        resp->set_msg("充值失败");
         return Status::OK;
     }
 
     resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
-    resp->set_msg("Topup successful");
+    resp->set_msg("充值成功");
+    return Status::OK;
+}
+
+Status UMSGrpcServiceImpl::ConsumeBalance(ServerContext* context, const ConsumeBalanceRequest* req, CommonResponse* resp) {
+    int64_t uid = req->uid();
+    double amount = req->amount();
+    std::string remark = req->remark();
+    LOG_INFO("[UMS] ConsumeBalance uid={} amount={}", uid, amount);
+
+    if (amount <= 0) {
+        resp->set_error(static_cast<int>(ErrorCodes::BALANCE_CONSUME_FAILED));
+        resp->set_msg("消费金额必须大于0");
+        return Status::OK;
+    }
+
+    bool ok = MySQLManager::getInstance().consumeBalance(uid, amount, remark);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::BALANCE_INSUFFICIENT));
+        resp->set_msg("余额不足");
+        return Status::OK;
+    }
+
+    resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
+    resp->set_msg("消费成功");
     return Status::OK;
 }
 
@@ -246,20 +271,23 @@ Status UMSGrpcServiceImpl::GetBalanceRecords(ServerContext* context, const Balan
     int64_t uid = req->uid();
     int page = req->page() > 0 ? req->page() : 1;
     int page_size = req->page_size() > 0 ? req->page_size() : 20;
-    LOG_DEBUG("[UMS] GetBalanceRecords uid={} page={} page_size={}", uid, page, page_size);
+    LOG_INFO("[UMS] GetBalanceRecords uid={} page={} page_size={}", uid, page, page_size);
 
     std::vector<BalanceRecordData> records;
     int total = 0;
     bool ok = MySQLManager::getInstance().getBalanceRecords(uid, page, page_size, records, total);
+    LOG_INFO("[UMS] GetBalanceRecords ok={} total={} records_size={}", ok, total, records.size());
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
         resp->set_msg("Failed to fetch balance records");
         return Status::OK;
     }
 
+    double balance = MySQLManager::getInstance().getBalance(uid);
+    LOG_INFO("[UMS] GetBalanceRecords balance={}", balance);
     resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
     resp->set_total(total);
-    resp->set_balance(MySQLManager::getInstance().getBalance(uid));
+    resp->set_balance(balance);
     for (auto& r : records) {
         auto* item = resp->add_records();
         item->set_id(r.id);
@@ -270,5 +298,54 @@ Status UMSGrpcServiceImpl::GetBalanceRecords(ServerContext* context, const Balan
         item->set_remark(r.remark);
         item->set_created_at(r.created_at);
     }
+    return Status::OK;
+}
+
+Status UMSGrpcServiceImpl::UpdateBalanceRecordRemark(ServerContext* context, const UpdateBalanceRecordRemarkRequest* req, CommonResponse* resp) {
+    int64_t user_id = req->user_id();
+    std::string old_remark = req->old_remark();
+    std::string new_remark = req->new_remark();
+    LOG_INFO("[UMS] UpdateBalanceRecordRemark user_id={} old={} new={}", user_id, old_remark, new_remark);
+
+    bool ok = MySQLManager::getInstance().updateBalanceRecordRemark(user_id, old_remark, new_remark);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
+        resp->set_msg("更新备注失败");
+        return Status::OK;
+    }
+
+    resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
+    resp->set_msg("备注已更新");
+    return Status::OK;
+}
+
+Status UMSGrpcServiceImpl::ResetPassword(ServerContext* context, const ResetPasswordRequest* req, CommonResponse* resp) {
+    std::string email = req->email();
+    std::string new_password = req->new_password();
+    LOG_INFO("[UMS] ResetPassword email={}", email);
+
+    if (email.empty() || new_password.empty()) {
+        resp->set_error(static_cast<int>(ErrorCodes::JSON_PARSE_ERROR));
+        resp->set_msg("邮箱和新密码不能为空");
+        return Status::OK;
+    }
+
+    if (new_password.length() < 6) {
+        resp->set_error(static_cast<int>(ErrorCodes::JSON_PARSE_ERROR));
+        resp->set_msg("密码至少6个字符");
+        return Status::OK;
+    }
+
+    std::string password_hash = md5Hash(new_password);
+    bool ok = MySQLManager::getInstance().resetPassword(email, password_hash);
+    if (!ok) {
+        resp->set_error(static_cast<int>(ErrorCodes::USER_DO_NOT_EXISTS));
+        resp->set_msg("邮箱不存在或重置失败");
+        return Status::OK;
+    }
+
+    resp->set_error(static_cast<int>(ErrorCodes::SUCCESS));
+    resp->set_msg("密码重置成功");
+    LOG_INFO("[UMS] Password reset success for email={}", email);
     return Status::OK;
 }

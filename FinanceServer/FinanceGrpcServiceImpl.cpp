@@ -38,9 +38,10 @@ Status FinanceGrpcServiceImpl::CreatePayment(ServerContext* context, const Creat
 
 Status FinanceGrpcServiceImpl::ConfirmPayment(ServerContext* context, const PaymentInfo* req, PaymentInfo* resp) {
     int64_t id = req->id();
-    LOG_DEBUG("[Finance] ConfirmPayment id={}", id);
+    std::string paid_at = req->paid_at();
+    LOG_DEBUG("[Finance] ConfirmPayment id={} paid_at={}", id, paid_at);
 
-    bool ok = MySQLManager::getInstance().confirmPayment(id);
+    bool ok = MySQLManager::getInstance().confirmPayment(id, paid_at);
     if (!ok) {
         resp->set_id(0);
         LOG_WARN("[Finance] ConfirmPayment failed: payment {} not found or not pending", id);
@@ -256,6 +257,8 @@ Status FinanceGrpcServiceImpl::GetRevenueStats(ServerContext* context, const Rev
         auto* rsi = resp->add_items();
         rsi->set_date(item.date);
         rsi->set_amount(item.amount);
+        rsi->set_rental(item.rental);
+        rsi->set_maintenance(item.maintenance);
         rsi->set_count(item.count);
     }
     return Status::OK;

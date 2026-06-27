@@ -16,8 +16,8 @@ struct UserInfo {
     std::string phone;
     std::string email;
     int64_t uid;
-    int role;       // 0=customer, 1=staff, 2=admin
-    std::string status; // active, inactive, banned
+    int role;       // 0=客户, 1=员工, 2=管理员
+    std::string status; // active=已激活, inactive=未激活, banned=已封禁
 };
 
 struct UserProfileData {
@@ -49,11 +49,11 @@ struct BalanceRecordData {
 enum class ErrorCodes {
     SUCCESS = 0,
 
-    // General
+    // 通用
     JSON_PARSE_ERROR        = 1001,
     RPC_ERROR               = 1002,
 
-    // Auth
+    // 认证
     VERIFY_CODE_EXPIRED     = 1003,
     USER_ALREADY_EXISTS     = 1004,
     USER_DO_NOT_EXISTS      = 1005,
@@ -64,18 +64,18 @@ enum class ErrorCodes {
     AUTH_TOKEN_INVALID      = 1010,
     AUTH_TOKEN_MISSING      = 1011,
 
-    // Vehicle
+    // 车辆
     VEHICLE_NOT_FOUND       = 1012,
     VEHICLE_UNAVAILABLE     = 1013,
 
-    // Rental
+    // 租赁
     RENTAL_ORDER_NOT_FOUND  = 1014,
     RENTAL_ORDER_ACTIVE     = 1015,
 
-    // Payment
+    // 支付
     PAYMENT_FAILED          = 1016,
 
-    // Balance
+    // 余额
     BALANCE_INSUFFICIENT    = 1017,
     BALANCE_TOPUP_FAILED    = 1018,
     BALANCE_CONSUME_FAILED  = 1019,

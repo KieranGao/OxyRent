@@ -55,3 +55,11 @@ bool MySQLManager::consumeBalance(int64_t uid, double amount, const std::string&
 bool MySQLManager::getBalanceRecords(int64_t uid, int page, int page_size, std::vector<BalanceRecordData>& records, int& total) {
     return dao_->getBalanceRecords(uid, page, page_size, records, total);
 }
+
+bool MySQLManager::updateBalanceRecordRemark(int64_t user_id, const std::string& old_remark, const std::string& new_remark) {
+    return dao_->updateBalanceRecordRemark(user_id, old_remark, new_remark);
+}
+
+bool MySQLManager::resetPassword(const std::string& email, const std::string& new_password_hash) {
+    return dao_->resetPassword(email, new_password_hash);
+}

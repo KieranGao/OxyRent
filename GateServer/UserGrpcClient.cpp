@@ -125,6 +125,19 @@ CommonResponse UserGrpcClient::topupBalance(const TopupRequest& request) {
     return response;
 }
 
+CommonResponse UserGrpcClient::consumeBalance(const ConsumeBalanceRequest& request) {
+    CommonResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->ConsumeBalance(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("UserService ConsumeBalance RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}
+
 BalanceRecordListResponse UserGrpcClient::getBalanceRecords(const BalanceRecordListRequest& request) {
     BalanceRecordListResponse response;
     ClientContext context;
@@ -133,6 +146,32 @@ BalanceRecordListResponse UserGrpcClient::getBalanceRecords(const BalanceRecordL
     Status status = stub->GetBalanceRecords(&context, request, &response);
     if(!status.ok()) {
         LOG_ERROR("UserService GetBalanceRecords RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}
+
+CommonResponse UserGrpcClient::updateBalanceRecordRemark(const UpdateBalanceRecordRemarkRequest& request) {
+    CommonResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->UpdateBalanceRecordRemark(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("UserService UpdateBalanceRecordRemark RPC failed: {}", status.error_message());
+        response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
+    }
+    return response;
+}
+
+CommonResponse UserGrpcClient::resetPassword(const ResetPasswordRequest& request) {
+    CommonResponse response;
+    ClientContext context;
+    auto stub = rpc_pool_->getStub();
+    Defer defer([&stub, this](){ rpc_pool_->returnStub(std::move(stub)); });
+    Status status = stub->ResetPassword(&context, request, &response);
+    if(!status.ok()) {
+        LOG_ERROR("UserService ResetPassword RPC failed: {}", status.error_message());
         response.set_error(static_cast<int32_t>(ErrorCodes::RPC_ERROR));
     }
     return response;

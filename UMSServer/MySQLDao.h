@@ -14,6 +14,7 @@ struct UserListItemData {
     std::string role;
     std::string status;
     std::string created_at;
+    double balance = 0.0;
 };
 
 class MySQLDao {
@@ -34,11 +35,13 @@ public:
                      std::vector<UserListItemData>& users, int& total);
     bool updateUserStatus(int64_t uid, const std::string& status);
     bool updateUserRole(int64_t uid, const std::string& role);
-    // Balance operations
+    // 余额操作
     double getBalance(int64_t uid);
     bool topupBalance(int64_t uid, double amount, int64_t operator_id, const std::string& remark);
     bool consumeBalance(int64_t uid, double amount, const std::string& remark);
     bool getBalanceRecords(int64_t uid, int page, int page_size, std::vector<BalanceRecordData>& records, int& total);
+    bool updateBalanceRecordRemark(int64_t user_id, const std::string& old_remark, const std::string& new_remark);
+    bool resetPassword(const std::string& email, const std::string& new_password_hash);
 private:
     std::unique_ptr<MySQLConnectPool> pool_;
 };

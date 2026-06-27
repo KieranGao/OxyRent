@@ -4,9 +4,11 @@
 #include "UserGrpcClient.h"
 #include "VehicleGrpcClient.h"
 #include "FinanceGrpcClient.h"
+#include "MailerGrpcClient.h"
 #include "RedisManager.h"
 #include "Logger.h"
 #include <json/json.h>
+#include <ctime>
 
 void LogicSystem::registerGet(std::string url, HttpHandler handler) {
     getHandlers_[url] = handler;
@@ -34,11 +36,31 @@ LogicSystem::LogicSystem() {
             beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             return;
         }
+
+        // 验证邮箱验证码
+        std::string email = jsonData.get("email", "").asString();
+        std::string code = jsonData.get("code", "").asString();
+        if (email.empty() || code.empty()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::VERIFY_CODE_EXPIRED);
+            jsonResp["msg"] = "请输入邮箱验证码";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        std::string storedCode;
+        std::string redisKey = std::string(CODE_PREFIX) + email;
+        if (!RedisManager::getInstance().get(redisKey, storedCode) || storedCode != code) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::VERIFY_CODE_EXPIRED);
+            jsonResp["msg"] = "验证码错误或已过期";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        RedisManager::getInstance().del(redisKey);
+
         UserRegisterRequest request;
         request.set_username(jsonData["username"].asString());
         request.set_password(jsonData["password"].asString());
         request.set_phone(jsonData.get("phone", "").asString());
-        request.set_email(jsonData.get("email", "").asString());
+        request.set_email(email);
 
         auto p = std::make_shared<std::promise<Json::Value>>();
         auto f = p->get_future();
@@ -68,6 +90,129 @@ LogicSystem::LogicSystem() {
             jsonResp["msg"] = "timeout";
             beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
             LOG_ERROR("[Gate] /user/register timed out after 5s");
+        }
+    });
+
+    registerPost("/send-verify-code", [](std::shared_ptr<HttpConnection> connection) {
+        auto body = beast::buffers_to_string(connection->req_.body().data());
+        LOG_DEBUG("[Gate] SEND_VERIFY_CODE: {}", body);
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonData, jsonResp;
+        Json::Reader reader;
+        if(!reader.parse(body, jsonData)) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        std::string email = jsonData["email"].asString();
+        if (email.empty()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            jsonResp["msg"] = "请输入邮箱地址";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, email]() {
+            Json::Value result;
+            try {
+                SendVerifyCodeRequest request;
+                request.set_email(email);
+                SendVerifyCodeResponse rsp = MailerGrpcClient::getInstance().sendVerifyCode(request);
+                result["error"] = rsp.error();
+                result["msg"] = rsp.msg();
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                result["msg"] = "发送验证码失败";
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(10));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "发送验证码超时";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            LOG_ERROR("[Gate] /send-verify-code timed out after 10s");
+        }
+    });
+
+    registerPost("/user/reset-password", [](std::shared_ptr<HttpConnection> connection) {
+        auto body = beast::buffers_to_string(connection->req_.body().data());
+        LOG_DEBUG("[Gate] RESET_PASSWORD: {}", body);
+        connection->resp_.set(http::field::content_type, "application/json");
+        Json::Value jsonData, jsonResp;
+        Json::Reader reader;
+        if(!reader.parse(body, jsonData)) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        std::string email = jsonData["email"].asString();
+        std::string code = jsonData["code"].asString();
+        std::string new_password = jsonData["new_password"].asString();
+
+        if (email.empty() || code.empty() || new_password.empty()) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
+            jsonResp["msg"] = "请填写完整信息";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+
+        // 验证验证码
+        std::string storedCode;
+        std::string redisKey = std::string(CODE_PREFIX) + email;
+        if (!RedisManager::getInstance().get(redisKey, storedCode) || storedCode != code) {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::VERIFY_CODE_EXPIRED);
+            jsonResp["msg"] = "验证码错误或已过期";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            return;
+        }
+        RedisManager::getInstance().del(redisKey);
+
+        // 调用UMSServer重置密码
+        auto p = std::make_shared<std::promise<Json::Value>>();
+        auto f = p->get_future();
+        AsyncTaskPool::getInstance().post([p, email, new_password]() {
+            Json::Value result;
+            try {
+                ResetPasswordRequest request;
+                request.set_email(email);
+                request.set_new_password(new_password);
+                CommonResponse rsp = UserGrpcClient::getInstance().resetPassword(request);
+                result["error"] = rsp.error();
+                result["msg"] = rsp.msg();
+            } catch (...) {
+                result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                result["msg"] = "重置密码失败";
+            }
+            p->set_value(result);
+        });
+
+        auto status = f.wait_for(std::chrono::seconds(5));
+        if (status == std::future_status::ready) {
+            try {
+                Json::Value result = f.get();
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(result);
+            } catch (...) {
+                jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+                beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            }
+        } else {
+            jsonResp["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
+            jsonResp["msg"] = "timeout";
+            beast::ostream(connection->resp_.body()) << jsonToStringPretty(jsonResp);
+            LOG_ERROR("[Gate] /user/reset-password timed out after 5s");
         }
     });
 
@@ -312,6 +457,7 @@ LogicSystem::LogicSystem() {
                     user["role"] = u.role();
                     user["status"] = u.status();
                     user["created_at"] = u.created_at();
+                    user["balance"] = u.balance();
                     users.append(user);
                 }
                 result["users"] = users;
@@ -1065,16 +1211,68 @@ LogicSystem::LogicSystem() {
             return;
         }
 
+        std::string payment_method = jsonData.get("payment_method", "balance").asString();
+
         auto p = std::make_shared<std::promise<Json::Value>>();
         auto f = p->get_future();
-        AsyncTaskPool::getInstance().post([p, jsonData, uid]() {
+        AsyncTaskPool::getInstance().post([p, jsonData, uid, payment_method]() {
             Json::Value result;
             try {
+                int64_t vehicle_id = jsonData["vehicle_id"].asInt64();
+                std::string start_date = jsonData["start_date"].asString();
+                std::string end_date = jsonData["end_date"].asString();
+
+                // 余额支付：先查询车辆信息计算预估费用，检查余额
+                if (payment_method == "balance") {
+                    // 获取车辆日租金
+                    VehicleDetailRequest vdReq;
+                    vdReq.set_id(vehicle_id);
+                    VehicleInfo vInfo = VehicleGrpcClient::getInstance().getVehicleDetail(vdReq);
+                    double daily_rate = vInfo.daily_rate();
+
+                    // 计算天数
+                    std::tm tm_start = {}, tm_end = {};
+                    strptime(start_date.c_str(), "%Y-%m-%d", &tm_start);
+                    strptime(end_date.c_str(), "%Y-%m-%d", &tm_end);
+                    time_t t_start = mktime(&tm_start);
+                    time_t t_end = mktime(&tm_end);
+                    int total_days = static_cast<int>(difftime(t_end, t_start) / 86400);
+                    if (total_days < 1) total_days = 1;
+
+                    double estimated_cost = total_days * daily_rate;
+
+                    // 检查余额
+                    GetBalanceRequest balReq;
+                    balReq.set_uid(uid);
+                    GetBalanceResponse balResp = UserGrpcClient::getInstance().getBalance(balReq);
+                    if (balResp.balance() < estimated_cost) {
+                        result["error"] = static_cast<int>(ErrorCodes::BALANCE_INSUFFICIENT);
+                        result["msg"] = "余额不足，预估费用 ¥" + std::to_string((int)estimated_cost) +
+                                        "，当前余额 ¥" + std::to_string((int)balResp.balance());
+                        p->set_value(result);
+                        return;
+                    }
+
+                    // 扣除余额
+                    ConsumeBalanceRequest consumeReq;
+                    consumeReq.set_uid(uid);
+                    consumeReq.set_amount(estimated_cost);
+                    consumeReq.set_remark("租车订单预扣");
+                    CommonResponse consumeResp = UserGrpcClient::getInstance().consumeBalance(consumeReq);
+                    if (consumeResp.error() != 0) {
+                        result["error"] = static_cast<int>(ErrorCodes::BALANCE_CONSUME_FAILED);
+                        result["msg"] = "余额扣除失败";
+                        p->set_value(result);
+                        return;
+                    }
+                }
+
+                // 创建订单
                 CreateOrderRequest request;
                 request.set_user_id(uid);
-                request.set_vehicle_id(jsonData["vehicle_id"].asInt64());
-                request.set_start_date(jsonData["start_date"].asString());
-                request.set_end_date(jsonData["end_date"].asString());
+                request.set_vehicle_id(vehicle_id);
+                request.set_start_date(start_date);
+                request.set_end_date(end_date);
                 request.set_notes(jsonData.get("notes", "").asString());
                 OrderInfo rsp = VehicleGrpcClient::getInstance().createOrder(request);
                 if (rsp.id() == 0) {
@@ -1206,6 +1404,16 @@ LogicSystem::LogicSystem() {
         connection->resp_.set(http::field::content_type, "application/json");
         Json::Value jsonResp;
 
+        // 获取当前用户信息
+        auto caller_it = connection->req_.find("X-User-Id");
+        int64_t caller_uid = 0;
+        std::string caller_role;
+        if (caller_it != connection->req_.end()) {
+            std::string uid_str(caller_it->value().data(), caller_it->value().size());
+            try { caller_uid = std::stoll(uid_str); } catch (...) {}
+            RedisManager::getInstance().get(USER_ROLE_PREFIX + uid_str, caller_role);
+        }
+
         if (!connection->get_params_.count("id")) {
             jsonResp["error"] = static_cast<int>(ErrorCodes::JSON_PARSE_ERROR);
             jsonResp["msg"] = "Missing id parameter";
@@ -1221,7 +1429,7 @@ LogicSystem::LogicSystem() {
 
         auto p = std::make_shared<std::promise<Json::Value>>();
         auto f = p->get_future();
-        AsyncTaskPool::getInstance().post([p, id]() {
+        AsyncTaskPool::getInstance().post([p, id, caller_uid, caller_role]() {
             Json::Value result;
             try {
                 OrderDetailRequest request;
@@ -1231,6 +1439,13 @@ LogicSystem::LogicSystem() {
                     result["error"] = static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND);
                     result["msg"] = "Order not found";
                 } else {
+                    // 访问控制：非管理员只能查看自己的订单
+                    if (caller_role != "admin" && rsp.user_id() != caller_uid) {
+                        result["error"] = static_cast<int>(ErrorCodes::AUTH_TOKEN_INVALID);
+                        result["msg"] = "Access denied";
+                        p->set_value(result);
+                        return;
+                    }
                     result["error"] = 0;
                     result["id"] = static_cast<Json::Int64>(rsp.id());
                     result["order_no"] = rsp.order_no();
@@ -1347,6 +1562,46 @@ LogicSystem::LogicSystem() {
                     result["actual_return_date"] = rsp.actual_return_date();
                     result["total_cost"] = rsp.total_cost();
                     result["penalty"] = rsp.penalty();
+
+                    // 自动创建租金支付记录（使用订单创建日期）
+                    double rental_amount = rsp.total_cost() + rsp.penalty();
+                    if (rental_amount > 0) {
+                        CreatePaymentRequest payReq;
+                        payReq.set_order_id(rsp.id());
+                        payReq.set_amount(rental_amount);
+                        payReq.set_type("rental");
+                        payReq.set_method("balance");
+                        payReq.set_remark(rsp.penalty() > 0 ? "租车费用+逾期罚款" : "租车费用");
+                        // 使用订单创建日期作为支付日期
+                        payReq.set_paid_at(rsp.created_at());
+                        PaymentInfo payRsp = FinanceGrpcClient::getInstance().createPayment(payReq);
+                        if (payRsp.id() > 0) {
+                            // 自动确认支付（使用订单创建日期）
+                            PaymentInfo confirmReq;
+                            confirmReq.set_id(payRsp.id());
+                            confirmReq.set_paid_at(rsp.created_at());
+                            FinanceGrpcClient::getInstance().confirmPayment(confirmReq);
+
+                            // 如果有罚金，需要额外扣除罚金部分
+                            if (rsp.penalty() > 0) {
+                                ConsumeBalanceRequest consumeReq;
+                                consumeReq.set_uid(rsp.user_id());
+                                consumeReq.set_amount(rsp.penalty());
+                                consumeReq.set_remark("逾期罚金: " + rsp.order_no());
+                                UserGrpcClient::getInstance().consumeBalance(consumeReq);
+                            }
+
+                            // 更新预扣记录的备注为租赁扣费
+                            UpdateBalanceRecordRemarkRequest updateReq;
+                            updateReq.set_user_id(rsp.user_id());
+                            updateReq.set_old_remark("租车订单预扣");
+                            updateReq.set_new_remark("租赁扣费: " + rsp.order_no());
+                            UserGrpcClient::getInstance().updateBalanceRecordRemark(updateReq);
+
+                            LOG_INFO("[Gate] Auto-created rental payment for order {}: amount={}, payment_id={}, paid_at={}",
+                                     rsp.order_no(), rental_amount, payRsp.id(), rsp.created_at());
+                        }
+                    }
                 }
             } catch (...) {
                 result["error"] = static_cast<int>(ErrorCodes::RPC_ERROR);
@@ -2416,6 +2671,8 @@ LogicSystem::LogicSystem() {
                     Json::Value stat;
                     stat["date"] = item.date();
                     stat["amount"] = item.amount();
+                    stat["rental"] = item.rental();
+                    stat["maintenance"] = item.maintenance();
                     stat["count"] = item.count();
                     items.append(stat);
                 }

@@ -45,8 +45,8 @@ int64_t MySQLDao::createPayment(int64_t order_id, double amount, const std::stri
 
         std::unique_ptr<sql::PreparedStatement> insertStmt(
             sql_conn->prepareStatement(
-                "INSERT INTO payments (order_id, order_no, user_id, amount, type, method, status, remark) "
-                "VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)"));
+                "INSERT INTO payments (order_id, order_no, user_id, amount, type, method, status, remark, paid_at) "
+                "VALUES (?, ?, ?, ?, ?, ?, 'pending', ?, NULL)"));
         insertStmt->setInt64(1, order_id);
         insertStmt->setString(2, order_no);
         insertStmt->setInt64(3, user_id);
@@ -70,14 +70,21 @@ int64_t MySQLDao::createPayment(int64_t order_id, double amount, const std::stri
     }
 }
 
-bool MySQLDao::confirmPayment(int64_t id) {
+bool MySQLDao::confirmPayment(int64_t id, const std::string& paid_at) {
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
-        std::unique_ptr<sql::PreparedStatement> pstmt(
-            sql_conn->prepareStatement(
+        std::unique_ptr<sql::PreparedStatement> pstmt;
+        if (paid_at.empty()) {
+            pstmt.reset(sql_conn->prepareStatement(
                 "UPDATE payments SET status='success', paid_at=NOW() WHERE id=? AND status='pending'"));
-        pstmt->setInt64(1, id);
+            pstmt->setInt64(1, id);
+        } else {
+            pstmt.reset(sql_conn->prepareStatement(
+                "UPDATE payments SET status='success', paid_at=? WHERE id=? AND status='pending'"));
+            pstmt->setString(1, paid_at);
+            pstmt->setInt64(2, id);
+        }
         int affected = pstmt->executeUpdate();
         LOG_DEBUG("confirmPayment id={} affected={}", id, affected);
         return affected > 0;
@@ -422,13 +429,22 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
             completed_orders = res3->getInt("completed");
         }
 
-        // 总收入（基于已完成的支付记录）
+        // 总收入 = 租金收入 - 维护费用
+        double rental_revenue = 0.0;
         std::unique_ptr<sql::Statement> stmt4(sql_conn->createStatement());
         std::unique_ptr<sql::ResultSet> res4(stmt4->executeQuery(
-            "SELECT COALESCE(SUM(amount), 0) AS total_revenue FROM payments WHERE status = 'success'"));
-        if (res4 && res4->next()) total_revenue = res4->getDouble("total_revenue");
+            "SELECT COALESCE(SUM(amount), 0) AS rental_revenue FROM payments WHERE status = 'success' AND type = 'rental'"));
+        if (res4 && res4->next()) rental_revenue = res4->getDouble("rental_revenue");
 
-        // 本月收入（基于已完成的支付记录）
+        double maintenance_cost = 0.0;
+        std::unique_ptr<sql::Statement> stmt5(sql_conn->createStatement());
+        std::unique_ptr<sql::ResultSet> res5(stmt5->executeQuery(
+            "SELECT COALESCE(SUM(cost), 0) AS maintenance_cost FROM maintenance_records WHERE status = 'completed'"));
+        if (res5 && res5->next()) maintenance_cost = res5->getDouble("maintenance_cost");
+
+        total_revenue = rental_revenue - maintenance_cost;
+
+        // 本月收入 = 本月租金收入 - 本月维护费用
         auto now = std::chrono::system_clock::now();
         auto tt = std::chrono::system_clock::to_time_t(now);
         std::tm tm;
@@ -436,13 +452,25 @@ bool MySQLDao::getStatsOverview(int& total_users, int& total_vehicles, int& avai
         char monthBuf[8];
         snprintf(monthBuf, sizeof(monthBuf), "%04d-%02d", tm.tm_year + 1900, tm.tm_mon + 1);
 
+        double month_rental = 0.0;
         std::unique_ptr<sql::PreparedStatement> monthStmt(
             sql_conn->prepareStatement(
-                "SELECT COALESCE(SUM(amount), 0) AS month_revenue FROM payments "
-                "WHERE status = 'success' AND DATE(paid_at) LIKE ?"));
+                "SELECT COALESCE(SUM(amount), 0) AS month_rental FROM payments "
+                "WHERE status = 'success' AND type = 'rental' AND DATE(paid_at) LIKE ?"));
         monthStmt->setString(1, std::string(monthBuf) + "%");
         std::unique_ptr<sql::ResultSet> monthRes(monthStmt->executeQuery());
-        if (monthRes && monthRes->next()) month_revenue = monthRes->getDouble("month_revenue");
+        if (monthRes && monthRes->next()) month_rental = monthRes->getDouble("month_rental");
+
+        double month_maintenance = 0.0;
+        std::unique_ptr<sql::PreparedStatement> monthMaintStmt(
+            sql_conn->prepareStatement(
+                "SELECT COALESCE(SUM(cost), 0) AS month_maintenance FROM maintenance_records "
+                "WHERE status = 'completed' AND DATE(created_at) LIKE ?"));
+        monthMaintStmt->setString(1, std::string(monthBuf) + "%");
+        std::unique_ptr<sql::ResultSet> monthMaintRes(monthMaintStmt->executeQuery());
+        if (monthMaintRes && monthMaintRes->next()) month_maintenance = monthMaintRes->getDouble("month_maintenance");
+
+        month_revenue = month_rental - month_maintenance;
 
         return true;
     } catch(const sql::SQLException& exp) {
@@ -467,25 +495,69 @@ bool MySQLDao::getRevenueStats(const std::string& start_date, const std::string&
             dateExpr = "DATE(paid_at)";
         }
 
-        std::string querySql = "SELECT " + dateExpr + " AS date, "
+        // 查询租金收入（按日期分组）
+        std::string rentalSql = "SELECT " + dateExpr + " AS date, "
                                "COALESCE(SUM(amount), 0) AS amount, "
                                "COUNT(*) AS count "
                                "FROM payments "
-                               "WHERE status = 'success' "
+                               "WHERE status = 'success' AND type = 'rental' "
                                "AND DATE(paid_at) >= ? AND DATE(paid_at) <= ? "
                                "GROUP BY date ORDER BY date";
 
-        std::unique_ptr<sql::PreparedStatement> pstmt(sql_conn->prepareStatement(querySql));
+        std::unique_ptr<sql::PreparedStatement> pstmt(sql_conn->prepareStatement(rentalSql));
         pstmt->setString(1, start_date);
         pstmt->setString(2, end_date);
         std::unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
 
-        total = 0.0;
+        // 存储租金收入
+        std::map<std::string, RevenueStatsItemData> rentalMap;
         while (res && res->next()) {
             RevenueStatsItemData item;
             item.date = res->getString("date");
             item.amount = res->getDouble("amount");
             item.count = res->getInt("count");
+            rentalMap[item.date] = item;
+        }
+
+        // 查询维护费用（按日期分组）
+        std::string maintenanceDateExpr;
+        if (granularity == "monthly") {
+            maintenanceDateExpr = "DATE_FORMAT(created_at, '%Y-%m')";
+        } else if (granularity == "weekly") {
+            maintenanceDateExpr = "DATE_FORMAT(DATE(created_at), '%x-W%v')";
+        } else {
+            maintenanceDateExpr = "DATE(created_at)";
+        }
+
+        std::string maintenanceSql = "SELECT " + maintenanceDateExpr + " AS date, "
+                                    "COALESCE(SUM(cost), 0) AS amount "
+                                    "FROM maintenance_records "
+                                    "WHERE status = 'completed' "
+                                    "AND DATE(created_at) >= ? AND DATE(created_at) <= ? "
+                                    "GROUP BY date";
+
+        std::unique_ptr<sql::PreparedStatement> maintPstmt(sql_conn->prepareStatement(maintenanceSql));
+        maintPstmt->setString(1, start_date);
+        maintPstmt->setString(2, end_date);
+        std::unique_ptr<sql::ResultSet> maintRes(maintPstmt->executeQuery());
+
+        // 存储维护费用
+        std::map<std::string, double> maintenanceMap;
+        while (maintRes && maintRes->next()) {
+            std::string date = maintRes->getString("date");
+            double amount = maintRes->getDouble("amount");
+            maintenanceMap[date] = amount;
+        }
+
+        // 合并计算净收入
+        total = 0.0;
+        for (auto& pair : rentalMap) {
+            RevenueStatsItemData item = pair.second;
+            double maintenance_cost = maintenanceMap.count(item.date) ? maintenanceMap[item.date] : 0.0;
+            item.rental = item.amount;
+            item.maintenance = maintenance_cost;
+            item.amount = item.amount - maintenance_cost;
+            if (item.amount < 0) item.amount = 0;
             total += item.amount;
             items.push_back(item);
         }

@@ -536,23 +536,30 @@ bool MySQLDao::returnVehicle(int64_t order_id, int64_t vehicle_id, const std::st
     try {
         auto& sql_conn = connection.get()->getConn();
 
-        // 计算罚金和总费用（至少按1天计费）
-        int billing_days = std::max(actual_days, 1);
+        // 读取原合同金额
+        std::unique_ptr<sql::PreparedStatement> costStmt(
+            sql_conn->prepareStatement(
+                "SELECT total_cost FROM rental_orders WHERE id = ? AND status = 'active'"));
+        costStmt->setInt64(1, order_id);
+        std::unique_ptr<sql::ResultSet> costRes(costStmt->executeQuery());
+        if (costRes && costRes->next()) {
+            total_cost = costRes->getDouble("total_cost");
+        }
+
+        // 计算罚金（仅逾期产生罚金，total_cost保持原合同金额不变）
         penalty = 0.0;
         if (actual_days > planned_days) {
             penalty = (actual_days - planned_days) * daily_rate * 1.5;
         }
-        total_cost = billing_days * daily_rate + penalty;
 
-        // 更新订单
+        // 更新订单（不覆盖total_cost，保留原合同金额）
         std::unique_ptr<sql::PreparedStatement> orderStmt(
             sql_conn->prepareStatement(
                 "UPDATE rental_orders SET status = 'completed', actual_return_date = ?, "
-                "total_cost = ?, penalty = ? WHERE id = ? AND status = 'active'"));
+                "penalty = ? WHERE id = ? AND status = 'active'"));
         orderStmt->setString(1, actual_return_date);
-        orderStmt->setDouble(2, total_cost);
-        orderStmt->setDouble(3, penalty);
-        orderStmt->setInt64(4, order_id);
+        orderStmt->setDouble(2, penalty);
+        orderStmt->setInt64(3, order_id);
         int affected = orderStmt->executeUpdate();
         if (affected == 0) {
             LOG_WARN("returnVehicle: order {} not found or not in active status", order_id);

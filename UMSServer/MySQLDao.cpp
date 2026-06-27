@@ -201,7 +201,7 @@ bool MySQLDao::getUserList(int page, int page_size, const std::string& keyword,
         }
 
         // 分页查询
-        std::string querySql = "SELECT uid, username, phone, email, real_name, role, status, created_at "
+        std::string querySql = "SELECT uid, username, phone, email, real_name, role, status, created_at, balance "
                                "FROM user WHERE " + where + " ORDER BY uid DESC LIMIT ? OFFSET ?";
         std::unique_ptr<sql::PreparedStatement> pstmt(sql_conn->prepareStatement(querySql));
         for (size_t i = 0; i < params.size(); ++i) {
@@ -221,6 +221,7 @@ bool MySQLDao::getUserList(int page, int page_size, const std::string& keyword,
             item.role = res->getString("role");
             item.status = res->getString("status");
             item.created_at = res->getString("created_at");
+            item.balance = res->getDouble("balance");
             users.push_back(item);
         }
         return true;
@@ -286,7 +287,7 @@ bool MySQLDao::topupBalance(int64_t uid, double amount, int64_t operator_id, con
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
-        // Update balance
+        // 更新余额
         std::unique_ptr<sql::PreparedStatement> pstmt(
             sql_conn->prepareStatement("UPDATE user SET balance = balance + ? WHERE uid = ? AND balance + ? >= 0"));
         pstmt->setDouble(1, amount);
@@ -297,7 +298,7 @@ bool MySQLDao::topupBalance(int64_t uid, double amount, int64_t operator_id, con
             LOG_ERROR("topupBalance failed for uid={}", uid);
             return false;
         }
-        // Insert record
+        // 插入记录
         std::unique_ptr<sql::PreparedStatement> recStmt(
             sql_conn->prepareStatement("INSERT INTO balance_records (user_id, amount, type, operator_id, remark) VALUES (?, ?, 'topup', ?, ?)"));
         recStmt->setInt64(1, uid);
@@ -317,7 +318,7 @@ bool MySQLDao::consumeBalance(int64_t uid, double amount, const std::string& rem
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
-        // Update balance
+        // 更新余额
         std::unique_ptr<sql::PreparedStatement> pstmt(
             sql_conn->prepareStatement("UPDATE user SET balance = balance - ? WHERE uid = ? AND balance >= ?"));
         pstmt->setDouble(1, amount);
@@ -328,7 +329,7 @@ bool MySQLDao::consumeBalance(int64_t uid, double amount, const std::string& rem
             LOG_ERROR("consumeBalance failed: insufficient balance for uid={}", uid);
             return false;
         }
-        // Insert record
+        // 插入记录
         std::unique_ptr<sql::PreparedStatement> recStmt(
             sql_conn->prepareStatement("INSERT INTO balance_records (user_id, amount, type, remark) VALUES (?, ?, 'consume', ?)"));
         recStmt->setInt64(1, uid);
@@ -347,7 +348,7 @@ bool MySQLDao::getBalanceRecords(int64_t uid, int page, int page_size, std::vect
     auto connection = ConnectionGuard(*pool_, pool_->getConnection());
     try {
         auto& sql_conn = connection.get()->getConn();
-        // Count
+        // 统计总数
         std::unique_ptr<sql::PreparedStatement> countStmt(
             sql_conn->prepareStatement("SELECT COUNT(*) AS cnt FROM balance_records WHERE user_id = ?"));
         countStmt->setInt64(1, uid);
@@ -355,7 +356,7 @@ bool MySQLDao::getBalanceRecords(int64_t uid, int page, int page_size, std::vect
         if (countRes && countRes->next()) {
             total = countRes->getInt("cnt");
         }
-        // Query
+        // 查询
         std::unique_ptr<sql::PreparedStatement> pstmt(
             sql_conn->prepareStatement(
                 "SELECT id, user_id, amount, type, operator_id, remark, created_at "
@@ -378,6 +379,42 @@ bool MySQLDao::getBalanceRecords(int64_t uid, int page, int page_size, std::vect
         return true;
     } catch(const sql::SQLException& exp) {
         LOG_ERROR("SQLException in getBalanceRecords: {}", exp.what());
+        return false;
+    }
+}
+
+bool MySQLDao::updateBalanceRecordRemark(int64_t user_id, const std::string& old_remark, const std::string& new_remark) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            sql_conn->prepareStatement(
+                "UPDATE balance_records SET remark = ? WHERE user_id = ? AND remark = ? ORDER BY id DESC LIMIT 1"));
+        pstmt->setString(1, new_remark);
+        pstmt->setInt64(2, user_id);
+        pstmt->setString(3, old_remark);
+        int affected = pstmt->executeUpdate();
+        LOG_INFO("updateBalanceRecordRemark user_id={} old={} new={} affected={}", user_id, old_remark, new_remark, affected);
+        return affected > 0;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in updateBalanceRecordRemark: {}", exp.what());
+        return false;
+    }
+}
+
+bool MySQLDao::resetPassword(const std::string& email, const std::string& new_password_hash) {
+    auto connection = ConnectionGuard(*pool_, pool_->getConnection());
+    try {
+        auto& sql_conn = connection.get()->getConn();
+        std::unique_ptr<sql::PreparedStatement> pstmt(
+            sql_conn->prepareStatement("UPDATE user SET password = ? WHERE email = ?"));
+        pstmt->setString(1, new_password_hash);
+        pstmt->setString(2, email);
+        int affected = pstmt->executeUpdate();
+        LOG_INFO("resetPassword email={} affected={}", email, affected);
+        return affected > 0;
+    } catch(const sql::SQLException& exp) {
+        LOG_ERROR("SQLException in resetPassword: {}", exp.what());
         return false;
     }
 }

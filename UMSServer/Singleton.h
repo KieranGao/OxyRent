@@ -1,7 +1,7 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-// CRTP Singleton base class
+// CRTP 单例基类
 template<class T>
 class Singleton {
 

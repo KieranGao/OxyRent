@@ -4,15 +4,15 @@ MySQLManager::MySQLManager() {
     dao_ = std::make_unique<MySQLDao>();
 }
 
-// ==================== Payment Operations ====================
+// ==================== 支付操作 ====================
 
 int64_t MySQLManager::createPayment(int64_t order_id, double amount, const std::string& type,
                                      const std::string& method, const std::string& remark) {
     return dao_->createPayment(order_id, amount, type, method, remark);
 }
 
-bool MySQLManager::confirmPayment(int64_t id) {
-    return dao_->confirmPayment(id);
+bool MySQLManager::confirmPayment(int64_t id, const std::string& paid_at) {
+    return dao_->confirmPayment(id, paid_at);
 }
 
 bool MySQLManager::getPaymentList(int page, int page_size, int64_t order_id,
@@ -25,7 +25,7 @@ bool MySQLManager::getPaymentDetail(int64_t id, PaymentData& payment) {
     return dao_->getPaymentDetail(id, payment);
 }
 
-// ==================== Invoice Operations ====================
+// ==================== 发票操作 ====================
 
 int64_t MySQLManager::generateInvoice(int64_t order_id) {
     return dao_->generateInvoice(order_id);
@@ -39,7 +39,7 @@ bool MySQLManager::getInvoiceList(int page, int page_size, std::vector<InvoiceDa
     return dao_->getInvoiceList(page, page_size, invoices, total);
 }
 
-// ==================== Statistics Operations ====================
+// ==================== 统计操作 ====================
 
 bool MySQLManager::getStatsOverview(int& total_users, int& total_vehicles, int& available_vehicles,
                                      int& active_orders, int& completed_orders,

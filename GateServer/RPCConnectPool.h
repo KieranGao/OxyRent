@@ -19,7 +19,7 @@ using message::VehicleService;
 using message::FinanceService;
 using message::MailerService;
 
-// Pool for UserService clients (GateServer -> UMSServer)
+// UserService客户端连接池（GateServer -> UMSServer）
 class UserConnectPool {
 public:
     UserConnectPool(size_t pool_size, std::string host, std::string port);
@@ -37,7 +37,7 @@ private:
     size_t pool_size_;
 };
 
-// Pool for VehicleService clients (GateServer -> VehicleServer)
+// VehicleService客户端连接池（GateServer -> VehicleServer）
 class VehicleConnectPool {
 public:
     VehicleConnectPool(size_t pool_size, std::string host, std::string port);
@@ -55,7 +55,7 @@ private:
     size_t pool_size_;
 };
 
-// Pool for FinanceService clients (GateServer -> FinanceServer)
+// FinanceService客户端连接池（GateServer -> FinanceServer）
 class FinanceConnectPool {
 public:
     FinanceConnectPool(size_t pool_size, std::string host, std::string port);
@@ -73,7 +73,7 @@ private:
     size_t pool_size_;
 };
 
-// Pool for MailerService clients (GateServer -> MailerServer)
+// MailerService客户端连接池（GateServer -> MailerServer）
 class MailerConnectPool {
 public:
     MailerConnectPool(size_t pool_size, std::string host, std::string port);

@@ -38,7 +38,9 @@ struct InvoiceData {
 
 struct RevenueStatsItemData {
     std::string date;
-    double amount = 0.0;
+    double amount = 0.0;      // 净收入
+    double rental = 0.0;      // 租赁收入
+    double maintenance = 0.0; // 维保支出
     int count = 0;
 };
 
@@ -50,11 +52,11 @@ struct VehicleStatsBrandData {
 enum class ErrorCodes {
     SUCCESS = 0,
 
-    // General
+    // 通用
     JSON_PARSE_ERROR        = 1001,
     RPC_ERROR               = 1002,
 
-    // Auth
+    // 认证
     VERIFY_CODE_EXPIRED     = 1003,
     USER_ALREADY_EXISTS     = 1004,
     USER_DO_NOT_EXISTS      = 1005,
@@ -65,15 +67,15 @@ enum class ErrorCodes {
     AUTH_TOKEN_INVALID      = 1010,
     AUTH_TOKEN_MISSING      = 1011,
 
-    // Vehicle
+    // 车辆
     VEHICLE_NOT_FOUND       = 1012,
     VEHICLE_UNAVAILABLE     = 1013,
 
-    // Rental
+    // 租赁
     RENTAL_ORDER_NOT_FOUND  = 1014,
     RENTAL_ORDER_ACTIVE     = 1015,
 
-    // Payment
+    // 支付
     PAYMENT_FAILED          = 1016,
     PAYMENT_NOT_FOUND       = 1017,
     INVOICE_NOT_FOUND       = 1018,

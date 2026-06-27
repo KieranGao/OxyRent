@@ -3,7 +3,7 @@
 
 #include <functional>
 
-// Go-style RAII scope guard: calls func_ on destruction
+// Go风格的RAII作用域守卫：析构时调用func_
 class Defer {
 public:
     Defer(std::function<void()> func) : func_(func) {}

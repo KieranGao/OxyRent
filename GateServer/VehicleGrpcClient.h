@@ -38,14 +38,14 @@ using message::VehicleService;
 class VehicleGrpcClient : public Singleton<VehicleGrpcClient> {
     friend class Singleton<VehicleGrpcClient>;
 public:
-    // Vehicle CRUD
+    // 车辆增删改查
     VehicleListResponse getVehicleList(const VehicleListRequest& request);
     VehicleInfo getVehicleDetail(const VehicleDetailRequest& request);
     CommonResponse addVehicle(const AddVehicleRequest& request);
     CommonResponse updateVehicle(const UpdateVehicleRequest& request);
     CommonResponse deleteVehicle(const VehicleDetailRequest& request);
 
-    // Rental orders
+    // 租赁订单
     OrderInfo createOrder(const CreateOrderRequest& request);
     OrderListResponse getOrderList(const OrderListRequest& request);
     OrderInfo getOrderDetail(const OrderDetailRequest& request);
@@ -54,7 +54,7 @@ public:
     OrderInfo renewOrder(const RenewRequest& request);
     CommonResponse cancelOrder(const PickupRequest& request);
 
-    // Maintenance
+    // 维保管理
     CommonResponse createMaintenance(const CreateMaintenanceRequest& request);
     CommonResponse updateMaintenance(const UpdateMaintenanceRequest& request);
     MaintenanceListResponse getMaintenanceList(const MaintenanceListRequest& request);
