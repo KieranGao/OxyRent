@@ -20,15 +20,12 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy entire project (build context is project root)
+# jsoncpp 已在项目根目录，CMakeLists.txt 会自动找到
 COPY . .
-
-# GateServer CMakeLists.txt expects jsoncpp at ../jsoncpp relative to GateServer dir,
-# which resolves to /app/jsoncpp. Copy it from OxyTeamTasks/jsoncpp.
-RUN cp -r /app/OxyTeamTasks/jsoncpp /app/jsoncpp
 
 # Build GateServer
 WORKDIR /app/GateServer
-RUN mkdir -p build && cd build && \
+RUN rm -rf build && mkdir build && cd build && \
     cmake .. && \
     make -j$(nproc)
 
