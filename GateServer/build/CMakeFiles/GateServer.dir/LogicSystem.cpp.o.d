@@ -2168,6 +2168,7 @@ CMakeFiles/GateServer.dir/LogicSystem.cpp.o: \
  /home/oxythecrack/Desktop/OxyPark/GateServer/Defer.h \
  /home/oxythecrack/Desktop/OxyPark/GateServer/VehicleGrpcClient.h \
  /home/oxythecrack/Desktop/OxyPark/GateServer/FinanceGrpcClient.h \
+ /home/oxythecrack/Desktop/OxyPark/GateServer/MailerGrpcClient.h \
  /home/oxythecrack/Desktop/OxyPark/GateServer/RedisManager.h \
  /usr/include/hiredis/hiredis.h /usr/include/hiredis/read.h \
  /usr/include/hiredis/sds.h /usr/include/hiredis/alloc.h \

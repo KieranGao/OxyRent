@@ -26,6 +26,7 @@ message CreatePaymentRequest {
     string type = 3;
     string method = 4;
     string remark = 5;
+    string paid_at = 6;
 }
 
 message PaymentListRequest {
@@ -91,8 +92,10 @@ message RevenueStatsRequest {
 
 message RevenueStatsItem {
     string date = 1;
-    double amount = 2;
+    double amount = 2;      // 净收入
     int32 count = 3;
+    double rental = 4;      // 租赁收入
+    double maintenance = 5; // 维保支出
 }
 
 message RevenueStatsResponse {

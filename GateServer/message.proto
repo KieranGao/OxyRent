@@ -80,6 +80,7 @@ message UserListItem {
     string role = 6;
     string status = 7;
     string created_at = 8;
+    double balance = 9;
 }
 
 message UserListResponse {
@@ -115,6 +116,12 @@ message TopupRequest {
     string remark = 3;
 }
 
+message ConsumeBalanceRequest {
+    int64 uid = 1;
+    double amount = 2;
+    string remark = 3;
+}
+
 message BalanceRecordInfo {
     int64 id = 1;
     int64 user_id = 2;
@@ -133,9 +140,21 @@ message BalanceRecordListRequest {
 
 message BalanceRecordListResponse {
     int32 error = 1;
-    repeated BalanceRecordInfo records = 2;
-    int32 total = 3;
-    double balance = 4;
+    string msg = 2;
+    repeated BalanceRecordInfo records = 3;
+    int32 total = 4;
+    double balance = 5;
+}
+
+message UpdateBalanceRecordRemarkRequest {
+    int64 user_id = 1;
+    string old_remark = 2;
+    string new_remark = 3;
+}
+
+message ResetPasswordRequest {
+    string email = 1;
+    string new_password = 2;
 }
 
 service UserService {
@@ -148,7 +167,10 @@ service UserService {
     rpc UpdateUserRole(UpdateUserRoleRequest) returns (CommonResponse);
     rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);
     rpc TopupBalance(TopupRequest) returns (CommonResponse);
+    rpc ConsumeBalance(ConsumeBalanceRequest) returns (CommonResponse);
     rpc GetBalanceRecords(BalanceRecordListRequest) returns (BalanceRecordListResponse);
+    rpc UpdateBalanceRecordRemark(UpdateBalanceRecordRemarkRequest) returns (CommonResponse);
+    rpc ResetPassword(ResetPasswordRequest) returns (CommonResponse);
 }
 
 // ==================== Vehicle Service Messages ====================
@@ -370,6 +392,7 @@ message CreatePaymentRequest {
     string type = 3;
     string method = 4;
     string remark = 5;
+    string paid_at = 6;
 }
 
 message PaymentListRequest {
@@ -435,8 +458,10 @@ message RevenueStatsRequest {
 
 message RevenueStatsItem {
     string date = 1;
-    double amount = 2;
+    double amount = 2;      // 净收入
     int32 count = 3;
+    double rental = 4;      // 租赁收入
+    double maintenance = 5; // 维保支出
 }
 
 message RevenueStatsResponse {
@@ -499,3 +524,4 @@ service MailerService {
     rpc SendMail(SendMailRequest) returns (SendMailResponse);
     rpc SendVerifyCode(SendVerifyCodeRequest) returns (SendVerifyCodeResponse);
 }
+

@@ -13096,6 +13096,7 @@ CMakeFiles/GateServer.dir/LogicSystem.cpp.o: ../LogicSystem.cpp \
   ../Defer.h \
   ../VehicleGrpcClient.h \
   ../FinanceGrpcClient.h \
+  ../MailerGrpcClient.h \
   ../RedisManager.h \
   /usr/include/hiredis/hiredis.h \
   /usr/include/hiredis/read.h \

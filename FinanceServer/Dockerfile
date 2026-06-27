@@ -23,8 +23,8 @@ WORKDIR /app
 # Copy source code
 COPY . .
 
-# Build
-RUN mkdir -p build && cd build && \
+# Build (remove stale build cache from host)
+RUN rm -rf build && mkdir build && cd build && \
     cmake .. && \
     make -j$(nproc)
 

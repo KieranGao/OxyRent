@@ -28,9 +28,9 @@ const redis = new Redis({
 redis.on('connect', () => console.log('[邮件服务] Redis连接成功'));
 redis.on('error', (err) => console.error('[邮件服务] Redis连接错误:', err.message));
 
-// 生成6位随机验证码
+// 生成4位随机验证码
 function generateCode() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
+    return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
 // 实现SendMail RPC

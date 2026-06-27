@@ -19,11 +19,21 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - ums-server
-      - vehicle-server
-      - finance-server
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ums-server:
+        condition: service_started
+      vehicle-server:
+        condition: service_started
+      finance-server:
+        condition: service_started
+      mailer-server:
+        condition: service_started
     volumes:
-      - ./GateServer/config.ini:/etc/server/config.ini
+      - ./docker/gate-config.ini:/etc/server/config.ini
+      - gate-logs:/var/log/oxypark
     networks:
       - rental-net
 
@@ -35,10 +45,13 @@ services:
     ports:
       - "50053:50053"
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
-      - ./UMSServer/config.ini:/etc/server/config.ini
+      - ./docker/ums-config.ini:/etc/server/config.ini
+      - ums-logs:/var/log/oxypark
     networks:
       - rental-net
 
@@ -50,10 +63,13 @@ services:
     ports:
       - "50054:50054"
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
-      - ./VehicleServer/config.ini:/etc/server/config.ini
+      - ./docker/vehicle-config.ini:/etc/server/config.ini
+      - vehicle-logs:/var/log/oxypark
     networks:
       - rental-net
 
@@ -65,10 +81,28 @@ services:
     ports:
       - "50055:50055"
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
-      - ./FinanceServer/config.ini:/etc/server/config.ini
+      - ./docker/finance-config.ini:/etc/server/config.ini
+      - finance-logs:/var/log/oxypark
+    networks:
+      - rental-net
+
+  # Mailer Service
+  mailer-server:
+    build:
+      context: ./MailerServer
+      dockerfile: Dockerfile
+    ports:
+      - "50056:50056"
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./docker/mailer-config.json:/app/config.json
     networks:
       - rental-net
 
@@ -83,6 +117,11 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ppassword"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     networks:
       - rental-net
 
@@ -93,12 +132,21 @@ services:
       - "6380:6379"
     volumes:
       - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     networks:
       - rental-net
 
 volumes:
   mysql-data:
   redis-data:
+  gate-logs:
+  ums-logs:
+  vehicle-logs:
+  finance-logs:
 
 networks:
   rental-net:
