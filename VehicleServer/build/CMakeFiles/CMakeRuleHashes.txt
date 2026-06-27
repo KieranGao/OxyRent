@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-245bfe0c6d01031220a463176988126a ../message.pb.cc
