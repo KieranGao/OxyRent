@@ -30,14 +30,16 @@ request.interceptors.response.use(
         localStorage.removeItem('username')
         localStorage.removeItem('role')
         window.location.hash = '#/login'
-        ElMessage.error('Session expired, please login again')
+        ElMessage.error('登录已过期，请重新登录')
+      } else if (status === 500) {
+        ElMessage.error('服务器错误，请稍后重试')
       } else {
-        ElMessage.error(`Request failed (${status})`)
+        ElMessage.error('请求失败，请稍后重试')
       }
     } else if (error.code === 'ECONNABORTED') {
-      ElMessage.error('Request timeout, please check network')
+      ElMessage.error('请求超时，请检查网络')
     } else {
-      ElMessage.error('Network error, please check server')
+      ElMessage.error('网络错误，请检查服务器')
     }
     return Promise.reject(error)
   },

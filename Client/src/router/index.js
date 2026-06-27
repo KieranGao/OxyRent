@@ -5,6 +5,7 @@ import MainLayout from '@/layout/MainLayout.vue'
 
 import LoginView from '@/views/auth/Login.vue'
 import RegisterView from '@/views/auth/Register.vue'
+import ResetPasswordView from '@/views/auth/ResetPassword.vue'
 import DashboardView from '@/views/dashboard/Dashboard.vue'
 import VehicleList from '@/views/vehicle/VehicleList.vue'
 import VehicleDetail from '@/views/vehicle/VehicleDetail.vue'
@@ -14,8 +15,6 @@ import RentalCreate from '@/views/rental/RentalCreate.vue'
 import RentalDetail from '@/views/rental/RentalDetail.vue'
 import MaintenanceList from '@/views/maintenance/MaintenanceList.vue'
 import MaintenanceForm from '@/views/maintenance/MaintenanceForm.vue'
-import PaymentList from '@/views/finance/PaymentList.vue'
-import InvoiceList from '@/views/finance/InvoiceList.vue'
 import Statistics from '@/views/stats/Statistics.vue'
 import UserProfile from '@/views/user/UserProfile.vue'
 import UserList from '@/views/user/UserList.vue'
@@ -42,6 +41,14 @@ const routes = [
     ],
   },
   {
+    path: '/reset-password',
+    component: AuthLayout,
+    meta: { guest: true },
+    children: [
+      { path: '', name: 'ResetPassword', component: ResetPasswordView },
+    ],
+  },
+  {
     path: '/',
     component: MainLayout,
     meta: { requiresAuth: true },
@@ -60,8 +67,6 @@ const routes = [
       { path: 'maintenance/:id/edit', name: 'MaintenanceEdit', component: MaintenanceForm, meta: { title: '编辑维保', roles: ['staff', 'admin'] } },
       { path: 'balance', name: 'BalanceView', component: BalanceView, meta: { title: '我的余额' } },
       { path: 'topup', name: 'TopupView', component: TopupView, meta: { title: '充值管理', roles: ['staff', 'admin'] } },
-      { path: 'payments', name: 'PaymentList', component: PaymentList, meta: { title: '收费管理', roles: ['admin'] } },
-      { path: 'invoices', name: 'InvoiceList', component: InvoiceList, meta: { title: '账单管理', roles: ['admin'] } },
       { path: 'statistics', name: 'Statistics', component: Statistics, meta: { title: '统计报表', roles: ['admin'] } },
       { path: 'profile', name: 'UserProfile', component: UserProfile, meta: { title: '个人信息' } },
       { path: 'users', name: 'UserList', component: UserList, meta: { title: '用户管理', roles: ['admin'] } },

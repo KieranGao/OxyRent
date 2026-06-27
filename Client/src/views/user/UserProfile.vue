@@ -1,6 +1,6 @@
 <template>
-  <div class="page-container">
-    <div class="glass-card" style="max-width: 720px;" v-loading="loading">
+  <div class="page-container centered">
+    <div class="glass-card" style="max-width: 480px; width: 100%;" v-loading="loading">
       <div class="glass-card-header">
         <h3>个人信息</h3>
       </div>
@@ -104,13 +104,15 @@ async function loadProfile() {
     const res = await getProfile()
     if (res.error === 0) {
       const p = res.profile || res.user || res
+      // 转换 gender 整数为字符串
+      const genderMap = { 0: '', 1: 'male', 2: 'female', 3: 'other' }
       Object.assign(form, {
         real_name: p.real_name || '',
         phone: p.phone || '',
         email: p.email || '',
         id_card: p.id_card || '',
         driver_license: p.driver_license || '',
-        gender: p.gender || '',
+        gender: genderMap[p.gender] || '',
         birth_date: p.birth_date || '',
         address: p.address || '',
         avatar_url: p.avatar_url || '',
@@ -126,7 +128,13 @@ async function loadProfile() {
 async function handleSave() {
   saving.value = true
   try {
-    const res = await updateProfile(form)
+    // 转换 gender 字段为整数
+    const genderMap = { 'male': 1, 'female': 2, 'other': 3 }
+    const data = {
+      ...form,
+      gender: genderMap[form.gender] || 0
+    }
+    const res = await updateProfile(data)
     if (res.error === 0) {
       ElMessage.success('个人信息已更新')
     } else {
@@ -143,6 +151,12 @@ onMounted(loadProfile)
 </script>
 
 <style scoped>
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+}
 .form-row {
   display: flex;
   gap: 20px;

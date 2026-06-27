@@ -43,7 +43,7 @@
           </el-table-column>
           <el-table-column prop="status" label="状态" min-width="90">
             <template #default="{ row }">
-              <el-tag :type="row.status === 'active' ? 'success' : 'danger'" effect="dark" size="small">{{ row.status }}</el-tag>
+              <el-tag :type="row.status === 'active' ? 'success' : 'danger'" effect="dark" size="small">{{ userStatusLabel[row.status] || row.status }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="操作" min-width="180">
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <!-- Role Dialog -->
+    <!-- 角色修改对话框 -->
     <el-dialog v-model="roleDialogVisible" title="修改用户角色" width="400px">
       <el-form label-position="top">
         <el-form-item label="角色">
@@ -104,6 +104,11 @@ import { ref, reactive, onMounted } from 'vue'
 import { getUserList, updateUserStatus, updateUserRole } from '@/api/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+
+const userStatusLabel = {
+  active: '正常',
+  disabled: '已禁用',
+}
 
 const loading = ref(false)
 const users = ref([])
@@ -179,7 +184,7 @@ async function handleStatusChange(uid, status) {
       ElMessage.error('更新状态失败')
     }
   } catch {
-    // Cancelled
+    // 已取消
   }
 }
 

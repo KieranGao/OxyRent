@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <!-- Status Tabs -->
+      <!-- 状态标签页 -->
       <div class="tab-bar">
         <button
           v-for="tab in tabs"
@@ -129,6 +129,10 @@ async function loadRentals() {
     const params = { ...query }
     if (!params.keyword) delete params.keyword
     if (!params.status) delete params.status
+    // 非管理员只能看自己的订单
+    if (!authStore.isAdmin) {
+      params.user_id = authStore.uid
+    }
     const res = await getRentalList(params)
     if (res.error === 0) {
       rentals.value = res.list || res.orders || []

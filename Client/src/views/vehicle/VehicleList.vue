@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <!-- Vehicle Table -->
+    <!-- 车辆列表 -->
     <div class="glass-card">
       <div class="glass-card-header">
         <h3>车辆管理</h3>
@@ -44,7 +44,7 @@
           <el-table-column prop="color" label="颜色" min-width="80" />
           <el-table-column prop="status" label="状态" min-width="110">
             <template #default="{ row }">
-              <el-tag :type="vehicleStatusType(row.status)" effect="dark" size="small">{{ row.status }}</el-tag>
+              <el-tag :type="vehicleStatusType(row.status)" effect="dark" size="small">{{ vehicleStatusLabel[row.status] || row.status }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="daily_rate" label="日租金" min-width="100">
@@ -91,6 +91,13 @@ import { useAuthStore } from '@/stores/auth'
 import { getVehicleList, deleteVehicle } from '@/api/vehicle'
 import { ElMessage } from 'element-plus'
 import { Search, Plus } from '@element-plus/icons-vue'
+
+const vehicleStatusLabel = {
+  available: '可用',
+  rented: '已租出',
+  maintenance: '维修中',
+  retired: '已退役',
+}
 
 const authStore = useAuthStore()
 const loading = ref(false)

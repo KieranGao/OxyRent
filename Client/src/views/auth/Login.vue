@@ -40,6 +40,8 @@
     </el-form>
 
     <div class="login-footer">
+      <router-link to="/reset-password">忘记密码？</router-link>
+      <span class="footer-divider">|</span>
       <router-link to="/register">注册新账号</router-link>
     </div>
   </div>
@@ -141,5 +143,11 @@ async function handleLogin() {
 
 .login-footer a:hover {
   color: var(--accent-light);
+}
+
+.footer-divider {
+  margin: 0 12px;
+  color: var(--text-tertiary);
+  font-size: 12px;
 }
 </style>

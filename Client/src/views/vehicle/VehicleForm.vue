@@ -1,6 +1,6 @@
 <template>
-  <div class="page-container">
-    <div class="glass-card" style="max-width: 720px;" v-loading="loading">
+  <div class="page-container centered">
+    <div class="glass-card" style="max-width: 480px; width: 100%;" v-loading="loading">
       <div class="glass-card-header">
         <h3>{{ isEdit ? '编辑车辆' : '添加车辆' }}</h3>
       </div>
@@ -154,6 +154,12 @@ onMounted(loadVehicle)
 </script>
 
 <style scoped>
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+}
 .form-row {
   display: flex;
   gap: 20px;

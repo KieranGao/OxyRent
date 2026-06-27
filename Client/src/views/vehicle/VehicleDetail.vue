@@ -38,7 +38,7 @@
           <div class="detail-item">
             <span class="detail-label">状态</span>
             <span class="detail-value">
-              <el-tag :type="statusType(vehicle.status)" effect="dark">{{ vehicle.status }}</el-tag>
+              <el-tag :type="statusType(vehicle.status)" effect="dark">{{ vehicleStatusLabel[vehicle.status] || vehicle.status }}</el-tag>
             </span>
           </div>
           <div class="detail-item full-width">
@@ -68,6 +68,13 @@ import { useAuthStore } from '@/stores/auth'
 import { getVehicleDetail } from '@/api/vehicle'
 import { ElMessage } from 'element-plus'
 import { Edit, Document } from '@element-plus/icons-vue'
+
+const vehicleStatusLabel = {
+  available: '可用',
+  rented: '已租出',
+  maintenance: '维修中',
+  retired: '已退役',
+}
 
 const route = useRoute()
 const authStore = useAuthStore()

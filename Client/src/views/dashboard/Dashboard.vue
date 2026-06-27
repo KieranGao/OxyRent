@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <!-- Greeting -->
+    <!-- 问候语 -->
     <div class="dash-greeting">
       <h2 class="greeting-text">
         {{ greetingText }}，<span class="text-accent">{{ authStore.username }}</span>
@@ -8,7 +8,7 @@
       <p class="greeting-sub">{{ todayStr }}</p>
     </div>
 
-    <!-- Customer Dashboard -->
+    <!-- 客户工作台 -->
     <template v-if="authStore.isCustomer">
       <div class="bento-grid bento-3col anim-stagger">
         <div class="bento-cell span-2 hero-stat">
@@ -36,7 +36,7 @@
       </div>
     </template>
 
-    <!-- Staff Dashboard -->
+    <!-- 员工工作台 -->
     <template v-else-if="authStore.isStaff">
       <div class="bento-grid bento-4col anim-stagger">
         <div class="bento-cell span-2">
@@ -56,10 +56,10 @@
       </div>
     </template>
 
-    <!-- Admin Dashboard -->
+    <!-- 管理员工作台 -->
     <template v-else>
       <div class="bento-grid bento-6col anim-stagger">
-        <!-- Hero: Month Revenue -->
+        <!-- 核心统计：本月收入 -->
         <div class="bento-cell span-2 row-2 hero-stat">
           <div class="hero-stat-icon">
             <el-icon :size="28"><Wallet /></el-icon>
@@ -68,7 +68,7 @@
           <div class="hero-stat-label">本月收入</div>
           <div class="hero-stat-glow"></div>
         </div>
-        <!-- 4 Small Stats -->
+        <!-- 4个统计小卡片 -->
         <div class="bento-cell">
           <div class="mini-stat">
             <div class="mini-stat-icon blue"><el-icon :size="18"><User /></el-icon></div>
@@ -100,9 +100,9 @@
       </div>
     </template>
 
-    <!-- Recent Orders + Quick Actions -->
+    <!-- 最近订单 + 快捷操作 -->
     <div class="dash-bottom-grid">
-      <!-- Recent Orders -->
+      <!-- 最近订单 -->
       <div class="glass-card">
         <div class="glass-card-header">
           <h3>最近订单</h3>
@@ -127,7 +127,7 @@
         </div>
       </div>
 
-      <!-- Quick Actions -->
+      <!-- 快捷操作 -->
       <div class="glass-card actions-card">
         <div class="glass-card-header">
           <h3>快捷操作</h3>
@@ -171,6 +171,7 @@ import { useAuthStore } from '@/stores/auth'
 import { getStatsOverview } from '@/api/finance'
 import { getRentalList } from '@/api/rental'
 import { getBalance } from '@/api/user'
+import { getVehicleList } from '@/api/vehicle'
 import { User, Van, Document, Wallet, Plus, DataLine } from '@element-plus/icons-vue'
 
 const authStore = useAuthStore()
@@ -216,7 +217,7 @@ function statusType(status) {
 
 function statusLabel(status) {
   const map = {
-    'pending': '待确认',
+    'pending': '待处理',
     'active': '进行中',
     'completed': '已完成',
     'cancelled': '已取消',
@@ -226,6 +227,7 @@ function statusLabel(status) {
 }
 
 onMounted(async () => {
+  // 获取余额（客户和员工）
   if (authStore.isCustomer || authStore.isStaff) {
     try {
       const res = await getBalance()
@@ -233,8 +235,25 @@ onMounted(async () => {
         authStore.setBalance(res.balance || 0)
       }
     } catch {}
+
+    // 获取可用车辆数（客户和员工）
+    try {
+      const res = await getVehicleList({ page: 1, page_size: 1, status: 'available' })
+      if (res.error === 0) {
+        stats.value.available_vehicles = res.total || 0
+      }
+    } catch {}
+
+    // 获取进行中订单数（客户和员工）
+    try {
+      const res = await getRentalList({ page: 1, page_size: 1, user_id: authStore.uid, status: 'active' })
+      if (res.error === 0) {
+        stats.value.active_orders = res.total || 0
+      }
+    } catch {}
   }
 
+  // 获取管理员统计数据
   if (authStore.isAdmin) {
     try {
       const res = await getStatsOverview()
@@ -250,8 +269,13 @@ onMounted(async () => {
     } catch {}
   }
 
+  // 获取最近订单（只显示当前用户的订单，管理员看所有）
+  const orderParams = { page: 1, page_size: 10 }
+  if (!authStore.isAdmin) {
+    orderParams.user_id = authStore.uid
+  }
   try {
-    const res = await getRentalList({ page: 1, page_size: 10 })
+    const res = await getRentalList(orderParams)
     if (res.error === 0) {
       recentOrders.value = res.list || res.orders || []
     }

@@ -1,6 +1,6 @@
 <template>
-  <div class="page-container">
-    <div class="glass-card" style="max-width: 720px;">
+  <div class="page-container centered">
+    <div class="glass-card" style="max-width: 480px; width: 100%;">
       <div class="glass-card-header">
         <h3>{{ isEdit ? '编辑维保记录' : '添加维保记录' }}</h3>
       </div>
@@ -171,6 +171,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+}
 .form-row {
   display: flex;
   gap: 20px;

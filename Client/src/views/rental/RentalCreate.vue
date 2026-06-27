@@ -1,6 +1,6 @@
 <template>
-  <div class="page-container">
-    <div class="glass-card" style="max-width: 720px;">
+  <div class="page-container centered">
+    <div class="glass-card" style="max-width: 480px; width: 100%;">
       <div class="glass-card-header">
         <h3>创建租赁订单</h3>
       </div>
@@ -58,11 +58,24 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item v-if="form.payment_method === 'balance'" label="当前余额">
-          <span :style="{ color: authStore.balance > 0 ? 'var(--accent)' : 'var(--text-tertiary)' }">
-            {{ formatMoney(authStore.balance) }}
-          </span>
-        </el-form-item>
+        <template v-if="form.payment_method === 'balance'">
+          <el-form-item label="预估费用">
+            <span style="font-weight: 600; color: var(--text-primary);">
+              {{ formatMoney(estimatedCost) }}
+            </span>
+            <span v-if="totalDays > 0" style="color: var(--text-tertiary); font-size: 12px; margin-left: 8px;">
+              ({{ totalDays }}天 × {{ formatMoney(selectedVehicle?.daily_rate || 0) }}/天)
+            </span>
+          </el-form-item>
+          <el-form-item label="当前余额">
+            <span :style="{ color: balanceEnough ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 600 }">
+              {{ formatMoney(authStore.balance) }}
+            </span>
+            <span v-if="!balanceEnough && estimatedCost > 0" style="color: var(--color-danger); font-size: 12px; margin-left: 8px;">
+              余额不足，差 {{ formatMoney(estimatedCost - authStore.balance) }}
+            </span>
+          </el-form-item>
+        </template>
 
         <el-form-item label="备注">
           <el-input v-model="form.notes" type="textarea" :rows="3" placeholder="选填" />
@@ -81,7 +94,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { getVehicleList } from '@/api/vehicle'
@@ -108,7 +121,7 @@ async function fetchBalance() {
       authStore.setBalance(res.balance || 0)
     }
   } catch {
-    // ignore
+    // 忽略
   }
 }
 
@@ -127,6 +140,27 @@ const rules = {
   payment_method: [{ required: true, message: '请选择支付方式', trigger: 'change' }],
 }
 
+const selectedVehicle = computed(() =>
+  vehicleOptions.value.find(v => v.id === form.vehicle_id)
+)
+
+const totalDays = computed(() => {
+  if (!form.start_date || !form.end_date) return 0
+  const start = new Date(form.start_date)
+  const end = new Date(form.end_date)
+  const diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
+  return Math.max(diff, 1)
+})
+
+const estimatedCost = computed(() => {
+  if (!selectedVehicle.value || totalDays.value <= 0) return 0
+  return totalDays.value * (selectedVehicle.value.daily_rate || 0)
+})
+
+const balanceEnough = computed(() =>
+  authStore.balance >= estimatedCost.value
+)
+
 async function loadVehicles() {
   vehiclesLoading.value = true
   try {
@@ -135,7 +169,7 @@ async function loadVehicles() {
       vehicleOptions.value = res.list || res.vehicles || []
     }
   } catch {
-    // ignore
+    // 忽略
   } finally {
     vehiclesLoading.value = false
   }
@@ -146,8 +180,8 @@ async function handleSubmit() {
   if (!valid) return
 
   if (form.payment_method === 'balance') {
-    if (authStore.balance <= 0) {
-      ElMessage.error('余额不足，请先充值或选择扫码支付')
+    if (!balanceEnough.value) {
+      ElMessage.error(`余额不足，预估费用 ${formatMoney(estimatedCost.value)}，当前余额 ${formatMoney(authStore.balance)}`)
       return
     }
   }
@@ -164,6 +198,9 @@ async function handleSubmit() {
     })
     if (res.error === 0) {
       ElMessage.success('租赁订单已创建')
+      if (form.payment_method === 'balance') {
+        authStore.setBalance(authStore.balance - estimatedCost.value)
+      }
       router.push('/rentals')
     } else {
       ElMessage.error(res.msg || '创建订单失败')
@@ -182,6 +219,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+}
 .form-row {
   display: flex;
   gap: 20px;

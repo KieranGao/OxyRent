@@ -28,7 +28,7 @@
           <el-table-column prop="plate_number" label="车辆" min-width="120" />
           <el-table-column prop="type" label="类型" min-width="100">
             <template #default="{ row }">
-              <el-tag effect="dark" size="small">{{ row.type }}</el-tag>
+              <el-tag effect="dark" size="small">{{ maintTypeLabel[row.type] || row.type }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="description" label="描述" min-width="180" show-overflow-tooltip />
@@ -39,7 +39,7 @@
           <el-table-column prop="start_date" label="开始日期" min-width="110" />
           <el-table-column prop="status" label="状态" min-width="110">
             <template #default="{ row }">
-              <el-tag :type="maintStatusType(row.status)" effect="dark" size="small">{{ row.status }}</el-tag>
+              <el-tag :type="maintStatusType(row.status)" effect="dark" size="small">{{ maintStatusLabel[row.status] || row.status }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="操作" min-width="100">
@@ -70,6 +70,18 @@ import { ref, reactive, onMounted } from 'vue'
 import { getMaintenanceList, deleteMaintenance } from '@/api/maintenance'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Plus } from '@element-plus/icons-vue'
+
+const maintStatusLabel = {
+  pending: '待处理',
+  in_progress: '进行中',
+  completed: '已完成',
+}
+const maintTypeLabel = {
+  maintenance: '常规保养',
+  repair: '维修',
+  inspection: '检查',
+  emergency: '紧急维修',
+}
 
 const loading = ref(false)
 const records = ref([])

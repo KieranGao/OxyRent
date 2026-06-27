@@ -10,7 +10,7 @@ function mapRole(role) {
   if (typeof role === 'number') return role
   if (role === 'admin') return 2
   if (role === 'staff') return 1
-  return 0 // customer
+  return 0 // 客户
 }
 
 export const useAuthStore = defineStore('auth', () => {
@@ -50,7 +50,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function login({ username: loginUsername, password }) {
     const res = await loginUser({ username: loginUsername, password })
-    if (res.error !== 0) throw new Error(res.error || 'Login failed')
+    if (res.error !== 0) {
+      const msg = res.msg || '用户名或密码错误'
+      throw new Error(msg)
+    }
     token.value = res.token
     uid.value = res.uid
     username.value = loginUsername
@@ -71,7 +74,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function register(data) {
     const res = await registerUser(data)
-    if (res.error !== 0) throw new Error(res.error || 'Registration failed')
+    if (res.error !== 0) {
+      const msg = res.msg || '注册失败'
+      throw new Error(msg)
+    }
     return res
   }
 

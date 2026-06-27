@@ -1,9 +1,9 @@
 <template>
   <div class="main-layout">
-    <!-- Top Navigation Bar -->
+    <!-- 顶部导航栏 -->
     <header class="topbar">
       <div class="topbar-inner">
-        <!-- Brand -->
+        <!-- 品牌标识 -->
         <router-link to="/dashboard" class="brand">
           <div class="brand-mark">
             <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
@@ -14,7 +14,7 @@
           <span class="brand-name">OxyRent</span>
         </router-link>
 
-        <!-- Nav -->
+        <!-- 导航 -->
         <nav class="topbar-nav">
           <router-link
             v-for="item in allMenuItems"
@@ -28,7 +28,7 @@
           </router-link>
         </nav>
 
-        <!-- User -->
+        <!-- 用户信息 -->
         <div class="topbar-right">
           <el-dropdown trigger="click" @command="handleUserCommand">
             <div class="user-pill">
@@ -52,7 +52,7 @@
 
     </header>
 
-    <!-- Page Content -->
+    <!-- 页面内容 -->
     <main class="content-area">
       <router-view v-slot="{ Component, route }">
         <transition name="page-fade" mode="out-in">
@@ -61,7 +61,7 @@
       </router-view>
     </main>
 
-    <!-- Bottom Dock -->
+    <!-- 底部快捷栏 -->
     <div class="dock">
       <div class="dock-inner">
         <button
@@ -106,16 +106,17 @@ const staffMenu = [
 ]
 
 const adminMenu = [
-  { path: '/payments', label: '收费', icon: 'Wallet' },
-  { path: '/invoices', label: '账单', icon: 'Tickets' },
   { path: '/statistics', label: '报表', icon: 'DataLine' },
   { path: '/users', label: '用户', icon: 'User' },
 ]
 
 const allMenuItems = computed(() => {
   const items = [...mainMenu]
-  if (authStore.isAdmin) items.push(...adminMenu)
-  else if (authStore.isStaff) items.push(...staffMenu)
+  if (authStore.isAdmin) {
+    items.push(...staffMenu, ...adminMenu)
+  } else if (authStore.isStaff) {
+    items.push(...staffMenu)
+  }
   return items
 })
 
@@ -138,8 +139,6 @@ const activeMenu = computed(() => {
   if (path.startsWith('/vehicles')) return '/vehicles'
   if (path.startsWith('/rentals')) return '/rentals'
   if (path.startsWith('/maintenance')) return '/maintenance'
-  if (path.startsWith('/payments')) return '/payments'
-  if (path.startsWith('/invoices')) return '/invoices'
   if (path.startsWith('/statistics')) return '/statistics'
   if (path.startsWith('/users')) return '/users'
   return path

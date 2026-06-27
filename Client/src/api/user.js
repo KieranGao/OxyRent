@@ -39,3 +39,11 @@ export function topupBalance(data) {
 export function getBalanceRecords(params) {
   return request.get('/user/balance/records', { params })
 }
+
+export function sendVerifyCode(data) {
+  return request.post('/send-verify-code', data)
+}
+
+export function resetPassword(data) {
+  return request.post('/user/reset-password', data)
+}

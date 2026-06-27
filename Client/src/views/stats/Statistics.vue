@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <!-- Overview Stats -->
+    <!-- 概览统计 -->
     <div class="stat-grid anim-stagger">
       <div class="stat-card">
         <div class="stat-icon gold"><el-icon :size="20"><User /></el-icon></div>
@@ -44,9 +44,9 @@
       </div>
     </div>
 
-    <!-- Charts -->
+    <!-- 图表区域 -->
     <div class="charts-grid">
-      <!-- Revenue Trend -->
+      <!-- 收入趋势 -->
       <div class="glass-card chart-card span-2">
         <div class="glass-card-header">
           <h3>收入趋势</h3>
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <!-- Vehicle Status -->
+      <!-- 车辆状态 -->
       <div class="glass-card chart-card">
         <div class="glass-card-header"><h3>车辆状态分布</h3></div>
         <div class="glass-card-body padded">
@@ -82,7 +82,7 @@
         </div>
       </div>
 
-      <!-- Order Status -->
+      <!-- 订单状态 -->
       <div class="glass-card chart-card">
         <div class="glass-card-header"><h3>订单状态</h3></div>
         <div class="glass-card-body padded">
@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      <!-- Brand Distribution -->
+      <!-- 品牌分布 -->
       <div class="glass-card chart-card span-2">
         <div class="glass-card-header"><h3>品牌分布</h3></div>
         <div class="glass-card-body padded">

@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <!-- Balance Card -->
+    <!-- 余额卡片 -->
     <div class="balance-card">
       <div class="balance-card-inner">
         <div class="balance-info">
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <!-- Balance Records -->
+    <!-- 余额记录 -->
     <div class="glass-card">
       <div class="glass-card-header">
         <h3>收支明细</h3>
