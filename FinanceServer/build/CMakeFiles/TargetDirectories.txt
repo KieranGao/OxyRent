@@ -1,3 +1,0 @@
-/home/oxythecrack/Desktop/OxyPark/FinanceServer/build/CMakeFiles/FinanceServer.dir
-/home/oxythecrack/Desktop/OxyPark/FinanceServer/build/CMakeFiles/edit_cache.dir
-/home/oxythecrack/Desktop/OxyPark/FinanceServer/build/CMakeFiles/rebuild_cache.dir
