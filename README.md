@@ -26,6 +26,15 @@
   中文 · <a href="READMEs/README-en.md">English</a> · <a href="READMEs/README-ja.md">日本語</a> · <a href="READMEs/README-ru.md">Русский</a>
 </p>
 
+<p align="center">
+  <img src="assets/Dashboard.png" alt="Dashboard" width="45%" />
+  <img src="assets/Statistics.png" alt="Statistics" width="45%" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Frontend--Design-409EFF?style=for-the-badge" alt="Frontend-Design" />
+</p>
+
 ---
 
 ## 功能特性

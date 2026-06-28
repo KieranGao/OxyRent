@@ -26,6 +26,15 @@
   <a href="../README.md">中文</a> · <a href="README-en.md">English</a> · 日本語 · <a href="README-ru.md">Русский</a>
 </p>
 
+<p align="center">
+  <img src="../assets/Dashboard.png" alt="Dashboard" width="45%" />
+  <img src="../assets/Statistics.png" alt="Statistics" width="45%" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Frontend--Design-409EFF?style=for-the-badge" alt="Frontend-Design" />
+</p>
+
 ---
 
 ## 機能
