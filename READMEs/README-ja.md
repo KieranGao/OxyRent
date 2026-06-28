@@ -50,8 +50,8 @@
 ### サービス起動
 
 ```bash
-git clone https://github.com/OxyTheCrack/OxyPark.git
-cd OxyPark
+git clone https://github.com/KieranGao/OxyRent.git
+cd OxyRent
 docker-compose up -d
 ```
 
@@ -310,7 +310,7 @@ erDiagram
 ## プロジェクト構造
 
 ```
-OxyPark/
+OxyRent/
 ├── Client/                  # Vue 3 フロントエンド
 ├── GateServer/              # HTTPゲートウェイ (C++ Boost.Beast)
 ├── UMSServer/               # ユーザー管理 (C++ gRPC)

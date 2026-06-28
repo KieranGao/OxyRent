@@ -50,8 +50,8 @@
 ### Start Services
 
 ```bash
-git clone https://github.com/OxyTheCrack/OxyPark.git
-cd OxyPark
+git clone https://github.com/KieranGao/OxyRent.git
+cd OxyRent
 docker-compose up -d
 ```
 
@@ -333,7 +333,7 @@ Each service uses INI config files mounted to `/etc/server/config.ini` inside th
 ## Project Structure
 
 ```
-OxyPark/
+OxyRent/
 ├── Client/                  # Vue 3 Frontend
 │   ├── src/
 │   │   ├── api/             # HTTP request wrappers

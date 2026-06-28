@@ -50,8 +50,8 @@
 ### 启动服务
 
 ```bash
-git clone https://github.com/OxyTheCrack/OxyPark.git
-cd OxyPark
+git clone https://github.com/KieranGao/OxyRent.git
+cd OxyRent
 docker-compose up -d
 ```
 
@@ -333,7 +333,7 @@ erDiagram
 ## 项目结构
 
 ```
-OxyPark/
+OxyRent/
 ├── Client/                  # Vue 3 前端
 │   ├── src/
 │   │   ├── api/             # HTTP 请求封装
