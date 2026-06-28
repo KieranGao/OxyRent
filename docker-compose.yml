@@ -11,6 +11,7 @@ services:
     networks:
       - rental-net
 
+
   # HTTP Gateway
   gate-server:
     build:
