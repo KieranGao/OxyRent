@@ -1,13 +1,27 @@
 #include "VehicleGrpcServiceImpl.h"
 #include "MySQLManager.h"
+#include "RedisManager.h"
 #include "Logger.h"
 #include <sstream>
 #include <iomanip>
 #include <chrono>
 #include <ctime>
 #include <cmath>
+#include <random>
 
 VehicleGrpcServiceImpl::VehicleGrpcServiceImpl() {}
+
+// 生成唯一的锁持有者ID（用于分布式锁）
+static std::string generateLockOwnerId() {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dis(0, 255);
+    std::ostringstream ss;
+    for (int i = 0; i < 16; ++i) {
+        ss << std::hex << std::setw(2) << std::setfill('0') << dis(gen);
+    }
+    return ss.str();
+}
 
 static std::string todayStr() {
     auto now = std::chrono::system_clock::now();
@@ -165,16 +179,29 @@ Status VehicleGrpcServiceImpl::DeleteVehicle(ServerContext* context, const Vehic
 Status VehicleGrpcServiceImpl::CreateOrder(ServerContext* context, const CreateOrderRequest* req, OrderInfo* resp) {
     LOG_DEBUG("[Vehicle] CreateOrder user_id={} vehicle_id={}", req->user_id(), req->vehicle_id());
 
+    // 分布式锁：锁定车辆，防止同一辆车被重复租赁
+    std::string lock_key = "lock:vehicle:" + std::to_string(req->vehicle_id());
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_id(0);
+        LOG_WARN("[Vehicle] Failed to acquire lock for vehicle: {}", req->vehicle_id());
+        return Status::OK;
+    }
+
     // 检查车辆是否可用
     std::string vehicle_status;
     double daily_rate = 0.0, deposit_amount = 0.0;
     bool ok = MySQLManager::getInstance().getVehicleStatus(req->vehicle_id(), vehicle_status, daily_rate, deposit_amount);
     if (!ok) {
+        redis.releaseLock(lock_key, owner_id);
         resp->set_id(0);
         LOG_WARN("[Vehicle] Vehicle not found for order: {}", req->vehicle_id());
         return Status::OK;
     }
     if (vehicle_status != "available") {
+        redis.releaseLock(lock_key, owner_id);
         resp->set_id(0);
         LOG_WARN("[Vehicle] Vehicle not available: {} status={}", req->vehicle_id(), vehicle_status);
         return Status::OK;
@@ -184,6 +211,7 @@ Status VehicleGrpcServiceImpl::CreateOrder(ServerContext* context, const CreateO
     std::string end_date = req->end_date();
     int total_days = daysBetween(start_date, end_date);
     if (total_days <= 0) {
+        redis.releaseLock(lock_key, owner_id);
         resp->set_id(0);
         LOG_WARN("[Vehicle] Invalid date range: {} to {}", start_date, end_date);
         return Status::OK;
@@ -192,6 +220,9 @@ Status VehicleGrpcServiceImpl::CreateOrder(ServerContext* context, const CreateO
     int64_t order_id = MySQLManager::getInstance().createOrder(
         req->user_id(), req->vehicle_id(), start_date, end_date,
         req->notes(), deposit_amount, daily_rate, total_days);
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
 
     if (order_id <= 0) {
         resp->set_id(0);
@@ -301,16 +332,30 @@ Status VehicleGrpcServiceImpl::PickupVehicle(ServerContext* context, const Picku
     int64_t order_id = req->order_id();
     LOG_INFO("[Vehicle] PickupVehicle order_id={}", order_id);
 
+    // 分布式锁：锁定订单，防止并发操作
+    std::string lock_key = "lock:order:" + std::to_string(order_id);
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
+        resp->set_msg("System busy, please retry");
+        return Status::OK;
+    }
+
     // 获取订单详情以获取vehicle_id
     OrderData order;
     bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
     if (!ok) {
+        redis.releaseLock(lock_key, owner_id);
         resp->set_error(static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND));
         resp->set_msg("Order not found");
         return Status::OK;
     }
 
     ok = MySQLManager::getInstance().pickupVehicle(order_id, order.vehicle_id);
+    redis.releaseLock(lock_key, owner_id);
+
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND));
         resp->set_msg("Order not found or not in pending status");
@@ -326,10 +371,22 @@ Status VehicleGrpcServiceImpl::ReturnVehicle(ServerContext* context, const Retur
     int64_t order_id = req->order_id();
     LOG_INFO("[Vehicle] ReturnVehicle order_id={}", order_id);
 
+    // 分布式锁：锁定订单，防止并发还车
+    std::string lock_key = "lock:order:" + std::to_string(order_id);
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_id(0);
+        LOG_WARN("[Vehicle] Failed to acquire lock for return order: {}", order_id);
+        return Status::OK;
+    }
+
     // 先获取订单详情
     OrderData order;
     bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
     if (!ok) {
+        redis.releaseLock(lock_key, owner_id);
         resp->set_id(0);
         LOG_WARN("[Vehicle] Order not found for return: {}", order_id);
         return Status::OK;
@@ -343,6 +400,9 @@ Status VehicleGrpcServiceImpl::ReturnVehicle(ServerContext* context, const Retur
     ok = MySQLManager::getInstance().returnVehicle(
         order_id, order.vehicle_id, actual_return, actual_days, planned_days,
         order.daily_rate, total_cost, penalty);
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
 
     if (!ok) {
         resp->set_id(0);
@@ -380,10 +440,22 @@ Status VehicleGrpcServiceImpl::RenewOrder(ServerContext* context, const RenewReq
     std::string new_end_date = req->new_end_date();
     LOG_INFO("[Vehicle] RenewOrder order_id={} new_end_date={}", order_id, new_end_date);
 
+    // 分布式锁：锁定订单，防止并发续租
+    std::string lock_key = "lock:order:" + std::to_string(order_id);
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_id(0);
+        LOG_WARN("[Vehicle] Failed to acquire lock for renew order: {}", order_id);
+        return Status::OK;
+    }
+
     // 获取订单详情
     OrderData order;
     bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
     if (!ok) {
+        redis.releaseLock(lock_key, owner_id);
         resp->set_id(0);
         LOG_WARN("[Vehicle] Order not found for renewal: {}", order_id);
         return Status::OK;
@@ -391,6 +463,7 @@ Status VehicleGrpcServiceImpl::RenewOrder(ServerContext* context, const RenewReq
 
     int new_total_days = daysBetween(order.start_date, new_end_date);
     if (new_total_days <= order.total_days) {
+        redis.releaseLock(lock_key, owner_id);
         resp->set_id(0);
         LOG_WARN("[Vehicle] New end date must be after current end date");
         return Status::OK;
@@ -399,6 +472,9 @@ Status VehicleGrpcServiceImpl::RenewOrder(ServerContext* context, const RenewReq
     double total_cost = 0.0;
     ok = MySQLManager::getInstance().renewOrder(
         order_id, new_end_date, new_total_days, order.daily_rate, total_cost);
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
 
     if (!ok) {
         resp->set_id(0);
@@ -435,16 +511,30 @@ Status VehicleGrpcServiceImpl::CancelOrder(ServerContext* context, const PickupR
     int64_t order_id = req->order_id();
     LOG_INFO("[Vehicle] CancelOrder order_id={}", order_id);
 
+    // 分布式锁：锁定订单，防止并发取消
+    std::string lock_key = "lock:order:" + std::to_string(order_id);
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
+        resp->set_msg("System busy, please retry");
+        return Status::OK;
+    }
+
     // 获取订单详情以获取vehicle_id
     OrderData order;
     bool ok = MySQLManager::getInstance().getOrderDetail(order_id, order);
     if (!ok) {
+        redis.releaseLock(lock_key, owner_id);
         resp->set_error(static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND));
         resp->set_msg("Order not found");
         return Status::OK;
     }
 
     ok = MySQLManager::getInstance().cancelOrder(order_id, order.vehicle_id);
+    redis.releaseLock(lock_key, owner_id);
+
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::RENTAL_ORDER_NOT_FOUND));
         resp->set_msg("Order not found or not in pending status");
@@ -461,9 +551,23 @@ Status VehicleGrpcServiceImpl::CancelOrder(ServerContext* context, const PickupR
 Status VehicleGrpcServiceImpl::CreateMaintenance(ServerContext* context, const CreateMaintenanceRequest* req, CommonResponse* resp) {
     LOG_DEBUG("[Vehicle] CreateMaintenance vehicle_id={}", req->vehicle_id());
 
+    // 分布式锁：锁定车辆，防止并发创建维保记录
+    std::string lock_key = "lock:vehicle:" + std::to_string(req->vehicle_id());
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
+        resp->set_msg("System busy, please retry");
+        return Status::OK;
+    }
+
     int64_t id = MySQLManager::getInstance().createMaintenance(
         req->vehicle_id(), req->type(), req->description(),
         req->cost(), req->technician(), req->start_date());
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
 
     if (id <= 0) {
         resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
@@ -482,9 +586,23 @@ Status VehicleGrpcServiceImpl::UpdateMaintenance(ServerContext* context, const U
     int64_t id = req->id();
     LOG_DEBUG("[Vehicle] UpdateMaintenance id={}", id);
 
+    // 分布式锁：锁定维保记录，防止并发更新
+    std::string lock_key = "lock:maintenance:" + std::to_string(id);
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));
+        resp->set_msg("System busy, please retry");
+        return Status::OK;
+    }
+
     bool ok = MySQLManager::getInstance().updateMaintenance(
         id, req->description(), req->cost(),
         req->technician(), req->end_date(), req->status());
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
 
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::RPC_ERROR));

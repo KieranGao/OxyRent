@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <chrono>
 #include <ctime>
+#include <set>
 
 MySQLDao::MySQLDao() {
     ConfigManager& config = ConfigManager::getInstance();
@@ -549,15 +550,20 @@ bool MySQLDao::getRevenueStats(const std::string& start_date, const std::string&
             maintenanceMap[date] = amount;
         }
 
+        // 合并所有日期（租金日期 + 维保日期）
+        std::set<std::string> allDates;
+        for (const auto& pair : rentalMap) allDates.insert(pair.first);
+        for (const auto& pair : maintenanceMap) allDates.insert(pair.first);
+
         // 合并计算净收入
         total = 0.0;
-        for (auto& pair : rentalMap) {
-            RevenueStatsItemData item = pair.second;
-            double maintenance_cost = maintenanceMap.count(item.date) ? maintenanceMap[item.date] : 0.0;
-            item.rental = item.amount;
-            item.maintenance = maintenance_cost;
-            item.amount = item.amount - maintenance_cost;
-            if (item.amount < 0) item.amount = 0;
+        for (const auto& date : allDates) {
+            RevenueStatsItemData item;
+            item.date = date;
+            item.rental = rentalMap.count(date) ? rentalMap[date].amount : 0.0;
+            item.count = rentalMap.count(date) ? rentalMap[date].count : 0;
+            item.maintenance = maintenanceMap.count(date) ? maintenanceMap[date] : 0.0;
+            item.amount = item.rental - item.maintenance;
             total += item.amount;
             items.push_back(item);
         }

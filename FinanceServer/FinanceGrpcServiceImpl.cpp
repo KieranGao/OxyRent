@@ -1,16 +1,46 @@
 #include "FinanceGrpcServiceImpl.h"
 #include "MySQLManager.h"
+#include "RedisManager.h"
 #include "Logger.h"
+#include <sstream>
+#include <iomanip>
+#include <random>
 
 FinanceGrpcServiceImpl::FinanceGrpcServiceImpl() {}
+
+// 生成唯一的锁持有者ID（用于分布式锁）
+static std::string generateLockOwnerId() {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dis(0, 255);
+    std::ostringstream ss;
+    for (int i = 0; i < 16; ++i) {
+        ss << std::hex << std::setw(2) << std::setfill('0') << dis(gen);
+    }
+    return ss.str();
+}
 
 // ==================== 支付操作 ====================
 
 Status FinanceGrpcServiceImpl::CreatePayment(ServerContext* context, const CreatePaymentRequest* req, PaymentInfo* resp) {
     LOG_DEBUG("[Finance] CreatePayment order_id={} amount={}", req->order_id(), req->amount());
 
+    // 分布式锁：锁定订单，防止重复支付
+    std::string lock_key = "lock:payment:order:" + std::to_string(req->order_id());
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_id(0);
+        LOG_WARN("[Finance] Failed to acquire lock for payment order: {}", req->order_id());
+        return Status::OK;
+    }
+
     int64_t id = MySQLManager::getInstance().createPayment(
         req->order_id(), req->amount(), req->type(), req->method(), req->remark());
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
 
     if (id == -1) {
         resp->set_id(0);
@@ -41,7 +71,22 @@ Status FinanceGrpcServiceImpl::ConfirmPayment(ServerContext* context, const Paym
     std::string paid_at = req->paid_at();
     LOG_DEBUG("[Finance] ConfirmPayment id={} paid_at={}", id, paid_at);
 
+    // 分布式锁：锁定支付记录，防止重复确认
+    std::string lock_key = "lock:payment:" + std::to_string(id);
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_id(0);
+        LOG_WARN("[Finance] Failed to acquire lock for confirm payment: {}", id);
+        return Status::OK;
+    }
+
     bool ok = MySQLManager::getInstance().confirmPayment(id, paid_at);
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
+
     if (!ok) {
         resp->set_id(0);
         LOG_WARN("[Finance] ConfirmPayment failed: payment {} not found or not pending", id);
@@ -129,7 +174,22 @@ Status FinanceGrpcServiceImpl::GetPaymentDetail(ServerContext* context, const Pa
 Status FinanceGrpcServiceImpl::GenerateInvoice(ServerContext* context, const GenerateInvoiceRequest* req, InvoiceInfo* resp) {
     LOG_DEBUG("[Finance] GenerateInvoice order_id={}", req->order_id());
 
+    // 分布式锁：锁定订单，防止重复生成发票
+    std::string lock_key = "lock:invoice:order:" + std::to_string(req->order_id());
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_id(0);
+        LOG_WARN("[Finance] Failed to acquire lock for invoice order: {}", req->order_id());
+        return Status::OK;
+    }
+
     int64_t id = MySQLManager::getInstance().generateInvoice(req->order_id());
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
+
     if (id <= 0) {
         resp->set_id(0);
         LOG_WARN("[Finance] GenerateInvoice failed for order: {}", req->order_id());

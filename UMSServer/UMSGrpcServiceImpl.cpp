@@ -9,6 +9,18 @@
 
 UMSGrpcServiceImpl::UMSGrpcServiceImpl() {}
 
+// 生成唯一的锁持有者ID（用于分布式锁）
+static std::string generateLockOwnerId() {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dis(0, 255);
+    std::ostringstream ss;
+    for (int i = 0; i < 16; ++i) {
+        ss << std::hex << std::setw(2) << std::setfill('0') << dis(gen);
+    }
+    return ss.str();
+}
+
 static std::string md5Hash(const std::string& input) {
     unsigned char digest[MD5_DIGEST_LENGTH];
     MD5(reinterpret_cast<const unsigned char*>(input.c_str()), input.size(), digest);
@@ -231,7 +243,22 @@ Status UMSGrpcServiceImpl::TopupBalance(ServerContext* context, const TopupReque
         return Status::OK;
     }
 
+    // 分布式锁：锁定用户余额，防止并发充值
+    std::string lock_key = "lock:balance:" + std::to_string(uid);
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_error(static_cast<int>(ErrorCodes::BALANCE_TOPUP_FAILED));
+        resp->set_msg("系统繁忙，请稍后重试");
+        return Status::OK;
+    }
+
     bool ok = MySQLManager::getInstance().topupBalance(uid, amount, uid, remark);
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
+
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::BALANCE_TOPUP_FAILED));
         resp->set_msg("充值失败");
@@ -255,7 +282,22 @@ Status UMSGrpcServiceImpl::ConsumeBalance(ServerContext* context, const ConsumeB
         return Status::OK;
     }
 
+    // 分布式锁：锁定用户余额，防止并发消费
+    std::string lock_key = "lock:balance:" + std::to_string(uid);
+    std::string owner_id = generateLockOwnerId();
+    auto& redis = RedisManager::getInstance();
+
+    if (!redis.acquireLockWithRetry(lock_key, owner_id, 10, 3, 50)) {
+        resp->set_error(static_cast<int>(ErrorCodes::BALANCE_CONSUME_FAILED));
+        resp->set_msg("系统繁忙，请稍后重试");
+        return Status::OK;
+    }
+
     bool ok = MySQLManager::getInstance().consumeBalance(uid, amount, remark);
+
+    // 释放锁
+    redis.releaseLock(lock_key, owner_id);
+
     if (!ok) {
         resp->set_error(static_cast<int>(ErrorCodes::BALANCE_INSUFFICIENT));
         resp->set_msg("余额不足");
