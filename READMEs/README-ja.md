@@ -28,9 +28,13 @@
 
 <p align="center">
   <img src="../assets/Dashboard.png" alt="Dashboard" width="90%" />
+  <br />
+  <em>ワークスペース</em>
 </p>
 <p align="center">
   <img src="../assets/Statistics.png" alt="Statistics" width="90%" />
+  <br />
+  <em>統計ページ</em>
 </p>
 
 <p align="center">

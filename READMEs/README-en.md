@@ -28,9 +28,13 @@
 
 <p align="center">
   <img src="../assets/Dashboard.png" alt="Dashboard" width="90%" />
+  <br />
+  <em>Dashboard</em>
 </p>
 <p align="center">
   <img src="../assets/Statistics.png" alt="Statistics" width="90%" />
+  <br />
+  <em>Statistics</em>
 </p>
 
 <p align="center">
