@@ -27,8 +27,10 @@
 </p>
 
 <p align="center">
-  <img src="../assets/Dashboard.png" alt="Dashboard" width="45%" />
-  <img src="../assets/Statistics.png" alt="Statistics" width="45%" />
+  <img src="../assets/Dashboard.png" alt="Dashboard" width="90%" />
+</p>
+<p align="center">
+  <img src="../assets/Statistics.png" alt="Statistics" width="90%" />
 </p>
 
 <p align="center">
