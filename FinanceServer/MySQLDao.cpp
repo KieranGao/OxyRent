@@ -564,7 +564,6 @@ bool MySQLDao::getRevenueStats(const std::string& start_date, const std::string&
             item.count = rentalMap.count(date) ? rentalMap[date].count : 0;
             item.maintenance = maintenanceMap.count(date) ? maintenanceMap[date] : 0.0;
             item.amount = item.rental - item.maintenance;
-            if (item.amount < 0) item.amount = 0;
             total += item.amount;
             items.push_back(item);
         }
